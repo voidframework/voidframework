@@ -1,0 +1,3 @@
+MAVEN_PROJECT_NAME=${project.artifactId}
+MAVEN_PROJECT_VERSION=${project.version}
+MAVEN_PROJECT_BUILD=${timestamp}

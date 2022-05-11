@@ -1,0 +1,26 @@
+*.class
+*.java~
+
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+
+# Package Files #
+*.jar
+target/
+
+
+# Properties files
+*.properties
+!void-core/src/main/resources/version.properties
+
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+/nb-configuration.xml
+
+
+# Other
+.DS_Store
