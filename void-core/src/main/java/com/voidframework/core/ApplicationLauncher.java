@@ -7,9 +7,12 @@ import com.google.inject.Stage;
 import com.google.inject.util.Modules;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.voidframework.core.http.HttpRequestHandler;
+import com.voidframework.core.http.impl.DefaultHttpRequestHandler;
 import com.voidframework.core.routing.AppRoutesDefinition;
 import com.voidframework.core.routing.Router;
 import com.voidframework.core.routing.impl.DefaultRouter;
+import com.voidframework.core.server.ListenerInformation;
 import com.voidframework.core.server.Server;
 import com.voidframework.core.utils.VersionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,27 +44,28 @@ public class ApplicationLauncher {
            ╚═══╝   ╚═════╝ ╚═╝╚═════╝   |  Version: {}""";
 
     private Injector injector;
+    private Server server;
 
     /**
      * Build a new instance.
      */
     public ApplicationLauncher() {
         this.injector = null;
+        this.server = null;
     }
 
     /**
-     * Run VoidFramework.
-     *
-     * @param server The server implementation to use
+     * Launch Void Framework.
      */
-    public void launch(final Server server) {
+    public void launch() {
         if (this.injector != null) {
             throw new RuntimeException("Application is already launch");
         }
 
         // Base
-        System.setProperty("file.encoding", "UTF-8");
         displayBanner();
+        System.setProperty("file.encoding", "UTF-8");
+        Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
 
         // Load configuration
         final long startTimeMillis = System.currentTimeMillis();
@@ -79,6 +83,7 @@ public class ApplicationLauncher {
             protected void configure() {
                 bind(Config.class).toInstance(config);
                 bind(Router.class).to(DefaultRouter.class).asEagerSingleton();
+                bind(HttpRequestHandler.class).to(DefaultHttpRequestHandler.class).asEagerSingleton();
             }
         };
         this.injector = Guice.createInjector(Stage.PRODUCTION, Modules.override(coreModules).with(Collections.emptyList()));
@@ -120,9 +125,17 @@ public class ApplicationLauncher {
                 });
         }
 
-        // Run server
-        if (server != null) {
-            server.run(config, LOGGER);
+        // Instantiate server implementation to use
+        final String serverClassName = config.getString("voidframework.core.serverImplementation");
+        try {
+            server = (Server) this.injector.getInstance(Class.forName(serverClassName));
+        } catch (final ClassNotFoundException ex) {
+            throw new RuntimeException("Can't find server implementation '" + serverClassName + "'", ex);
+        }
+
+        final List<ListenerInformation> listenerInformationList = server.start();
+        for (final ListenerInformation listenerInformation : listenerInformationList) {
+            LOGGER.info("Server now listening on {}", listenerInformation);
         }
 
         // Ready
@@ -133,8 +146,11 @@ public class ApplicationLauncher {
     /**
      * Stop VoidFramework.
      */
-    public void stop() {
+    private void stop() {
         LOGGER.info("Stopping application...");
+        if (server != null) {
+            server.onStop();
+        }
     }
 
     /**

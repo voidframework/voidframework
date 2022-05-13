@@ -103,6 +103,10 @@ public class DefaultRouter implements Router {
 
         for (final Method method : controllerClass.getMethods()) {
             if (method.getName().equals(methodName)) {
+                if (method.getReturnType() == void.class) {
+                    throw new BadRouteDefinitionException.ControllerMethodDoesNotReturnsValue(controllerClass, methodName);
+                }
+
                 return new Route(httpMethod, routePattern, controllerClass, method);
             }
         }

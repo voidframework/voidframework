@@ -91,4 +91,20 @@ public class BadRouteDefinitionException extends RuntimeException {
             super("Method '" + controllerClass.getName() + "::" + methodName + "' does not exists");
         }
     }
+
+    /**
+     * Exception indicates that given controller method don't return any kind of value.
+     */
+    public static class ControllerMethodDoesNotReturnsValue extends BadRouteDefinitionException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param controllerClass The controller class
+         * @param methodName      The method name
+         */
+        public ControllerMethodDoesNotReturnsValue(final Class<?> controllerClass, final String methodName) {
+            super("Method '" + controllerClass.getName() + "::" + methodName + "' does not returns value");
+        }
+    }
 }

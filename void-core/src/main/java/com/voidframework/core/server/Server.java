@@ -1,10 +1,21 @@
 package com.voidframework.core.server;
 
-import com.typesafe.config.Config;
-import org.slf4j.Logger;
+import java.util.List;
 
-
+/**
+ * An HTTP server.
+ */
 public interface Server {
 
-    void run(final Config configuration, final Logger logger);
+    /**
+     * Start the server.
+     *
+     * @return The listener(s) information (ie: http://127.0.0.1:8080)
+     */
+    List<ListenerInformation> start();
+
+    /**
+     * Stop the server.
+     */
+    void onStop();
 }

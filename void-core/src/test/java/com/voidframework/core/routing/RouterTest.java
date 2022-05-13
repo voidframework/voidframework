@@ -59,6 +59,15 @@ public class RouterTest {
     }
 
     @Test
+    public void addRoute_badRoutePattern() {
+        final BadRouteDefinitionException.BadValue thrown = Assertions.assertThrows(BadRouteDefinitionException.BadValue.class, () -> {
+            final Router router = new DefaultRouter();
+            router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("[-").call(SampleController.class, "displayHelloWorld"));
+        });
+        Assertions.assertEquals("Invalid value 'route': Can't compile regular expression", thrown.getMessage());
+    }
+
+    @Test
     public void addRoute_controllerMethodDoesNotExists() {
         final BadRouteDefinitionException.ControllerMethodDoesNotExists thrown = Assertions.assertThrows(
             BadRouteDefinitionException.ControllerMethodDoesNotExists.class,
@@ -70,12 +79,14 @@ public class RouterTest {
     }
 
     @Test
-    public void addRoute_badRoutePattern() {
-        final BadRouteDefinitionException.BadValue thrown = Assertions.assertThrows(BadRouteDefinitionException.BadValue.class, () -> {
-            final Router router = new DefaultRouter();
-            router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("[-").call(SampleController.class, "displayHelloWorld"));
-        });
-        Assertions.assertEquals("Invalid value 'route': Can't compile regular expression", thrown.getMessage());
+    public void addRoute_controllerMethodDoesNotReturnsValue() {
+        final BadRouteDefinitionException.ControllerMethodDoesNotReturnsValue thrown = Assertions.assertThrows(
+            BadRouteDefinitionException.ControllerMethodDoesNotReturnsValue.class,
+            () -> {
+                final Router router = new DefaultRouter();
+                router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, "returnNothing"));
+            });
+        Assertions.assertEquals("Method 'com.voidframework.core.routing.RouterTest$SampleController::returnNothing' does not returns value", thrown.getMessage());
     }
 
     @Test
@@ -119,6 +130,9 @@ public class RouterTest {
 
         public String displayAccount(final String accountId) {
             return "My Account";
+        }
+
+        public void returnNothing() {
         }
     }
 }
