@@ -49,9 +49,7 @@ public class UndertowServer implements Server {
             final String data = httpRequestHandler.onRouteRequest(new UndertowContext(httpServerExchange));
 
             // Sets the return Content-Type to text/html
-            httpServerExchange.getResponseHeaders()
-                .put(Headers.SERVER, "voidframework")
-                .put(Headers.CONTENT_TYPE, "text/html");
+            httpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, "text/html");
 
             // Returns a hard-coded HTML document
             httpServerExchange.getResponseSender().send(data);

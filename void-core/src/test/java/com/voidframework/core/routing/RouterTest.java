@@ -75,7 +75,7 @@ public class RouterTest {
                 final Router router = new DefaultRouter();
                 router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, "unknownMethodName"));
             });
-        Assertions.assertEquals("Method 'com.voidframework.core.routing.RouterTest$SampleController::unknownMethodName' does not exists", thrown.getMessage());
+        Assertions.assertEquals("Method 'com.voidframework.core.routing.RouterTest$SampleController::unknownMethodName' with 0 parameter(s) does not exists", thrown.getMessage());
     }
 
     @Test

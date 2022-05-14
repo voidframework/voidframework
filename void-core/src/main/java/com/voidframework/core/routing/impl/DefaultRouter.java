@@ -101,8 +101,9 @@ public class DefaultRouter implements Router {
             throw new BadRouteDefinitionException.Missing("route");
         }
 
+        final int expectedMethodParameterCount = routePattern.matcher(StringUtils.EMPTY).groupCount();
         for (final Method method : controllerClass.getMethods()) {
-            if (method.getName().equals(methodName)) {
+            if (method.getName().equals(methodName) && method.getParameterCount() == expectedMethodParameterCount) {
                 if (method.getReturnType() == void.class) {
                     throw new BadRouteDefinitionException.ControllerMethodDoesNotReturnsValue(controllerClass, methodName);
                 }
@@ -111,6 +112,6 @@ public class DefaultRouter implements Router {
             }
         }
 
-        throw new BadRouteDefinitionException.ControllerMethodDoesNotExists(controllerClass, methodName);
+        throw new BadRouteDefinitionException.ControllerMethodDoesNotExists(controllerClass, methodName, expectedMethodParameterCount);
     }
 }

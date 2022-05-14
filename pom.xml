@@ -35,6 +35,18 @@
         <module>void-undertow</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>build-sample-project</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <modules>
+                <module>sample-project</module>
+            </modules>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -50,6 +62,11 @@
             <dependency>
                 <groupId>com.voidframework</groupId>
                 <artifactId>void-core</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.voidframework</groupId>
+                <artifactId>void-undertow</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
 

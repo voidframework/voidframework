@@ -86,9 +86,10 @@ public class BadRouteDefinitionException extends RuntimeException {
          *
          * @param controllerClass The controller class
          * @param methodName      The method name
+         * @param parameterCount  The method parameters count
          */
-        public ControllerMethodDoesNotExists(final Class<?> controllerClass, final String methodName) {
-            super("Method '" + controllerClass.getName() + "::" + methodName + "' does not exists");
+        public ControllerMethodDoesNotExists(final Class<?> controllerClass, final String methodName, final int parameterCount) {
+            super("Method '" + controllerClass.getName() + "::" + methodName + "' with " + parameterCount + " parameter(s) does not exists");
         }
     }
 
