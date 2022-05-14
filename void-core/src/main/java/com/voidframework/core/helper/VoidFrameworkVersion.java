@@ -1,13 +1,13 @@
-package com.voidframework.core.utils;
+package com.voidframework.core.helper;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Version utils.
+ * Helper to retrieve Void Framework version.
  */
-public class VersionUtils {
+public final class VoidFrameworkVersion {
 
     private static final String DEFAULT_VERSION_NUMBER = "0.0.0";
     private static String versionCache = null;
@@ -19,7 +19,7 @@ public class VersionUtils {
      */
     public static String getVersion() {
         if (versionCache == null) {
-            try (final InputStream fis = VersionUtils.class.getResourceAsStream("/voidframework.version")) {
+            try (final InputStream fis = VoidFrameworkVersion.class.getResourceAsStream("/voidframework.version")) {
                 final Properties properties = new Properties();
                 properties.load(fis);
 

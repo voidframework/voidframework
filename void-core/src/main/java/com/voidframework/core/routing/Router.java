@@ -9,7 +9,7 @@ public interface Router {
 
     void addRoute(final Function<RouteBuilder, RouteBuilder> builder);
 
-    Optional<Route> resolveRoute(final HttpMethod httpMethod, final String uri);
+    Optional<ResolvedRoute> resolveRoute(final HttpMethod httpMethod, final String uri);
 
     List<Route> getRoutesAsList();
 

@@ -27,14 +27,4 @@ public final class Route {
         this.controllerClass = controllerClass;
         this.method = method;
     }
-
-    public static final class MethodArgument {
-        public final boolean isManagedByGuice;
-        public final Class<?> argumentClass;
-
-        public MethodArgument(final boolean isManagedByGuice, final Class<?> argumentClass) {
-            this.isManagedByGuice = isManagedByGuice;
-            this.argumentClass = argumentClass;
-        }
-    }
 }

@@ -7,6 +7,9 @@ import com.google.inject.Stage;
 import com.google.inject.util.Modules;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.voidframework.core.conversion.Conversion;
+import com.voidframework.core.conversion.ConversionProvider;
+import com.voidframework.core.helper.VoidFrameworkVersion;
 import com.voidframework.core.http.HttpRequestHandler;
 import com.voidframework.core.http.impl.DefaultHttpRequestHandler;
 import com.voidframework.core.routing.AppRoutesDefinition;
@@ -14,7 +17,6 @@ import com.voidframework.core.routing.Router;
 import com.voidframework.core.routing.impl.DefaultRouter;
 import com.voidframework.core.server.ListenerInformation;
 import com.voidframework.core.server.Server;
-import com.voidframework.core.utils.VersionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,6 +84,7 @@ public class ApplicationLauncher {
             @Override
             protected void configure() {
                 bind(Config.class).toInstance(config);
+                bind(Conversion.class).toProvider(ConversionProvider.class).asEagerSingleton();
                 bind(Router.class).to(DefaultRouter.class).asEagerSingleton();
                 bind(HttpRequestHandler.class).to(DefaultHttpRequestHandler.class).asEagerSingleton();
             }
@@ -167,7 +170,7 @@ public class ApplicationLauncher {
         }
 
         if (StringUtils.isNotEmpty(bannerToDisplay)) {
-            LOGGER.info(bannerToDisplay, VersionUtils.getVersion());
+            LOGGER.info(bannerToDisplay, VoidFrameworkVersion.getVersion());
         } else {
             LOGGER.info("Booting application...");
         }

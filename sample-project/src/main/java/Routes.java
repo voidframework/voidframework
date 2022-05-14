@@ -13,6 +13,6 @@ public class Routes implements AppRoutesDefinition {
         router.addRoute(routeBuilder ->
             routeBuilder.method(HttpMethod.GET).route("/").call(HelloWorldController.class, "sayHello"));
         router.addRoute(routeBuilder ->
-            routeBuilder.method(HttpMethod.GET).route("/(?<name>[a-zA-Z]{0,36})").call(HelloWorldController.class, "sayHello"));
+            routeBuilder.method(HttpMethod.GET).route("/(?<name>[0-9]{0,36})").call(HelloWorldController.class, "sayHello"));
     }
 }

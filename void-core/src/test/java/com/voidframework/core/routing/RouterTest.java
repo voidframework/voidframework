@@ -95,12 +95,12 @@ public class RouterTest {
         router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, "displayHelloWorld"));
         router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/register").call(SampleController.class, "displayRegister"));
 
-        final Route route = router.resolveRoute(HttpMethod.GET, "/register").orElse(null);
-        Assertions.assertNotNull(route);
-        Assertions.assertEquals(HttpMethod.GET, route.httpMethod);
-        Assertions.assertEquals("/register", route.routePattern.pattern());
-        Assertions.assertEquals(SampleController.class, route.controllerClass);
-        Assertions.assertEquals("displayRegister", route.method.getName());
+        final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register").orElse(null);
+        Assertions.assertNotNull(resolvedRoute);
+        Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClass());
+        Assertions.assertEquals("displayRegister", resolvedRoute.method().getName());
+        Assertions.assertNotNull(resolvedRoute.extractedParameterValues());
+        Assertions.assertEquals(0, resolvedRoute.extractedParameterValues().size());
     }
 
     @Test
@@ -110,12 +110,14 @@ public class RouterTest {
         router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/register").call(SampleController.class, "displayRegister"));
         router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/register/(?<accountId>[a-z]{0,36})").call(SampleController.class, "displayAccount"));
 
-        final Route route = router.resolveRoute(HttpMethod.GET, "/register/toto").orElse(null);
-        Assertions.assertNotNull(route);
-        Assertions.assertEquals(HttpMethod.GET, route.httpMethod);
-        Assertions.assertEquals("/register/(?<accountId>[a-z]{0,36})", route.routePattern.pattern());
-        Assertions.assertEquals(SampleController.class, route.controllerClass);
-        Assertions.assertEquals("displayAccount", route.method.getName());
+        final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register/toto").orElse(null);
+        Assertions.assertNotNull(resolvedRoute);
+        Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClass());
+        Assertions.assertEquals("displayAccount", resolvedRoute.method().getName());
+        Assertions.assertNotNull(resolvedRoute.extractedParameterValues());
+        Assertions.assertEquals(1, resolvedRoute.extractedParameterValues().size());
+        Assertions.assertTrue(resolvedRoute.extractedParameterValues().containsKey("accountId"));
+        Assertions.assertEquals("toto", resolvedRoute.extractedParameterValues().get("accountId"));
     }
 
     private static final class SampleController {

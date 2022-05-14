@@ -24,7 +24,7 @@
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
         <dependency.version.undertow>2.2.17.Final</dependency.version.undertow>
         <dependency.version.logback>1.2.11</dependency.version.logback>
-        <dependency.version.jackson>2.13.2.2</dependency.version.jackson>
+        <dependency.version.jackson>2.13.2</dependency.version.jackson>
         <dependency.version.mockito>4.5.1</dependency.version.mockito>
         <dependency.version.junit>5.8.2</dependency.version.junit>
         <plugin.version.surefire>2.22.2</plugin.version.surefire>
@@ -104,6 +104,26 @@
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
                 <version>${dependency.version.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${dependency.version.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jdk8</artifactId>
+                <version>${dependency.version.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-joda</artifactId>
+                <version>${dependency.version.jackson}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.classgraph</groupId>
+                <artifactId>classgraph</artifactId>
+                <version>4.8.146</version>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
