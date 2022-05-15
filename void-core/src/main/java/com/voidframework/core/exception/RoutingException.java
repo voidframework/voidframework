@@ -1,9 +1,9 @@
 package com.voidframework.core.exception;
 
 /**
- * All exceptions thrown by the router are subclasses of {@code BadRouteDefinitionException}.
+ * All exceptions thrown by the routing features are subclasses of {@code RoutingException}.
  */
-public class BadRouteDefinitionException extends RuntimeException {
+public class RoutingException extends RuntimeException {
 
     /**
      * Build a new instance.
@@ -11,7 +11,7 @@ public class BadRouteDefinitionException extends RuntimeException {
      * @param message The detail message
      * @param cause   The root cause
      */
-    protected BadRouteDefinitionException(final String message, final Throwable cause) {
+    protected RoutingException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
@@ -20,14 +20,14 @@ public class BadRouteDefinitionException extends RuntimeException {
      *
      * @param message The detail message
      */
-    protected BadRouteDefinitionException(final String message) {
+    protected RoutingException(final String message) {
         this(message, null);
     }
 
     /**
      * Exception indicates that a value is invalid.
      */
-    public static class BadValue extends BadRouteDefinitionException {
+    public static class BadValue extends RoutingException {
 
         /**
          * Build a new instance.
@@ -54,7 +54,7 @@ public class BadRouteDefinitionException extends RuntimeException {
     /**
      * Exception indicates that a value was never set to anything, or set to null.
      */
-    public static class Missing extends BadRouteDefinitionException {
+    public static class Missing extends RoutingException {
 
         /**
          * Build a new instance.
@@ -79,7 +79,7 @@ public class BadRouteDefinitionException extends RuntimeException {
     /**
      * Exception indicates that given controller method name does not match with an existing method.
      */
-    public static class ControllerMethodDoesNotExists extends BadRouteDefinitionException {
+    public static class ControllerMethodDoesNotExists extends RoutingException {
 
         /**
          * Build a new instance.
@@ -96,7 +96,7 @@ public class BadRouteDefinitionException extends RuntimeException {
     /**
      * Exception indicates that given controller method don't return any kind of value.
      */
-    public static class ControllerMethodDoesNotReturnsValue extends BadRouteDefinitionException {
+    public static class ControllerMethodDoesNotReturnsValue extends RoutingException {
 
         /**
          * Build a new instance.

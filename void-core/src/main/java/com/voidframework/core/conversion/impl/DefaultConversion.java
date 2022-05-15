@@ -1,39 +1,37 @@
-package com.voidframework.core.conversion;
+package com.voidframework.core.conversion.impl;
 
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.voidframework.core.conversion.exception.ConverterDoesNotExistException;
+import com.voidframework.core.conversion.Conversion;
+import com.voidframework.core.conversion.ConverterManager;
+import com.voidframework.core.conversion.TypeConverter;
+import com.voidframework.core.exception.ConversionException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
- * Implementation of {@link Conversion}.
+ * Default implementation of {@link Conversion}.
  */
-@Singleton
-public class ConversionImpl implements Conversion {
+public class DefaultConversion implements Conversion {
 
-    private final Map<ConverterCompositeKey, TypeConverter<?, ?>> converterMap;
+    private final ConverterManager converterManager;
 
     /**
      * Build a new instance.
      *
-     * @param converterMap A map containing all converters
+     * @param converterManager Instance of the Converter Manager
      */
-    @Inject
-    public ConversionImpl(final Map<ConverterCompositeKey, TypeConverter<?, ?>> converterMap) {
-        this.converterMap = converterMap == null ? Collections.emptyMap() : converterMap;
+    public DefaultConversion(final ConverterManager converterManager) {
+        this.converterManager = converterManager;
     }
 
     @Override
     public <SOURCE_TYPE, TARGET_TYPE> boolean canConvert(final Class<SOURCE_TYPE> sourceTypeClass,
                                                          final Class<TARGET_TYPE> targetTypeClass) {
-        return converterMap.containsKey(new ConverterCompositeKey(sourceTypeClass, targetTypeClass));
+        return converterManager.hasConvertFor(sourceTypeClass, targetTypeClass);
     }
 
     @Override
@@ -44,7 +42,7 @@ public class ConversionImpl implements Conversion {
             return true;
         }
 
-        return converterMap.containsKey(new ConverterCompositeKey(object.getClass(), targetTypeClass));
+        return converterManager.hasConvertFor(object.getClass(), targetTypeClass);
     }
 
     @Override
@@ -59,7 +57,6 @@ public class ConversionImpl implements Conversion {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE convert(final SOURCE_TYPE object,
                                                           final Class<SOURCE_TYPE> sourceTypeClass,
                                                           final Class<TARGET_TYPE> targetTypeClass) {
@@ -67,11 +64,12 @@ public class ConversionImpl implements Conversion {
             return null;
         }
 
-        final TypeConverter<SOURCE_TYPE, TARGET_TYPE> converter = (TypeConverter<SOURCE_TYPE, TARGET_TYPE>) converterMap.get(
-            new ConverterCompositeKey(sourceTypeClass, targetTypeClass));
+        final TypeConverter<SOURCE_TYPE, TARGET_TYPE> converter = converterManager.getConverter(
+            sourceTypeClass,
+            targetTypeClass);
 
         if (converter == null) {
-            throw new ConverterDoesNotExistException(sourceTypeClass, targetTypeClass);
+            throw new ConversionException.ConverterDoesNotExists(sourceTypeClass, targetTypeClass);
         }
 
         return converter.convert(object);
@@ -196,11 +194,10 @@ public class ConversionImpl implements Conversion {
             } else {
                 // Resolve converter and use it
                 final Class<SOURCE_TYPE> sourceTypeClass = (Class<SOURCE_TYPE>) object.getClass();
-                converter = (TypeConverter<SOURCE_TYPE, TARGET_TYPE>) converterMap.get(
-                    new ConverterCompositeKey(sourceTypeClass, targetTypeClass));
+                converter = converterManager.getConverter(sourceTypeClass, targetTypeClass);
 
                 if (converter == null) {
-                    throw new ConverterDoesNotExistException(sourceTypeClass, targetTypeClass);
+                    throw new ConversionException.ConverterDoesNotExists(sourceTypeClass, targetTypeClass);
                 }
 
                 objectTargetCollection.add(converter.convert(object));
@@ -218,16 +215,17 @@ public class ConversionImpl implements Conversion {
      * @param <SOURCE_TYPE>          The source generic type
      * @param <TARGET_TYPE>          The target generic type
      */
-    @SuppressWarnings("unchecked")
+
     private <SOURCE_TYPE, TARGET_TYPE> void convertIntoCollection(final Iterable<SOURCE_TYPE> objectSourceIterable,
                                                                   final Collection<TARGET_TYPE> objectTargetCollection,
                                                                   final Class<SOURCE_TYPE> sourceTypeClass,
                                                                   final Class<TARGET_TYPE> targetTypeClass) {
-        final TypeConverter<SOURCE_TYPE, TARGET_TYPE> converter = (TypeConverter<SOURCE_TYPE, TARGET_TYPE>) converterMap.get(
-            new ConverterCompositeKey(sourceTypeClass, targetTypeClass));
+        final TypeConverter<SOURCE_TYPE, TARGET_TYPE> converter = converterManager.getConverter(
+            sourceTypeClass,
+            targetTypeClass);
 
         if (converter == null) {
-            throw new ConverterDoesNotExistException(sourceTypeClass, targetTypeClass);
+            throw new ConversionException.ConverterDoesNotExists(sourceTypeClass, targetTypeClass);
         }
 
         for (final SOURCE_TYPE object : objectSourceIterable) {

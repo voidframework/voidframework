@@ -2,7 +2,7 @@ package com.voidframework.core.routing.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.voidframework.core.exception.BadRouteDefinitionException;
+import com.voidframework.core.exception.RoutingException;
 import com.voidframework.core.routing.HttpMethod;
 import com.voidframework.core.routing.ResolvedRoute;
 import com.voidframework.core.routing.Route;
@@ -18,7 +18,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.function.Function;
@@ -26,9 +25,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+/**
+ * Default implementation of {@link Router}.
+ */
 public class DefaultRouter implements Router {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Router.class);
+    private static final Pattern PATTERN_EXTRACT_REGEXP_GROUP_NAME = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z0-9]*)>");
 
     private final Map<HttpMethod, List<Route>> routeListPerHttpMethodMap;
 
@@ -50,9 +53,9 @@ public class DefaultRouter implements Router {
     }
 
     @Override
-    public Optional<ResolvedRoute> resolveRoute(final HttpMethod httpMethod, final String uri) {
+    public ResolvedRoute resolveRoute(final HttpMethod httpMethod, final String uri) {
         if (httpMethod == null || StringUtils.isEmpty(uri)) {
-            return Optional.empty();
+            return null;
         }
 
         final List<Route> routeList = this.routeListPerHttpMethodMap.get(httpMethod);
@@ -71,21 +74,20 @@ public class DefaultRouter implements Router {
                         }
                     }
 
-                    return Optional.of(
-                        new ResolvedRoute(route.controllerClass, route.method, extractedParameterMap));
+                    return new ResolvedRoute(route.controllerClass, route.method, extractedParameterMap);
                 }
             }
         }
 
-        return Optional.empty();
+        return null;
     }
 
     private static Set<String> getNamedGroup(final String regex) {
         final Set<String> namedGroups = new TreeSet<>();
 
-        final Matcher m = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z0-9]*)>").matcher(regex);
-        while (m.find()) {
-            namedGroups.add(m.group(1));
+        final Matcher matcher = PATTERN_EXTRACT_REGEXP_GROUP_NAME.matcher(regex);
+        while (matcher.find()) {
+            namedGroups.add(matcher.group(1));
         }
 
         return namedGroups;
@@ -109,39 +111,39 @@ public class DefaultRouter implements Router {
     private Route validateAndCreateRoute(final DefaultRouteBuilder routeBuilder) {
         final HttpMethod httpMethod = routeBuilder.getHttpMethod();
         if (httpMethod == null) {
-            throw new BadRouteDefinitionException.Missing("method");
+            throw new RoutingException.Missing("method");
         }
 
         final Class<?> controllerClass = routeBuilder.getControllerClass();
         if (controllerClass == null) {
-            throw new BadRouteDefinitionException.Missing("controllerClass");
+            throw new RoutingException.Missing("controllerClass");
         }
 
         final String methodName = routeBuilder.getMethodName();
         if (StringUtils.isEmpty(methodName)) {
-            throw new BadRouteDefinitionException.Missing("methodName");
+            throw new RoutingException.Missing("methodName");
         }
 
         final Pattern routePattern;
         try {
             routePattern = Pattern.compile(routeBuilder.getRoute());
         } catch (final PatternSyntaxException ex) {
-            throw new BadRouteDefinitionException.BadValue("route", "Can't compile regular expression", ex);
+            throw new RoutingException.BadValue("route", "Can't compile regular expression", ex);
         } catch (final NullPointerException ignore) {
-            throw new BadRouteDefinitionException.Missing("route");
+            throw new RoutingException.Missing("route");
         }
 
         final int expectedMethodParameterCount = routePattern.matcher(StringUtils.EMPTY).groupCount();
         for (final Method method : controllerClass.getMethods()) {
             if (method.getName().equals(methodName) && method.getParameterCount() == expectedMethodParameterCount) {
                 if (method.getReturnType() == void.class) {
-                    throw new BadRouteDefinitionException.ControllerMethodDoesNotReturnsValue(controllerClass, methodName);
+                    throw new RoutingException.ControllerMethodDoesNotReturnsValue(controllerClass, methodName);
                 }
 
                 return new Route(httpMethod, routePattern, controllerClass, method);
             }
         }
 
-        throw new BadRouteDefinitionException.ControllerMethodDoesNotExists(controllerClass, methodName, expectedMethodParameterCount);
+        throw new RoutingException.ControllerMethodDoesNotExists(controllerClass, methodName, expectedMethodParameterCount);
     }
 }

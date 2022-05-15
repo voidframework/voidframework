@@ -12,10 +12,9 @@ import com.voidframework.core.routing.Router;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
-import java.util.Optional;
 
 /**
- * Default implementation of the HTTP request handler.
+ * Default implementation of {@link HttpRequestHandler}.
  */
 public class DefaultHttpRequestHandler implements HttpRequestHandler {
 
@@ -40,43 +39,45 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
     @Override
     public String onRouteRequest(final Context context) {
 
-        final Optional<ResolvedRoute> routeOptional = router.resolveRoute(context.getHttpMethod(), context.getRequestURI());
+        final ResolvedRoute resolvedRoute = router.resolveRoute(context.getHttpMethod(), context.getRequestURI());
+        if (resolvedRoute == null) {
+            return "404 Not Found";
+        }
 
-        return routeOptional.map(route -> {
-            try {
-                if (route.method().getParameterCount() == 0) {
-                    // No parameters, just invoke the controller method
-                    return (String) route.method().invoke(injector.getInstance(route.controllerClass()));
-                } else {
-                    // Method have some parameter(s)
-                    final Object[] methodArgumentValueArray = new Object[route.method().getParameterCount()];
-                    int idx = 0;
-                    for (final Parameter parameter : route.method().getParameters()) {
-                        final RequestPath requestPath = parameter.getAnnotation(RequestPath.class);
-                        final RequestVariable requestVariable = parameter.getAnnotation(RequestVariable.class);
+        try {
+            if (resolvedRoute.method().getParameterCount() == 0) {
+                // No parameters, just invoke the controller method
+                return (String) resolvedRoute.method().invoke(injector.getInstance(resolvedRoute.controllerClass()));
+            } else {
+                // Method have some parameter(s)
+                final Object[] methodArgumentValueArray = new Object[resolvedRoute.method().getParameterCount()];
+                int idx = 0;
+                for (final Parameter parameter : resolvedRoute.method().getParameters()) {
+                    final RequestPath requestPath = parameter.getAnnotation(RequestPath.class);
+                    final RequestVariable requestVariable = parameter.getAnnotation(RequestVariable.class);
 
-                        if (requestPath != null) {
-                            methodArgumentValueArray[idx] = convertValueToParameterType(
-                                route.extractedParameterValues().getOrDefault(requestPath.value(), null),
-                                parameter.getType());
-                        } else if (requestVariable != null) {
-                            methodArgumentValueArray[idx] = convertValueToParameterType(
-                                context.getQueryStringParameter(requestVariable.value()),
-                                parameter.getType());
-                        } else {
-                            // TODO: Check for Session, Cookie, ... before using Injector
-                            methodArgumentValueArray[idx] = this.injector.getInstance(parameter.getType());
-                        }
-
-                        idx += 1;
+                    if (requestPath != null) {
+                        methodArgumentValueArray[idx] = convertValueToParameterType(
+                            resolvedRoute.extractedParameterValues().getOrDefault(requestPath.value(), null),
+                            parameter.getType());
+                    } else if (requestVariable != null) {
+                        methodArgumentValueArray[idx] = convertValueToParameterType(
+                            context.getQueryStringParameter(requestVariable.value()),
+                            parameter.getType());
+                    } else {
+                        // TODO: Check for Session, Cookie, ... before using Injector
+                        methodArgumentValueArray[idx] = this.injector.getInstance(parameter.getType());
                     }
 
-                    return (String) route.method().invoke(injector.getInstance(route.controllerClass()), methodArgumentValueArray);
+                    idx += 1;
                 }
-            } catch (final IllegalAccessException | InvocationTargetException e) {
-                throw new RuntimeException(e);
+
+                return (String) resolvedRoute.method().invoke(
+                    injector.getInstance(resolvedRoute.controllerClass()), methodArgumentValueArray);
             }
-        }).orElse("404 Not Found");
+        } catch (final IllegalAccessException | InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -94,6 +95,7 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
             return value;
         }
 
+        // Use something better than "if" forest
         if (parameterTypeClass == int.class) {
             clazzToUse = Integer.class;
             defaultValue = 0;
@@ -106,9 +108,12 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
         } else if (parameterTypeClass == boolean.class) {
             clazzToUse = Boolean.class;
             defaultValue = false;
-        } else if (parameterTypeClass == double.class || parameterTypeClass == float.class) {
+        } else if (parameterTypeClass == double.class) {
             clazzToUse = Double.class;
             defaultValue = 0d;
+        } else if (parameterTypeClass == float.class) {
+            clazzToUse = Float.class;
+            defaultValue = 0f;
         } else if (parameterTypeClass == byte.class) {
             clazzToUse = Byte.class;
             defaultValue = 0;

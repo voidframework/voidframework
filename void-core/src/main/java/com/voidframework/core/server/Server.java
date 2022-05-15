@@ -10,7 +10,7 @@ public interface Server {
     /**
      * Start the server.
      *
-     * @return The listener(s) information (ie: http://127.0.0.1:8080)
+     * @return The listener(s) information (ie: {@code http://127.0.0.1:8080})
      */
     List<ListenerInformation> start();
 

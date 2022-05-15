@@ -1,6 +1,6 @@
 package com.voidframework.core.routing;
 
-import com.voidframework.core.exception.BadRouteDefinitionException;
+import com.voidframework.core.exception.RoutingException;
 import com.voidframework.core.routing.impl.DefaultRouter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -31,27 +31,27 @@ public class RouterTest {
 
     @Test
     public void addRoute_missingArgument() {
-        BadRouteDefinitionException.Missing thrown;
+        RoutingException.Missing thrown;
 
-        thrown = Assertions.assertThrows(BadRouteDefinitionException.Missing.class, () -> {
+        thrown = Assertions.assertThrows(RoutingException.Missing.class, () -> {
             final Router router = new DefaultRouter();
             router.addRoute(routeBuilder -> routeBuilder.route("/").call(SampleController.class, "displayHelloWorld"));
         });
         Assertions.assertEquals("Value 'method' is missing", thrown.getMessage());
 
-        thrown = Assertions.assertThrows(BadRouteDefinitionException.Missing.class, () -> {
+        thrown = Assertions.assertThrows(RoutingException.Missing.class, () -> {
             final Router router = new DefaultRouter();
             router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).call(SampleController.class, "displayHelloWorld"));
         });
         Assertions.assertEquals("Value 'route' is missing", thrown.getMessage());
 
-        thrown = Assertions.assertThrows(BadRouteDefinitionException.Missing.class, () -> {
+        thrown = Assertions.assertThrows(RoutingException.Missing.class, () -> {
             final Router router = new DefaultRouter();
             router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/"));
         });
         Assertions.assertEquals("Value 'controllerClass' is missing", thrown.getMessage());
 
-        thrown = Assertions.assertThrows(BadRouteDefinitionException.Missing.class, () -> {
+        thrown = Assertions.assertThrows(RoutingException.Missing.class, () -> {
             final Router router = new DefaultRouter();
             router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, null));
         });
@@ -60,7 +60,7 @@ public class RouterTest {
 
     @Test
     public void addRoute_badRoutePattern() {
-        final BadRouteDefinitionException.BadValue thrown = Assertions.assertThrows(BadRouteDefinitionException.BadValue.class, () -> {
+        final RoutingException.BadValue thrown = Assertions.assertThrows(RoutingException.BadValue.class, () -> {
             final Router router = new DefaultRouter();
             router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("[-").call(SampleController.class, "displayHelloWorld"));
         });
@@ -69,8 +69,8 @@ public class RouterTest {
 
     @Test
     public void addRoute_controllerMethodDoesNotExists() {
-        final BadRouteDefinitionException.ControllerMethodDoesNotExists thrown = Assertions.assertThrows(
-            BadRouteDefinitionException.ControllerMethodDoesNotExists.class,
+        final RoutingException.ControllerMethodDoesNotExists thrown = Assertions.assertThrows(
+            RoutingException.ControllerMethodDoesNotExists.class,
             () -> {
                 final Router router = new DefaultRouter();
                 router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, "unknownMethodName"));
@@ -80,8 +80,8 @@ public class RouterTest {
 
     @Test
     public void addRoute_controllerMethodDoesNotReturnsValue() {
-        final BadRouteDefinitionException.ControllerMethodDoesNotReturnsValue thrown = Assertions.assertThrows(
-            BadRouteDefinitionException.ControllerMethodDoesNotReturnsValue.class,
+        final RoutingException.ControllerMethodDoesNotReturnsValue thrown = Assertions.assertThrows(
+            RoutingException.ControllerMethodDoesNotReturnsValue.class,
             () -> {
                 final Router router = new DefaultRouter();
                 router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, "returnNothing"));
@@ -95,7 +95,7 @@ public class RouterTest {
         router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, "displayHelloWorld"));
         router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/register").call(SampleController.class, "displayRegister"));
 
-        final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register").orElse(null);
+        final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register");
         Assertions.assertNotNull(resolvedRoute);
         Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClass());
         Assertions.assertEquals("displayRegister", resolvedRoute.method().getName());
@@ -110,7 +110,7 @@ public class RouterTest {
         router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/register").call(SampleController.class, "displayRegister"));
         router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/register/(?<accountId>[a-z]{0,36})").call(SampleController.class, "displayAccount"));
 
-        final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register/toto").orElse(null);
+        final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register/toto");
         Assertions.assertNotNull(resolvedRoute);
         Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClass());
         Assertions.assertEquals("displayAccount", resolvedRoute.method().getName());

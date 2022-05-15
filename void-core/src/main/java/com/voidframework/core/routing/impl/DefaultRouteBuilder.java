@@ -3,6 +3,9 @@ package com.voidframework.core.routing.impl;
 import com.voidframework.core.routing.HttpMethod;
 import com.voidframework.core.routing.RouteBuilder;
 
+/**
+ * Default implementation of {@link RouteBuilder}.
+ */
 public class DefaultRouteBuilder implements RouteBuilder {
 
     private HttpMethod httpMethod;

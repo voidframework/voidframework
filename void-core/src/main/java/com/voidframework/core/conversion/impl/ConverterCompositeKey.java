@@ -1,4 +1,4 @@
-package com.voidframework.core.conversion;
+package com.voidframework.core.conversion.impl;
 
 import java.util.Objects;
 

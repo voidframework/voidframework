@@ -9,6 +9,8 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.voidframework.core.conversion.Conversion;
 import com.voidframework.core.conversion.ConversionProvider;
+import com.voidframework.core.conversion.ConverterManager;
+import com.voidframework.core.conversion.impl.DefaultConverterManager;
 import com.voidframework.core.helper.VoidFrameworkVersion;
 import com.voidframework.core.http.HttpRequestHandler;
 import com.voidframework.core.http.impl.DefaultHttpRequestHandler;
@@ -84,6 +86,7 @@ public class ApplicationLauncher {
             @Override
             protected void configure() {
                 bind(Config.class).toInstance(config);
+                bind(ConverterManager.class).to(DefaultConverterManager.class).asEagerSingleton();
                 bind(Conversion.class).toProvider(ConversionProvider.class).asEagerSingleton();
                 bind(Router.class).to(DefaultRouter.class).asEagerSingleton();
                 bind(HttpRequestHandler.class).to(DefaultHttpRequestHandler.class).asEagerSingleton();
