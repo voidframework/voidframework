@@ -109,6 +109,12 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
         } else if (parameterTypeClass == double.class || parameterTypeClass == float.class) {
             clazzToUse = Double.class;
             defaultValue = 0d;
+        } else if (parameterTypeClass == byte.class) {
+            clazzToUse = Byte.class;
+            defaultValue = 0;
+        } else if (parameterTypeClass == char.class) {
+            clazzToUse = Character.class;
+            defaultValue = 0;
         }
 
         final Object converterValue = conversion.convert(value, clazzToUse);
