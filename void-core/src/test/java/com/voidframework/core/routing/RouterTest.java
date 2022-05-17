@@ -1,6 +1,8 @@
 package com.voidframework.core.routing;
 
 import com.voidframework.core.exception.RoutingException;
+import com.voidframework.core.http.RequestPath;
+import com.voidframework.core.http.Result;
 import com.voidframework.core.routing.impl.DefaultRouter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -80,13 +82,13 @@ public class RouterTest {
 
     @Test
     public void addRoute_controllerMethodDoesNotReturnsValue() {
-        final RoutingException.ControllerMethodDoesNotReturnsValue thrown = Assertions.assertThrows(
-            RoutingException.ControllerMethodDoesNotReturnsValue.class,
+        final RoutingException.ControllerMethodMustReturnResult thrown = Assertions.assertThrows(
+            RoutingException.ControllerMethodMustReturnResult.class,
             () -> {
                 final Router router = new DefaultRouter();
                 router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, "returnNothing"));
             });
-        Assertions.assertEquals("Method 'com.voidframework.core.routing.RouterTest$SampleController::returnNothing' does not returns value", thrown.getMessage());
+        Assertions.assertEquals("Method 'com.voidframework.core.routing.RouterTest$SampleController::returnNothing' must return a Result", thrown.getMessage());
     }
 
     @Test
@@ -122,16 +124,16 @@ public class RouterTest {
 
     private static final class SampleController {
 
-        public String displayHelloWorld() {
-            return "Hello World!";
+        public Result displayHelloWorld() {
+            return Result.ok("Hello World!");
         }
 
-        public String displayRegister() {
-            return "Register Form";
+        public Result displayRegister() {
+            return Result.ok("Register Form");
         }
 
-        public String displayAccount(final String accountId) {
-            return "My Account";
+        public Result displayAccount(final @RequestPath("accountId") String accountId) {
+            return Result.ok("My Account ID is " + accountId);
         }
 
         public void returnNothing() {

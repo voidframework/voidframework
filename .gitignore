@@ -7,6 +7,19 @@
 *.iml
 
 
+# Visual Studio Code
+.vscode
+
+
+# Eclipse
+.project
+.settings/
+.worksheet
+.metadata
+.loadpath
+.recommenders
+
+
 # Package Files #
 *.jar
 target/
@@ -24,3 +37,4 @@ hs_err_pid*
 
 # Other
 .DS_Store
+Thumbs.db

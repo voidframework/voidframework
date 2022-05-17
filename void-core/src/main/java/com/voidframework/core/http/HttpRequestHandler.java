@@ -5,5 +5,5 @@ package com.voidframework.core.http;
  */
 public interface HttpRequestHandler {
 
-    String onRouteRequest(final Context context);
+    Result onRouteRequest(final HttpRequest httpRequest);
 }

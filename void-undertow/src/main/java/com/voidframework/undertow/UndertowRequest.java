@@ -1,11 +1,12 @@
 package com.voidframework.undertow;
 
 import com.google.common.collect.ImmutableList;
-import com.voidframework.core.http.Context;
+import com.voidframework.core.http.HttpRequest;
 import com.voidframework.core.routing.HttpMethod;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderValues;
 
+import java.io.InputStream;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,19 +14,28 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Undertow context implementation.
+ * Undertow {@link HttpRequest} implementation.
  */
-public class UndertowContext implements Context {
+public final class UndertowRequest implements HttpRequest {
 
     private final HttpServerExchange httpServerExchange;
+    private final byte[] bodyContentByteArray;
 
     /**
      * Build a new instance.
      *
      * @param httpServerExchange Current Http server exchange
+     * @param bodyContentByteArray
      */
-    public UndertowContext(final HttpServerExchange httpServerExchange) {
+    public UndertowRequest(final HttpServerExchange httpServerExchange,
+                           final byte[] bodyContentByteArray) {
         this.httpServerExchange = httpServerExchange;
+        this.bodyContentByteArray = bodyContentByteArray;
+    }
+
+    @Override
+    public String getCharset() {
+        return httpServerExchange.getRequestCharset();
     }
 
     @Override
@@ -50,6 +60,11 @@ public class UndertowContext implements Context {
     @Override
     public HttpMethod getHttpMethod() {
         return HttpMethod.valueOf(this.httpServerExchange.getRequestMethod().toString());
+    }
+
+    @Override
+    public InputStream getInputSteam() {
+        return httpServerExchange.getInputStream();
     }
 
     @Override
@@ -92,5 +107,10 @@ public class UndertowContext implements Context {
     @Override
     public String getRequestURI() {
         return this.httpServerExchange.getRequestURI();
+    }
+
+    @Override
+    public byte[] getBodyContent() {
+        return this.bodyContentByteArray;
     }
 }

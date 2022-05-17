@@ -94,9 +94,9 @@ public class RoutingException extends RuntimeException {
     }
 
     /**
-     * Exception indicates that given controller method don't return any kind of value.
+     * Exception indicates that given controller method don't return a Result.
      */
-    public static class ControllerMethodDoesNotReturnsValue extends RoutingException {
+    public static class ControllerMethodMustReturnResult extends RoutingException {
 
         /**
          * Build a new instance.
@@ -104,8 +104,8 @@ public class RoutingException extends RuntimeException {
          * @param controllerClass The controller class
          * @param methodName      The method name
          */
-        public ControllerMethodDoesNotReturnsValue(final Class<?> controllerClass, final String methodName) {
-            super("Method '" + controllerClass.getName() + "::" + methodName + "' does not returns value");
+        public ControllerMethodMustReturnResult(final Class<?> controllerClass, final String methodName) {
+            super("Method '" + controllerClass.getName() + "::" + methodName + "' must return a Result");
         }
     }
 }

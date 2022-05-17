@@ -4,19 +4,34 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.voidframework.core.conversion.Conversion;
 import com.voidframework.core.http.Context;
+import com.voidframework.core.http.HttpRequest;
 import com.voidframework.core.http.HttpRequestHandler;
 import com.voidframework.core.http.RequestPath;
 import com.voidframework.core.http.RequestVariable;
+import com.voidframework.core.http.Result;
 import com.voidframework.core.routing.ResolvedRoute;
 import com.voidframework.core.routing.Router;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Parameter;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Default implementation of {@link HttpRequestHandler}.
  */
 public class DefaultHttpRequestHandler implements HttpRequestHandler {
+
+    private static final Map<Class<?>, PrimitiveAlternative> PRIMITIVE_ALTERNATIVE_MAP = new HashMap<>() {{
+        put(boolean.class, new PrimitiveAlternative(Boolean.class, false));
+        put(byte.class, new PrimitiveAlternative(Byte.class, 0));
+        put(char.class, new PrimitiveAlternative(Character.class, 0));
+        put(double.class, new PrimitiveAlternative(Double.class, 0d));
+        put(float.class, new PrimitiveAlternative(Float.class, 0f));
+        put(int.class, new PrimitiveAlternative(Integer.class, 0));
+        put(long.class, new PrimitiveAlternative(Long.class, 0));
+        put(short.class, new PrimitiveAlternative(Short.class, 0));
+    }};
 
     private final Conversion conversion;
     private final Injector injector;
@@ -37,22 +52,31 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
     }
 
     @Override
-    public String onRouteRequest(final Context context) {
+    public Result onRouteRequest(final HttpRequest httpRequest) {
 
-        final ResolvedRoute resolvedRoute = router.resolveRoute(context.getHttpMethod(), context.getRequestURI());
+        final ResolvedRoute resolvedRoute = router.resolveRoute(httpRequest.getHttpMethod(), httpRequest.getRequestURI());
         if (resolvedRoute == null) {
-            return "404 Not Found";
+            return Result.notFound("404 Not Found");
         }
+
+        // Build Context
+        final Context context = new DefaultContext(httpRequest);
 
         try {
             if (resolvedRoute.method().getParameterCount() == 0) {
                 // No parameters, just invoke the controller method
-                return (String) resolvedRoute.method().invoke(injector.getInstance(resolvedRoute.controllerClass()));
+                return (Result) resolvedRoute.method().invoke(injector.getInstance(resolvedRoute.controllerClass()));
             } else {
                 // Method have some parameter(s)
                 final Object[] methodArgumentValueArray = new Object[resolvedRoute.method().getParameterCount()];
                 int idx = 0;
                 for (final Parameter parameter : resolvedRoute.method().getParameters()) {
+                    if (parameter.getType().isAssignableFrom(Context.class)) {
+                        methodArgumentValueArray[idx] = context;
+                        idx += 1;
+                        continue;
+                    }
+
                     final RequestPath requestPath = parameter.getAnnotation(RequestPath.class);
                     final RequestVariable requestVariable = parameter.getAnnotation(RequestVariable.class);
 
@@ -62,17 +86,16 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
                             parameter.getType());
                     } else if (requestVariable != null) {
                         methodArgumentValueArray[idx] = convertValueToParameterType(
-                            context.getQueryStringParameter(requestVariable.value()),
+                            httpRequest.getQueryStringParameter(requestVariable.value()),
                             parameter.getType());
                     } else {
-                        // TODO: Check for Session, Cookie, ... before using Injector
                         methodArgumentValueArray[idx] = this.injector.getInstance(parameter.getType());
                     }
 
                     idx += 1;
                 }
 
-                return (String) resolvedRoute.method().invoke(
+                return (Result) resolvedRoute.method().invoke(
                     injector.getInstance(resolvedRoute.controllerClass()), methodArgumentValueArray);
             }
         } catch (final IllegalAccessException | InvocationTargetException e) {
@@ -95,34 +118,22 @@ public class DefaultHttpRequestHandler implements HttpRequestHandler {
             return value;
         }
 
-        // Use something better than "if" forest
-        if (parameterTypeClass == int.class) {
-            clazzToUse = Integer.class;
-            defaultValue = 0;
-        } else if (parameterTypeClass == short.class) {
-            clazzToUse = Short.class;
-            defaultValue = 0;
-        } else if (parameterTypeClass == long.class) {
-            clazzToUse = Long.class;
-            defaultValue = 0;
-        } else if (parameterTypeClass == boolean.class) {
-            clazzToUse = Boolean.class;
-            defaultValue = false;
-        } else if (parameterTypeClass == double.class) {
-            clazzToUse = Double.class;
-            defaultValue = 0d;
-        } else if (parameterTypeClass == float.class) {
-            clazzToUse = Float.class;
-            defaultValue = 0f;
-        } else if (parameterTypeClass == byte.class) {
-            clazzToUse = Byte.class;
-            defaultValue = 0;
-        } else if (parameterTypeClass == char.class) {
-            clazzToUse = Character.class;
-            defaultValue = 0;
+        final PrimitiveAlternative primitiveAlternative = PRIMITIVE_ALTERNATIVE_MAP.get(parameterTypeClass);
+        if (primitiveAlternative != null) {
+            clazzToUse = primitiveAlternative.replacementClass;
+            defaultValue = primitiveAlternative.defaultValue;
         }
 
         final Object converterValue = conversion.convert(value, clazzToUse);
         return converterValue != null ? converterValue : defaultValue;
+    }
+
+    /**
+     * Defines an alternative for primitive value conversion.
+     *
+     * @param replacementClass The remplacement class
+     * @param defaultValue     The default value if converter return {@code null}
+     */
+    private record PrimitiveAlternative(Class<?> replacementClass, Object defaultValue) {
     }
 }
