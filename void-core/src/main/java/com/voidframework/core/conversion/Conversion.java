@@ -38,7 +38,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <SOURCE_TYPE>   The source generic type
      * @param <TARGET_TYPE>   The target generic type
-     * @throws ConversionException.ConverterDoesNotExists If the needed converter does not exist
+     * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
      */
     <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE convert(final SOURCE_TYPE object,
                                                    final Class<TARGET_TYPE> targetTypeClass);
@@ -51,7 +51,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <SOURCE_TYPE>   The source generic type
      * @param <TARGET_TYPE>   The target generic type
-     * @throws ConversionException.ConverterDoesNotExists If the needed converter does not exist
+     * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
      */
     <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE convert(final SOURCE_TYPE object,
                                                    final Class<SOURCE_TYPE> sourceTypeClass,
@@ -64,7 +64,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <SOURCE_TYPE>   The source generic type
      * @param <TARGET_TYPE>   The target generic type
-     * @throws ConversionException.ConverterDoesNotExists If the needed converter does not exist
+     * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
      */
     <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final Iterable<SOURCE_TYPE> objectIterable,
                                                          final Class<TARGET_TYPE> targetTypeClass);
@@ -77,7 +77,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <SOURCE_TYPE>   The source generic type
      * @param <TARGET_TYPE>   The target generic type
-     * @throws ConversionException.ConverterDoesNotExists If the needed converter does not exist
+     * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
      */
     <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final Iterable<SOURCE_TYPE> objectIterable,
                                                          final Class<SOURCE_TYPE> sourceTypeClass,
@@ -90,7 +90,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <SOURCE_TYPE>   The source generic type
      * @param <TARGET_TYPE>   The target generic type
-     * @throws ConversionException.ConverterDoesNotExists If the needed converter does not exist
+     * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
      */
     <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final List<SOURCE_TYPE> objectList,
                                                          final Class<TARGET_TYPE> targetTypeClass);
@@ -103,7 +103,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <SOURCE_TYPE>   The source generic type
      * @param <TARGET_TYPE>   The target generic type
-     * @throws ConversionException.ConverterDoesNotExists If the needed converter does not exist
+     * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
      */
     <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final List<SOURCE_TYPE> objectList,
                                                          final Class<SOURCE_TYPE> sourceTypeClass,
@@ -116,7 +116,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <SOURCE_TYPE>   The source generic type
      * @param <TARGET_TYPE>   The target generic type
-     * @throws ConversionException.ConverterDoesNotExists If the needed converter does not exist
+     * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
      */
     <SOURCE_TYPE, TARGET_TYPE> Set<TARGET_TYPE> convert(final Set<SOURCE_TYPE> objectList,
                                                         final Class<TARGET_TYPE> targetTypeClass);
@@ -129,7 +129,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <SOURCE_TYPE>   The source generic type
      * @param <TARGET_TYPE>   The target generic type
-     * @throws ConversionException.ConverterDoesNotExists If the needed converter does not exist
+     * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
      */
     <SOURCE_TYPE, TARGET_TYPE> Set<TARGET_TYPE> convert(final Set<SOURCE_TYPE> objectList,
                                                         final Class<SOURCE_TYPE> sourceTypeClass,

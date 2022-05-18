@@ -15,9 +15,9 @@ public class ConversionException extends RuntimeException {
     }
 
     /**
-     * Exception indicates that requested converter does not exists.
+     * Exception indicates that requested converter does not exist.
      */
-    public static class ConverterDoesNotExists extends ConversionException {
+    public static class ConverterDoesNotExist extends ConversionException {
 
         /**
          * Build a new instance.
@@ -25,8 +25,8 @@ public class ConversionException extends RuntimeException {
          * @param sourceTypeClass The source type class
          * @param targetTypeClass The target type class
          */
-        public ConverterDoesNotExists(final Class<?> sourceTypeClass,
-                                      final Class<?> targetTypeClass) {
+        public ConverterDoesNotExist(final Class<?> sourceTypeClass,
+                                     final Class<?> targetTypeClass) {
             super("Converter<source=" + sourceTypeClass + ", target=" + targetTypeClass + "> does not exist");
         }
     }

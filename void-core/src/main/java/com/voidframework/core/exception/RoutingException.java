@@ -79,7 +79,7 @@ public class RoutingException extends RuntimeException {
     /**
      * Exception indicates that given controller method name does not match with an existing method.
      */
-    public static class ControllerMethodDoesNotExists extends RoutingException {
+    public static class ControllerMethodDoesNotExist extends RoutingException {
 
         /**
          * Build a new instance.
@@ -88,7 +88,7 @@ public class RoutingException extends RuntimeException {
          * @param methodName      The method name
          * @param parameterCount  The method parameters count
          */
-        public ControllerMethodDoesNotExists(final Class<?> controllerClass, final String methodName, final int parameterCount) {
+        public ControllerMethodDoesNotExist(final Class<?> controllerClass, final String methodName, final int parameterCount) {
             super("Method '" + controllerClass.getName() + "::" + methodName + "' with " + parameterCount + " parameter(s) does not exists");
         }
     }

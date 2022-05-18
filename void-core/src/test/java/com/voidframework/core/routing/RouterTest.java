@@ -25,10 +25,10 @@ public class RouterTest {
 
         final Route route = routeList.get(0);
         Assertions.assertNotNull(route);
-        Assertions.assertEquals(HttpMethod.GET, route.httpMethod);
-        Assertions.assertEquals("/", route.routePattern.pattern());
-        Assertions.assertEquals(SampleController.class, route.controllerClass);
-        Assertions.assertEquals("displayHelloWorld", route.method.getName());
+        Assertions.assertEquals(HttpMethod.GET, route.httpMethod());
+        Assertions.assertEquals("/", route.routePattern().pattern());
+        Assertions.assertEquals(SampleController.class, route.controllerClass());
+        Assertions.assertEquals("displayHelloWorld", route.method().getName());
     }
 
     @Test
@@ -71,8 +71,8 @@ public class RouterTest {
 
     @Test
     public void addRoute_controllerMethodDoesNotExists() {
-        final RoutingException.ControllerMethodDoesNotExists thrown = Assertions.assertThrows(
-            RoutingException.ControllerMethodDoesNotExists.class,
+        final RoutingException.ControllerMethodDoesNotExist thrown = Assertions.assertThrows(
+            RoutingException.ControllerMethodDoesNotExist.class,
             () -> {
                 final Router router = new DefaultRouter();
                 router.addRoute(routeBuilder -> routeBuilder.method(HttpMethod.GET).route("/").call(SampleController.class, "unknownMethodName"));

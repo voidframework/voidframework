@@ -69,7 +69,7 @@ public class DefaultConversion implements Conversion {
             targetTypeClass);
 
         if (converter == null) {
-            throw new ConversionException.ConverterDoesNotExists(sourceTypeClass, targetTypeClass);
+            throw new ConversionException.ConverterDoesNotExist(sourceTypeClass, targetTypeClass);
         }
 
         return converter.convert(object);
@@ -197,7 +197,7 @@ public class DefaultConversion implements Conversion {
                 converter = converterManager.getConverter(sourceTypeClass, targetTypeClass);
 
                 if (converter == null) {
-                    throw new ConversionException.ConverterDoesNotExists(sourceTypeClass, targetTypeClass);
+                    throw new ConversionException.ConverterDoesNotExist(sourceTypeClass, targetTypeClass);
                 }
 
                 objectTargetCollection.add(converter.convert(object));
@@ -225,7 +225,7 @@ public class DefaultConversion implements Conversion {
             targetTypeClass);
 
         if (converter == null) {
-            throw new ConversionException.ConverterDoesNotExists(sourceTypeClass, targetTypeClass);
+            throw new ConversionException.ConverterDoesNotExist(sourceTypeClass, targetTypeClass);
         }
 
         for (final SOURCE_TYPE object : objectSourceIterable) {

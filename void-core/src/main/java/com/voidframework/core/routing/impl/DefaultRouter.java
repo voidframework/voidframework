@@ -34,7 +34,7 @@ import java.util.regex.PatternSyntaxException;
 public class DefaultRouter implements Router {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Router.class);
-    private static final Pattern PATTERN_EXTRACT_REGEXP_GROUP_NAME = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z0-9]*)>");
+    private static final Pattern PATTERN_EXTRACT_REGEXP_GROUP_NAME = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z\\d]*)>");
 
     private final Map<HttpMethod, List<Route>> routeListPerHttpMethodMap;
 
@@ -62,8 +62,8 @@ public class DefaultRouter implements Router {
         routeBuilder = (DefaultRouteBuilder) routeBuilderFunction.apply(routeBuilder);
 
         final Route route = validateAndCreateRoute(routeBuilder);
-        LOGGER.info("Add route {} {} {}::{}", route.httpMethod, route.routePattern, route.controllerClass.getName(), route.method.getName());
-        this.routeListPerHttpMethodMap.computeIfAbsent(route.httpMethod, (key) -> new ArrayList<>()).add(route);
+        LOGGER.info("Add route {} {} {}::{}", route.httpMethod(), route.routePattern(), route.controllerClass().getName(), route.method().getName());
+        this.routeListPerHttpMethodMap.computeIfAbsent(route.httpMethod(), (key) -> new ArrayList<>()).add(route);
     }
 
     @Override
@@ -76,19 +76,19 @@ public class DefaultRouter implements Router {
         if (routeList != null) {
             Matcher matcher;
             for (final Route route : routeList) {
-                matcher = route.routePattern.matcher(uri);
+                matcher = route.routePattern().matcher(uri);
                 if (matcher.matches()) {
                     final Map<String, String> extractedParameterMap;
-                    if (route.method.getParameterCount() == 0) {
+                    if (route.method().getParameterCount() == 0) {
                         extractedParameterMap = Collections.emptyMap();
                     } else {
                         extractedParameterMap = new HashMap<>();
-                        for (final String namedGroup : getNamedGroup(route.routePattern.pattern())) {
+                        for (final String namedGroup : getNamedGroup(route.routePattern().pattern())) {
                             extractedParameterMap.put(namedGroup, matcher.group(namedGroup));
                         }
                     }
 
-                    return new ResolvedRoute(route.controllerClass, route.method, extractedParameterMap);
+                    return new ResolvedRoute(route.controllerClass(), route.method(), extractedParameterMap);
                 }
             }
         }
@@ -156,6 +156,6 @@ public class DefaultRouter implements Router {
             }
         }
 
-        throw new RoutingException.ControllerMethodDoesNotExists(controllerClass, methodName, expectedMethodParameterCount);
+        throw new RoutingException.ControllerMethodDoesNotExist(controllerClass, methodName, expectedMethodParameterCount);
     }
 }

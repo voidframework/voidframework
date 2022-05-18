@@ -14,10 +14,10 @@ import java.util.Map;
  */
 public final class Result {
 
-    private int httpCode;
-    private Object content;
-    private String contentType;
-    private Map<String, String> headerMap = new HashMap<>();
+    private final int httpCode;
+    private final Object content;
+    private final String contentType;
+    private final Map<String, String> headerMap = new HashMap<>();
 
     /**
      * Build a new instance.
