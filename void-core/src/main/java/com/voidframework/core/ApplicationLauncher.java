@@ -11,14 +11,8 @@ import com.voidframework.core.conversion.Conversion;
 import com.voidframework.core.conversion.ConversionProvider;
 import com.voidframework.core.conversion.ConverterManager;
 import com.voidframework.core.conversion.impl.DefaultConverterManager;
+import com.voidframework.core.daemon.Daemon;
 import com.voidframework.core.helper.VoidFrameworkVersion;
-import com.voidframework.core.http.HttpRequestHandler;
-import com.voidframework.core.http.impl.DefaultHttpRequestHandler;
-import com.voidframework.core.routing.AppRoutesDefinition;
-import com.voidframework.core.routing.Router;
-import com.voidframework.core.routing.impl.DefaultRouter;
-import com.voidframework.core.server.ListenerInformation;
-import com.voidframework.core.server.Server;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +22,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Application launcher are expected to instantiate and run all parts of an
@@ -47,15 +43,15 @@ public class ApplicationLauncher {
           ╚████╔╝ ╚██████╔╝██║██████╔╝  |
            ╚═══╝   ╚═════╝ ╚═╝╚═════╝   |  Version: {}""";
 
+    private final List<Daemon> daemonList;
     private Injector injector;
-    private Server server;
 
     /**
      * Build a new instance.
      */
     public ApplicationLauncher() {
+        this.daemonList = new ArrayList<>();
         this.injector = null;
-        this.server = null;
     }
 
     /**
@@ -88,11 +84,24 @@ public class ApplicationLauncher {
                 bind(Config.class).toInstance(config);
                 bind(ConverterManager.class).to(DefaultConverterManager.class).asEagerSingleton();
                 bind(Conversion.class).toProvider(ConversionProvider.class).asEagerSingleton();
-                bind(Router.class).to(DefaultRouter.class).asEagerSingleton();
-                bind(HttpRequestHandler.class).to(DefaultHttpRequestHandler.class).asEagerSingleton();
             }
         };
         this.injector = Guice.createInjector(Stage.PRODUCTION, Modules.override(coreModules).with(Collections.emptyList()));
+
+        // Instantiate daemons
+        final List<String> daemonClassNameList = config.getStringList("voidframework.core.daemons");
+        try {
+            for (final String daemonClassName : daemonClassNameList) {
+                final Daemon daemon = (Daemon) this.injector.getInstance(Class.forName(daemonClassName));
+                if (daemon != null) {
+                    this.injector = this.injector.createChildInjector(daemon.getModule());
+                    this.daemonList.add(daemon);
+                }
+            }
+        } catch (final ClassNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
+        LOGGER.info("Daemons initialized with success ({} daemons)", this.daemonList.size());
 
         // Configure app components
         if (config.hasPath("voidframework.core.modules")) {
@@ -114,35 +123,18 @@ public class ApplicationLauncher {
             this.injector = this.injector.createChildInjector(appModuleList);
         }
 
-        // Load app defined routes
-        if (config.hasPath("voidframework.core.routes")) {
-            final Router router = injector.getInstance(Router.class);
-            config.getStringList("voidframework.core.routes")
-                .stream()
-                .filter(StringUtils::isNotEmpty)
-                .forEach(appRoutesDefinitionClassName -> {
-                    try {
-                        final Class<?> abstractRoutesDefinitionClass = Class.forName(appRoutesDefinitionClassName);
-                        final AppRoutesDefinition appRoutesDefinition = (AppRoutesDefinition) this.injector.getInstance(abstractRoutesDefinitionClass);
-                        appRoutesDefinition.defineAppRoutes(router);
-                    } catch (final ClassNotFoundException ex) {
-                        throw new RuntimeException("Can't find routes definition '" + appRoutesDefinitionClassName + "'", ex);
-                    }
-                });
-        }
+        // Start all daemons
+        this.daemonList.stream().sorted(Comparator.comparingInt(Daemon::getPriority)).forEach(daemon -> {
+            daemon.configure(config, injector);
+            new Thread(daemon).start();
 
-        // Instantiate server implementation to use
-        final String serverClassName = config.getString("voidframework.core.serverImplementation");
-        try {
-            server = (Server) this.injector.getInstance(Class.forName(serverClassName));
-        } catch (final ClassNotFoundException ex) {
-            throw new RuntimeException("Can't find server implementation '" + serverClassName + "'", ex);
-        }
-
-        final List<ListenerInformation> listenerInformationList = server.start();
-        for (final ListenerInformation listenerInformation : listenerInformationList) {
-            LOGGER.info("Server now listening on {}", listenerInformation);
-        }
+            while (!daemon.isRunning()) {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(50);
+                } catch (final InterruptedException ignore) {
+                }
+            }
+        });
 
         // Ready
         final long endTimeMillis = System.currentTimeMillis();
@@ -154,8 +146,29 @@ public class ApplicationLauncher {
      */
     private void stop() {
         LOGGER.info("Stopping application...");
-        if (server != null) {
-            server.onStop();
+
+        // Stop all daemons
+        final List<Daemon> daemonToStopList = this.daemonList
+            .stream()
+            .sorted(Comparator.comparingInt(Daemon::getPriority).reversed())
+            .toList();
+
+        for (final Daemon daemonToStop : daemonToStopList) {
+            final String daemonName = daemonToStop.getClass().getSimpleName();
+            LOGGER.info("Stopping '{}'...", daemonName);
+
+            try {
+                final Thread thread = new Thread(daemonToStop::gracefulStop);
+
+                final long start = System.currentTimeMillis();
+                thread.start();
+                thread.join(daemonToStop.getGracefulStopTimeout());
+                final long end = System.currentTimeMillis();
+
+                LOGGER.info("Daemon '{}' gracefully stopped in {}ms", daemonName, end - start);
+            } catch (final InterruptedException e) {
+                LOGGER.info("Daemon '{}' stopped (force)", daemonName);
+            }
         }
     }
 

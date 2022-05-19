@@ -15,6 +15,23 @@ public class ConversionException extends RuntimeException {
     }
 
     /**
+     * Exception indicates that provided converter is already registered.
+     */
+    public static class ConverterAlreadyRegistered extends ConversionException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param sourceTypeClass The source type class
+         * @param targetTypeClass The target type class
+         */
+        public ConverterAlreadyRegistered(final Class<?> sourceTypeClass,
+                                          final Class<?> targetTypeClass) {
+            super("Converter<source=" + sourceTypeClass.getName() + ", target=" + targetTypeClass.getName() + "> already registered");
+        }
+    }
+
+    /**
      * Exception indicates that requested converter does not exist.
      */
     public static class ConverterDoesNotExist extends ConversionException {
@@ -27,7 +44,7 @@ public class ConversionException extends RuntimeException {
          */
         public ConverterDoesNotExist(final Class<?> sourceTypeClass,
                                      final Class<?> targetTypeClass) {
-            super("Converter<source=" + sourceTypeClass + ", target=" + targetTypeClass + "> does not exist");
+            super("Converter<source=" + sourceTypeClass.getName() + ", target=" + targetTypeClass.getName() + "> does not exist");
         }
     }
 

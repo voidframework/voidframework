@@ -33,7 +33,7 @@
 
     <modules>
         <module>void-core</module>
-        <module>void-undertow</module>
+        <module>void-web</module>
     </modules>
 
     <profiles>
@@ -67,7 +67,7 @@
             </dependency>
             <dependency>
                 <groupId>com.voidframework</groupId>
-                <artifactId>void-undertow</artifactId>
+                <artifactId>void-web</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
 

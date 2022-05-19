@@ -7,6 +7,7 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.voidframework.core.conversion.impl.DefaultConversion;
 import com.voidframework.core.exception.ConversionException;
+import com.voidframework.core.helper.ClassResolver;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.MethodInfo;
@@ -18,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Provider for the interface {@link Conversion} implementation.
@@ -72,14 +72,18 @@ public class ConversionProvider implements Provider<Conversion> {
                     }
 
                     final String sourceClassName = typeArgumentList.get(0).getTypeSignature().toString();
-                    final Class<?> sourceClassType = revolveClassFromString(sourceClassName, classLoader)
-                        .orElseThrow(() -> new ConversionException.InvalidConverter(
-                            classInfo.getName(), "Can't retrieve Class<?> from '" + sourceClassName + "'"));
+                    final Class<?> sourceClassType = ClassResolver.forName(sourceClassName, classLoader);
+                    if (sourceClassType == null) {
+                        throw new ConversionException.InvalidConverter(
+                            classInfo.getName(), "Can't retrieve Class<?> from '" + sourceClassName + "'");
+                    }
 
                     final String targetClassName = typeArgumentList.get(1).getTypeSignature().toString();
-                    final Class<?> targetClassType = revolveClassFromString(targetClassName, classLoader)
-                        .orElseThrow(() -> new ConversionException.InvalidConverter(
-                            classInfo.getName(), "Can't retrieve Class<?> from '" + targetClassName + "'"));
+                    final Class<?> targetClassType = ClassResolver.forName(targetClassName, classLoader);
+                    if (targetClassType == null) {
+                        throw new ConversionException.InvalidConverter(
+                            classInfo.getName(), "Can't retrieve Class<?> from '" + targetClassName + "'");
+                    }
 
                     // Retrieves constructor
                     final MethodInfoList constructorInfoList = classInfo.getConstructorInfo();
@@ -94,7 +98,6 @@ public class ConversionProvider implements Provider<Conversion> {
                         constructorInfo.loadClassAndGetConstructor().getDeclaringClass());
 
                     // Adds it to the Map of instantiated converters
-                    LOGGER.debug("Register new Converter<source={}, target={}>", sourceClassName, targetClassName);
                     converterManager.registerConverter(sourceClassType, targetClassType, converter);
                 }
             }
@@ -102,24 +105,5 @@ public class ConversionProvider implements Provider<Conversion> {
 
         LOGGER.info("{} converter(s) has been discovered", discoveredConverterCount);
         return new DefaultConversion(converterManager);
-    }
-
-    /**
-     * Resolve {@code Class<?>} from a class name.
-     *
-     * @param className   Name of the class
-     * @param classLoader Loader to use
-     * @return Resolved {@code Class<?>}
-     */
-    private Optional<Class<?>> revolveClassFromString(final String className, final ClassLoader classLoader) {
-        if (StringUtils.isBlank(className)) {
-            return Optional.empty();
-        }
-
-        try {
-            return Optional.of(Class.forName(className, false, classLoader));
-        } catch (final ClassNotFoundException ignore) {
-            return Optional.empty();
-        }
     }
 }

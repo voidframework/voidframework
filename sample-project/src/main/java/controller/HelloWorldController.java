@@ -1,10 +1,10 @@
 package controller;
 
 import com.voidframework.core.helper.Json;
-import com.voidframework.core.http.Context;
-import com.voidframework.core.http.HttpContentType;
-import com.voidframework.core.http.RequestPath;
-import com.voidframework.core.http.Result;
+import com.voidframework.web.http.Context;
+import com.voidframework.web.http.HttpContentType;
+import com.voidframework.web.http.param.RequestPath;
+import com.voidframework.web.http.Result;
 
 import javax.inject.Singleton;
 
@@ -34,6 +34,7 @@ public class HelloWorldController implements HttpContentType {
     }
 
     public Result postForm(final Context context) {
-        return Result.ok(context.getRequest().getBodyContent(), APPLICATION_JSON);
+        return Result.ok(context.getRequest().getBodyContent().asRaw(), APPLICATION_JSON);
+        //return Result.ok(context.getRequest().getBodyContent().asFormData().get("").get(0).inputStream(), IMAGE_JPEG);
     }
 }
