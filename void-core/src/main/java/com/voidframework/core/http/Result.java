@@ -100,6 +100,10 @@ public final class Result {
         return new Result(HttpReturnCode.OK, content, contentType);
     }
 
+    public static Result ok(final InputStream content, final String contentType) {
+        return new Result(HttpReturnCode.OK, content, contentType);
+    }
+
     public static Result ok(final JsonNode content) {
         return new Result(HttpReturnCode.OK, Json.toString(content), HttpContentType.APPLICATION_JSON);
     }
@@ -121,6 +125,8 @@ public final class Result {
             return ByteArrayInputStream.nullInputStream();
         } else if (content instanceof byte[]) {
             return new ByteArrayInputStream((byte[]) content);
+        } else if (content instanceof InputStream) {
+            return (InputStream) content;
         }
 
         return new ByteArrayInputStream(content.toString().getBytes(StandardCharsets.UTF_8));

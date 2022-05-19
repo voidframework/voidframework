@@ -2,6 +2,7 @@ package com.voidframework.undertow;
 
 import com.google.common.collect.ImmutableList;
 import com.voidframework.core.http.HttpRequest;
+import com.voidframework.core.http.HttpRequestBodyContent;
 import com.voidframework.core.routing.HttpMethod;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderValues;
@@ -19,18 +20,18 @@ import java.util.Map;
 public final class UndertowRequest implements HttpRequest {
 
     private final HttpServerExchange httpServerExchange;
-    private final byte[] bodyContentByteArray;
+    private final HttpRequestBodyContent httpRequestBodyContent;
 
     /**
      * Build a new instance.
      *
-     * @param httpServerExchange Current Http server exchange
-     * @param bodyContentByteArray
+     * @param httpServerExchange     Current Http server exchange
+     * @param httpRequestBodyContent Current Http request body content
      */
     public UndertowRequest(final HttpServerExchange httpServerExchange,
-                           final byte[] bodyContentByteArray) {
+                           final HttpRequestBodyContent httpRequestBodyContent) {
         this.httpServerExchange = httpServerExchange;
-        this.bodyContentByteArray = bodyContentByteArray;
+        this.httpRequestBodyContent = httpRequestBodyContent;
     }
 
     @Override
@@ -110,7 +111,7 @@ public final class UndertowRequest implements HttpRequest {
     }
 
     @Override
-    public byte[] getBodyContent() {
-        return this.bodyContentByteArray;
+    public HttpRequestBodyContent getBodyContent() {
+        return this.httpRequestBodyContent;
     }
 }

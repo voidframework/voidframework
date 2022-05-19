@@ -18,10 +18,10 @@ public class HelloWorldController implements HttpContentType {
     public Result sayHello(final Context context,
                            @RequestPath("name") final int name) {
         return Result.ok("""
-            <h2>Hello %s!</h2>
-            <br/>
-            Your IP is %s
-            """.formatted(name, context.getRequest().getRemoteHostName()))
+                <h2>Hello %s!</h2>
+                <br/>
+                Your IP is %s
+                """.formatted(name, context.getRequest().getRemoteHostName()))
             .setHeader("TOTO", "VALUE");
     }
 

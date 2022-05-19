@@ -91,5 +91,9 @@ public interface HttpRequest {
      */
     String getRequestURI();
 
-    byte[] getBodyContent();
+    /**
+     * Return the original body Content;
+     * @return
+     */
+    HttpRequestBodyContent getBodyContent();
 }

@@ -3,6 +3,8 @@ package com.voidframework.undertow;
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
 import com.voidframework.core.ApplicationLauncher;
+import com.voidframework.core.http.FormItem;
+import com.voidframework.core.http.HttpRequestBodyContent;
 import com.voidframework.core.http.HttpRequestHandler;
 import com.voidframework.core.http.Result;
 import com.voidframework.core.server.ListenerInformation;
@@ -74,25 +76,24 @@ public final class UndertowServer implements Server {
                 .build()
                 .createParser(httpServerExchange);
             if (formDataParser != null) {
+                final Map<String, List<FormItem>> formItemPerKeyMap = new HashMap<>();
                 final FormData formData = formDataParser.parseBlocking();
-                System.err.println(formData);
-
-                final Map<String, List<String>> data = new HashMap<>();
                 for (final String formDataKey : formData) {
-                    final List<String> list = data.computeIfAbsent(formDataKey, k -> new ArrayList<>());
-
-                    for (final FormData.FormValue toto : formData.get(formDataKey)) {
-                        if (!toto.isFileItem()) {
-                            list.add(toto.getValue());
+                    final List<FormItem> formItemList = formItemPerKeyMap.computeIfAbsent(formDataKey, k -> new ArrayList<>());
+                    for (final FormData.FormValue formValue : formData.get(formDataKey)) {
+                        if (formValue.isFileItem()) {
+                            formItemList.add(new FormItem(null, formValue.getCharset(), formValue.isFileItem(), formValue.getFileItem().getInputStream()));
+                        } else {
+                            formItemList.add(new FormItem(formValue.getValue(), formValue.getCharset(), formValue.isFileItem(), null));
                         }
                     }
                 }
 
-                result = httpRequestHandler.onRouteRequest(new UndertowRequest(httpServerExchange, null));
+                result = httpRequestHandler.onRouteRequest(new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(null, formItemPerKeyMap)));
 
             } else {
                 final byte[] content = httpServerExchange.getInputStream().readAllBytes();
-                result = httpRequestHandler.onRouteRequest(new UndertowRequest(httpServerExchange, content));
+                result = httpRequestHandler.onRouteRequest(new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(content, null)));
             }
 
             // Sets the return Content-Type to text/html
