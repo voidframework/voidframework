@@ -10,6 +10,7 @@ import com.voidframework.core.helper.ClassResolver;
 import com.voidframework.web.exception.ErrorHandlerException;
 import com.voidframework.web.http.ErrorHandler;
 import com.voidframework.web.http.FormItem;
+import com.voidframework.web.http.HttpRequest;
 import com.voidframework.web.http.HttpRequestBodyContent;
 import com.voidframework.web.http.Result;
 import com.voidframework.web.http.converter.StringToBooleanConverter;
@@ -72,11 +73,6 @@ public class WebDaemon implements Daemon {
     @Override
     public long getGracefulStopTimeout() {
         return this.configuration.getInt("voidframework.web.gracefulStopTimeout");
-    }
-
-    @Override
-    public boolean isRunning() {
-        return this.isRunning;
     }
 
     @Override
@@ -159,7 +155,7 @@ public class WebDaemon implements Daemon {
         final HttpHandler httpHandler = httpServerExchange -> {
             httpServerExchange.startBlocking();
 
-            final Result result;
+            final HttpRequest httpRequest;
 
             // Try to parse content
             final MultiPartParserDefinition multiPartParserDefinition = new MultiPartParserDefinition()
@@ -187,12 +183,15 @@ public class WebDaemon implements Daemon {
                     }
                 }
 
-                result = httpRequestHandler.onRouteRequest(new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(null, formItemPerKeyMap)));
+                httpRequest = new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(null, formItemPerKeyMap));
 
             } else {
                 final byte[] content = httpServerExchange.getInputStream().readAllBytes();
-                result = httpRequestHandler.onRouteRequest(new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(content, null)));
+                httpRequest = new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(content, null));
             }
+
+            // Process request
+            final Result result = httpRequestHandler.onRouteRequest(httpRequest);
 
             // Sets the return Content-Type to text/html
             httpServerExchange.setStatusCode(result.getHttpCode());

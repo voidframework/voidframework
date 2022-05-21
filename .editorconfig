@@ -15,6 +15,10 @@ max_line_length = 160
 [*.java]
 ij_java_names_count_to_use_import_on_demand = 999
 ij_java_class_count_to_use_import_on_demand = 999
+ij_java_blank_lines_before_imports = 1
+ij_java_blank_lines_after_imports = 1
+ij_java_blank_lines_after_package = 1
+ij_java_layout_static_imports_separately = true
 
 [*.md]
 trim_trailing_whitespace = false

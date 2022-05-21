@@ -1,4 +1,4 @@
-import com.voidframework.web.http.controller.AssetController;
+import com.voidframework.web.http.controller.StaticAssetsController;
 import com.voidframework.web.routing.AppRoutesDefinition;
 import com.voidframework.web.routing.HttpMethod;
 import com.voidframework.web.routing.Router;
@@ -22,6 +22,10 @@ public class Routes implements AppRoutesDefinition {
         router.addRoute(routeBuilder ->
             routeBuilder.method(HttpMethod.POST).route("/form").call(HelloWorldController.class, "postForm"));
         router.addRoute(routeBuilder ->
-            routeBuilder.method(HttpMethod.GET).route("/static/(?<fileName>.*)").call(AssetController.class, "getAsset"));
+            routeBuilder.method(HttpMethod.GET).route("/webjars/(?<fileName>.*)").call(StaticAssetsController.class, "webjarAsset"));
+        router.addRoute(routeBuilder ->
+            routeBuilder.method(HttpMethod.GET).route("/static/(?<fileName>.*)").call(StaticAssetsController.class, "staticAsset"));
+        router.addRoute(routeBuilder ->
+            routeBuilder.method(HttpMethod.GET).route("/favicon.ico").call(StaticAssetsController.class, "staticAsset"));
     }
 }

@@ -3,8 +3,8 @@ package com.voidframework.web.routing.impl;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.voidframework.web.exception.RoutingException;
-import com.voidframework.web.http.param.RequestPath;
 import com.voidframework.web.http.Result;
+import com.voidframework.web.http.param.RequestPath;
 import com.voidframework.web.routing.HttpMethod;
 import com.voidframework.web.routing.ResolvedRoute;
 import com.voidframework.web.routing.Route;
@@ -62,7 +62,12 @@ public class DefaultRouter implements Router {
         routeBuilder = (DefaultRouteBuilder) routeBuilderFunction.apply(routeBuilder);
 
         final Route route = validateAndCreateRoute(routeBuilder);
-        LOGGER.info("Add route {} {} {}::{}", route.httpMethod(), route.routePattern(), route.controllerClass().getName(), route.method().getName());
+        LOGGER.debug("Add route {} {} {}::{}",
+            route.httpMethod(),
+            route.routePattern(),
+            route.controllerClass().getName(),
+            route.method().getName());
+
         this.routeListPerHttpMethodMap.computeIfAbsent(route.httpMethod(), (key) -> new ArrayList<>()).add(route);
     }
 

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Application launcher are expected to instantiate and run all parts of an
@@ -124,16 +123,10 @@ public class ApplicationLauncher {
         }
 
         // Start all daemons
+        LOGGER.info("Starting all daemons...");
         this.daemonList.stream().sorted(Comparator.comparingInt(Daemon::getPriority)).forEach(daemon -> {
             daemon.configure(config, injector);
-            new Thread(daemon).start();
-
-            while (!daemon.isRunning()) {
-                try {
-                    TimeUnit.MILLISECONDS.sleep(50);
-                } catch (final InterruptedException ignore) {
-                }
-            }
+            daemon.run();
         });
 
         // Ready
