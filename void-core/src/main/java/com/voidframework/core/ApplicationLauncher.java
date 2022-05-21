@@ -69,7 +69,7 @@ public class ApplicationLauncher {
         // Load configuration
         final long startTimeMillis = System.currentTimeMillis();
 
-        LOGGER.info("Fetching configuration...");
+        LOGGER.info("Fetching configuration");
         final Config applicationConfiguration = ConfigFactory.defaultApplication(this.getClass().getClassLoader());
         final Config referenceConfiguration = ConfigFactory.defaultReference(this.getClass().getClassLoader()).withOnlyPath("voidframework");
         final Config config = applicationConfiguration.withFallback(referenceConfiguration).resolve();
@@ -104,6 +104,7 @@ public class ApplicationLauncher {
 
         // Configure app components
         if (config.hasPath("voidframework.core.modules")) {
+            LOGGER.info("Loading modules");
             final List<AbstractModule> appModuleList = new ArrayList<>();
             config.getStringList("voidframework.core.modules")
                 .stream()
@@ -120,10 +121,11 @@ public class ApplicationLauncher {
                 });
 
             this.injector = this.injector.createChildInjector(appModuleList);
+            LOGGER.info("Modules loaded ({} modules)", appModuleList.size());
         }
 
         // Start all daemons
-        LOGGER.info("Starting all daemons...");
+        LOGGER.info("Starting all daemons");
         this.daemonList.stream().sorted(Comparator.comparingInt(Daemon::getPriority)).forEach(daemon -> {
             daemon.configure(config, injector);
             daemon.run();
@@ -138,7 +140,7 @@ public class ApplicationLauncher {
      * Stop VoidFramework.
      */
     private void stop() {
-        LOGGER.info("Stopping application...");
+        LOGGER.info("Stopping application");
 
         // Stop all daemons
         final List<Daemon> daemonToStopList = this.daemonList
@@ -148,7 +150,7 @@ public class ApplicationLauncher {
 
         for (final Daemon daemonToStop : daemonToStopList) {
             final String daemonName = daemonToStop.getClass().getSimpleName();
-            LOGGER.info("Stopping '{}'...", daemonName);
+            LOGGER.info("Stopping '{}'", daemonName);
 
             try {
                 final Thread thread = new Thread(daemonToStop::gracefulStop);
@@ -181,7 +183,7 @@ public class ApplicationLauncher {
         if (StringUtils.isNotEmpty(bannerToDisplay)) {
             LOGGER.info(bannerToDisplay, VoidFrameworkVersion.getVersion());
         } else {
-            LOGGER.info("Booting application...");
+            LOGGER.info("Booting application");
         }
     }
 }
