@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.voidframework</groupId>
-    <artifactId>void</artifactId>
+    <artifactId>voidframework</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>Void Framework</name>
@@ -35,8 +35,8 @@
     </properties>
 
     <modules>
-        <module>void-core</module>
-        <module>void-web</module>
+        <module>voidframework-core</module>
+        <module>voidframework-web</module>
     </modules>
 
     <profiles>
@@ -65,12 +65,12 @@
         <dependencies>
             <dependency>
                 <groupId>com.voidframework</groupId>
-                <artifactId>void-core</artifactId>
+                <artifactId>voidframework-core</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.voidframework</groupId>
-                <artifactId>void-web</artifactId>
+                <artifactId>voidframework-web</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
 
