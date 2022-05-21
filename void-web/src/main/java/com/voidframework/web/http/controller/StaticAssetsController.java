@@ -13,6 +13,7 @@ import org.apache.tika.Tika;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -82,8 +83,8 @@ public final class StaticAssetsController implements HttpContentType {
             throw new HttpException.NotFound();
         }
 
-        final String requestedFileName = Paths.get("/", this.baseAssetResourcesDirectory, fileName).toString();
         InputStream inputStream = null;
+        String contentType = null;
 
         if (this.runInDevMode) {
             // Try to load file directly (don't need application recompilation)
@@ -96,19 +97,23 @@ public final class StaticAssetsController implements HttpContentType {
 
             try {
                 inputStream = Files.newInputStream(requestedFilePath);
+                contentType = detectFileContentType(requestedFilePath.toString());
             } catch (final IOException ignore) {
             }
         }
 
         if (inputStream == null) {
             // Try to load file from resources
+            final String requestedFileName = Paths.get(File.separator, this.baseAssetResourcesDirectory, fileName).toString();
+
             inputStream = this.getClass().getResourceAsStream(requestedFileName);
             if (inputStream == null) {
                 throw new HttpException.NotFound();
             }
+
+            contentType = detectFileContentType(requestedFileName);
         }
 
-        final String contentType = detectFileContentType(requestedFileName);
 
         return Result.ok(inputStream, contentType).setHeader("Cache-Control", "public, max-age=3600;");
     }
