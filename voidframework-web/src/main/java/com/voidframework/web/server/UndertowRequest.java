@@ -1,4 +1,4 @@
-package com.voidframework.web;
+package com.voidframework.web.server;
 
 import com.google.common.collect.ImmutableList;
 import com.voidframework.web.http.HttpRequest;

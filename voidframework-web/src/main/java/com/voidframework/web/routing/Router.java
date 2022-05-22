@@ -1,12 +1,12 @@
 package com.voidframework.web.routing;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 public interface Router {
 
-    void addRoute(final Function<RouteBuilder, RouteBuilder> builder);
+    void addRoute(final HttpMethod httpMethod, final String route, final Object controllerInstance, final Method method);
 
     ResolvedRoute resolveRoute(final HttpMethod httpMethod, final String uri);
 

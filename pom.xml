@@ -36,6 +36,7 @@
 
     <modules>
         <module>voidframework-core</module>
+        <module>voidframework-cache</module>
         <module>voidframework-web</module>
     </modules>
 
@@ -66,6 +67,11 @@
             <dependency>
                 <groupId>com.voidframework</groupId>
                 <artifactId>voidframework-core</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.voidframework</groupId>
+                <artifactId>voidframework-cache</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
             <dependency>

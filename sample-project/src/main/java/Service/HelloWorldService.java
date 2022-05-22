@@ -1,8 +1,8 @@
-package Service;
+package service;
 
-import com.google.inject.Singleton;
+import com.voidframework.core.bindable.Service;
 
-@Singleton
+@Service
 public class HelloWorldService {
 
     public String sayHello() {

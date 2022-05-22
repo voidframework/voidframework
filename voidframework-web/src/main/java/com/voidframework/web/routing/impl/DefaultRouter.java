@@ -2,20 +2,16 @@ package com.voidframework.web.routing.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.voidframework.web.exception.RoutingException;
-import com.voidframework.web.http.Result;
-import com.voidframework.web.http.param.RequestPath;
+import com.voidframework.core.helper.ProxyDetector;
 import com.voidframework.web.routing.HttpMethod;
 import com.voidframework.web.routing.ResolvedRoute;
 import com.voidframework.web.routing.Route;
-import com.voidframework.web.routing.RouteBuilder;
 import com.voidframework.web.routing.Router;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,10 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 /**
  * Default implementation of {@link Router}.
@@ -57,18 +51,18 @@ public class DefaultRouter implements Router {
     }
 
     @Override
-    public void addRoute(final Function<RouteBuilder, RouteBuilder> routeBuilderFunction) {
-        DefaultRouteBuilder routeBuilder = new DefaultRouteBuilder();
-        routeBuilder = (DefaultRouteBuilder) routeBuilderFunction.apply(routeBuilder);
+    public void addRoute(final HttpMethod httpMethod,
+                         final String routeUrl,
+                         final Object controllerInstance,
+                         final Method method) {
 
-        final Route route = validateAndCreateRoute(routeBuilder);
-        LOGGER.debug("Add route {} {} {}::{}",
-            route.httpMethod(),
-            route.routePattern(),
-            route.controllerClass().getName(),
-            route.method().getName());
+        final Class<?> controllerClass = ProxyDetector.isProxy(controllerInstance)
+            ? controllerInstance.getClass().getSuperclass()
+            : controllerInstance.getClass();
+        LOGGER.debug("Add route {} {} {}::{}", httpMethod, routeUrl, controllerClass.getName(), method.getName());
 
-        this.routeListPerHttpMethodMap.computeIfAbsent(route.httpMethod(), (key) -> new ArrayList<>()).add(route);
+        final Route route = new Route(httpMethod, Pattern.compile(routeUrl), controllerInstance, method);
+        this.routeListPerHttpMethodMap.computeIfAbsent(httpMethod, (key) -> new ArrayList<>()).add(route);
     }
 
     @Override
@@ -93,7 +87,7 @@ public class DefaultRouter implements Router {
                         }
                     }
 
-                    return new ResolvedRoute(route.controllerClass(), route.method(), extractedParameterMap);
+                    return new ResolvedRoute(route.controllerInstance(), route.method(), extractedParameterMap);
                 }
             }
         }
@@ -114,53 +108,5 @@ public class DefaultRouter implements Router {
     @Override
     public Map<HttpMethod, List<Route>> getRoutesAsMap() {
         return ImmutableMap.copyOf(routeListPerHttpMethodMap);
-    }
-
-    private Route validateAndCreateRoute(final DefaultRouteBuilder routeBuilder) {
-        final HttpMethod httpMethod = routeBuilder.getHttpMethod();
-        if (httpMethod == null) {
-            throw new RoutingException.Missing("method");
-        }
-
-        final Class<?> controllerClass = routeBuilder.getControllerClass();
-        if (controllerClass == null) {
-            throw new RoutingException.Missing("controllerClass");
-        }
-
-        final String methodName = routeBuilder.getMethodName();
-        if (StringUtils.isEmpty(methodName)) {
-            throw new RoutingException.Missing("methodName");
-        }
-
-        final Pattern routePattern;
-        try {
-            routePattern = Pattern.compile(routeBuilder.getRoute());
-        } catch (final PatternSyntaxException ex) {
-            throw new RoutingException.BadValue("route", "Can't compile regular expression", ex);
-        } catch (final NullPointerException ignore) {
-            throw new RoutingException.Missing("route");
-        }
-
-        final int expectedMethodParameterCount = routePattern.matcher(StringUtils.EMPTY).groupCount();
-        for (final Method method : controllerClass.getMethods()) {
-            if (method.getName().equals(methodName)) {
-                if (method.getReturnType() != Result.class) {
-                    throw new RoutingException.ControllerMethodMustReturnResult(controllerClass, methodName);
-                }
-
-                int routePathParameterCount = 0;
-                for (final Parameter parameter : method.getParameters()) {
-                    if (parameter.getAnnotation(RequestPath.class) != null) {
-                        routePathParameterCount += 1;
-                    }
-                }
-
-                if (expectedMethodParameterCount == routePathParameterCount) {
-                    return new Route(httpMethod, routePattern, controllerClass, method);
-                }
-            }
-        }
-
-        throw new RoutingException.ControllerMethodDoesNotExist(controllerClass, methodName, expectedMethodParameterCount);
     }
 }

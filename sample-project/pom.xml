@@ -64,6 +64,10 @@
         </dependency>
         <dependency>
             <groupId>com.voidframework</groupId>
+            <artifactId>voidframework-cache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.voidframework</groupId>
             <artifactId>voidframework-web</artifactId>
         </dependency>
 

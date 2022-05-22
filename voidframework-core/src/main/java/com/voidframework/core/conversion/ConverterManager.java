@@ -37,4 +37,11 @@ public interface ConverterManager {
      */
     <SOURCE_TYPE, TARGET_TYPE> TypeConverter<SOURCE_TYPE, TARGET_TYPE> getConverter(final Class<SOURCE_TYPE> sourceClassType,
                                                                                     final Class<TARGET_TYPE> targetClassType);
+
+    /**
+     * Return the number of registered converters.
+     *
+     * @return The number of registered converters
+     */
+    int count();
 }

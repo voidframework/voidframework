@@ -40,7 +40,7 @@ public final class HttpRequestHandler {
     /**
      * Build a new instance.
      *
-     * @param injector           The current injector instance
+     * @param injector     The current injector instance
      * @param errorHandler The current error handler to use
      */
     public HttpRequestHandler(final Injector injector,
@@ -65,7 +65,7 @@ public final class HttpRequestHandler {
         try {
             if (resolvedRoute.method().getParameterCount() == 0) {
                 // No parameters, just invoke the controller method
-                return (Result) resolvedRoute.method().invoke(injector.getInstance(resolvedRoute.controllerClass()));
+                return (Result) resolvedRoute.method().invoke(resolvedRoute.controllerInstance());
             } else {
                 // Method have some parameter(s)
                 final Object[] methodArgumentValueArray = new Object[resolvedRoute.method().getParameterCount()];
@@ -95,11 +95,10 @@ public final class HttpRequestHandler {
                     idx += 1;
                 }
 
-                return (Result) resolvedRoute.method().invoke(
-                    injector.getInstance(resolvedRoute.controllerClass()), methodArgumentValueArray);
+                return (Result) resolvedRoute.method().invoke(resolvedRoute.controllerInstance(), methodArgumentValueArray);
             }
         } catch (final Throwable throwable) {
-            final Throwable cause = throwable.getCause();
+            final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
             if (cause instanceof HttpException.NotFound) {
                 return errorHandler.onNotFound(context, (HttpException.NotFound) cause);
             }

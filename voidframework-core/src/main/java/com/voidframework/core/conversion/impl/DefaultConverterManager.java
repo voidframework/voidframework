@@ -54,4 +54,9 @@ public final class DefaultConverterManager implements ConverterManager {
         return (TypeConverter<SOURCE_TYPE, TARGET_TYPE>) this.converterMap.get(
             new ConverterCompositeKey(sourceClassType, targetClassType));
     }
+
+    @Override
+    public int count() {
+        return this.converterMap.size();
+    }
 }

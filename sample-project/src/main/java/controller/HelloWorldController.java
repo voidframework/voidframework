@@ -1,17 +1,20 @@
 package controller;
 
-import Service.HelloWorldService;
+import com.voidframework.cache.Cache;
+import com.voidframework.core.bindable.Controller;
 import com.voidframework.core.helper.Json;
 import com.voidframework.core.helper.VoidFrameworkVersion;
 import com.voidframework.web.http.Context;
 import com.voidframework.web.http.HttpContentType;
 import com.voidframework.web.http.Result;
 import com.voidframework.web.http.param.RequestPath;
+import com.voidframework.web.http.param.RequestRoute;
+import com.voidframework.web.routing.HttpMethod;
+import service.HelloWorldService;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
+@Controller
 public class HelloWorldController implements HttpContentType {
 
     private final HelloWorldService helloWorldService;
@@ -21,6 +24,8 @@ public class HelloWorldController implements HttpContentType {
         this.helloWorldService = helloWorldService;
     }
 
+    @RequestRoute(method = HttpMethod.GET, route = "/")
+    @Cache(key = "sample.say_hello")
     public Result sayHello() {
 
         //return Result.ok(helloWorldService.sayHello());
@@ -53,6 +58,8 @@ public class HelloWorldController implements HttpContentType {
             """.formatted(helloWorldService.sayHello(), VoidFrameworkVersion.getVersion()));
     }
 
+    @RequestRoute(method = HttpMethod.GET, route = "/(?<name>[0-9]{0,36})")
+    @Cache(key = "{class}::{method}")
     public Result sayHello(final Context context,
                            @RequestPath("name") final int name) {
 
@@ -80,16 +87,19 @@ public class HelloWorldController implements HttpContentType {
             """.formatted(name, context.getRequest().getRemoteHostName()));
     }
 
+    @RequestRoute(method = HttpMethod.GET, route = "/json")
     public Result sayJson(final Context context) {
 
         return Result.ok(Json.toJson(context.getRequest().getHeaders()));
     }
 
+    @RequestRoute(method = HttpMethod.GET, route = "/move")
     public Result move(final Context context) {
 
         return Result.redirectTemporaryTo("/json");
     }
 
+    @RequestRoute(method = HttpMethod.POST, route = "/form")
     public Result postForm(final Context context) {
 
         return Result.ok(context.getRequest().getBodyContent().asRaw(), APPLICATION_JSON);

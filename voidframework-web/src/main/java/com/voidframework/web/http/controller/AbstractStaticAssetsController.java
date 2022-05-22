@@ -1,13 +1,14 @@
 package com.voidframework.web.http.controller;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.voidframework.web.exception.HttpException;
 import com.voidframework.web.http.Context;
 import com.voidframework.web.http.HttpContentType;
 import com.voidframework.web.http.Result;
 import com.voidframework.web.http.param.RequestPath;
+import com.voidframework.web.http.param.RequestRoute;
+import com.voidframework.web.routing.HttpMethod;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.Tika;
 import org.slf4j.Logger;
@@ -20,10 +21,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@Singleton
-public final class StaticAssetsController implements HttpContentType {
+public abstract class AbstractStaticAssetsController implements HttpContentType {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(StaticAssetsController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractStaticAssetsController.class);
 
     private final boolean runInDevMode;
     private final String baseAssetResourcesDirectory;
@@ -34,7 +34,7 @@ public final class StaticAssetsController implements HttpContentType {
      * @param configuration The current configuration
      */
     @Inject
-    public StaticAssetsController(final Config configuration) {
+    public AbstractStaticAssetsController(final Config configuration) {
         this.runInDevMode = configuration.getBoolean("voidframework.core.runInDevMode");
         this.baseAssetResourcesDirectory = configuration.getString("voidframework.web.baseAssetResourcesDirectory");
     }
@@ -46,6 +46,7 @@ public final class StaticAssetsController implements HttpContentType {
      * @return A result containing the requested webjar asset
      * @throws HttpException.NotFound If requested asset does not exist
      */
+    @RequestRoute(method = HttpMethod.GET, route = "/webjars/(?<fileName>.*)")
     public Result webjarAsset(@RequestPath("fileName") final String fileName) {
         if (StringUtils.isBlank(fileName) || fileName.contains("..")) {
             throw new HttpException.NotFound();
@@ -67,6 +68,7 @@ public final class StaticAssetsController implements HttpContentType {
      * @return A result containing the requested static asset
      * @throws HttpException.NotFound If requested asset does not exist
      */
+    @RequestRoute(method = HttpMethod.GET, route = "/(favicon.ico|robots.txt)")
     public Result staticAsset(final Context context) {
         return staticAsset(context.getRequest().getRequestURI());
     }
@@ -78,6 +80,7 @@ public final class StaticAssetsController implements HttpContentType {
      * @return A result containing the requested static asset
      * @throws HttpException.NotFound If requested asset does not exist
      */
+    @RequestRoute(method = HttpMethod.GET, route = "/static/(?<fileName>.*)")
     public Result staticAsset(@RequestPath("fileName") final String fileName) {
         if (StringUtils.isBlank(fileName) || fileName.contains("..")) {
             throw new HttpException.NotFound();

@@ -5,6 +5,8 @@ import com.voidframework.core.conversion.ConverterManager;
 import com.voidframework.core.conversion.TypeConverter;
 import com.voidframework.core.exception.ConversionException;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -15,6 +17,7 @@ import java.util.Set;
 /**
  * Default implementation of {@link Conversion}.
  */
+@Singleton
 public class DefaultConversion implements Conversion {
 
     private final ConverterManager converterManager;
@@ -24,6 +27,7 @@ public class DefaultConversion implements Conversion {
      *
      * @param converterManager Instance of the Converter Manager
      */
+    @Inject
     public DefaultConversion(final ConverterManager converterManager) {
         this.converterManager = converterManager;
     }

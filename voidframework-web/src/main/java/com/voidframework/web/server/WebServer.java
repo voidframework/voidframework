@@ -1,4 +1,4 @@
-package com.voidframework.web;
+package com.voidframework.web.server;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
@@ -114,20 +114,20 @@ public class WebServer {
         converterManager.registerConverter(String.class, Short.class, new StringToLongConverter());
         converterManager.registerConverter(String.class, UUID.class, new StringToUUIDConverter());
 
-        // Load app defined routes
+        // Load custom routes
         if (this.configuration.hasPath("voidframework.web.routes")) {
             final Router router = this.injector.getInstance(Router.class);
             this.configuration.getStringList("voidframework.web.routes")
                 .stream()
                 .filter(StringUtils::isNotEmpty)
                 .forEach(appRoutesDefinitionClassName -> {
-                    try {
-                        final Class<?> abstractRoutesDefinitionClass = Class.forName(appRoutesDefinitionClassName);
-                        final AppRoutesDefinition appRoutesDefinition = (AppRoutesDefinition) this.injector.getInstance(abstractRoutesDefinitionClass);
-                        appRoutesDefinition.defineAppRoutes(router);
-                    } catch (final ClassNotFoundException ex) {
-                        throw new RuntimeException("Can't find routes definition '" + appRoutesDefinitionClassName + "'", ex);
+                    final Class<?> abstractRoutesDefinitionClass = ClassResolver.forName(appRoutesDefinitionClassName);
+                    if (abstractRoutesDefinitionClass == null) {
+                        throw new RuntimeException("Can't find routes definition '" + appRoutesDefinitionClassName + "'");
                     }
+
+                    final AppRoutesDefinition appRoutesDefinition = (AppRoutesDefinition) this.injector.getInstance(abstractRoutesDefinitionClass);
+                    appRoutesDefinition.defineAppRoutes(router);
                 });
         }
 

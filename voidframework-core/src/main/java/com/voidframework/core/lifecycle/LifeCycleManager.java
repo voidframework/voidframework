@@ -6,7 +6,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -105,7 +104,9 @@ public final class LifeCycleManager {
             });
 
             long gracefulStopTimeout = 0;
-            if (StringUtils.isNotBlank(stopHandler.gracefulStopTimeoutConfigKey) && this.configuration.hasPath(stopHandler.gracefulStopTimeoutConfigKey)) {
+            if (StringUtils.isNotBlank(stopHandler.gracefulStopTimeoutConfigKey)
+                && this.configuration.hasPath(stopHandler.gracefulStopTimeoutConfigKey)) {
+
                 gracefulStopTimeout = this.configuration.getLong(stopHandler.gracefulStopTimeoutConfigKey);
             }
 
