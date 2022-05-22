@@ -11,8 +11,10 @@ import com.voidframework.web.http.param.RequestPath;
 import com.voidframework.web.http.param.RequestRoute;
 import com.voidframework.web.routing.HttpMethod;
 import service.HelloWorldService;
+import service.MonInterface;
 
 import javax.inject.Inject;
+import java.util.Set;
 
 @Controller
 public class HelloWorldController implements HttpContentType {
@@ -20,7 +22,8 @@ public class HelloWorldController implements HttpContentType {
     private final HelloWorldService helloWorldService;
 
     @Inject
-    public HelloWorldController(final HelloWorldService helloWorldService) {
+    public HelloWorldController(final HelloWorldService helloWorldService,
+                                final Set<MonInterface> monInterfaceSet) {
         this.helloWorldService = helloWorldService;
     }
 

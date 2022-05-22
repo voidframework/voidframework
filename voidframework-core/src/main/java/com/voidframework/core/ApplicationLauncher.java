@@ -5,6 +5,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
 import com.google.inject.matcher.Matchers;
+import com.google.inject.multibindings.Multibinder;
 import com.google.inject.util.Modules;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -34,7 +35,9 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Application launcher are expected to instantiate and run all parts of an
@@ -101,7 +104,7 @@ public class ApplicationLauncher {
 
             for (final ClassInfo classInfo : scanResult.getAllClasses()) {
 
-                if (classInfo.getAnnotationInfo(BindClass.class) != null) {
+                if (classInfo.getAnnotationInfo(BindClass.class) != null && !classInfo.isInterfaceOrAnnotation()) {
                     classList.add(classInfo.loadClass(false));
                 } else if (classInfo.implementsInterface(TypeConverter.class)) {
                     // Determine source class and target class
@@ -159,10 +162,20 @@ public class ApplicationLauncher {
 
         final AbstractModule scanClassBindModule = new AbstractModule() {
 
+            private final Map<Class<?>, Multibinder<?>> multibinderMap = new HashMap<>();
+
             @Override
+            @SuppressWarnings("unchecked")
             protected void configure() {
                 for (final Class<?> clazz : classList) {
                     bind(clazz).asEagerSingleton();
+
+                    // TODO: Add a configuration key to enable/disable this feature
+                    for (final Class<?> interfaceClassType : clazz.getInterfaces()) {
+                        this.multibinderMap.computeIfAbsent(interfaceClassType,
+                            key -> Multibinder.newSetBinder(binder(), interfaceClassType)
+                        ).addBinding().to((Class) clazz);
+                    }
                 }
             }
         };
@@ -216,7 +229,9 @@ public class ApplicationLauncher {
         LOGGER.info("Stopping application");
 
         // Execute all registered "stop" handlers
-        this.lifeCycleManager.stopAll();
+        if (this.lifeCycleManager != null) {
+            this.lifeCycleManager.stopAll();
+        }
     }
 
     /**
