@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <name>Void Framework</name>
-    <description>Light and solid Web Framework for Java</description>
+    <description>Light and modular Framework for Java</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

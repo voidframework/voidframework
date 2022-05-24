@@ -17,7 +17,8 @@ public final class Result {
     private final int httpCode;
     private final Object content;
     private final String contentType;
-    private final Map<String, String> headerMap = new HashMap<>();
+    private final Map<String, String> headerMap;
+    private final Map<String, Cookie> cookieMap;
 
     /**
      * Build a new instance.
@@ -30,6 +31,8 @@ public final class Result {
         this.httpCode = httpCode;
         this.content = content;
         this.contentType = contentType;
+        this.headerMap = new HashMap<>();
+        this.cookieMap = new HashMap<>();
     }
 
     public static Result badRequest(final String content) {
@@ -121,28 +124,39 @@ public final class Result {
     }
 
     public static Result redirectTemporaryTo(final String uri) {
-        return new Result(HttpReturnCode.FOUND, null, null).setHeader("Location", uri);
+        return new Result(HttpReturnCode.FOUND, null, null).withHeader("Location", uri);
     }
 
     public static Result redirectPermanentlyTo(final String uri) {
-        return new Result(HttpReturnCode.MOVED_PERMANENTLY, null, null).setHeader("Location", uri);
+        return new Result(HttpReturnCode.MOVED_PERMANENTLY, null, null).withHeader("Location", uri);
     }
 
-    public InputStream getInputStream() {
-        if (content == null) {
-            return ByteArrayInputStream.nullInputStream();
-        } else if (content instanceof byte[]) {
-            return new ByteArrayInputStream((byte[]) content);
-        } else if (content instanceof InputStream) {
-            return (InputStream) content;
-        }
-
-        return new ByteArrayInputStream(content.toString().getBytes(StandardCharsets.UTF_8));
+    public Result withCookie(final Cookie cookie) {
+        this.cookieMap.put(cookie.name(), cookie);
+        return this;
     }
 
-    public Result setHeader(final String headerName, final String value) {
+    public Result withoutCookie(final Cookie cookie) {
+        return withoutCookie(cookie.name());
+    }
+
+    public Result withoutCookie(final String cookieName) {
+        this.cookieMap.put(cookieName, Cookie.expired(cookieName));
+        return this;
+    }
+
+    public Result withHeader(final String headerName, final String value) {
         this.headerMap.put(headerName, value);
         return this;
+    }
+
+    public Result withoutHeader(final String headerName) {
+        this.headerMap.remove(headerName);
+        return this;
+    }
+
+    public Map<String, Cookie> getCookie() {
+        return this.cookieMap;
     }
 
     public Map<String, String> getHeader() {
@@ -155,5 +169,17 @@ public final class Result {
 
     public String getContentType() {
         return this.contentType;
+    }
+
+    public InputStream getInputStream() {
+        if (content == null) {
+            return ByteArrayInputStream.nullInputStream();
+        } else if (content instanceof byte[]) {
+            return new ByteArrayInputStream((byte[]) content);
+        } else if (content instanceof InputStream) {
+            return (InputStream) content;
+        }
+
+        return new ByteArrayInputStream(content.toString().getBytes(StandardCharsets.UTF_8));
     }
 }

@@ -1,6 +1,7 @@
 package com.voidframework.web.server;
 
 import com.google.common.collect.ImmutableList;
+import com.voidframework.web.http.Cookie;
 import com.voidframework.web.http.HttpRequest;
 import com.voidframework.web.http.HttpRequestBodyContent;
 import com.voidframework.web.routing.HttpMethod;
@@ -37,6 +38,16 @@ public final class UndertowRequest implements HttpRequest {
     @Override
     public String getCharset() {
         return httpServerExchange.getRequestCharset();
+    }
+
+    @Override
+    public Cookie getCookie(final String cookieName) {
+        final io.undertow.server.handlers.Cookie c =
+            this.httpServerExchange.getRequestCookie(cookieName);
+
+        return c != null
+            ? Cookie.of(c.getName(), c.getValue())
+            : null;
     }
 
     @Override

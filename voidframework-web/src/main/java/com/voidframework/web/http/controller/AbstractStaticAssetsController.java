@@ -59,7 +59,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
 
         final String contentType = detectFileContentType(fileName);
 
-        return Result.ok(inputStream, contentType).setHeader("Cache-Control", "public, max-age=3600;");
+        return Result.ok(inputStream, contentType).withHeader("Cache-Control", "public, max-age=3600;");
     }
 
     /**
@@ -118,7 +118,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
         }
 
 
-        return Result.ok(inputStream, contentType).setHeader("Cache-Control", "public, max-age=3600;");
+        return Result.ok(inputStream, contentType).withHeader("Cache-Control", "public, max-age=3600;");
     }
 
     /**

@@ -19,6 +19,14 @@ public interface HttpRequest {
     String getCharset();
 
     /**
+     * Return a cookie.
+     *
+     * @param cookieName The cookie name
+     * @return The cookie, otherwise, null
+     */
+    Cookie getCookie(String cookieName);
+
+    /**
      * Return a single header.
      *
      * @param headerName The header name

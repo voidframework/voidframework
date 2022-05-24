@@ -1,6 +1,5 @@
 package controller;
 
-import com.voidframework.cache.Cache;
 import com.voidframework.core.bindable.Controller;
 import com.voidframework.core.helper.Json;
 import com.voidframework.core.helper.VoidFrameworkVersion;
@@ -28,10 +27,8 @@ public class HelloWorldController implements HttpContentType {
     }
 
     @RequestRoute(method = HttpMethod.GET, route = "/")
-    @Cache(key = "sample.say_hello")
-    public Result sayHello() {
-
-        //return Result.ok(helloWorldService.sayHello());
+    //@Cache(key = "sample.say_hello")
+    public Result sayHello(final Context context) {
         return Result.ok("""
                 <html>
                 <head>
@@ -61,8 +58,8 @@ public class HelloWorldController implements HttpContentType {
             """.formatted(helloWorldService.sayHello(), VoidFrameworkVersion.getVersion()));
     }
 
-    @RequestRoute(method = HttpMethod.GET, route = "/(?<name>[0-9]{0,36})")
-    @Cache(key = "{class}::{method}")
+    @RequestRoute(method = HttpMethod.GET, route = "/(?<name>[0-9]{1,36})")
+    //@Cache(key = "{class}::{method}")
     public Result sayHello(final Context context,
                            @RequestPath("name") final int name) {
 

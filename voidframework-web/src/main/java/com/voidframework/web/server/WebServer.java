@@ -9,6 +9,7 @@ import com.voidframework.core.helper.ClassResolver;
 import com.voidframework.core.lifecycle.LifeCycleStart;
 import com.voidframework.core.lifecycle.LifeCycleStop;
 import com.voidframework.web.exception.ErrorHandlerException;
+import com.voidframework.web.http.Cookie;
 import com.voidframework.web.http.ErrorHandler;
 import com.voidframework.web.http.FormItem;
 import com.voidframework.web.http.HttpRequest;
@@ -29,6 +30,7 @@ import com.voidframework.web.routing.Router;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
+import io.undertow.server.handlers.CookieImpl;
 import io.undertow.server.handlers.form.FormData;
 import io.undertow.server.handlers.form.FormDataParser;
 import io.undertow.server.handlers.form.FormParserFactory;
@@ -41,6 +43,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -178,13 +181,30 @@ public class WebServer {
                 return;
             }
 
-            // Sets the return Content-Type to text/html
+            // Set the return Content-Type to text/html
             httpServerExchange.setStatusCode(result.getHttpCode());
             httpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, result.getContentType());
+
+            // Headers
             for (final Map.Entry<String, String> entrySet : result.getHeader().entrySet()) {
                 httpServerExchange.getResponseHeaders().put(
                     new HttpString(entrySet.getKey()),
                     entrySet.getValue());
+            }
+
+            // Cookies
+            for (final Cookie cookie : result.getCookie().values()) {
+                CookieImpl cookieImpl = new CookieImpl(cookie.name(), cookie.value())
+                    .setDomain(cookie.domain())
+                    .setPath(cookie.path())
+                    .setHttpOnly(cookie.isHttpOnly())
+                    .setSecure(cookie.isSecure())
+                    .setDiscard(cookie.timeToLive() == Duration.ZERO);
+                if (cookie.timeToLive() != null) {
+                    cookieImpl = cookieImpl.setMaxAge((int) cookie.timeToLive().toSeconds());
+                }
+
+                httpServerExchange.setResponseCookie(cookieImpl);
             }
 
             // Returns content
