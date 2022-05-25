@@ -1,0 +1,52 @@
+package com.voidframework.i18n;
+
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Stage;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
+import com.voidframework.i18n.module.InternationalizationModule;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(MethodOrderer.MethodName.class)
+public final class InternationalizationProviderTest {
+
+    @Test
+    public void injectorDoesNotExist() {
+        final Config configuration = ConfigFactory.parseString(
+            "voidframework.i18n.engine=com.voidframework.i18n.UnknownImplementationClass");
+        final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(Config.class).toInstance(configuration);
+                install(new InternationalizationModule());
+            }
+        });
+
+        final Internationalization internationalization = injector.getInstance(Internationalization.class);
+
+        Assertions.assertNull(internationalization);
+    }
+
+    @Test
+    public void injectorExist() {
+        final Config configuration = ConfigFactory.parseString(
+            "voidframework.i18n.engine=com.voidframework.i18n.ResourceBundleInternationalization");
+        final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(Config.class).toInstance(configuration);
+                install(new InternationalizationModule());
+            }
+        });
+
+        final Internationalization internationalization = injector.getInstance(Internationalization.class);
+
+        Assertions.assertNotNull(internationalization);
+        Assertions.assertTrue(internationalization instanceof ResourceBundleInternationalization);
+    }
+}
