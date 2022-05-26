@@ -11,7 +11,7 @@ public interface ErrorHandler {
      * This method is called when no route has been found to satisfy the request.
      *
      * @param context The current context
-     * @param context The cause (OPTIONAL)
+     * @param notFoundException The cause (OPTIONAL)
      * @return A result
      */
     Result onNotFound(final Context context, final HttpException.NotFound notFoundException);

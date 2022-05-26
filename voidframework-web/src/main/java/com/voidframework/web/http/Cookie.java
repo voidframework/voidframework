@@ -39,7 +39,21 @@ public record Cookie(String name,
      * @return Newly created cookie
      */
     public static Cookie of(final String name, final String value) {
-        return new Cookie(name, value, null, null, false, false, null);
+        return new Cookie(name, value, null, "/", false, false, null);
+    }
+
+    /**
+     * Build a new Cookie.
+     *
+     * @param name       The cookie name
+     * @param value      The cookie value
+     * @param isHttpOnly Is the cookie only be accessed via HTTP? isSecure
+     * @param isSecure   Is the cookie secured? If true, sent only for HTTPS
+     * @param timeToLive The cookie time to live
+     * @return Newly created cookie
+     */
+    public static Cookie of(final String name, final String value, final boolean isHttpOnly, final boolean isSecure, final Duration timeToLive) {
+        return new Cookie(name, value, null, "/", isHttpOnly, isSecure, timeToLive);
     }
 
     /**
@@ -51,6 +65,6 @@ public record Cookie(String name,
      * @return Newly created cookie
      */
     public static Cookie of(final String name, final String value, final Duration timeToLive) {
-        return new Cookie(name, value, null, null, false, false, timeToLive);
+        return new Cookie(name, value, null, "/", false, false, timeToLive);
     }
 }

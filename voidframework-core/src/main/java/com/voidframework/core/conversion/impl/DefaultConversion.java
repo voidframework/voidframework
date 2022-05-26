@@ -1,12 +1,12 @@
 package com.voidframework.core.conversion.impl;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.voidframework.core.conversion.Conversion;
 import com.voidframework.core.conversion.ConverterManager;
 import com.voidframework.core.conversion.TypeConverter;
 import com.voidframework.core.exception.ConversionException;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

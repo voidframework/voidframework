@@ -28,9 +28,9 @@ public final class Json {
         .build();
 
     /**
-     * Converts a JsonNode to string.
+     * Converts a JSON to string.
      *
-     * @param json the JSON node to convert.
+     * @param json The JSON to convert.
      * @return The string representation.
      */
     public static String toString(final JsonNode json) {
@@ -57,7 +57,7 @@ public final class Json {
     }
 
     /**
-     * Converts a byte array to JSON document.
+     * Converts a byte array to a JSON document.
      *
      * @param data data to convert in JSON
      * @return The JSON node

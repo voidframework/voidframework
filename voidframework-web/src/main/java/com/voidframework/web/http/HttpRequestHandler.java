@@ -1,12 +1,8 @@
-package com.voidframework.web.http.impl;
+package com.voidframework.web.http;
 
 import com.google.inject.Injector;
 import com.voidframework.core.conversion.Conversion;
 import com.voidframework.web.exception.HttpException;
-import com.voidframework.web.http.Context;
-import com.voidframework.web.http.ErrorHandler;
-import com.voidframework.web.http.HttpRequest;
-import com.voidframework.web.http.Result;
 import com.voidframework.web.http.param.RequestPath;
 import com.voidframework.web.http.param.RequestVariable;
 import com.voidframework.web.routing.ResolvedRoute;
@@ -52,12 +48,9 @@ public final class HttpRequestHandler {
         this.router = this.injector.getInstance(Router.class);
     }
 
-    public Result onRouteRequest(final HttpRequest httpRequest) {
+    public Result onRouteRequest(final Context context) {
 
-        // Build Context
-        final Context context = new DefaultContext(httpRequest);
-
-        final ResolvedRoute resolvedRoute = router.resolveRoute(httpRequest.getHttpMethod(), httpRequest.getRequestURI());
+        final ResolvedRoute resolvedRoute = router.resolveRoute(context.getRequest().getHttpMethod(), context.getRequest().getRequestURI());
         if (resolvedRoute == null) {
             return errorHandler.onNotFound(context, null);
         }
@@ -86,7 +79,7 @@ public final class HttpRequestHandler {
                             parameter.getType());
                     } else if (requestVariable != null) {
                         methodArgumentValueArray[idx] = convertValueToParameterType(
-                            httpRequest.getQueryStringParameter(requestVariable.value()),
+                            context.getRequest().getQueryStringParameter(requestVariable.value()),
                             parameter.getType());
                     } else {
                         methodArgumentValueArray[idx] = this.injector.getInstance(parameter.getType());

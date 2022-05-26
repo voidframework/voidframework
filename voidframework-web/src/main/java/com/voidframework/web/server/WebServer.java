@@ -9,11 +9,13 @@ import com.voidframework.core.helper.ClassResolver;
 import com.voidframework.core.lifecycle.LifeCycleStart;
 import com.voidframework.core.lifecycle.LifeCycleStop;
 import com.voidframework.web.exception.ErrorHandlerException;
+import com.voidframework.web.http.Context;
 import com.voidframework.web.http.Cookie;
 import com.voidframework.web.http.ErrorHandler;
 import com.voidframework.web.http.FormItem;
 import com.voidframework.web.http.HttpRequest;
 import com.voidframework.web.http.HttpRequestBodyContent;
+import com.voidframework.web.http.HttpRequestHandler;
 import com.voidframework.web.http.Result;
 import com.voidframework.web.http.converter.StringToBooleanConverter;
 import com.voidframework.web.http.converter.StringToByteConverter;
@@ -24,7 +26,6 @@ import com.voidframework.web.http.converter.StringToIntegerConverter;
 import com.voidframework.web.http.converter.StringToLongConverter;
 import com.voidframework.web.http.converter.StringToShortConverter;
 import com.voidframework.web.http.converter.StringToUUIDConverter;
-import com.voidframework.web.http.impl.HttpRequestHandler;
 import com.voidframework.web.routing.AppRoutesDefinition;
 import com.voidframework.web.routing.Router;
 import io.undertow.Undertow;
@@ -47,6 +48,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 
@@ -57,9 +59,10 @@ import java.util.UUID;
 public class WebServer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServer.class);
+    private static final Duration COOKIE_LANG_DURATION =  Duration.ofDays(365);
 
-    private Config configuration;
-    private Injector injector;
+    private final Config configuration;
+    private final Injector injector;
 
     private boolean isRunning;
     private Undertow undertowServer;
@@ -73,7 +76,6 @@ public class WebServer {
         this.undertowServer = null;
         this.httpRequestHandler = null;
     }
-
 
     @LifeCycleStart
     public void startWebServer() {
@@ -173,15 +175,27 @@ public class WebServer {
                 httpRequest = new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(content, null));
             }
 
+            // Build Context
+            final Locale i18nLocale;
+            final List<String> availableLanguageList = this.configuration.getStringList("voidframework.web.i18n.languages");
+            Cookie i18nCookie = httpRequest.getCookie(this.configuration.getString("voidframework.web.i18n.languageCookieName"));
+            if (i18nCookie != null && availableLanguageList.contains(i18nCookie.value())) {
+                i18nLocale = Locale.forLanguageTag(i18nCookie.value());
+            } else {
+                i18nLocale = availableLanguageList.isEmpty() ? null : Locale.forLanguageTag(availableLanguageList.get(0));
+            }
+
+            final Context context = new Context(httpRequest, i18nLocale);
+
             // Process request
-            final Result result = httpRequestHandler.onRouteRequest(httpRequest);
+            final Result result = httpRequestHandler.onRouteRequest(context);
 
             // Check if exchange is still available
             if (httpServerExchange.isComplete()) {
                 return;
             }
 
-            // Set the return Content-Type to text/html
+            // Set the return HttpCode and Content-Type
             httpServerExchange.setStatusCode(result.getHttpCode());
             httpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, result.getContentType());
 
@@ -190,6 +204,18 @@ public class WebServer {
                 httpServerExchange.getResponseHeaders().put(
                     new HttpString(entrySet.getKey()),
                     entrySet.getValue());
+            }
+
+            // Persist locale to Cookie
+            if (context.getLocale() != null) {
+                i18nCookie = Cookie.of(
+                    this.configuration.getString("voidframework.web.i18n.languageCookieName"),
+                    context.getLocale().toLanguageTag(),
+                    this.configuration.getBoolean("voidframework.web.i18n.languageCookieHttpOnly"),
+                    this.configuration.getBoolean("voidframework.web.i18n.languageCookieSecure"),
+                    COOKIE_LANG_DURATION);
+
+                result.withCookie(i18nCookie);
             }
 
             // Cookies

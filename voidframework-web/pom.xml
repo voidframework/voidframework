@@ -26,6 +26,10 @@
             <groupId>com.voidframework</groupId>
             <artifactId>voidframework-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.voidframework</groupId>
+            <artifactId>voidframework-i18n</artifactId>
+        </dependency>
 
         <!-- Dependencies -->
         <dependency>
@@ -35,6 +39,10 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
         </dependency>
 
         <!-- Unit Tests -->
