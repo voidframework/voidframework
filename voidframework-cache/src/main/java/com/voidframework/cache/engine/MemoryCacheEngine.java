@@ -34,7 +34,10 @@ public class MemoryCacheEngine implements CacheEngine {
         }
 
         final CachedItem cachedItem = this.cacheMap.get(cacheKey);
-        if (cachedItem == null || LocalDateTime.now(ZoneOffset.UTC).isAfter(cachedItem.expirationDate)) {
+        if (cachedItem == null) {
+            return null;
+        } else if (LocalDateTime.now(ZoneOffset.UTC).isAfter(cachedItem.expirationDate)) {
+            this.cacheMap.remove(cacheKey);
             return null;
         }
 
@@ -44,7 +47,7 @@ public class MemoryCacheEngine implements CacheEngine {
     @Override
     public void set(final String cacheKey, final Object value, final int timeToLive) {
         if (StringUtils.isNotBlank(cacheKey)) {
-            if (this.cacheMap.size() > this.flushWhenFullMaxItem) {
+            if (this.cacheMap.size() >= this.flushWhenFullMaxItem) {
                 this.cacheMap.clear();
             }
 

@@ -2,12 +2,11 @@ package com.voidframework.cache.module;
 
 import com.google.inject.Inject;
 import com.voidframework.cache.Cache;
+import com.voidframework.cache.engine.BlackHoleCacheEngine;
 import com.voidframework.cache.engine.CacheEngine;
 import com.voidframework.core.helper.ProxyDetector;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-
-import javax.annotation.Nullable;
 
 public class CacheInterceptor implements MethodInterceptor {
 
@@ -21,8 +20,10 @@ public class CacheInterceptor implements MethodInterceptor {
     }
 
     @Inject
-    public void setCacheEngine(@Nullable final CacheEngine cacheEngine) {
-        this.cacheEngine = cacheEngine;
+    public void setCacheEngine(final CacheEngine cacheEngine) {
+        if (!(cacheEngine instanceof BlackHoleCacheEngine)) {
+            this.cacheEngine = cacheEngine;
+        }
     }
 
     @Override
