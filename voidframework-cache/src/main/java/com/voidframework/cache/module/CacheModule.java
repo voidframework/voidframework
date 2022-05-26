@@ -5,7 +5,7 @@ import com.google.inject.matcher.Matchers;
 import com.voidframework.cache.Cache;
 import com.voidframework.cache.engine.CacheEngine;
 
-public class CacheModule extends AbstractModule {
+public final class CacheModule extends AbstractModule {
 
     @Override
     protected void configure() {

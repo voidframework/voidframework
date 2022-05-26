@@ -30,6 +30,7 @@
         <dependency.version.classgraph>4.8.147</dependency.version.classgraph>
         <dependency.version.tika>2.4.0</dependency.version.tika>
         <dependency.version.jwt>3.19.2</dependency.version.jwt>
+        <dependency.version.freemarker>2.3.31</dependency.version.freemarker>
         <dependency.version.mockito>4.5.1</dependency.version.mockito>
         <dependency.version.junit>5.8.2</dependency.version.junit>
         <plugin.version.surefire>2.22.2</plugin.version.surefire>
@@ -39,6 +40,8 @@
         <module>voidframework-core</module>
         <module>voidframework-cache</module>
         <module>voidframework-i18n</module>
+        <module>voidframework-template</module>
+        <module>voidframework-template-freemarker</module>
         <module>voidframework-web</module>
     </modules>
 
@@ -66,6 +69,7 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Framework -->
             <dependency>
                 <groupId>com.voidframework</groupId>
                 <artifactId>voidframework-core</artifactId>
@@ -83,10 +87,21 @@
             </dependency>
             <dependency>
                 <groupId>com.voidframework</groupId>
+                <artifactId>voidframework-template</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.voidframework</groupId>
+                <artifactId>voidframework-template-freemarker</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.voidframework</groupId>
                 <artifactId>voidframework-web</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
 
+            <!-- Dependencies -->
             <dependency>
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
@@ -152,6 +167,13 @@
                 <artifactId>java-jwt</artifactId>
                 <version>${dependency.version.jwt}</version>
             </dependency>
+            <dependency>
+                <groupId>org.freemarker</groupId>
+                <artifactId>freemarker</artifactId>
+                <version>${dependency.version.freemarker}</version>
+            </dependency>
+
+            <!-- Unit Tests -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>

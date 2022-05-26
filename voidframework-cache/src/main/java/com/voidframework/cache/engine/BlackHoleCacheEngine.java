@@ -3,7 +3,7 @@ package com.voidframework.cache.engine;
 /**
  * Black Hole (do nothing) cache implementation.
  */
-public class BlackHoleCacheEngine implements CacheEngine {
+public final class BlackHoleCacheEngine implements CacheEngine {
 
     @Override
     public Object get(final String cacheKey) {

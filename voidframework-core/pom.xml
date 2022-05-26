@@ -33,6 +33,7 @@
     </build>
 
     <dependencies>
+        <!-- Dependencies -->
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
@@ -74,6 +75,7 @@
             <artifactId>classgraph</artifactId>
         </dependency>
 
+        <!-- Unit Tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>

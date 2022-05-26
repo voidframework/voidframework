@@ -8,7 +8,7 @@ import com.voidframework.core.helper.ProxyDetector;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
-public class CacheInterceptor implements MethodInterceptor {
+public final class CacheInterceptor implements MethodInterceptor {
 
     private CacheEngine cacheEngine;
 

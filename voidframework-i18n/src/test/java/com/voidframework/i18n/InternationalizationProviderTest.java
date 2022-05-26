@@ -29,7 +29,8 @@ public final class InternationalizationProviderTest {
 
         final Internationalization internationalization = injector.getInstance(Internationalization.class);
 
-        Assertions.assertNull(internationalization);
+        Assertions.assertNotNull(internationalization);
+        Assertions.assertTrue(internationalization instanceof ResourceBundleInternationalization);
     }
 
     @Test

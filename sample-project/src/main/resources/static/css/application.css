@@ -1,0 +1,17 @@
+footer {
+    border-top: 1px solid #1A1A1A;
+    width: 100%;
+    flex-basis: 40px;
+}
+
+footer .dropup a {
+    cursor: pointer;
+}
+
+.disable-select {
+    user-select: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}

@@ -8,7 +8,7 @@ import com.voidframework.cache.engine.BlackHoleCacheEngine;
 import com.voidframework.cache.engine.CacheEngine;
 import com.voidframework.core.helper.ClassResolver;
 
-public class CacheEngineProvider implements Provider<CacheEngine> {
+public final class CacheEngineProvider implements Provider<CacheEngine> {
 
     private final Config configuration;
     private final Injector injector;
@@ -29,6 +29,6 @@ public class CacheEngineProvider implements Provider<CacheEngine> {
             }
         }
 
-        return new BlackHoleCacheEngine();
+        return this.injector.getInstance(BlackHoleCacheEngine.class);
     }
 }

@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * In-memory cache implementation.
  */
-public class MemoryCacheEngine implements CacheEngine {
+public final class MemoryCacheEngine implements CacheEngine {
 
     private final int flushWhenFullMaxItem;
     private final Map<String, CachedItem> cacheMap;

@@ -30,6 +30,10 @@
             <groupId>com.voidframework</groupId>
             <artifactId>voidframework-i18n</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.voidframework</groupId>
+            <artifactId>voidframework-template-freemarker</artifactId>
+        </dependency>
 
         <!-- Dependencies -->
         <dependency>

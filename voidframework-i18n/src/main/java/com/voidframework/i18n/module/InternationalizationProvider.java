@@ -6,11 +6,12 @@ import com.google.inject.Provider;
 import com.typesafe.config.Config;
 import com.voidframework.core.helper.ClassResolver;
 import com.voidframework.i18n.Internationalization;
+import com.voidframework.i18n.ResourceBundleInternationalization;
 
 /**
  * Internationalization provider.
  */
-public class InternationalizationProvider implements Provider<Internationalization> {
+public final class InternationalizationProvider implements Provider<Internationalization> {
 
     private final Config configuration;
     private final Injector injector;
@@ -31,6 +32,6 @@ public class InternationalizationProvider implements Provider<Internationalizati
             }
         }
 
-        return null;
+        return this.injector.getInstance(ResourceBundleInternationalization.class);
     }
 }

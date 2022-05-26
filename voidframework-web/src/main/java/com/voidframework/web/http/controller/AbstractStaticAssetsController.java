@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 public abstract class AbstractStaticAssetsController implements HttpContentType {
 
@@ -91,16 +92,14 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
 
         if (this.runInDevMode) {
             // Try to load file directly (don't need application recompilation)
-            final Path requestedFilePath = Paths.get(System.getProperty("user.dir"),
-                "src",
-                "main",
-                "resources",
-                this.baseAssetResourcesDirectory,
-                fileName);
+            final Path fileLocation = resolveLocation(fileName);
+            if (fileLocation == null) {
+                throw new HttpException.NotFound();
+            }
 
             try {
-                inputStream = Files.newInputStream(requestedFilePath);
-                contentType = detectFileContentType(requestedFilePath.toString());
+                inputStream = Files.newInputStream(fileLocation);
+                contentType = detectFileContentType(fileName);
             } catch (final IOException ignore) {
             }
         }
@@ -137,5 +136,33 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
         }
 
         return contentType;
+    }
+
+    /**
+     * Resolve file location.
+     *
+     * @param fileName File name
+     * @return The file location, otherwise, null
+     */
+    private Path resolveLocation(final String fileName) {
+        final Path rootPath = Paths.get(System.getProperty("user.dir"));
+        final Path resolvePath = Path.of("src", "main", "resources", this.baseAssetResourcesDirectory, fileName);
+
+        final Path firstPossibleLocation = rootPath.resolve(resolvePath);
+        if (firstPossibleLocation.toFile().exists()) {
+            return firstPossibleLocation;
+        }
+
+        try (final Stream<Path> stream = Files.walk(rootPath, 1)) {
+            return stream
+                .filter(Files::isDirectory)
+                .map(Path::getFileName)
+                .map(path -> path.resolve(resolvePath))
+                .filter(Files::exists)
+                .findFirst()
+                .orElse(null);
+        } catch (final IOException ignore) {
+            return null;
+        }
     }
 }
