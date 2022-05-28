@@ -6,6 +6,7 @@ import com.voidframework.core.helper.Reflection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.time.LocalDateTime;
@@ -13,12 +14,13 @@ import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public final class MemoryCacheEngineTest {
 
     @Test
     public void flushWhenFullMaxItem() {
-        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=3");
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 3");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
@@ -40,7 +42,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void getUnknownValue() {
-        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=2");
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         Object value = memoryCacheEngine.get("key");
@@ -55,7 +57,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void setValueAndGetValueKey() {
-        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=2");
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
@@ -78,7 +80,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void timeToLive() {
-        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=2");
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
@@ -105,7 +107,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void timeToLiveExpiration() throws InterruptedException {
-        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=2");
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());

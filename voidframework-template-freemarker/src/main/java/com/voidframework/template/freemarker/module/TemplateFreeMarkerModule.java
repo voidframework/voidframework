@@ -10,7 +10,7 @@ public class TemplateFreeMarkerModule extends AbstractModule {
     @Override
     protected void configure() {
 
-        bind(Configuration.class).toProvider(FreeMarkerConfigurationProvider.class).asEagerSingleton();
-        bind(TemplateRenderer.class).to(FreeMarkerTemplateRenderer.class).asEagerSingleton();
+        bind(Configuration.class).toProvider(FreeMarkerConfigurationProvider.class);
+        bind(TemplateRenderer.class).to(FreeMarkerTemplateRenderer.class);
     }
 }

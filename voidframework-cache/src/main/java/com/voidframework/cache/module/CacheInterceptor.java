@@ -8,6 +8,9 @@ import com.voidframework.core.helper.ProxyDetector;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
+/**
+ * Intercepts method call when annotation {@link Cache} is used.
+ */
 public final class CacheInterceptor implements MethodInterceptor {
 
     private CacheEngine cacheEngine;

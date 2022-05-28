@@ -13,21 +13,21 @@ import com.voidframework.template.freemarker.module.TemplateFreeMarkerModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class FreeMarkerTemplateRendererTest {
 
     private final Injector injector;
 
     public FreeMarkerTemplateRendererTest() {
-        final Config configuration = ConfigFactory.parseString("""
-            voidframework.core.runInDevMode=false
-            """);
+        final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = false");
 
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override

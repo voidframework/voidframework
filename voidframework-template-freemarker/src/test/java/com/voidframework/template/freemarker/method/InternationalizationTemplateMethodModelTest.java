@@ -12,19 +12,19 @@ import com.voidframework.template.freemarker.module.TemplateFreeMarkerModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Locale;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class InternationalizationTemplateMethodModelTest {
 
     private final Injector injector;
 
     public InternationalizationTemplateMethodModelTest() {
-        final Config configuration = ConfigFactory.parseString("""
-            voidframework.core.runInDevMode=true
-            """);
+        final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = true");
 
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override

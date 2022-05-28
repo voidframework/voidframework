@@ -10,15 +10,16 @@ import com.voidframework.i18n.module.InternationalizationModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public final class InternationalizationProviderTest {
 
     @Test
     public void injectorDoesNotExist() {
-        final Config configuration = ConfigFactory.parseString(
-            "voidframework.i18n.engine=com.voidframework.i18n.UnknownImplementationClass");
+        final Config configuration = ConfigFactory.parseString("voidframework.i18n.engine =com.voidframework.i18n.UnknownImplementationClass");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
@@ -35,8 +36,7 @@ public final class InternationalizationProviderTest {
 
     @Test
     public void injectorExist() {
-        final Config configuration = ConfigFactory.parseString(
-            "voidframework.i18n.engine=com.voidframework.i18n.ResourceBundleInternationalization");
+        final Config configuration = ConfigFactory.parseString("voidframework.i18n.engine = com.voidframework.i18n.ResourceBundleInternationalization");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {

@@ -2,6 +2,7 @@ package com.voidframework.template.freemarker.module;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.voidframework.core.helper.VoidFrameworkVersion;
 import com.voidframework.template.freemarker.method.ConfigTemplateMethodModel;
@@ -23,9 +24,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * FreeMarker configuration provider.
+ */
+@Singleton
 public class FreeMarkerConfigurationProvider implements Provider<Configuration> {
 
     private final Config configuration;
+    private Configuration freeMarkerConfiguration;
 
     @Inject
     public FreeMarkerConfigurationProvider(final Config configuration) {
@@ -34,14 +40,18 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
 
     @Override
     public Configuration get() {
-        final Configuration freeMarkerConfiguration = new Configuration(Configuration.VERSION_2_3_31);
-        freeMarkerConfiguration.setDefaultEncoding("UTF-8");
-        freeMarkerConfiguration.setFallbackOnNullLoopVariable(false);
-        freeMarkerConfiguration.setLocalizedLookup(false);
-        freeMarkerConfiguration.setLogTemplateExceptions(false);
-        freeMarkerConfiguration.setOutputFormat(HTMLOutputFormat.INSTANCE);
-        freeMarkerConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-        freeMarkerConfiguration.setWrapUncheckedExceptions(true);
+        if (this.freeMarkerConfiguration != null) {
+            return this.freeMarkerConfiguration;
+        }
+
+        this.freeMarkerConfiguration = new Configuration(Configuration.VERSION_2_3_31);
+        this.freeMarkerConfiguration.setDefaultEncoding("UTF-8");
+        this.freeMarkerConfiguration.setFallbackOnNullLoopVariable(false);
+        this.freeMarkerConfiguration.setLocalizedLookup(false);
+        this.freeMarkerConfiguration.setLogTemplateExceptions(false);
+        this.freeMarkerConfiguration.setOutputFormat(HTMLOutputFormat.INSTANCE);
+        this.freeMarkerConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+        this.freeMarkerConfiguration.setWrapUncheckedExceptions(true);
 
         if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
             try {
@@ -55,22 +65,22 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
                 }
                 templateLoaderArray[idx] = new ClassTemplateLoader(this.getClass(), "/views/");
 
-                freeMarkerConfiguration.setCacheStorage(new freemarker.cache.MruCacheStorage(0, 0));
-                freeMarkerConfiguration.setClassForTemplateLoading(this.getClass(), "/views/");
-                freeMarkerConfiguration.setTemplateLoader(new MultiTemplateLoader(templateLoaderArray));
+                this.freeMarkerConfiguration.setCacheStorage(new freemarker.cache.MruCacheStorage(0, 0));
+                this.freeMarkerConfiguration.setClassForTemplateLoading(this.getClass(), "/views/");
+                this.freeMarkerConfiguration.setTemplateLoader(new MultiTemplateLoader(templateLoaderArray));
             } catch (final IOException e) {
                 throw new RuntimeException(e);
             }
         } else {
-            freeMarkerConfiguration.setCacheStorage(new freemarker.cache.MruCacheStorage(20, Integer.MAX_VALUE));
-            freeMarkerConfiguration.setClassForTemplateLoading(this.getClass(), "/views/");
-            freeMarkerConfiguration.setTemplateUpdateDelayMilliseconds(Integer.MAX_VALUE);
+            this.freeMarkerConfiguration.setCacheStorage(new freemarker.cache.MruCacheStorage(20, Integer.MAX_VALUE));
+            this.freeMarkerConfiguration.setClassForTemplateLoading(this.getClass(), "/views/");
+            this.freeMarkerConfiguration.setTemplateUpdateDelayMilliseconds(Integer.MAX_VALUE);
         }
 
-        freeMarkerConfiguration.setSharedVariable("voidFrameworkVersion", new SimpleScalar(VoidFrameworkVersion.getVersion()));
-        freeMarkerConfiguration.setSharedVariable("config", new ConfigTemplateMethodModel(this.configuration));
+        this.freeMarkerConfiguration.setSharedVariable("voidFrameworkVersion", new SimpleScalar(VoidFrameworkVersion.getVersion()));
+        this.freeMarkerConfiguration.setSharedVariable("config", new ConfigTemplateMethodModel(this.configuration));
 
-        return freeMarkerConfiguration;
+        return this.freeMarkerConfiguration;
     }
 
     /**

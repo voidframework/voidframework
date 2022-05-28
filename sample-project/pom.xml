@@ -21,6 +21,7 @@
 
         <plugin.version.maven.dependency>3.3.0</plugin.version.maven.dependency>
 
+        <dependency.version.h2>2.1.212</dependency.version.h2>
         <dependency.version.webjars.bootstrap>5.1.3</dependency.version.webjars.bootstrap>
         <dependency.version.webjars.jquery>3.6.0</dependency.version.webjars.jquery>
         <dependency.version.webjars.popperjs>2.9.2</dependency.version.webjars.popperjs>
@@ -72,7 +73,15 @@
         </dependency>
         <dependency>
             <groupId>com.voidframework</groupId>
+            <artifactId>voidframework-datasource</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.voidframework</groupId>
             <artifactId>voidframework-healthcheck</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.voidframework</groupId>
+            <artifactId>voidframework-persistence-jpa</artifactId>
         </dependency>
         <dependency>
             <groupId>com.voidframework</groupId>
@@ -81,6 +90,14 @@
         <dependency>
             <groupId>com.voidframework</groupId>
             <artifactId>voidframework-web-healthcheck</artifactId>
+        </dependency>
+
+        <!-- Dependencies -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${dependency.version.h2}</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!-- Webjars -->

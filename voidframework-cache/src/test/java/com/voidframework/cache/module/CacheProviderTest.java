@@ -12,16 +12,18 @@ import com.voidframework.cache.engine.MemoryCacheEngine;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public final class CacheProviderTest {
 
     @Test
     public void injectorExist() {
         final Config configuration = ConfigFactory.parseString("""
-                voidframework.cache.engine=com.voidframework.cache.engine.MemoryCacheEngine
-                voidframework.cache.inMemory.flushWhenFullMaxItem=500
+                voidframework.cache.engine = "com.voidframework.cache.engine.MemoryCacheEngine"
+                voidframework.cache.inMemory.flushWhenFullMaxItem = 500
                 """);
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
@@ -40,7 +42,7 @@ public final class CacheProviderTest {
     @Test
     public void injectorFallbackToPassThrough() {
         final Config configuration = ConfigFactory.parseString(
-            "voidframework.cache.engine=com.voidframework.cache.engine.UnknownImplementationClass");
+            "voidframework.cache.engine = com.voidframework.cache.engine.UnknownImplementationClass");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {

@@ -10,16 +10,18 @@ import com.voidframework.cache.Cache;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.UUID;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public final class CacheInterceptorTest {
 
     @Test
     public void interceptorBlackHoleEngine() {
-        final Config configuration = ConfigFactory.parseString("voidframework.cache.engine=com.voidframework.cache.engine.BlackHoleCacheEngine");
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.engine = com.voidframework.cache.engine.BlackHoleCacheEngine");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
@@ -43,8 +45,8 @@ public final class CacheInterceptorTest {
     @Test
     public void interceptorMemoryCacheEngine() {
         final Config configuration = ConfigFactory.parseString("""
-            voidframework.cache.engine=com.voidframework.cache.engine.MemoryCacheEngine
-            voidframework.cache.inMemory.flushWhenFullMaxItem=500
+            voidframework.cache.engine = "com.voidframework.cache.engine.MemoryCacheEngine"
+            voidframework.cache.inMemory.flushWhenFullMaxItem = 500
             """);
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override

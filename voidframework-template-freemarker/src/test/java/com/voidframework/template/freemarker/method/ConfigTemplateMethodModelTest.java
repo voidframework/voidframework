@@ -13,10 +13,12 @@ import com.voidframework.template.freemarker.module.TemplateFreeMarkerModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Locale;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public class ConfigTemplateMethodModelTest {
 
@@ -24,9 +26,9 @@ public class ConfigTemplateMethodModelTest {
 
     public ConfigTemplateMethodModelTest() {
         final Config configuration = ConfigFactory.parseString("""
-            voidframework.core.runInDevMode=true
-            test.number=42
-            test.string="Hello World!"
+            voidframework.core.runInDevMode = true
+            test.number = 42
+            test.string = "Hello World!"
             test.object = {a:1337}
             test.listString = ["en", "fr"]
             test.listNumber = [1, 2, 3]

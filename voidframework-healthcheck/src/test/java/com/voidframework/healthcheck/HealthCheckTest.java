@@ -12,6 +12,7 @@ import com.voidframework.healthcheck.module.HealthCheckModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Arrays;
@@ -20,12 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public final class HealthCheckTest {
 
     @Test
     public void test() {
-        final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode=true");
+        final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = true");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
