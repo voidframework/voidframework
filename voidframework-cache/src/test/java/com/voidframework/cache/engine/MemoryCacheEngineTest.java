@@ -2,12 +2,12 @@ package com.voidframework.cache.engine;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.voidframework.core.helper.Reflection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
@@ -17,12 +17,11 @@ import java.util.Map;
 public final class MemoryCacheEngineTest {
 
     @Test
-    @SuppressWarnings("unchecked")
     public void flushWhenFullMaxItem() {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=3");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
-        final Map<String, Object> internalCacheMap = (Map<String, Object>) getPrivateFieldValue(memoryCacheEngine, "cacheMap");
+        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(0, internalCacheMap.size());
 
@@ -55,16 +54,15 @@ public final class MemoryCacheEngineTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void setValueAndGetValueKey() {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
-        final Map<String, Object> internalCacheMap = (Map<String, Object>) getPrivateFieldValue(memoryCacheEngine, "cacheMap");
+        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(0, internalCacheMap.size());
 
-        final Integer flushWhenFullMaxItem = (Integer) getPrivateFieldValue(memoryCacheEngine, "flushWhenFullMaxItem");
+        final Integer flushWhenFullMaxItem = Reflection.getFieldValue(memoryCacheEngine, "flushWhenFullMaxItem", Integer.class);
         Assertions.assertNotNull(flushWhenFullMaxItem);
         Assertions.assertEquals(2, flushWhenFullMaxItem);
 
@@ -79,19 +77,18 @@ public final class MemoryCacheEngineTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void timeToLive() {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
-        final Map<String, Object> internalCacheMap = (Map<String, Object>) getPrivateFieldValue(memoryCacheEngine, "cacheMap");
+        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(0, internalCacheMap.size());
 
         memoryCacheEngine.set("key", 1337, 3600);
         Assertions.assertEquals(1, internalCacheMap.size());
 
-        LocalDateTime expirationDateTime = (LocalDateTime) getPrivateFieldValue(internalCacheMap.get("key"), "expirationDate");
+        LocalDateTime expirationDateTime = Reflection.getFieldValue(internalCacheMap.get("key"), "expirationDate", LocalDateTime.class);
         Assertions.assertNotNull(expirationDateTime);
         Assertions.assertEquals(
             LocalDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MINUTES).plusHours(1),
@@ -101,22 +98,21 @@ public final class MemoryCacheEngineTest {
         memoryCacheEngine.set("key2", 1337, -1);
         Assertions.assertEquals(2, internalCacheMap.size());
 
-        expirationDateTime = (LocalDateTime) getPrivateFieldValue(internalCacheMap.get("key2"), "expirationDate");
+        expirationDateTime = Reflection.getFieldValue(internalCacheMap.get("key2"), "expirationDate", LocalDateTime.class);
         Assertions.assertNotNull(expirationDateTime);
         Assertions.assertEquals(LocalDateTime.MAX, expirationDateTime);
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void timeToLiveExpiration() throws InterruptedException {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem=2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
-        final Map<String, Object> internalCacheMap = (Map<String, Object>) getPrivateFieldValue(memoryCacheEngine, "cacheMap");
+        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(0, internalCacheMap.size());
 
-        final Integer flushWhenFullMaxItem = (Integer) getPrivateFieldValue(memoryCacheEngine, "flushWhenFullMaxItem");
+        final Integer flushWhenFullMaxItem = Reflection.getFieldValue(memoryCacheEngine, "flushWhenFullMaxItem", Integer.class);
         Assertions.assertNotNull(flushWhenFullMaxItem);
         Assertions.assertEquals(2, flushWhenFullMaxItem);
 
@@ -130,22 +126,5 @@ public final class MemoryCacheEngineTest {
         Assertions.assertNull(value);
 
         Assertions.assertEquals(0, internalCacheMap.size());
-    }
-
-    /**
-     * Retrieves the value of a private field.
-     *
-     * @param classInstance The instance of the class in which the field is located
-     * @param fieldName     The field name
-     * @return The field value, otherwise, null
-     */
-    public Object getPrivateFieldValue(final Object classInstance, final String fieldName) {
-        try {
-            final Field field = classInstance.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            return field.get(classInstance);
-        } catch (final Exception ignore) {
-            return null;
-        }
     }
 }

@@ -43,16 +43,16 @@ public final class LifeCycleManager {
         LOGGER.debug("Register LifeCycle 'START' {}::{} (priority={})", classInstance.getClass().getName(), method.getName(), priority);
 
         if (this.isRunning) {
-            invokeMethodStart(new StartHandler(classInstance, method, priority));
+            this.invokeMethodStart(new StartHandler(classInstance, method, priority));
         } else {
-            startHandlerList.add(new StartHandler(classInstance, method, priority));
+            this.startHandlerList.add(new StartHandler(classInstance, method, priority));
         }
     }
 
     public void registerStop(final Object classInstance, final Method method, final int priority, final String gracefulStopTimeoutConfigKey) {
 
         LOGGER.debug("Register LifeCycle 'STOP' {}::{} (priority={})", classInstance.getClass().getName(), method.getName(), priority);
-        stopHandlerList.add(new StopHandler(classInstance, method, priority, gracefulStopTimeoutConfigKey));
+        this.stopHandlerList.add(new StopHandler(classInstance, method, priority, gracefulStopTimeoutConfigKey));
     }
 
     public void startAll() {

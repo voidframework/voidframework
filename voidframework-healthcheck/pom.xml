@@ -2,16 +2,15 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <artifactId>voidframework</artifactId>
         <groupId>com.voidframework</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>voidframework-web</artifactId>
-    <name>Void Framework - Web</name>
+    <artifactId>voidframework-healthcheck</artifactId>
+    <name>Void Framework - Health Check</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,33 +25,8 @@
             <groupId>com.voidframework</groupId>
             <artifactId>voidframework-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.voidframework</groupId>
-            <artifactId>voidframework-i18n</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.voidframework</groupId>
-            <artifactId>voidframework-healthcheck</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.voidframework</groupId>
-            <artifactId>voidframework-template-freemarker</artifactId>
-        </dependency>
 
         <!-- Dependencies -->
-        <dependency>
-            <groupId>io.undertow</groupId>
-            <artifactId>undertow-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-        </dependency>
 
         <!-- Unit Tests -->
         <dependency>
@@ -66,5 +40,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
 </project>

@@ -27,12 +27,13 @@ public final class LifeCycleInjectionListener<INSTANCE_TYPE> implements Injectio
         for (final Method method : injectee.getClass().getMethods()) {
             final LifeCycleStart lifeCycleStartAnnotation = method.getAnnotation(LifeCycleStart.class);
             if (lifeCycleStartAnnotation != null) {
-                lifeCycleManager.registerStart(injectee, method, lifeCycleStartAnnotation.priority());
+                this.lifeCycleManager.registerStart(injectee, method, lifeCycleStartAnnotation.priority());
             }
 
             final LifeCycleStop lifeCycleStopAnnotation = method.getAnnotation(LifeCycleStop.class);
             if (lifeCycleStopAnnotation != null) {
-                lifeCycleManager.registerStop(injectee, method, lifeCycleStopAnnotation.priority(), lifeCycleStopAnnotation.gracefulStopTimeoutConfigKey());
+                this.lifeCycleManager.registerStop(
+                    injectee, method, lifeCycleStopAnnotation.priority(), lifeCycleStopAnnotation.gracefulStopTimeoutConfigKey());
             }
         }
     }

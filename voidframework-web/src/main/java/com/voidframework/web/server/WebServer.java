@@ -59,7 +59,7 @@ import java.util.UUID;
 public class WebServer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServer.class);
-    private static final Duration COOKIE_LANG_DURATION =  Duration.ofDays(365);
+    private static final Duration COOKIE_LANG_DURATION = Duration.ofDays(365);
 
     private final Config configuration;
     private final Injector injector;
@@ -279,6 +279,17 @@ public class WebServer {
             this.isRunning = false;
         } else {
             LOGGER.info("Web Daemon is already stopped!");
+        }
+    }
+
+    public boolean isOK() {
+        if (this.undertowServer != null
+            && !this.undertowServer.getListenerInfo().isEmpty()
+            && !this.undertowServer.getWorker().isShutdown()
+            && !this.undertowServer.getWorker().isTerminated()) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

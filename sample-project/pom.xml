@@ -72,7 +72,15 @@
         </dependency>
         <dependency>
             <groupId>com.voidframework</groupId>
+            <artifactId>voidframework-healthcheck</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.voidframework</groupId>
             <artifactId>voidframework-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.voidframework</groupId>
+            <artifactId>voidframework-web-healthcheck</artifactId>
         </dependency>
 
         <!-- Webjars -->

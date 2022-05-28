@@ -182,15 +182,26 @@ public class ApplicationLauncher {
 
         // Configure app components
         final List<AbstractModule> appModuleList = new ArrayList<>();
-        if (config.hasPath("voidframework.core.modules")) {
+        if (config.hasPath("voidframework.core.enabledModules")) {
+            final List<String> disabledModuleList = config.getStringList("voidframework.core.disabledModules");
             LOGGER.info("Loading modules");
-            config.getStringList("voidframework.core.modules")
+            config.getStringList("voidframework.core.enabledModules")
                 .stream()
                 .filter(StringUtils::isNotEmpty)
                 .forEach(appModuleClassName -> {
                     try {
                         final Class<?> abstractModuleClass = Class.forName(appModuleClassName);
-                        final AbstractModule appModule = (AbstractModule) abstractModuleClass.getDeclaredConstructor().newInstance();
+                        if (disabledModuleList.contains(abstractModuleClass.getName())) {
+                            // Don't load this module
+                            return;
+                        }
+
+                        AbstractModule appModule;
+                        try {
+                            appModule = (AbstractModule) abstractModuleClass.getDeclaredConstructor().newInstance();
+                        } catch (final IllegalArgumentException | NoSuchMethodException ignore) {
+                            appModule = (AbstractModule) abstractModuleClass.getDeclaredConstructor(Config.class).newInstance(config);
+                        }
 
                         appModuleList.add(appModule);
                     } catch (final ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException |

@@ -39,10 +39,12 @@
     <modules>
         <module>voidframework-core</module>
         <module>voidframework-cache</module>
+        <module>voidframework-healthcheck</module>
         <module>voidframework-i18n</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>
         <module>voidframework-web</module>
+        <module>voidframework-web-healthcheck</module>
     </modules>
 
     <profiles>
@@ -82,6 +84,11 @@
             </dependency>
             <dependency>
                 <groupId>com.voidframework</groupId>
+                <artifactId>voidframework-healthcheck</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.voidframework</groupId>
                 <artifactId>voidframework-i18n</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
@@ -98,6 +105,11 @@
             <dependency>
                 <groupId>com.voidframework</groupId>
                 <artifactId>voidframework-web</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.voidframework</groupId>
+                <artifactId>voidframework-web-healthcheck</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
 
