@@ -81,6 +81,10 @@
         </dependency>
         <dependency>
             <groupId>com.voidframework</groupId>
+            <artifactId>voidframework-migration-flyway</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.voidframework</groupId>
             <artifactId>voidframework-persistence-jpa</artifactId>
         </dependency>
         <dependency>
