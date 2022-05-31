@@ -168,7 +168,7 @@ public class ApplicationLauncher {
             @SuppressWarnings("unchecked")
             protected void configure() {
                 for (final Class<?> clazz : classList) {
-                    bind(clazz).asEagerSingleton();
+                    bind(clazz);
 
                     // TODO: Add a configuration key to enable/disable this feature
                     for (final Class<?> interfaceClassType : clazz.getInterfaces()) {

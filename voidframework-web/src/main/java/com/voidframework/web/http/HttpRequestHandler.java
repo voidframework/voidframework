@@ -56,9 +56,11 @@ public final class HttpRequestHandler {
         }
 
         try {
+            final Object controllerInstance = this.injector.getInstance(resolvedRoute.controllerClassType());
+
             if (resolvedRoute.method().getParameterCount() == 0) {
                 // No parameters, just invoke the controller method
-                return (Result) resolvedRoute.method().invoke(resolvedRoute.controllerInstance());
+                return (Result) resolvedRoute.method().invoke(controllerInstance);
             } else {
                 // Method have some parameter(s)
                 final Object[] methodArgumentValueArray = new Object[resolvedRoute.method().getParameterCount()];
@@ -88,7 +90,7 @@ public final class HttpRequestHandler {
                     idx += 1;
                 }
 
-                return (Result) resolvedRoute.method().invoke(resolvedRoute.controllerInstance(), methodArgumentValueArray);
+                return (Result) resolvedRoute.method().invoke(controllerInstance, methodArgumentValueArray);
             }
         } catch (final Throwable throwable) {
             final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();

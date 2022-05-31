@@ -23,9 +23,8 @@ public class RouterTest {
     @Test
     public void addRoute() {
         final Router router = new DefaultRouter();
-        final SampleController sampleController = new SampleController();
         final Method method = resolveMethod("displayHelloWorld", SampleController.class);
-        router.addRoute(HttpMethod.GET, "/", sampleController, method);
+        router.addRoute(HttpMethod.GET, "/", SampleController.class, method);
 
         final List<Route> routeList = router.getRoutesAsList();
         Assertions.assertNotNull(routeList);
@@ -35,22 +34,21 @@ public class RouterTest {
         Assertions.assertNotNull(route);
         Assertions.assertEquals(HttpMethod.GET, route.httpMethod());
         Assertions.assertEquals("/", route.routePattern().pattern());
-        Assertions.assertEquals(sampleController, route.controllerInstance());
+        Assertions.assertEquals(SampleController.class, route.controllerClassType());
         Assertions.assertEquals("displayHelloWorld", route.method().getName());
     }
 
     @Test
     public void resolveRoute() {
         final Router router = new DefaultRouter();
-        final SampleController sampleController = new SampleController();
         final Method methodDisplay = resolveMethod("displayHelloWorld", SampleController.class);
         final Method methodRegister = resolveMethod("displayRegister", SampleController.class);
-        router.addRoute(HttpMethod.GET, "/", sampleController, methodDisplay);
-        router.addRoute(HttpMethod.GET, "/register", sampleController, methodRegister);
+        router.addRoute(HttpMethod.GET, "/", SampleController.class, methodDisplay);
+        router.addRoute(HttpMethod.GET, "/register", SampleController.class, methodRegister);
 
         final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register");
         Assertions.assertNotNull(resolvedRoute);
-        Assertions.assertEquals(sampleController, resolvedRoute.controllerInstance());
+        Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClassType());
         Assertions.assertEquals("displayRegister", resolvedRoute.method().getName());
         Assertions.assertNotNull(resolvedRoute.extractedParameterValues());
         Assertions.assertEquals(0, resolvedRoute.extractedParameterValues().size());
@@ -59,17 +57,16 @@ public class RouterTest {
     @Test
     public void resolveRoute_withRegularExpression() {
         final Router router = new DefaultRouter();
-        final SampleController sampleController = new SampleController();
         final Method methodDisplay = resolveMethod("displayHelloWorld", SampleController.class);
         final Method methodRegister = resolveMethod("displayRegister", SampleController.class);
         final Method methodAccount = resolveMethod("displayAccount", SampleController.class);
-        router.addRoute(HttpMethod.GET, "/", sampleController, methodDisplay);
-        router.addRoute(HttpMethod.GET, "/register", sampleController, methodRegister);
-        router.addRoute(HttpMethod.GET, "/register/(?<accountId>[a-z]{0,36})", sampleController, methodAccount);
+        router.addRoute(HttpMethod.GET, "/", SampleController.class, methodDisplay);
+        router.addRoute(HttpMethod.GET, "/register", SampleController.class, methodRegister);
+        router.addRoute(HttpMethod.GET, "/register/(?<accountId>[a-z]{0,36})", SampleController.class, methodAccount);
 
         final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register/toto");
         Assertions.assertNotNull(resolvedRoute);
-        Assertions.assertEquals(sampleController, resolvedRoute.controllerInstance());
+        Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClassType());
         Assertions.assertEquals("displayAccount", resolvedRoute.method().getName());
         Assertions.assertNotNull(resolvedRoute.extractedParameterValues());
         Assertions.assertEquals(1, resolvedRoute.extractedParameterValues().size());

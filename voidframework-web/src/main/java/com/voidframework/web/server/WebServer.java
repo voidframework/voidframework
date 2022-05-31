@@ -281,15 +281,4 @@ public class WebServer {
             LOGGER.info("Web Daemon is already stopped!");
         }
     }
-
-    public boolean isOK() {
-        if (this.undertowServer != null
-            && !this.undertowServer.getListenerInfo().isEmpty()
-            && !this.undertowServer.getWorker().isShutdown()
-            && !this.undertowServer.getWorker().isTerminated()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }

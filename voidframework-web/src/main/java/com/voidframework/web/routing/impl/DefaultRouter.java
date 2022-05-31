@@ -53,15 +53,15 @@ public class DefaultRouter implements Router {
     @Override
     public void addRoute(final HttpMethod httpMethod,
                          final String routeUrl,
-                         final Object controllerInstance,
+                         final Class<?> controllerClassType,
                          final Method method) {
 
-        final Class<?> controllerClass = ProxyDetector.isProxy(controllerInstance)
-            ? controllerInstance.getClass().getSuperclass()
-            : controllerInstance.getClass();
+        final Class<?> controllerClass = ProxyDetector.isProxy(controllerClassType)
+            ? controllerClassType.getSuperclass()
+            : controllerClassType;
         LOGGER.debug("Add route {} {} {}::{}", httpMethod, routeUrl, controllerClass.getName(), method.getName());
 
-        final Route route = new Route(httpMethod, Pattern.compile(routeUrl), controllerInstance, method);
+        final Route route = new Route(httpMethod, Pattern.compile(routeUrl), controllerClass, method);
         this.routeListPerHttpMethodMap.computeIfAbsent(httpMethod, (key) -> new ArrayList<>()).add(route);
     }
 
@@ -87,7 +87,7 @@ public class DefaultRouter implements Router {
                         }
                     }
 
-                    return new ResolvedRoute(route.controllerInstance(), route.method(), extractedParameterMap);
+                    return new ResolvedRoute(route.controllerClassType(), route.method(), extractedParameterMap);
                 }
             }
         }

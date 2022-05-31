@@ -4,7 +4,10 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 import com.voidframework.core.bindable.Controller;
+import com.voidframework.web.http.param.RequestRoute;
 import com.voidframework.web.routing.Router;
+
+import java.lang.reflect.Method;
 
 public class ControllerAnnotationListener implements TypeListener {
 
@@ -24,7 +27,12 @@ public class ControllerAnnotationListener implements TypeListener {
         final Class<?> classType = type.getRawType();
 
         if (classType.isAnnotationPresent(Controller.class)) {
-            encounter.register(new ControllerInjectionListener<>(router));
+            for (final Method method : classType.getMethods()) {
+                if (method.isAnnotationPresent(RequestRoute.class)) {
+                    final RequestRoute requestRoute = method.getAnnotation(RequestRoute.class);
+                    router.addRoute(requestRoute.method(), requestRoute.route(), classType, method);
+                }
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ import java.util.Map;
 
 public interface Router {
 
-    void addRoute(final HttpMethod httpMethod, final String route, final Object controllerInstance, final Method method);
+    void addRoute(final HttpMethod httpMethod, final String routeUrl, final Class<?> controllerClassType, final Method method);
 
     ResolvedRoute resolveRoute(final HttpMethod httpMethod, final String uri);
 
