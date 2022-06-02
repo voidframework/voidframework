@@ -2,12 +2,12 @@ package controller;
 
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
-import com.voidframework.core.bindable.Controller;
-import com.voidframework.web.http.Context;
-import com.voidframework.web.http.Result;
-import com.voidframework.web.http.param.RequestPath;
-import com.voidframework.web.http.param.RequestRoute;
-import com.voidframework.web.routing.HttpMethod;
+import dev.voidframework.web.bindable.WebController;
+import dev.voidframework.web.http.Context;
+import dev.voidframework.web.http.Result;
+import dev.voidframework.web.http.param.RequestPath;
+import dev.voidframework.web.http.param.RequestRoute;
+import dev.voidframework.web.routing.HttpMethod;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
@@ -15,7 +15,7 @@ import java.util.Locale;
 /**
  * This controller allows visitor to change I18N language.
  */
-@Controller
+@WebController
 public final class LanguageController {
 
     private final Config configuration;

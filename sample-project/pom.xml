@@ -6,7 +6,7 @@
 
     <parent>
         <artifactId>voidframework</artifactId>
-        <groupId>com.voidframework</groupId>
+        <groupId>dev.voidframework</groupId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
@@ -64,35 +64,35 @@
     <dependencies>
         <!-- Framework -->
         <dependency>
-            <groupId>com.voidframework</groupId>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.voidframework</groupId>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-cache</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.voidframework</groupId>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-datasource</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.voidframework</groupId>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-healthcheck</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.voidframework</groupId>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-migration-flyway</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.voidframework</groupId>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-persistence-jpa</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.voidframework</groupId>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.voidframework</groupId>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-web-healthcheck</artifactId>
         </dependency>
 

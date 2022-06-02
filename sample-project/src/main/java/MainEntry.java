@@ -1,4 +1,4 @@
-import com.voidframework.core.ApplicationLauncher;
+import dev.voidframework.core.ApplicationLauncher;
 
 public final class MainEntry {
 

@@ -1,6 +1,6 @@
 package converter;
 
-import com.voidframework.core.conversion.TypeConverter;
+import dev.voidframework.core.conversion.TypeConverter;
 
 /**
  * Convert a {@code String} into an {@code String}.

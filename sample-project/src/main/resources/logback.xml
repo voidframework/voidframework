@@ -8,7 +8,7 @@
     <logger name="io.undertow" level="WARN"/>
     <logger name="org.jboss.threads" level="WARN"/>
     <logger name="org.xnio" level="WARN"/>
-    <logger name="com.voidframework" level="INFO"/>
+    <logger name="dev.voidframework" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

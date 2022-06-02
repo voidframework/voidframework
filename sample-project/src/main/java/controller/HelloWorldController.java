@@ -1,20 +1,20 @@
 package controller;
 
 import com.google.inject.Inject;
-import com.voidframework.core.bindable.Controller;
-import com.voidframework.core.helper.Json;
-import com.voidframework.template.TemplateRenderer;
-import com.voidframework.web.http.Context;
-import com.voidframework.web.http.HttpContentType;
-import com.voidframework.web.http.Result;
-import com.voidframework.web.http.param.RequestPath;
-import com.voidframework.web.http.param.RequestRoute;
-import com.voidframework.web.routing.HttpMethod;
+import dev.voidframework.core.helper.Json;
+import dev.voidframework.template.TemplateRenderer;
+import dev.voidframework.web.bindable.WebController;
+import dev.voidframework.web.http.Context;
+import dev.voidframework.web.http.HttpContentType;
+import dev.voidframework.web.http.Result;
+import dev.voidframework.web.http.param.RequestPath;
+import dev.voidframework.web.http.param.RequestRoute;
+import dev.voidframework.web.routing.HttpMethod;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@Controller
+@WebController
 public class HelloWorldController implements HttpContentType {
 
     private final TemplateRenderer templateRenderer;

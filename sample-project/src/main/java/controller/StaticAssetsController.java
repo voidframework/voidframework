@@ -2,10 +2,13 @@ package controller;
 
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
-import com.voidframework.core.bindable.Controller;
-import com.voidframework.web.http.controller.AbstractStaticAssetsController;
+import dev.voidframework.web.bindable.WebController;
+import dev.voidframework.web.http.controller.AbstractStaticAssetsController;
 
-@Controller
+/**
+ * Static assets controller.
+ */
+@WebController
 public class StaticAssetsController extends AbstractStaticAssetsController {
 
     /**
