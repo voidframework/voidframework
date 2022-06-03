@@ -46,6 +46,7 @@
         <module>voidframework-core</module>
         <module>voidframework-cache</module>
         <module>voidframework-datasource</module>
+        <module>voidframework-datasource-hikaricp</module>
         <module>voidframework-healthcheck</module>
         <module>voidframework-i18n</module>
         <module>voidframework-migration-flyway</module>
@@ -94,6 +95,11 @@
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-datasource</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-datasource-hikaricp</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
             <dependency>

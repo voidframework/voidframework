@@ -7,7 +7,7 @@ import com.google.inject.Provider;
 import com.google.inject.Stage;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import dev.voidframework.datasource.module.DataSourceModule;
+import dev.voidframework.datasource.hikaricp.module.HikariCpDataSourceModule;
 import dev.voidframework.persistence.jpa.model.UnitTest;
 import dev.voidframework.persistence.jpa.module.JpaModule;
 import org.junit.jupiter.api.Assertions;
@@ -47,7 +47,7 @@ public final class PersistenceJpaTest {
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
-                install(new DataSourceModule());
+                install(new HikariCpDataSourceModule());
                 install(new JpaModule(configuration));
                 bind(Config.class).toInstance(configuration);
             }

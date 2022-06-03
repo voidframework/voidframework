@@ -49,10 +49,10 @@ public final class Yaml {
      * @param obj Object to convert in YAML
      * @return The YAML node
      */
-    public static JsonNode toYaml(final Object obj) {
+    public static String toYaml(final Object obj) {
         try {
-            return objectMapper.valueToTree(obj);
-        } catch (final IllegalArgumentException e) {
+            return objectMapper.writeValueAsString(obj);
+        } catch (final IllegalArgumentException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }

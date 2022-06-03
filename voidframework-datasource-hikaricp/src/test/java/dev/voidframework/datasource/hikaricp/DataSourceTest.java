@@ -1,4 +1,4 @@
-package dev.voidframework.datasource;
+package dev.voidframework.datasource.hikaricp;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -7,7 +7,8 @@ import com.google.inject.Stage;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import com.zaxxer.hikari.HikariDataSource;
-import dev.voidframework.datasource.module.DataSourceModule;
+import dev.voidframework.datasource.DataSourceManager;
+import dev.voidframework.datasource.hikaricp.module.HikariCpDataSourceModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -50,7 +51,7 @@ public final class DataSourceTest {
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
-                install(new DataSourceModule());
+                install(new HikariCpDataSourceModule());
                 bind(Config.class).toInstance(configuration);
             }
         });
@@ -58,7 +59,7 @@ public final class DataSourceTest {
 
     @Test
     public void defaultConnection() throws SQLException {
-        final dev.voidframework.datasource.DataSourceManager dataSourceManager = this.injector.getInstance(dev.voidframework.datasource.DataSourceManager.class);
+        final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
         final Connection connection = dataSourceManager.getConnection();
@@ -68,7 +69,7 @@ public final class DataSourceTest {
 
     @Test
     public void specificConnection() throws SQLException {
-        final dev.voidframework.datasource.DataSourceManager dataSourceManager = this.injector.getInstance(dev.voidframework.datasource.DataSourceManager.class);
+        final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
         final Connection connection = dataSourceManager.getConnection("second");
@@ -78,7 +79,7 @@ public final class DataSourceTest {
 
     @Test
     public void unknownConnection() throws SQLException {
-        final dev.voidframework.datasource.DataSourceManager dataSourceManager = this.injector.getInstance(dev.voidframework.datasource.DataSourceManager.class);
+        final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
         final Connection connection = dataSourceManager.getConnection("unknown");
@@ -87,7 +88,7 @@ public final class DataSourceTest {
 
     @Test
     public void defaultDataSource() throws SQLException {
-        final dev.voidframework.datasource.DataSourceManager dataSourceManager = this.injector.getInstance(dev.voidframework.datasource.DataSourceManager.class);
+        final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
         final DataSource dataSource = dataSourceManager.getDataSource();
@@ -100,7 +101,7 @@ public final class DataSourceTest {
 
     @Test
     public void specificDataSource() throws SQLException {
-        final dev.voidframework.datasource.DataSourceManager dataSourceManager = this.injector.getInstance(dev.voidframework.datasource.DataSourceManager.class);
+        final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
         final DataSource dataSource = dataSourceManager.getDataSource("second");
@@ -113,7 +114,7 @@ public final class DataSourceTest {
 
     @Test
     public void unknownDataSource() {
-        final dev.voidframework.datasource.DataSourceManager dataSourceManager = this.injector.getInstance(dev.voidframework.datasource.DataSourceManager.class);
+        final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
         final DataSource dataSource = dataSourceManager.getDataSource("unknown");

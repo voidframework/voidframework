@@ -73,7 +73,7 @@
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>
-            <artifactId>voidframework-datasource</artifactId>
+            <artifactId>voidframework-datasource-hikaricp</artifactId>
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>

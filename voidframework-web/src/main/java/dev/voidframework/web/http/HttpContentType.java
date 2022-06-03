@@ -10,4 +10,5 @@ public interface HttpContentType {
     String IMAGE_JPEG = "image/jpeg";
     String IMAGE_PNG = "image/png";
     String TEXT_HTML = "text/html";
+    String TEXT_YAML = "text/yaml";
 }

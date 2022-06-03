@@ -1,4 +1,4 @@
-package dev.voidframework.datasource.module;
+package dev.voidframework.datasource.hikaricp.module;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -16,10 +16,10 @@ import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /**
- * Data source manager provider.
+ * HikariCP data source manager provider.
  */
 @Singleton
-public class DataSourceManagerProvider implements Provider<DataSourceManager> {
+public class HikariCpDataSourceManagerProvider implements Provider<DataSourceManager> {
 
     private final Config configuration;
     private DataSourceManager dataSourceManager;
@@ -30,7 +30,7 @@ public class DataSourceManagerProvider implements Provider<DataSourceManager> {
      * @param configuration The current configuration
      */
     @Inject
-    private DataSourceManagerProvider(final Config configuration) {
+    private HikariCpDataSourceManagerProvider(final Config configuration) {
         this.configuration = configuration;
     }
 

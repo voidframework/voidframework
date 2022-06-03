@@ -1,7 +1,10 @@
 package controller;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.inject.Inject;
 import dev.voidframework.core.helper.Json;
+import dev.voidframework.core.helper.Yaml;
 import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
@@ -11,8 +14,10 @@ import dev.voidframework.web.http.param.RequestPath;
 import dev.voidframework.web.http.param.RequestRoute;
 import dev.voidframework.web.routing.HttpMethod;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @WebController
 public class HelloWorldController implements HttpContentType {
@@ -54,8 +59,23 @@ public class HelloWorldController implements HttpContentType {
 
     @RequestRoute(method = HttpMethod.POST, route = "/form")
     public Result postForm(final Context context) {
+        final Pojo pojo = context.getRequest().getBodyContent().asJson(Pojo.class);
+        final Pojo pojo2 = context.getRequest().getBodyContent().asYaml(Pojo.class);
+        return Result.ok(Yaml.toYaml(pojo == null ? pojo2 : pojo).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
+    }
 
-        return Result.ok(context.getRequest().getBodyContent().asRaw(), APPLICATION_JSON);
-        //return Result.ok(context.getRequest().getBodyContent().asFormData().get("").get(0).inputStream(), IMAGE_JPEG);
+    public static class Pojo {
+
+        public final String id = UUID.randomUUID().toString();
+
+        public final String firstName;
+        public final String lastName;
+
+        @JsonCreator
+        public Pojo(@JsonProperty("firstName") final String firstName,
+                    @JsonProperty("lastName") final String lastName) {
+            this.firstName = firstName;
+            this.lastName = lastName;
+        }
     }
 }

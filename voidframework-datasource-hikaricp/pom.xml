@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>voidframework-persistence-jpa</artifactId>
-    <name>Void Framework - Persistence - JPA</name>
+    <artifactId>voidframework-datasource-hikaricp</artifactId>
+    <name>Void Framework - Data Source - HikariCP</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -32,16 +32,11 @@
 
         <!-- Dependencies -->
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-hikaricp</artifactId>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
         </dependency>
 
         <!-- Unit Tests -->
-        <dependency>
-            <groupId>dev.voidframework</groupId>
-            <artifactId>voidframework-datasource-hikaricp</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -58,4 +53,5 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
 </project>
