@@ -79,9 +79,38 @@ public final class CacheInterceptorTest {
         Assertions.assertEquals(contentCall3, contentCall4);
     }
 
+    @Test
+    public void interceptorTimeToLive() throws InterruptedException {
+        final Config configuration = ConfigFactory.parseString("""
+            voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
+            voidframework.cache.inMemory.flushWhenFullMaxItem = 500
+            """);
+        final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(Config.class).toInstance(configuration);
+                install(new dev.voidframework.cache.module.CacheModule());
+            }
+        });
+
+        final Demo demo = injector.getInstance(Demo.class);
+
+        final String contentCall1 = demo.doSomething();
+        Assertions.assertNotNull(contentCall1);
+        Assertions.assertFalse(contentCall1.isBlank());
+
+        Thread.sleep(1500);
+
+        final String contentCall2 = demo.doSomething();
+        Assertions.assertNotNull(contentCall2);
+        Assertions.assertFalse(contentCall2.isBlank());
+
+        Assertions.assertNotEquals(contentCall1, contentCall2);
+    }
+
     public static class Demo {
 
-        @Cache
+        @Cache(timeToLive = 1)
         public String doSomething() {
             return UUID.randomUUID().toString();
         }

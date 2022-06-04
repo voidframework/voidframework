@@ -53,7 +53,7 @@ public final class CacheInterceptor implements MethodInterceptor {
         Object value = this.cacheEngine.get(cacheKey);
         if (value == null) {
             value = methodInvocation.proceed();
-            this.cacheEngine.set(cacheKey, value, -1);
+            this.cacheEngine.set(cacheKey, value, cache.timeToLive());
         }
 
         return value;
