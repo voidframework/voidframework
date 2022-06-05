@@ -32,12 +32,7 @@
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>
-            <artifactId>voidframework-healthcheck</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>dev.voidframework</groupId>
-            <artifactId>voidframework-template-freemarker</artifactId>
+            <artifactId>voidframework-template</artifactId>
         </dependency>
 
         <!-- Dependencies -->

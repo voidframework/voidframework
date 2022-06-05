@@ -89,6 +89,10 @@
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>
+            <artifactId>voidframework-template-freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-web</artifactId>
         </dependency>
         <dependency>
