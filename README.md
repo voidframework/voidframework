@@ -1,10 +1,8 @@
 # Void Framework
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/thibaultmeyer/voidframework/master/LICENSE)
-[![Build](https://api.travis-ci.org/thibaultmeyer/voidframework.svg)](https://travis-ci.org/thibaultmeyer/voidframework)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/thibaultmeyer/voidframework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thibaultmeyer/voidframework/alerts/)
-[![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/thibaultmeyer/voidframework.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/thibaultmeyer/voidframework/context:java)
-[![Repository size](https://img.shields.io/github/repo-size/thibaultmeyer/voidframework.svg?logo=git)](https://github.com/thibaultmeyer/voidframework)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/voidframework/voidframework/master/LICENSE)
+[![Java CI](https://img.shields.io/github/workflow/status/voidframework/voidframework/Java%20CI)](https://github.com/voidframework/voidframework/actions/workflows/main.yml)
+[![Repository size](https://img.shields.io/github/repo-size/voidframework/voidframework.svg?logo=git)](https://github.com/voidframework/voidframework)
 
 Light and modular Framework for Java
 *****
@@ -21,7 +19,7 @@ installed.
 
 
 ## License
-This project is released under terms of the [MIT license](https://raw.githubusercontent.com/thibaultmeyer/voidframework/master/LICENSE).
+This project is released under terms of the [MIT license](https://raw.githubusercontent.com/voidframework/voidframework/master/LICENSE).
 
 
 

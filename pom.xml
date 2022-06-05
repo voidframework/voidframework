@@ -11,6 +11,24 @@
     <name>Void Framework</name>
     <description>Light and modular Framework for Java</description>
 
+    <scm>
+        <connection>scm:git:https://github.com/voidframework/voidframework.git</connection>
+        <developerConnection>scm:git:https://github.com/voidframework/voidframework.git</developerConnection>
+        <url>https://github.com/voidframework/voidframework.git</url>
+    </scm>
+
+    <issueManagement>
+        <url>https://github.com/voidframework/voidframework/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>The MIT License (MIT)</name>
+            <url>https://github.com/voidframework/voidframework/master/LICENSE</url>
+        </license>
+    </licenses>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>

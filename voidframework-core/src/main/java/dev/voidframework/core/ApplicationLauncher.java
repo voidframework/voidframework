@@ -52,7 +52,7 @@ public class ApplicationLauncher {
          ██╗   ██╗ ██████╗ ██╗██████╗   |  Void Web Framework
          ██║   ██║██╔═══██╗██║██╔══██╗  |  ~~~~~~~~~~~~~~~~~~
          ██║   ██║██║   ██║██║██║  ██║  |
-         ╚██╗ ██╔╝██║   ██║██║██║  ██║  |  https://github.com/thibaultmeyer/voidframework
+         ╚██╗ ██╔╝██║   ██║██║██║  ██║  |  https://voidframework.dev
           ╚████╔╝ ╚██████╔╝██║██████╔╝  |
            ╚═══╝   ╚═════╝ ╚═╝╚═════╝   |  Version: {}""";
 
