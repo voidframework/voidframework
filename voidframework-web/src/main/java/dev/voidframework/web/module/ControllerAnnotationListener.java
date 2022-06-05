@@ -9,6 +9,9 @@ import dev.voidframework.web.routing.Router;
 
 import java.lang.reflect.Method;
 
+/**
+ * Listen to the different bind classes to detect which ones are web controllers.
+ */
 public class ControllerAnnotationListener implements TypeListener {
 
     private final Router router;

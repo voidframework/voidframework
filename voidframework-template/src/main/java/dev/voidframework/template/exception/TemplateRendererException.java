@@ -44,6 +44,8 @@ public class TemplateRendererException extends RuntimeException {
 
         /**
          * Build a new instance.
+         *
+         * @param cause The cause
          */
         public RenderingFailure(final Throwable cause) {
             super("Can't render template", cause);

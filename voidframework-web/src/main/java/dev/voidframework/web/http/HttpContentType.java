@@ -1,5 +1,8 @@
 package dev.voidframework.web.http;
 
+/**
+ * Defines some HTTP content types.
+ */
 public interface HttpContentType {
 
     String APPLICATION_JSON = "application/json";

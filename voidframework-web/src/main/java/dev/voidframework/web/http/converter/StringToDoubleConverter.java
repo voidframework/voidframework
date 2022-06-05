@@ -9,10 +9,6 @@ public class StringToDoubleConverter implements TypeConverter<String, Double> {
 
     @Override
     public Double convert(final String source) {
-        if (source == null) {
-            return null;
-        }
-
         try {
             return Double.valueOf(source);
         } catch (final NumberFormatException ignore) {

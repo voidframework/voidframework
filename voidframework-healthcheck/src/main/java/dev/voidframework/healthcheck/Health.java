@@ -14,6 +14,15 @@ public record Health(Status status, Map<String, Object> details) {
      * Possible status.
      */
     public enum Status {
-        DOWN, UP,
+
+        /**
+         * Service is not running... or dead.
+         */
+        DOWN,
+
+        /**
+         * Service is running.
+         */
+        UP,
     }
 }

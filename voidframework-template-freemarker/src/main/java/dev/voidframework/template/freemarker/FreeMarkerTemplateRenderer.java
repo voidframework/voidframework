@@ -18,12 +18,21 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * FreeMarker implementation of {@link TemplateRenderer}.
+ */
 @Singleton
 public class FreeMarkerTemplateRenderer implements TemplateRenderer {
 
     private final Configuration freeMarkerConfiguration;
     private final Internationalization internationalization;
 
+    /**
+     * Build a new instance.
+     *
+     * @param freeMarkerConfiguration The FreeMarker configuration
+     * @param internationalization    The internationalization instance
+     */
     @Inject
     public FreeMarkerTemplateRenderer(final Configuration freeMarkerConfiguration,
                                       final Internationalization internationalization) {

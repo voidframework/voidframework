@@ -5,6 +5,9 @@ import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.template.freemarker.FreeMarkerTemplateRenderer;
 import freemarker.template.Configuration;
 
+/**
+ * FreeMarker template module.
+ */
 public class TemplateFreeMarkerModule extends AbstractModule {
 
     @Override

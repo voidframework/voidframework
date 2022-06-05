@@ -33,6 +33,11 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
     private final Config configuration;
     private Configuration freeMarkerConfiguration;
 
+    /**
+     * Build a new instance.
+     *
+     * @param configuration The application configuration
+     */
     @Inject
     public FreeMarkerConfigurationProvider(final Config configuration) {
         this.configuration = configuration;

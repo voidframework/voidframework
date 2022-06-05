@@ -9,10 +9,6 @@ public class StringToByteConverter implements TypeConverter<String, Byte> {
 
     @Override
     public Byte convert(final String source) {
-        if (source == null) {
-            return null;
-        }
-
         try {
             return Byte.valueOf(source);
         } catch (final NumberFormatException ignore) {

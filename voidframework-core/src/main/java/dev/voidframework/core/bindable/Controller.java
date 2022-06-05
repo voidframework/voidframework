@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * Indicates that an annotated class is a "Controller".
  */
-@dev.voidframework.core.bindable.BindClass
+@BindClass
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -25,12 +25,12 @@ public final class LifeCycleInjectionListener<INSTANCE_TYPE> implements Injectio
     @Override
     public void afterInjection(final INSTANCE_TYPE injectee) {
         for (final Method method : injectee.getClass().getMethods()) {
-            final dev.voidframework.core.lifecycle.LifeCycleStart lifeCycleStartAnnotation = method.getAnnotation(dev.voidframework.core.lifecycle.LifeCycleStart.class);
+            final LifeCycleStart lifeCycleStartAnnotation = method.getAnnotation(LifeCycleStart.class);
             if (lifeCycleStartAnnotation != null) {
                 this.lifeCycleManager.registerStart(injectee, method, lifeCycleStartAnnotation.priority());
             }
 
-            final dev.voidframework.core.lifecycle.LifeCycleStop lifeCycleStopAnnotation = method.getAnnotation(dev.voidframework.core.lifecycle.LifeCycleStop.class);
+            final LifeCycleStop lifeCycleStopAnnotation = method.getAnnotation(LifeCycleStop.class);
             if (lifeCycleStopAnnotation != null) {
                 this.lifeCycleManager.registerStop(
                     injectee, method, lifeCycleStopAnnotation.priority(), lifeCycleStopAnnotation.gracefulStopTimeoutConfigKey());

@@ -20,6 +20,8 @@ public final class MemoryCacheEngine implements dev.voidframework.cache.engine.C
 
     /**
      * Build a new instance.
+     *
+     * @param configuration The current configuration
      */
     @Inject
     public MemoryCacheEngine(final Config configuration) {

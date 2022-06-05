@@ -14,11 +14,15 @@ public @interface Cache {
 
     /**
      * Key of the cache in which result is stored.
+     *
+     * @return Key of the cache in which result is stored
      */
     String key() default "{class}::{method}";
 
     /**
      * Retention time (in seconds).
+     *
+     * @return Retention time (in seconds).
      */
     int timeToLive() default -1;
 }

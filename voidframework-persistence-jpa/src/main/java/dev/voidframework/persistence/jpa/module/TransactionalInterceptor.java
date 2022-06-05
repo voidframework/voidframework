@@ -16,10 +16,15 @@ import javax.transaction.Transactional;
  */
 public class TransactionalInterceptor implements MethodInterceptor {
 
-    private dev.voidframework.persistence.jpa.module.EntityManagerProvider entityManagerProvider;
+    private EntityManagerProvider entityManagerProvider;
 
+    /**
+     * Sets the entity manager provider.
+     *
+     * @param entityManagerProvider The entity manager
+     */
     @Inject
-    public void setDataSourceManagerProvider(final dev.voidframework.persistence.jpa.module.EntityManagerProvider entityManagerProvider) {
+    public void setDataSourceManagerProvider(final EntityManagerProvider entityManagerProvider) {
         this.entityManagerProvider = entityManagerProvider;
     }
 

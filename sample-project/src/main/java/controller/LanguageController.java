@@ -20,6 +20,11 @@ public final class LanguageController {
 
     private final Config configuration;
 
+    /**
+     * Build a new instance.
+     *
+     * @param configuration The application configuration
+     */
     @Inject
     public LanguageController(final Config configuration) {
         this.configuration = configuration;

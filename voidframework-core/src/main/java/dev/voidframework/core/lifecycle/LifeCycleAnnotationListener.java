@@ -6,6 +6,10 @@ import com.google.inject.spi.TypeListener;
 
 import java.lang.reflect.Method;
 
+/**
+ * Listens to the different bind classes to detect which ones have
+ * methods to call when starting or stopping the application.
+ */
 public final class LifeCycleAnnotationListener implements TypeListener {
 
     private final LifeCycleManager lifeCycleManager;
@@ -24,8 +28,8 @@ public final class LifeCycleAnnotationListener implements TypeListener {
         final Class<?> classType = type.getRawType();
 
         for (final Method method : classType.getMethods()) {
-            if (method.isAnnotationPresent(dev.voidframework.core.lifecycle.LifeCycleStart.class) || method.isAnnotationPresent(dev.voidframework.core.lifecycle.LifeCycleStop.class)) {
-                encounter.register(new dev.voidframework.core.lifecycle.LifeCycleInjectionListener<>(lifeCycleManager));
+            if (method.isAnnotationPresent(LifeCycleStart.class) || method.isAnnotationPresent(LifeCycleStop.class)) {
+                encounter.register(new LifeCycleInjectionListener<>(lifeCycleManager));
                 break;
             }
         }

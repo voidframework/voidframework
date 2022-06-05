@@ -9,10 +9,6 @@ public class StringToIntegerConverter implements TypeConverter<String, Integer> 
 
     @Override
     public Integer convert(final String source) {
-        if (source == null) {
-            return null;
-        }
-
         try {
             return Integer.valueOf(source);
         } catch (final NumberFormatException ignore) {

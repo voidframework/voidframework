@@ -50,6 +50,11 @@ public class EntityManagerProvider implements Provider<EntityManager> {
         this.currentEntityManager.set(new ArrayDeque<>());
     }
 
+    /**
+     * Sets the data source manager provider.
+     *
+     * @param dataSourceManagerProvider The data source manager provider
+     */
     @Inject
     public void setDataSourceManagerProvider(final Provider<DataSourceManager> dataSourceManagerProvider) {
         this.dataSourceManagerProvider = dataSourceManagerProvider;

@@ -58,6 +58,7 @@ public final class DataSourceManager {
     /**
      * Retrieve a specific data source.
      *
+     * @param dataSourceName The data source name
      * @return The data source
      */
     public DataSource getDataSource(final String dataSourceName) {

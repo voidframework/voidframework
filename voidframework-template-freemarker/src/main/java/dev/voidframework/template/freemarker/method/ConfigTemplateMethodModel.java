@@ -12,14 +12,23 @@ import freemarker.template.TemplateSequenceModel;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * FreeMarker method: retrieve value from the configuration into the template.
+ */
 public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
 
     private final Config configuration;
 
+    /**
+     * Build a new instance.
+     *
+     * @param configuration The application configuration
+     */
     public ConfigTemplateMethodModel(final Config configuration) {
         this.configuration = configuration;
     }
 
+    @Override
     public TemplateModel exec(final List args) throws TemplateModelException {
         if (args.size() != 1) {
             throw new TemplateModelException("Wrong arguments");

@@ -11,10 +11,6 @@ public class StringToUUIDConverter implements TypeConverter<String, UUID> {
 
     @Override
     public UUID convert(final String source) {
-        if (source == null) {
-            return null;
-        }
-
         try {
             return UUID.fromString(source);
         } catch (final IllegalArgumentException ignore) {

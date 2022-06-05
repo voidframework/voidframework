@@ -22,6 +22,11 @@ public final class CacheInterceptor implements MethodInterceptor {
         this.cacheEngine = null;
     }
 
+    /**
+     * Sets the cache engine to use.
+     *
+     * @param cacheEngine The cache engine
+     */
     @Inject
     public void setCacheEngine(final CacheEngine cacheEngine) {
         if (!(cacheEngine instanceof BlackHoleCacheEngine)) {

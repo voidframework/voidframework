@@ -1,5 +1,8 @@
 package dev.voidframework.web.http;
 
+/**
+ * Defines some HTTP return codes.
+ */
 public interface HttpReturnCode {
 
     int OK = 200;

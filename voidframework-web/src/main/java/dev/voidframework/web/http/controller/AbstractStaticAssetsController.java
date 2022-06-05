@@ -22,6 +22,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+/**
+ * Abstraction to facilitate the use of static and webjar assets.
+ */
 public abstract class AbstractStaticAssetsController implements HttpContentType {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AbstractStaticAssetsController.class);
@@ -41,7 +44,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
     }
 
     /**
-     * Retrieve a webjar asset.
+     * Retrieves a webjar asset.
      *
      * @param fileName Requested webjar asset file name
      * @return A result containing the requested webjar asset
@@ -64,8 +67,9 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
     }
 
     /**
-     * Retrieve a static asset.
+     * Retrieves a static asset.
      *
+     * @param context The current context
      * @return A result containing the requested static asset
      * @throws HttpException.NotFound If requested asset does not exist
      */
@@ -75,7 +79,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
     }
 
     /**
-     * Retrieve a static asset.
+     * Retrieves a static asset.
      *
      * @param fileName Requested static asset file name
      * @return A result containing the requested static asset
@@ -121,7 +125,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
     }
 
     /**
-     * Detect file content type.
+     * Detects file content type.
      *
      * @param fileName The file name with extension
      * @return The detected file content
@@ -139,7 +143,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
     }
 
     /**
-     * Resolve file location.
+     * Resolves file location.
      *
      * @param fileName File name
      * @return The file location, otherwise, null

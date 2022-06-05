@@ -11,6 +11,9 @@ import dev.voidframework.web.routing.HttpMethod;
 
 import java.util.Map;
 
+/**
+ * Health check controller.
+ */
 @WebController
 public final class HealthCheckController {
 
@@ -26,6 +29,11 @@ public final class HealthCheckController {
         this.healthCheckManager = healthCheckManager;
     }
 
+    /**
+     * Retrieves all health check status.
+     *
+     * @return A result
+     */
     @RequestRoute(method = HttpMethod.GET, route = "/healthcheck")
     public Result healthCheck() {
         final Map<String, Health> healthPerNameMap = healthCheckManager.checkHealth();

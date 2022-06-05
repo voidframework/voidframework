@@ -23,7 +23,9 @@ public class LifeCycleException extends RuntimeException {
         /**
          * Build a new instance.
          *
-         * @param cause The cause
+         * @param className  The class name
+         * @param methodName The invoked method name
+         * @param cause      The cause
          */
         public InvocationFailure(final String className, final String methodName, final Throwable cause) {
             super("Life cycle invocation failure for " + className + "::" + methodName, cause);

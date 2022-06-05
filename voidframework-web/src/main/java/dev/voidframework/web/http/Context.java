@@ -2,6 +2,9 @@ package dev.voidframework.web.http;
 
 import java.util.Locale;
 
+/**
+ * An http request context.
+ */
 public final class Context {
 
     private final HttpRequest httpRequest;
@@ -19,14 +22,29 @@ public final class Context {
         this.locale = locale;
     }
 
+    /**
+     * Retrieves the request.
+     *
+     * @return The current request
+     */
     public HttpRequest getRequest() {
         return this.httpRequest;
     }
 
+    /**
+     * Retrieves the locale.
+     *
+     * @return The current locale
+     */
     public Locale getLocale() {
         return locale;
     }
 
+    /**
+     * Sets the locale.
+     *
+     * @param locale The locale to use
+     */
     public void setLocal(final Locale locale) {
         this.locale = locale;
     }

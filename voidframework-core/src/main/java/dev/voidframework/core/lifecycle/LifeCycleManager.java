@@ -38,6 +38,13 @@ public final class LifeCycleManager {
         this.isRunning = false;
     }
 
+    /**
+     * Register a "START" method.
+     *
+     * @param classInstance The class instance where is located the method to invoke
+     * @param method        The method to invoke
+     * @param priority      The priority
+     */
     public void registerStart(final Object classInstance, final Method method, final int priority) {
 
         LOGGER.debug("Register LifeCycle 'START' {}::{} (priority={})", classInstance.getClass().getName(), method.getName(), priority);
@@ -49,12 +56,23 @@ public final class LifeCycleManager {
         }
     }
 
+    /**
+     * Register a "STOP" method.
+     *
+     * @param classInstance                The class instance where is located the method to invoke
+     * @param method                       The method to invoke
+     * @param priority                     The priority
+     * @param gracefulStopTimeoutConfigKey The graceful stop timeout configuration key
+     */
     public void registerStop(final Object classInstance, final Method method, final int priority, final String gracefulStopTimeoutConfigKey) {
 
         LOGGER.debug("Register LifeCycle 'STOP' {}::{} (priority={})", classInstance.getClass().getName(), method.getName(), priority);
         this.stopHandlerList.add(new StopHandler(classInstance, method, priority, gracefulStopTimeoutConfigKey));
     }
 
+    /**
+     * Invoke all registered "START" methods.
+     */
     public void startAll() {
 
         if (!this.isRunning) {
@@ -67,6 +85,9 @@ public final class LifeCycleManager {
         }
     }
 
+    /**
+     * Invoke all registered "STOP" methods.
+     */
     public void stopAll() {
 
         if (this.isRunning) {
@@ -79,6 +100,11 @@ public final class LifeCycleManager {
         }
     }
 
+    /**
+     * Invokes a "START" method.
+     *
+     * @param startHandler The method handler
+     */
     private void invokeMethodStart(final StartHandler startHandler) {
 
         try {
@@ -92,6 +118,11 @@ public final class LifeCycleManager {
         }
     }
 
+    /**
+     * Invokes a "STOP" method.
+     *
+     * @param stopHandler The method handler
+     */
     private void invokeMethodStop(final StopHandler stopHandler) {
 
         try {
@@ -121,11 +152,26 @@ public final class LifeCycleManager {
         }
     }
 
+    /**
+     * "START" method handler.
+     *
+     * @param classInstance The class instance where is located the method to invoke
+     * @param method        The method to invoke
+     * @param priority      The priority
+     */
     private record StartHandler(Object classInstance,
                                 Method method,
                                 int priority) {
     }
 
+    /**
+     * "STOP" method handler.
+     *
+     * @param classInstance                The class instance where is located the method to invoke
+     * @param method                       The method to invoke
+     * @param priority                     The priority
+     * @param gracefulStopTimeoutConfigKey The graceful stop timeout configuration key
+     */
     private record StopHandler(Object classInstance,
                                Method method,
                                int priority,

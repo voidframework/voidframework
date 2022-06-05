@@ -5,6 +5,9 @@ import com.google.inject.matcher.Matchers;
 import dev.voidframework.cache.Cache;
 import dev.voidframework.cache.engine.CacheEngine;
 
+/**
+ * Cache module.
+ */
 public final class CacheModule extends AbstractModule {
 
     @Override

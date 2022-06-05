@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 public final class Json {
 
-    public static final ObjectMapper objectMapper = JsonMapper.builder()
+    private static final ObjectMapper objectMapper = JsonMapper.builder()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         .configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, false)

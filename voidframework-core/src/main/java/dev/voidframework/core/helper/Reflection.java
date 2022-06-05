@@ -13,6 +13,7 @@ public final class Reflection {
      * @param classInstance  The instance of the class in which the field is located
      * @param fieldName      The field name
      * @param valueTypeClass The value class type
+     * @param <VALUE_TYPE>   The value type
      * @return The field value, otherwise, null
      */
     public static <VALUE_TYPE> VALUE_TYPE getFieldValue(final Object classInstance,
@@ -51,19 +52,27 @@ public final class Reflection {
     }
 
     /**
-     * Allows to wrap a complex class type (ie: Map<String, Integer>)
+     * Allows to wrap a complex class type (ie: Map{String, Integer})
      *
      * @param <CLASS_TYPE> The wrapped class type
      */
     public static final class WrappedClass<CLASS_TYPE> {
 
-        final Class<CLASS_TYPE> classType;
+        private final Class<CLASS_TYPE> classType;
 
+        /**
+         * Build a new instance.
+         */
         @SuppressWarnings("unchecked")
         public WrappedClass() {
             this.classType = (Class<CLASS_TYPE>) this.getClass().getSuperclass();
         }
 
+        /**
+         * Returns the wrapped class type.
+         *
+         * @return The wrapped class type
+         */
         public Class<CLASS_TYPE> getWrappedClass() {
             return this.classType;
         }

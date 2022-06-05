@@ -18,7 +18,7 @@ public final class DefaultConverterManager implements ConverterManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConverterManager.class);
 
-    private final Map<dev.voidframework.core.conversion.impl.ConverterCompositeKey, TypeConverter<?, ?>> converterMap;
+    private final Map<ConverterCompositeKey, TypeConverter<?, ?>> converterMap;
 
     /**
      * Build a new instance.
@@ -31,7 +31,7 @@ public final class DefaultConverterManager implements ConverterManager {
     public <SOURCE_TYPE, TARGET_TYPE> boolean hasConvertFor(final Class<SOURCE_TYPE> sourceClassType,
                                                             final Class<TARGET_TYPE> targetClassType) {
 
-        return this.converterMap.containsKey(new dev.voidframework.core.conversion.impl.ConverterCompositeKey(sourceClassType, targetClassType));
+        return this.converterMap.containsKey(new ConverterCompositeKey(sourceClassType, targetClassType));
     }
 
     @Override
@@ -40,7 +40,7 @@ public final class DefaultConverterManager implements ConverterManager {
                                   final TypeConverter<?, ?> converter) {
 
         LOGGER.debug("Register new Converter<source={}, target={}>", sourceClassType, targetClassType);
-        if (this.converterMap.put(new dev.voidframework.core.conversion.impl.ConverterCompositeKey(sourceClassType, targetClassType), converter) != null) {
+        if (this.converterMap.put(new ConverterCompositeKey(sourceClassType, targetClassType), converter) != null) {
             throw new ConversionException.ConverterAlreadyRegistered(sourceClassType, targetClassType);
         }
     }
@@ -52,7 +52,7 @@ public final class DefaultConverterManager implements ConverterManager {
                                                          final Class<TARGET_TYPE> targetClassType) {
 
         return (TypeConverter<SOURCE_TYPE, TARGET_TYPE>) this.converterMap.get(
-            new dev.voidframework.core.conversion.impl.ConverterCompositeKey(sourceClassType, targetClassType));
+            new ConverterCompositeKey(sourceClassType, targetClassType));
     }
 
     @Override

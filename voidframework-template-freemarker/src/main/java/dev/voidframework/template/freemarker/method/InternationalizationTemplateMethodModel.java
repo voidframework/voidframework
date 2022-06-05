@@ -9,17 +9,27 @@ import freemarker.template.TemplateModelException;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * FreeMarker method: internationalization (I18N).
+ */
 public class InternationalizationTemplateMethodModel implements TemplateMethodModelEx {
 
     private final Locale locale;
     private final Internationalization internationalization;
 
+    /**
+     * Build a new instance.
+     *
+     * @param locale               The locale to use
+     * @param internationalization The internationalization instance
+     */
     public InternationalizationTemplateMethodModel(final Locale locale,
                                                    final Internationalization internationalization) {
         this.locale = locale;
         this.internationalization = internationalization;
     }
 
+    @Override
     @SuppressWarnings("unchecked")
     public TemplateModel exec(final List args) throws TemplateModelException {
         if (args.size() < 1) {
