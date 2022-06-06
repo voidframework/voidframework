@@ -66,7 +66,7 @@ public class FlywayMigrationTest {
 
     @Test
     public void migration() throws SQLException {
-        final dev.voidframework.migration.flyway.FlywayMigration flywayMigration = this.injector.getInstance(dev.voidframework.migration.flyway.FlywayMigration.class);
+        final FlywayMigration flywayMigration = this.injector.getInstance(FlywayMigration.class);
         Assertions.assertNotNull(flywayMigration);
 
         Assertions.assertDoesNotThrow(flywayMigration::migrate);

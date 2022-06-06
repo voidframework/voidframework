@@ -49,8 +49,8 @@ public class ApplicationLauncher {
 
     private static final String VOID_FRAMEWORK_BANNER = """
         Booting
-         ██╗   ██╗ ██████╗ ██╗██████╗   |  Void Web Framework
-         ██║   ██║██╔═══██╗██║██╔══██╗  |  ~~~~~~~~~~~~~~~~~~
+         ██╗   ██╗ ██████╗ ██╗██████╗   |  Void Framework
+         ██║   ██║██╔═══██╗██║██╔══██╗  |  ~~~~~~~~~~~~~~
          ██║   ██║██║   ██║██║██║  ██║  |
          ╚██╗ ██╔╝██║   ██║██║██║  ██║  |  https://voidframework.dev
           ╚████╔╝ ╚██████╔╝██║██████╔╝  |
@@ -92,6 +92,7 @@ public class ApplicationLauncher {
         // Scan all classpath to find useful classes
         LOGGER.info("Scanning class path");
         final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        final List<Class<?>> moduleList = new ArrayList<>();
         final List<Class<?>> classList = new ArrayList<>();
         final List<ConverterInformation> converterInfoList = new ArrayList<>();
         try (final ScanResult scanResult = new ClassGraph()
@@ -106,6 +107,8 @@ public class ApplicationLauncher {
 
                 if (classInfo.getAnnotationInfo(BindClass.class) != null && !classInfo.isInterfaceOrAnnotation()) {
                     classList.add(classInfo.loadClass(false));
+                } else if (classInfo.extendsSuperclass(AbstractModule.class)) {
+                    moduleList.add(classInfo.loadClass(false));
                 } else if (classInfo.implementsInterface(TypeConverter.class)) {
                     // Determine source class and target class
                     final List<TypeArgument> typeArgumentList = classInfo.getTypeSignature().getSuperinterfaceSignatures()
@@ -143,7 +146,7 @@ public class ApplicationLauncher {
                 }
             }
         }
-        LOGGER.info("Found {} useful classes", classList.size());
+        LOGGER.info("Found {} useful classes", classList.size() + converterInfoList.size() + moduleList.size());
 
         // Configure core components
         this.lifeCycleManager = new LifeCycleManager(config);
@@ -170,7 +173,6 @@ public class ApplicationLauncher {
                 for (final Class<?> clazz : classList) {
                     bind(clazz);
 
-                    // TODO: Add a configuration key to enable/disable this feature
                     for (final Class<?> interfaceClassType : clazz.getInterfaces()) {
                         this.multibinderMap.computeIfAbsent(interfaceClassType,
                             key -> Multibinder.newSetBinder(binder(), interfaceClassType)
@@ -182,35 +184,27 @@ public class ApplicationLauncher {
 
         // Configure app components
         final List<AbstractModule> appModuleList = new ArrayList<>();
-        if (config.hasPath("voidframework.core.enabledModules")) {
-            final List<String> disabledModuleList = config.getStringList("voidframework.core.disabledModules");
-            LOGGER.info("Loading modules");
-            config.getStringList("voidframework.core.enabledModules")
-                .stream()
-                .filter(StringUtils::isNotEmpty)
-                .forEach(appModuleClassName -> {
-                    try {
-                        final Class<?> abstractModuleClass = Class.forName(appModuleClassName);
-                        if (disabledModuleList.contains(abstractModuleClass.getName())) {
-                            // Don't load this module
-                            return;
-                        }
+        final List<String> disabledModuleList = config.getStringList("voidframework.core.disabledModules");
+        for (final Class<?> moduleClass : moduleList) {
+            if (disabledModuleList.contains(moduleClass.getName())) {
+                // Don't load this module
+                continue;
+            }
 
-                        AbstractModule appModule;
-                        try {
-                            appModule = (AbstractModule) abstractModuleClass.getDeclaredConstructor().newInstance();
-                        } catch (final IllegalArgumentException | NoSuchMethodException ignore) {
-                            appModule = (AbstractModule) abstractModuleClass.getDeclaredConstructor(Config.class).newInstance(config);
-                        }
+            try {
+                AbstractModule appModule;
+                try {
+                    appModule = (AbstractModule) moduleClass.getDeclaredConstructor().newInstance();
+                } catch (final IllegalArgumentException | NoSuchMethodException ignore) {
+                    appModule = (AbstractModule) moduleClass.getDeclaredConstructor(Config.class).newInstance(config);
+                }
 
-                        appModuleList.add(appModule);
-                    } catch (final ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException |
-                                   InvocationTargetException ex) {
-                        throw new RuntimeException("Can't find Module '" + appModuleClassName + "'", ex);
-                    }
-                });
-            LOGGER.info("Modules loaded ({} modules)", appModuleList.size());
+                appModuleList.add(appModule);
+            } catch (final InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
+                throw new RuntimeException("Can't find Module '" + moduleClass + "'", ex);
+            }
         }
+        LOGGER.info("Modules loaded ({} modules)", appModuleList.size());
 
         // Create injector
         this.injector = Guice.createInjector(Stage.PRODUCTION, coreModule, Modules.combine(appModuleList), scanClassBindModule);

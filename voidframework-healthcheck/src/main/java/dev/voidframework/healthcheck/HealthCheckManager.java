@@ -45,11 +45,11 @@ public final class HealthCheckManager {
      *
      * @return The health status report
      */
-    public Map<String, dev.voidframework.healthcheck.Health> checkHealth() {
-        final Map<String, dev.voidframework.healthcheck.Health> healthPerNameMap = new HashMap<>();
+    public Map<String, Health> checkHealth() {
+        final Map<String, Health> healthPerNameMap = new HashMap<>();
 
-        for (final dev.voidframework.healthcheck.HealthChecker healthChecker : this.healthCheckerList) {
-            final dev.voidframework.healthcheck.Health health = healthChecker.checkHealth();
+        for (final HealthChecker healthChecker : this.healthCheckerList) {
+            final Health health = healthChecker.checkHealth();
             healthPerNameMap.put(healthChecker.getName(), health);
         }
 

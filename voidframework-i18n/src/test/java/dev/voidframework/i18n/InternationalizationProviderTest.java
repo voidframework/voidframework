@@ -28,10 +28,10 @@ public final class InternationalizationProviderTest {
             }
         });
 
-        final dev.voidframework.i18n.Internationalization internationalization = injector.getInstance(dev.voidframework.i18n.Internationalization.class);
+        final Internationalization internationalization = injector.getInstance(Internationalization.class);
 
         Assertions.assertNotNull(internationalization);
-        Assertions.assertTrue(internationalization instanceof dev.voidframework.i18n.ResourceBundleInternationalization);
+        Assertions.assertTrue(internationalization instanceof ResourceBundleInternationalization);
     }
 
     @Test
@@ -45,7 +45,7 @@ public final class InternationalizationProviderTest {
             }
         });
 
-        final dev.voidframework.i18n.Internationalization internationalization = injector.getInstance(dev.voidframework.i18n.Internationalization.class);
+        final Internationalization internationalization = injector.getInstance(Internationalization.class);
 
         Assertions.assertNotNull(internationalization);
         Assertions.assertTrue(internationalization instanceof dev.voidframework.i18n.ResourceBundleInternationalization);

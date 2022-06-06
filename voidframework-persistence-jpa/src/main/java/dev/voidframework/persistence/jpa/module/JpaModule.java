@@ -49,7 +49,7 @@ public class JpaModule extends AbstractModule {
 
             if( dbConfigurationName.equals("default")) {
                 bind(EntityManager.class).toProvider(entityManagerProvider);
-                bind(dev.voidframework.persistence.jpa.module.EntityManagerProvider.class).toInstance(entityManagerProvider);
+                bind(EntityManagerProvider.class).toInstance(entityManagerProvider);
             }
         }
 

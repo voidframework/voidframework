@@ -150,10 +150,10 @@ public class WebServer {
 
             multiPartParserDefinition.setFileSizeThreshold(1200000000);
 
-            final String contentType = httpServerExchange
-                .getRequestHeaders()
-                .getLast("Content-Type")
-                .split(";")[0];
+            String contentType = httpServerExchange.getRequestHeaders().getLast("Content-Type");
+            if (contentType != null) {
+                contentType = contentType.split(";")[0];
+            }
 
             final FormDataParser formDataParser = FormParserFactory.builder(false)
                 .addParser(multiPartParserDefinition)
