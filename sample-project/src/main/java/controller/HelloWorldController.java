@@ -10,6 +10,7 @@ import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.HttpContentType;
 import dev.voidframework.web.http.Result;
+import dev.voidframework.web.http.param.RequestBody;
 import dev.voidframework.web.http.param.RequestPath;
 import dev.voidframework.web.http.param.RequestRoute;
 import dev.voidframework.web.routing.HttpMethod;
@@ -81,14 +82,12 @@ public class HelloWorldController implements HttpContentType {
     /**
      * Demo HTTP form.
      *
-     * @param context The current context
+     * @param pojo The POJO retrieved from the body content
      * @return A Result
      */
     @RequestRoute(method = HttpMethod.POST, route = "/form")
-    public Result postForm(final Context context) {
-        final Pojo pojo = context.getRequest().getBodyContent().asJson(Pojo.class);
-        final Pojo pojo2 = context.getRequest().getBodyContent().asYaml(Pojo.class);
-        return Result.ok(Yaml.toYaml(pojo == null ? pojo2 : pojo).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
+    public Result postForm(@RequestBody final Pojo pojo) {
+        return Result.ok(Yaml.toYaml(pojo).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
     }
 
     /**

@@ -27,7 +27,7 @@ public final class HealthCheckAnnotationListener implements TypeListener {
         final Class<?> classType = type.getRawType();
 
         if (HealthChecker.class.isAssignableFrom(classType)) {
-            encounter.register(new dev.voidframework.healthcheck.module.HealthCheckInjectionListener<>(healthCheckManager));
+            encounter.register(new HealthCheckInjectionListener<>(healthCheckManager));
         }
     }
 }

@@ -12,6 +12,7 @@ import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * Helper to handle JSON document.
@@ -82,6 +83,22 @@ public final class Json {
         try {
             return objectMapper.treeToValue(json, clazz);
         } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Converts a data map into to a Java object.
+     *
+     * @param <OUTPUT_TYPE> The type of the Java object
+     * @param dataMap       data map to convert
+     * @param clazz         Expected Java object type
+     * @return The Java object
+     */
+    public static <OUTPUT_TYPE> OUTPUT_TYPE fromMap(final Map<?, ?> dataMap, final Class<OUTPUT_TYPE> clazz) {
+        try {
+            return objectMapper.convertValue(dataMap, clazz);
+        } catch (final NullPointerException | IllegalArgumentException e) {
             return null;
         }
     }

@@ -43,7 +43,7 @@ public class JpaModule extends AbstractModule {
             .collect(Collectors.toSet());
 
         for (final String dbConfigurationName : dbConfigurationNameSet) {
-            final dev.voidframework.persistence.jpa.module.EntityManagerProvider entityManagerProvider = new dev.voidframework.persistence.jpa.module.EntityManagerProvider(dbConfigurationName);
+            final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dbConfigurationName);
             requestInjection(entityManagerProvider);
             bind(EntityManager.class).annotatedWith(Names.named(dbConfigurationName)).toProvider(entityManagerProvider);
 
@@ -53,7 +53,7 @@ public class JpaModule extends AbstractModule {
             }
         }
 
-        final MethodInterceptor methodInterceptor = new dev.voidframework.persistence.jpa.module.TransactionalInterceptor();
+        final MethodInterceptor methodInterceptor = new TransactionalInterceptor();
         requestInjection(methodInterceptor);
         bindInterceptor(Matchers.annotatedWith(Transactional.class), Matchers.any(), methodInterceptor);
         bindInterceptor(Matchers.any(), Matchers.annotatedWith(Transactional.class), methodInterceptor);

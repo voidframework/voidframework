@@ -25,6 +25,28 @@ public class HttpException extends RuntimeException {
     }
 
     /**
+     * Exception indicates that provided request is invalid.
+     */
+    public static class BadRequest extends HttpException {
+
+        /**
+         * Build a new instance.
+         */
+        public BadRequest() {
+            this(null);
+        }
+
+        /**
+         * Build a new instance.
+         *
+         * @param message The provided message
+         */
+        public BadRequest(final String message) {
+            super(message);
+        }
+    }
+
+    /**
      * Exception indicates that a resource was not found.
      */
     public static class NotFound extends HttpException {

@@ -21,7 +21,7 @@ public final class MemoryCacheEngineTest {
     @Test
     public void flushWhenFullMaxItem() {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 3");
-        final dev.voidframework.cache.engine.MemoryCacheEngine memoryCacheEngine = new dev.voidframework.cache.engine.MemoryCacheEngine(configuration);
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
@@ -43,7 +43,7 @@ public final class MemoryCacheEngineTest {
     @Test
     public void getUnknownValue() {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
-        final dev.voidframework.cache.engine.MemoryCacheEngine memoryCacheEngine = new dev.voidframework.cache.engine.MemoryCacheEngine(configuration);
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         Object value = memoryCacheEngine.get("key");
         Assertions.assertNull(value);
@@ -58,7 +58,7 @@ public final class MemoryCacheEngineTest {
     @Test
     public void setValueAndGetValueKey() {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
-        final dev.voidframework.cache.engine.MemoryCacheEngine memoryCacheEngine = new dev.voidframework.cache.engine.MemoryCacheEngine(configuration);
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
@@ -81,7 +81,7 @@ public final class MemoryCacheEngineTest {
     @Test
     public void timeToLive() {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
-        final dev.voidframework.cache.engine.MemoryCacheEngine memoryCacheEngine = new dev.voidframework.cache.engine.MemoryCacheEngine(configuration);
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
@@ -108,7 +108,7 @@ public final class MemoryCacheEngineTest {
     @Test
     public void timeToLiveExpiration() throws InterruptedException {
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
-        final dev.voidframework.cache.engine.MemoryCacheEngine memoryCacheEngine = new dev.voidframework.cache.engine.MemoryCacheEngine(configuration);
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);

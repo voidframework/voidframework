@@ -12,10 +12,10 @@ public final class CacheModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        final dev.voidframework.cache.module.CacheInterceptor cacheInterceptor = new dev.voidframework.cache.module.CacheInterceptor();
+        final CacheInterceptor cacheInterceptor = new CacheInterceptor();
 
         requestInjection(cacheInterceptor);
-        bind(CacheEngine.class).toProvider(dev.voidframework.cache.module.CacheEngineProvider.class);
+        bind(CacheEngine.class).toProvider(CacheEngineProvider.class);
         bindInterceptor(Matchers.any(), Matchers.annotatedWith(Cache.class), cacheInterceptor);
     }
 }

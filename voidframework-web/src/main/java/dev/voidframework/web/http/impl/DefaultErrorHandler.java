@@ -15,6 +15,11 @@ public class DefaultErrorHandler implements ErrorHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandler.class);
 
     @Override
+    public Result onBadRequest(final Context context, final HttpException.BadRequest badRequestException) {
+        return Result.badRequest("400 Bad Request");
+    }
+
+    @Override
     public Result onNotFound(final Context context, final HttpException.NotFound notFoundException) {
         return Result.notFound("404 Not Found");
     }

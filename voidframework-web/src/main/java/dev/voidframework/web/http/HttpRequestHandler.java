@@ -3,6 +3,7 @@ package dev.voidframework.web.http;
 import com.google.inject.Injector;
 import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.web.exception.HttpException;
+import dev.voidframework.web.http.param.RequestBody;
 import dev.voidframework.web.http.param.RequestPath;
 import dev.voidframework.web.http.param.RequestVariable;
 import dev.voidframework.web.routing.ResolvedRoute;
@@ -72,10 +73,18 @@ public final class HttpRequestHandler {
                         continue;
                     }
 
+                    final RequestBody requestBody = parameter.getAnnotation(RequestBody.class);
                     final RequestPath requestPath = parameter.getAnnotation(RequestPath.class);
                     final RequestVariable requestVariable = parameter.getAnnotation(RequestVariable.class);
 
-                    if (requestPath != null) {
+                    if (requestBody != null) {
+                        methodArgumentValueArray[idx] = switch (context.getRequest().getBodyContent().contentType()) {
+                            case HttpContentType.APPLICATION_JSON -> context.getRequest().getBodyContent().asJson(parameter.getType());
+                            case HttpContentType.MULTIPART_FORM_DATA -> context.getRequest().getBodyContent().asFormData(parameter.getType());
+                            case HttpContentType.TEXT_YAML -> context.getRequest().getBodyContent().asYaml(parameter.getType());
+                            default -> throw new HttpException.BadRequest("Unhandled body content");
+                        };
+                    } else if (requestPath != null) {
                         methodArgumentValueArray[idx] = convertValueToParameterType(
                             resolvedRoute.extractedParameterValues().getOrDefault(requestPath.value(), null),
                             parameter.getType());
@@ -96,6 +105,8 @@ public final class HttpRequestHandler {
             final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
             if (cause instanceof HttpException.NotFound) {
                 return errorHandler.onNotFound(context, (HttpException.NotFound) cause);
+            } else if (cause instanceof HttpException.BadRequest) {
+                return errorHandler.onBadRequest(context, (HttpException.BadRequest) cause);
             }
 
             return errorHandler.onServerError(context, cause);

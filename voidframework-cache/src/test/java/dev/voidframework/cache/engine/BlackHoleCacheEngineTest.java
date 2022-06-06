@@ -12,7 +12,7 @@ public final class BlackHoleCacheEngineTest {
 
     @Test
     public void getUnknownValue() {
-        final dev.voidframework.cache.engine.BlackHoleCacheEngine blackHoleCacheEngine = new dev.voidframework.cache.engine.BlackHoleCacheEngine();
+        final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
 
         final Object value = blackHoleCacheEngine.get("key");
         Assertions.assertNull(value);
@@ -20,7 +20,7 @@ public final class BlackHoleCacheEngineTest {
 
     @Test
     public void setValueAndGetValueKey() {
-        final dev.voidframework.cache.engine.BlackHoleCacheEngine blackHoleCacheEngine = new dev.voidframework.cache.engine.BlackHoleCacheEngine();
+        final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
 
         blackHoleCacheEngine.set("key", 1337, 60);
 

@@ -150,6 +150,11 @@ public class WebServer {
 
             multiPartParserDefinition.setFileSizeThreshold(1200000000);
 
+            final String contentType = httpServerExchange
+                .getRequestHeaders()
+                .getLast("Content-Type")
+                .split(";")[0];
+
             final FormDataParser formDataParser = FormParserFactory.builder(false)
                 .addParser(multiPartParserDefinition)
                 .build()
@@ -168,11 +173,15 @@ public class WebServer {
                     }
                 }
 
-                httpRequest = new dev.voidframework.web.server.UndertowRequest(httpServerExchange, new HttpRequestBodyContent(null, formItemPerKeyMap));
+                httpRequest = new UndertowRequest(
+                    httpServerExchange,
+                    new HttpRequestBodyContent(contentType, null, formItemPerKeyMap));
 
             } else {
                 final byte[] content = httpServerExchange.getInputStream().readAllBytes();
-                httpRequest = new dev.voidframework.web.server.UndertowRequest(httpServerExchange, new HttpRequestBodyContent(content, null));
+                httpRequest = new UndertowRequest(
+                    httpServerExchange,
+                    new HttpRequestBodyContent(contentType, content, null));
             }
 
             // Build Context

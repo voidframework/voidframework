@@ -14,7 +14,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessage() {
-        final dev.voidframework.i18n.ResourceBundleInternationalization internationalization = new dev.voidframework.i18n.ResourceBundleInternationalization();
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msgHelloEnglish = internationalization.getMessage(Locale.ENGLISH, "hello.world");
         Assertions.assertNotNull(msgHelloEnglish);
@@ -35,7 +35,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessageArgument() {
-        final dev.voidframework.i18n.ResourceBundleInternationalization internationalization = new dev.voidframework.i18n.ResourceBundleInternationalization();
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msgHelloEnglish = internationalization.getMessage(Locale.ENGLISH, "hello.name", "Aurelia");
         Assertions.assertNotNull(msgHelloEnglish);
@@ -48,7 +48,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessageComplexFormat() {
-        final dev.voidframework.i18n.ResourceBundleInternationalization internationalization = new dev.voidframework.i18n.ResourceBundleInternationalization();
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msgZeroComment = internationalization.getMessage(Locale.ENGLISH, "complex.format", 0);
         Assertions.assertNotNull(msgZeroComment);
@@ -65,7 +65,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessageLocalNull() {
-        final dev.voidframework.i18n.ResourceBundleInternationalization internationalization = new dev.voidframework.i18n.ResourceBundleInternationalization();
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msg = internationalization.getMessage(null, "hello.world");
         Assertions.assertNotNull(msg);
@@ -74,7 +74,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessagePluraleForm() {
-        final dev.voidframework.i18n.ResourceBundleInternationalization internationalization = new dev.voidframework.i18n.ResourceBundleInternationalization();
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msgPlural0English = internationalization.getMessage(Locale.ENGLISH, 0, "inbox", "BoxName", 0);
         Assertions.assertNotNull(msgPlural0English);

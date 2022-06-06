@@ -28,7 +28,7 @@ public class HealthCheckModule extends AbstractModule {
         requestInjection(healthCheckManager);
 
         bind(HealthCheckManager.class).toInstance(healthCheckManager);
-        bindListener(Matchers.any(), new dev.voidframework.healthcheck.module.HealthCheckAnnotationListener(healthCheckManager));
+        bindListener(Matchers.any(), new HealthCheckAnnotationListener(healthCheckManager));
 
         bind(JavaVirtualMachineHealthChecker.class).asEagerSingleton();
     }

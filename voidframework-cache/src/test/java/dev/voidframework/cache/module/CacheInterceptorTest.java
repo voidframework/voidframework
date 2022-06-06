@@ -26,7 +26,7 @@ public final class CacheInterceptorTest {
             @Override
             protected void configure() {
                 bind(Config.class).toInstance(configuration);
-                install(new dev.voidframework.cache.module.CacheModule());
+                install(new CacheModule());
             }
         });
 
@@ -52,7 +52,7 @@ public final class CacheInterceptorTest {
             @Override
             protected void configure() {
                 bind(Config.class).toInstance(configuration);
-                install(new dev.voidframework.cache.module.CacheModule());
+                install(new CacheModule());
             }
         });
 
@@ -89,7 +89,7 @@ public final class CacheInterceptorTest {
             @Override
             protected void configure() {
                 bind(Config.class).toInstance(configuration);
-                install(new dev.voidframework.cache.module.CacheModule());
+                install(new CacheModule());
             }
         });
 

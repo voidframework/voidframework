@@ -52,6 +52,25 @@ public final class Reflection {
     }
 
     /**
+     * Sets the value of a specific field.
+     *
+     * @param classInstance The instance of the class in which the field is located
+     * @param fieldName     The field name
+     * @param value         The value
+     */
+    public static void setFieldValue(final Object classInstance,
+                                     final String fieldName,
+                                     final Object value) {
+        try {
+            final Field field = classInstance.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(classInstance, value);
+            field.setAccessible(false);
+        } catch (final Exception ignore) {
+        }
+    }
+
+    /**
      * Allows to wrap a complex class type (ie: Map{String, Integer})
      *
      * @param <CLASS_TYPE> The wrapped class type

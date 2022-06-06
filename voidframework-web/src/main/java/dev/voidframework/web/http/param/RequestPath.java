@@ -14,5 +14,11 @@ import java.lang.annotation.Target;
 @Retention(value = RetentionPolicy.RUNTIME)
 @Target(value = ElementType.PARAMETER)
 public @interface RequestPath {
+
+    /**
+     * The name of the segment to bind to the method parameter.
+     *
+     * @return The name of the segment to bind to the method parameter.
+     */
     String value();
 }

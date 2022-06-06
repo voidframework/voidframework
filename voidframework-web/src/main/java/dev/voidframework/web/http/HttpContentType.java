@@ -12,6 +12,7 @@ public interface HttpContentType {
     String IMAGE_ICON = "image/x-icon";
     String IMAGE_JPEG = "image/jpeg";
     String IMAGE_PNG = "image/png";
+    String MULTIPART_FORM_DATA = "multipart/form-data";
     String TEXT_HTML = "text/html";
     String TEXT_YAML = "text/yaml";
 }
