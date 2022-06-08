@@ -30,7 +30,7 @@
                     <i class="fas fa-language"></i> &nbsp; ${i18n("lang." + lang)}
                 </a>
                 <ul class="dropdown-menu">
-                    <#list config("voidframework.web.i18n.languages") as language>
+                    <#list config("voidframework.web.language.availableLanguages") as language>
                         <li>
                             <a class="dropdown-item" href="/lang/${language}">${i18n("lang." + language)}</a>
                         </li>

@@ -44,6 +44,16 @@ public class HttpException extends RuntimeException {
         public BadRequest(final String message) {
             super(message);
         }
+
+        /**
+         * Build a new instance.
+         *
+         * @param message The provided message
+         * @param cause   The cause
+         */
+        public BadRequest(final String message, final Throwable cause) {
+            super(message, cause);
+        }
     }
 
     /**

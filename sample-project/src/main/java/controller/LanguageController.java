@@ -40,7 +40,7 @@ public final class LanguageController {
     @RequestRoute(method = HttpMethod.GET, route = "/lang/(?<lang>[a-zA-Z_]{2,5})")
     public Result changeLanguage(final Context context, @RequestPath("lang") final String requestedLanguage) {
         // Change language
-        final boolean isAllowed = this.configuration.getStringList("voidframework.web.i18n.languages")
+        final boolean isAllowed = this.configuration.getStringList("voidframework.web.language.availableLanguages")
             .contains(requestedLanguage);
 
         if (isAllowed) {

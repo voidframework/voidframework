@@ -9,16 +9,19 @@ public final class Context {
 
     private final HttpRequest httpRequest;
 
+    private final Session session;
     private Locale locale;
 
     /**
      * Build a new instance.
      *
      * @param httpRequest The HTTP request
+     * @param session     The current session
      * @param locale      The current locale
      */
-    public Context(final HttpRequest httpRequest, final Locale locale) {
+    public Context(final HttpRequest httpRequest, final Session session, final Locale locale) {
         this.httpRequest = httpRequest;
+        this.session = session;
         this.locale = locale;
     }
 
@@ -29,6 +32,15 @@ public final class Context {
      */
     public HttpRequest getRequest() {
         return this.httpRequest;
+    }
+
+    /**
+     * Retrieves the session.
+     *
+     * @return The current session
+     */
+    public Session getSession() {
+        return this.session;
     }
 
     /**

@@ -49,6 +49,10 @@ public final class HttpRequestHandler {
         this.router = this.injector.getInstance(Router.class);
     }
 
+    public Result onBadRequest(final Context context, final HttpException.BadRequest cause) {
+        return errorHandler.onBadRequest(context, cause);
+    }
+
     public Result onRouteRequest(final Context context) {
 
         final ResolvedRoute resolvedRoute = router.resolveRoute(context.getRequest().getHttpMethod(), context.getRequest().getRequestURI());
@@ -78,12 +82,16 @@ public final class HttpRequestHandler {
                     final RequestVariable requestVariable = parameter.getAnnotation(RequestVariable.class);
 
                     if (requestBody != null) {
-                        methodArgumentValueArray[idx] = switch (context.getRequest().getBodyContent().contentType()) {
-                            case HttpContentType.APPLICATION_JSON -> context.getRequest().getBodyContent().asJson(parameter.getType());
-                            case HttpContentType.MULTIPART_FORM_DATA -> context.getRequest().getBodyContent().asFormData(parameter.getType());
-                            case HttpContentType.TEXT_YAML -> context.getRequest().getBodyContent().asYaml(parameter.getType());
-                            default -> throw new HttpException.BadRequest("Unhandled body content");
-                        };
+                        if (context.getRequest().getBodyContent().contentType() != null) {
+                            methodArgumentValueArray[idx] = switch (context.getRequest().getBodyContent().contentType()) {
+                                case HttpContentType.APPLICATION_JSON -> context.getRequest().getBodyContent().asJson(parameter.getType());
+                                case HttpContentType.MULTIPART_FORM_DATA -> context.getRequest().getBodyContent().asFormData(parameter.getType());
+                                case HttpContentType.TEXT_YAML -> context.getRequest().getBodyContent().asYaml(parameter.getType());
+                                default -> throw new HttpException.BadRequest("Unhandled body content");
+                            };
+                        } else {
+                            methodArgumentValueArray[idx] = null;
+                        }
                     } else if (requestPath != null) {
                         methodArgumentValueArray[idx] = convertValueToParameterType(
                             resolvedRoute.extractedParameterValues().getOrDefault(requestPath.value(), null),
