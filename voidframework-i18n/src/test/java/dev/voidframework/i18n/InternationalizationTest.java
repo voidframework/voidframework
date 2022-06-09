@@ -1,6 +1,7 @@
 package dev.voidframework.i18n;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -11,6 +12,11 @@ import java.util.Locale;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public final class InternationalizationTest {
+
+    @BeforeAll
+    public static void beforeAll() {
+        Locale.setDefault(Locale.ENGLISH);
+    }
 
     @Test
     public void getMessage() {
