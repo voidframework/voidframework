@@ -80,6 +80,10 @@ public class HikariCpDataSourceManagerProvider implements Provider<DataSourceMan
             })
             .collect(Collectors.toSet());
 
+        if (dbConfigurationNameSet.isEmpty()) {
+            throw new RuntimeException("DataSource is not configured");
+        }
+
         for (final String dbConfigurationName : dbConfigurationNameSet) {
 
             final Config dbConfiguration = this.configuration.getConfig("voidframework.datasource." + dbConfigurationName);

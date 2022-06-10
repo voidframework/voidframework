@@ -30,6 +30,10 @@ public class JpaModule extends AbstractModule {
 
     @Override
     protected void configure() {
+        if (!this.configuration.hasPathOrNull("voidframework.datasource")) {
+            throw new RuntimeException("DataSource is not configured");
+        }
+
         final Set<String> dbConfigurationNameSet = this.configuration.getConfig("voidframework.datasource").entrySet()
             .stream()
             .map(Map.Entry::getKey)
@@ -42,12 +46,16 @@ public class JpaModule extends AbstractModule {
             })
             .collect(Collectors.toSet());
 
+        if (dbConfigurationNameSet.isEmpty()) {
+            throw new RuntimeException("DataSource is not configured");
+        }
+
         for (final String dbConfigurationName : dbConfigurationNameSet) {
             final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dbConfigurationName);
             requestInjection(entityManagerProvider);
             bind(EntityManager.class).annotatedWith(Names.named(dbConfigurationName)).toProvider(entityManagerProvider);
 
-            if( dbConfigurationName.equals("default")) {
+            if (dbConfigurationName.equals("default")) {
                 bind(EntityManager.class).toProvider(entityManagerProvider);
                 bind(EntityManagerProvider.class).toInstance(entityManagerProvider);
             }
