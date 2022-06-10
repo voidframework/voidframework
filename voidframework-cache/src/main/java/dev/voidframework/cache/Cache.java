@@ -6,7 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation indicating that the result of invoking a method can be cached.
+ * Annotation indicating that the result of the method will be cached and reused in future calls.
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)

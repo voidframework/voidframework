@@ -10,7 +10,7 @@ public final class ProxyDetector {
     private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
     /**
-     * Check whether the given object is a proxy.
+     * Checks whether the given object is a proxy.
      *
      * @param object the object to check
      * @return {@code true} if the object is a proxy
@@ -20,7 +20,7 @@ public final class ProxyDetector {
     }
 
     /**
-     * Check whether the given class is a proxy.
+     * Checks whether the given class is a proxy.
      *
      * @param clazz the class to check
      * @return {@code true} if the class is a proxy

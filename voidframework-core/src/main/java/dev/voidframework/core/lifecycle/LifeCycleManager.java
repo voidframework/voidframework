@@ -28,7 +28,7 @@ public final class LifeCycleManager {
     /**
      * Build a new instance.
      *
-     * @param configuration The current configuration
+     * @param configuration The application configuration
      */
     public LifeCycleManager(final Config configuration) {
 

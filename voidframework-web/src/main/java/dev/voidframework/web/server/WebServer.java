@@ -46,6 +46,12 @@ public class WebServer {
     private Undertow undertowServer;
     private HttpRequestHandler httpRequestHandler;
 
+    /**
+     * Build a new instance.
+     *
+     * @param configuration The application configuration
+     * @param injector      The injector instance
+     */
     @Inject
     public WebServer(final Config configuration, final Injector injector) {
 
@@ -55,6 +61,9 @@ public class WebServer {
         this.httpRequestHandler = null;
     }
 
+    /**
+     * Start the web server.
+     */
     @LifeCycleStart
     @SuppressWarnings("unused")
     public void startWebServer() {
@@ -143,6 +152,9 @@ public class WebServer {
         this.isRunning = true;
     }
 
+    /**
+     * Stop the web server.
+     */
     @LifeCycleStop(gracefulStopTimeoutConfigKey = "voidframework.web.gracefulStopTimeout")
     @SuppressWarnings("unused")
     public void stopWebServer() {

@@ -16,7 +16,7 @@ public class HealthCheckModule extends AbstractModule {
     /**
      * Build a new instance.
      *
-     * @param configuration The current configuration
+     * @param configuration The application configuration
      */
     public HealthCheckModule(final Config configuration) {
         this.configuration = configuration;

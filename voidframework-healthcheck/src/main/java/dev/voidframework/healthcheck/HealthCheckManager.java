@@ -23,7 +23,7 @@ public final class HealthCheckManager {
     /**
      * Build a new instance.
      *
-     * @param configuration The current configuration
+     * @param configuration The application configuration
      */
     public HealthCheckManager(final Config configuration) {
         this.configuration = configuration;

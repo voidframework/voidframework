@@ -26,7 +26,7 @@ public final class FlywayMigration {
     /**
      * Build a new instance.
      *
-     * @param configuration             The current configuration
+     * @param configuration             The application configuration
      * @param dataSourceManagerProvider The data source manager provider
      */
     @Inject

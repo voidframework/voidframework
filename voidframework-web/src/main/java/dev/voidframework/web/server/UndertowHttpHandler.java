@@ -114,7 +114,7 @@ public class UndertowHttpHandler implements HttpHandler {
         httpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, result.getContentType());
 
         // Headers
-        for (final Map.Entry<String, String> entrySet : result.getHeader().entrySet()) {
+        for (final Map.Entry<String, String> entrySet : result.getHeaders().entrySet()) {
             httpServerExchange.getResponseHeaders().put(
                 new HttpString(entrySet.getKey()),
                 entrySet.getValue());
@@ -147,7 +147,7 @@ public class UndertowHttpHandler implements HttpHandler {
         }
 
         // Cookies
-        for (final Cookie cookie : result.getCookie().values()) {
+        for (final Cookie cookie : result.getCookies().values()) {
             CookieImpl cookieImpl = new CookieImpl(cookie.name(), cookie.value())
                 .setDomain(cookie.domain())
                 .setPath(cookie.path())

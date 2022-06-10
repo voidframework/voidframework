@@ -37,8 +37,8 @@ public final class HttpRequestHandler {
     /**
      * Build a new instance.
      *
-     * @param injector     The current injector instance
-     * @param errorHandler The current error handler to use
+     * @param injector     The injector instance
+     * @param errorHandler The error handler to use
      */
     public HttpRequestHandler(final Injector injector,
                               final ErrorHandler errorHandler) {
@@ -49,10 +49,23 @@ public final class HttpRequestHandler {
         this.router = this.injector.getInstance(Router.class);
     }
 
+    /**
+     * This method is called each time a bad request occur.
+     *
+     * @param context The current context
+     * @param cause   The cause (OPTIONAL)
+     * @return A result
+     */
     public Result onBadRequest(final Context context, final HttpException.BadRequest cause) {
         return errorHandler.onBadRequest(context, cause);
     }
 
+    /**
+     * This method is called each time the framework need to route a request.
+     *
+     * @param context The current context
+     * @return A result
+     */
     public Result onRouteRequest(final Context context) {
 
         final ResolvedRoute resolvedRoute = router.resolveRoute(context.getRequest().getHttpMethod(), context.getRequest().getRequestURI());

@@ -26,7 +26,7 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
     }
 
     /**
-     * Create a {@code Either} with left value set.
+     * Creates a {@code Either} with left value set.
      *
      * @param left         The "Left" value
      * @param <LEFT_TYPE>  Type of "Left" value
@@ -38,7 +38,7 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
     }
 
     /**
-     * Create a {@code Either} with right value set.
+     * Creates a {@code Either} with right value set.
      *
      * @param right        The "Right" value
      * @param <LEFT_TYPE>  Type of "Left" value
@@ -86,7 +86,7 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
     }
 
     /**
-     * Apply the right consumer.
+     * Applies the right consumer.
      *
      * @param leftConsumer  The "Left" consumer
      * @param rightConsumer The "Right" consumer
@@ -105,12 +105,12 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
     }
 
     /**
-     * Apply the right function.
+     * Applies the right function.
      *
      * @param leftFunction  The "Left" function
      * @param rightFunction The "Right" function
      * @param <RETURN_TYPE> The returned value type
-     * @return Return the result of the applied function
+     * @return The result of the applied function
      */
     public <RETURN_TYPE> RETURN_TYPE match(final Function<LEFT_TYPE, RETURN_TYPE> leftFunction,
                                            final Function<RIGHT_TYPE, RETURN_TYPE> rightFunction) {

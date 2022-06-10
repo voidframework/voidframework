@@ -27,7 +27,7 @@ public class HikariCpDataSourceManagerProvider implements Provider<DataSourceMan
     /**
      * Build a new instance.
      *
-     * @param configuration The current configuration
+     * @param configuration The application configuration
      */
     @Inject
     private HikariCpDataSourceManagerProvider(final Config configuration) {

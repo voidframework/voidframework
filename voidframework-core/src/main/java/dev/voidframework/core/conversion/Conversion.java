@@ -11,7 +11,7 @@ import java.util.Set;
 public interface Conversion {
 
     /**
-     * Return whether the given source type can be converted to the given target type.
+     * Returns whether the given source type can be converted to the given target type.
      *
      * @param sourceTypeClass The source type class
      * @param targetTypeClass The target type class
@@ -23,7 +23,7 @@ public interface Conversion {
                                                   final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Return whether the given object can be converted to the given target type.
+     * Returns whether the given object can be converted to the given target type.
      *
      * @param object          The source object
      * @param targetTypeClass The target type class
@@ -34,7 +34,7 @@ public interface Conversion {
                                      final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Convert an object to the target type.
+     * Converts an object to the target type.
      *
      * @param object          The object to convert
      * @param targetTypeClass The target type class
@@ -47,7 +47,7 @@ public interface Conversion {
                                                    final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Convert an object to the target type.
+     * Converts an object to the target type.
      *
      * @param object          The object to convert
      * @param sourceTypeClass The source type class
@@ -62,7 +62,7 @@ public interface Conversion {
                                                    final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Convert each object from an iterable to the target type.
+     * Converts each object from an iterable to the target type.
      *
      * @param objectIterable  The iterable of objects to convert
      * @param targetTypeClass The target type class
@@ -75,7 +75,7 @@ public interface Conversion {
                                                          final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Convert each object from a set to the target type.
+     * Converts each object from a set to the target type.
      *
      * @param objectIterable  The iterable of objects to convert
      * @param sourceTypeClass The source type class
@@ -90,7 +90,7 @@ public interface Conversion {
                                                          final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Convert each object from a list to the target type.
+     * Converts each object from a list to the target type.
      *
      * @param objectList      The list of objects to convert
      * @param targetTypeClass The target type class
@@ -103,7 +103,7 @@ public interface Conversion {
                                                          final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Convert each object from a list to the target type.
+     * Converts each object from a list to the target type.
      *
      * @param objectList      The list of objects to convert
      * @param sourceTypeClass The source type class
@@ -118,7 +118,7 @@ public interface Conversion {
                                                          final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Convert each object from a set to the target type.
+     * Converts each object from a set to the target type.
      *
      * @param objectList      The set of objects to convert
      * @param targetTypeClass The target type class
@@ -131,7 +131,7 @@ public interface Conversion {
                                                         final Class<TARGET_TYPE> targetTypeClass);
 
     /**
-     * Convert each object from a set to the target type.
+     * Converts each object from a set to the target type.
      *
      * @param objectList      The set of objects to convert
      * @param sourceTypeClass The source type class

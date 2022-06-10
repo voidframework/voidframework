@@ -22,8 +22,8 @@ public final class CacheEngineProvider implements Provider<CacheEngine> {
     /**
      * Build a new instance;
      *
-     * @param configuration The current configuration
-     * @param injector      The injector
+     * @param configuration The application configuration
+     * @param injector      The injector instance
      */
     @Inject
     public CacheEngineProvider(final Config configuration, final Injector injector) {

@@ -14,7 +14,7 @@ public class StaticAssetsController extends AbstractStaticAssetsController {
     /**
      * Build a new instance;
      *
-     * @param configuration The current configuration
+     * @param configuration The application configuration
      */
     @Inject
     public StaticAssetsController(final Config configuration) {

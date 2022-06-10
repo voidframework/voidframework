@@ -6,7 +6,7 @@ package dev.voidframework.core.conversion;
 public interface ConverterManager {
 
     /**
-     * Return whether the Manager have converter for the given input / output type.
+     * Returns whether the Manager have converter for the given input / output type.
      *
      * @param sourceClassType The source type class
      * @param targetClassType The target type class
@@ -29,7 +29,7 @@ public interface ConverterManager {
                            final TypeConverter<?, ?> converter);
 
     /**
-     * Return whether the Manager have converter for the given input / output type.
+     * Returns whether the Manager have converter for the given input / output type.
      *
      * @param sourceClassType The source type class
      * @param targetClassType The target type class
@@ -41,7 +41,7 @@ public interface ConverterManager {
                                                                                     final Class<TARGET_TYPE> targetClassType);
 
     /**
-     * Return the number of registered converters.
+     * Returns the number of registered converters.
      *
      * @return The number of registered converters
      */

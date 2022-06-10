@@ -6,6 +6,9 @@ import dev.voidframework.web.routing.Router;
 import dev.voidframework.web.routing.impl.DefaultRouter;
 import dev.voidframework.web.server.WebServer;
 
+/**
+ * The web module.
+ */
 public class WebModule extends AbstractModule {
 
     @Override

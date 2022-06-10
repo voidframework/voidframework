@@ -22,7 +22,7 @@ public class JpaModule extends AbstractModule {
     /**
      * Build a new instance.
      *
-     * @param configuration The current configuration
+     * @param configuration The application configuration
      */
     public JpaModule(final Config configuration) {
         this.configuration = configuration;

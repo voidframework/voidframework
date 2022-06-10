@@ -47,15 +47,6 @@ public class ApplicationLauncher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationLauncher.class);
 
-    private static final String VOID_FRAMEWORK_BANNER = """
-        Booting
-         ██╗   ██╗ ██████╗ ██╗██████╗   |  Void Framework
-         ██║   ██║██╔═══██╗██║██╔══██╗  |  ~~~~~~~~~~~~~~
-         ██║   ██║██║   ██║██║██║  ██║  |
-         ╚██╗ ██╔╝██║   ██║██║██║  ██║  |  https://voidframework.dev
-          ╚████╔╝ ╚██████╔╝██║██████╔╝  |
-           ╚═══╝   ╚═════╝ ╚═╝╚═════╝   |  Version: {}""";
-
     private Injector injector;
     private LifeCycleManager lifeCycleManager;
 
@@ -243,13 +234,9 @@ public class ApplicationLauncher {
      * Display the banner.
      */
     private void displayBanner() {
-        String bannerToDisplay = VOID_FRAMEWORK_BANNER;
-
-        try (final InputStream inputStream = this.getClass().getResourceAsStream("/banner.txt")) {
-            if (inputStream != null) {
-                bannerToDisplay = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
-            }
-        } catch (final IOException ignore) {
+        String bannerToDisplay = readFileContent("/banner.txt");
+        if (bannerToDisplay == null) {
+            bannerToDisplay = readFileContent("/banner.default.txt");
         }
 
         if (StringUtils.isNotEmpty(bannerToDisplay)) {
@@ -257,6 +244,23 @@ public class ApplicationLauncher {
         } else {
             LOGGER.info("Booting application");
         }
+    }
+
+    /**
+     * Returns the content of a file.
+     *
+     * @param fileName The file name to read
+     * @return The file content
+     */
+    String readFileContent(final String fileName) {
+        try (final InputStream inputStream = this.getClass().getResourceAsStream(fileName)) {
+            if (inputStream != null) {
+                return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8).trim();
+            }
+        } catch (final IOException ignore) {
+        }
+
+        return null;
     }
 
     /**

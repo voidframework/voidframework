@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 public final class ClassResolver {
 
     /**
-     * Resolve {@code Class<?>} for a class name.
+     * Resolves {@code Class<?>} for a class name.
      *
      * @param className Name of the class
      * @return Resolved {@code Class<?>}
@@ -26,7 +26,7 @@ public final class ClassResolver {
     }
 
     /**
-     * Resolve {@code Class<?>} for a class name.
+     * Resolves {@code Class<?>} for a class name.
      *
      * @param className   Name of the class
      * @param classLoader Loader to use

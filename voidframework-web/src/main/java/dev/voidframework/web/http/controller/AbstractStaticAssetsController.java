@@ -35,7 +35,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
     /**
      * Build a new instance;
      *
-     * @param configuration The current configuration
+     * @param configuration The application configuration
      */
     @Inject
     public AbstractStaticAssetsController(final Config configuration) {

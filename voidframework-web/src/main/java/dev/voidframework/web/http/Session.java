@@ -8,6 +8,9 @@ import java.util.Map;
  */
 public class Session extends HashMap<String, String> {
 
+    /**
+     * Indicate if the session has been modified.
+     */
     private boolean isModified;
 
     /**

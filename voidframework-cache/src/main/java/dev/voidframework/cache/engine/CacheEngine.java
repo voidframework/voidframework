@@ -1,7 +1,8 @@
 package dev.voidframework.cache.engine;
 
 /**
- * All cache engine must implement this interface.
+ * The cache engine is responsible for adding, retrieving and managing the lifetime of cached items.
+ * All cache engine implementation must implements this interface.
  */
 public interface CacheEngine {
 
