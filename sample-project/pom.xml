@@ -30,6 +30,28 @@
 
     <build>
         <plugins>
+            <!-- Generate "classpath.bootstrap" -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-classpath-bootstrap</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                        <configuration>
+                            <mainClass>dev.voidframework.core.generator.ClasspathBootstrapGenerator</mainClass>
+                            <arguments>
+                                <argument>${project.build.outputDirectory}</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Copy dependencies -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
