@@ -1,15 +1,15 @@
-package dev.voidframework.persistence.jpa.module;
+package dev.voidframework.persistence.hibernate.module;
 
 import com.google.inject.Inject;
 import dev.voidframework.core.helper.ProxyDetector;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TransactionRequiredException;
+import jakarta.transaction.InvalidTransactionException;
+import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TransactionRequiredException;
-import javax.transaction.InvalidTransactionException;
-import javax.transaction.Transactional;
 
 /**
  * Intercepts method call when annotation {@link Transactional} is used.

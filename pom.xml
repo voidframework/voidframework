@@ -55,7 +55,8 @@
         <dependency.version.jwt>3.19.2</dependency.version.jwt>
         <dependency.version.freemarker>2.3.31</dependency.version.freemarker>
         <dependency.version.hikaricp>5.0.1</dependency.version.hikaricp>
-        <dependency.version.hibernate>5.6.3.Final</dependency.version.hibernate>
+        <dependency.version.hibernate>6.1.0.Final</dependency.version.hibernate>
+        <dependency.version.persistenceapi>3.1.0</dependency.version.persistenceapi>
         <dependency.version.kryo>5.3.0</dependency.version.kryo>
         <dependency.version.flyway>8.5.11</dependency.version.flyway>
         <dependency.version.h2>2.1.212</dependency.version.h2>
@@ -71,7 +72,7 @@
         <module>voidframework-healthcheck</module>
         <module>voidframework-i18n</module>
         <module>voidframework-migration-flyway</module>
-        <module>voidframework-persistence-jpa</module>
+        <module>voidframework-persistence-hibernate</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>
         <module>voidframework-web</module>
@@ -226,7 +227,7 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-persistence-jpa</artifactId>
+                <artifactId>voidframework-persistence-hibernate</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
             <dependency>
@@ -344,9 +345,20 @@
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-hikaricp</artifactId>
+                <groupId>org.hibernate.orm</groupId>
+                <artifactId>hibernate-core</artifactId>
                 <version>${dependency.version.hibernate}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jakarta.persistence</groupId>
+                        <artifactId>jakarta.persistence-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.persistence</groupId>
+                <artifactId>jakarta.persistence-api</artifactId>
+                <version>${dependency.version.persistenceapi}</version>
             </dependency>
             <dependency>
                 <groupId>com.esotericsoftware</groupId>

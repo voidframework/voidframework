@@ -1,21 +1,21 @@
-package dev.voidframework.persistence.jpa.module;
+package dev.voidframework.persistence.hibernate.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.typesafe.config.Config;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInterceptor;
 
-import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * JPA module.
+ * Hibernate module.
  */
-public class JpaModule extends AbstractModule {
+public class HibernateModule extends AbstractModule {
 
     private final Config configuration;
 
@@ -24,7 +24,7 @@ public class JpaModule extends AbstractModule {
      *
      * @param configuration The application configuration
      */
-    public JpaModule(final Config configuration) {
+    public HibernateModule(final Config configuration) {
         this.configuration = configuration;
     }
 

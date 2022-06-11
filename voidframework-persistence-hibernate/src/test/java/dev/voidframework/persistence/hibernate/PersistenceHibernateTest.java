@@ -1,4 +1,4 @@
-package dev.voidframework.persistence.jpa;
+package dev.voidframework.persistence.hibernate;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -8,24 +8,24 @@ import com.google.inject.Stage;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.datasource.hikaricp.module.HikariCpDataSourceModule;
-import dev.voidframework.persistence.jpa.model.UnitTest;
-import dev.voidframework.persistence.jpa.module.JpaModule;
+import dev.voidframework.persistence.hibernate.model.UnitTest;
+import dev.voidframework.persistence.hibernate.module.HibernateModule;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class PersistenceJpaTest {
+public final class PersistenceHibernateTest {
 
     private final Injector injector;
 
-    public PersistenceJpaTest() {
+    public PersistenceHibernateTest() {
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
             voidframework.datasource.default.driver = "org.h2.Driver"
@@ -48,7 +48,7 @@ public final class PersistenceJpaTest {
             @Override
             protected void configure() {
                 install(new HikariCpDataSourceModule());
-                install(new JpaModule(configuration));
+                install(new HibernateModule(configuration));
                 bind(Config.class).toInstance(configuration);
             }
         });

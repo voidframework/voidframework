@@ -85,7 +85,7 @@
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>
-            <artifactId>voidframework-persistence-jpa</artifactId>
+            <artifactId>voidframework-persistence-hibernate</artifactId>
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>

@@ -1,4 +1,4 @@
-package dev.voidframework.persistence.jpa;
+package dev.voidframework.persistence.hibernate;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -9,18 +9,18 @@ import com.google.inject.Stage;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.datasource.hikaricp.module.HikariCpDataSourceModule;
-import dev.voidframework.persistence.jpa.module.JpaModule;
+import dev.voidframework.persistence.hibernate.module.HibernateModule;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TransactionRequiredException;
+import jakarta.transaction.InvalidTransactionException;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TransactionRequiredException;
-import javax.transaction.InvalidTransactionException;
-import javax.transaction.Transactional;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -53,7 +53,7 @@ public final class TransactionalTest {
             @Override
             protected void configure() {
                 install(new HikariCpDataSourceModule());
-                install(new JpaModule(configuration));
+                install(new HibernateModule(configuration));
                 bind(Config.class).toInstance(configuration);
             }
         });
@@ -74,7 +74,7 @@ public final class TransactionalTest {
 
         Assertions.assertNotNull(exception);
         Assertions.assertEquals(
-            "dev.voidframework.persistence.jpa.TransactionalTest$DummyService::transactionalMandatoryWithoutTransaction called outside a transaction context",
+            "dev.voidframework.persistence.hibernate.TransactionalTest$DummyService::transactionalMandatoryWithoutTransaction called outside a transaction context",
             exception.getMessage());
     }
 
@@ -87,7 +87,7 @@ public final class TransactionalTest {
 
         Assertions.assertNotNull(exception);
         Assertions.assertEquals(
-            "dev.voidframework.persistence.jpa.TransactionalTest$DummyService::transactionalNeverWithTransaction called inside a transaction context",
+            "dev.voidframework.persistence.hibernate.TransactionalTest$DummyService::transactionalNeverWithTransaction called inside a transaction context",
             exception.getMessage());
     }
 

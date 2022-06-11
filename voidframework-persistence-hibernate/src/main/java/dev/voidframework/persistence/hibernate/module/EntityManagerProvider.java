@@ -1,20 +1,19 @@
-package dev.voidframework.persistence.jpa.module;
+package dev.voidframework.persistence.hibernate.module;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import com.zaxxer.hikari.hibernate.HikariConnectionProvider;
 import dev.voidframework.datasource.DataSourceManager;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.SharedCacheMode;
+import jakarta.persistence.ValidationMode;
+import jakarta.persistence.spi.ClassTransformer;
+import jakarta.persistence.spi.PersistenceUnitInfo;
+import jakarta.persistence.spi.PersistenceUnitTransactionType;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.SharedCacheMode;
-import javax.persistence.ValidationMode;
-import javax.persistence.spi.ClassTransformer;
-import javax.persistence.spi.PersistenceUnitInfo;
-import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +27,7 @@ import java.util.Properties;
 /**
  * Entity manager provider. This provider is special, it exposes methods to manually manage
  * the {@link EntityManager} to return when a user calls the method {@link #get()}. These
- * methods are used to handle transaction with the {@link javax.transaction.Transactional}
+ * methods are used to handle transaction with the {@link jakarta.transaction.Transactional}
  * annotation interceptor.
  */
 @Singleton
@@ -133,7 +132,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
         @Override
         public String getPersistenceProviderClassName() {
-            return HikariConnectionProvider.class.getName();
+            return null;
         }
 
         @Override
