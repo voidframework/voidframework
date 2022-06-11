@@ -1,6 +1,7 @@
 *.class
 *.java~
 *.versionsBackup
+classpath.bootstrap
 
 
 # IntelliJ IDEA

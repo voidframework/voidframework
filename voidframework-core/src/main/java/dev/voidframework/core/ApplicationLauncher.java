@@ -1,5 +1,7 @@
 package dev.voidframework.core;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -77,76 +79,30 @@ public class ApplicationLauncher {
         LOGGER.info("Fetching configuration");
         final Config applicationConfiguration = ConfigFactory.defaultApplication(this.getClass().getClassLoader());
         final Config referenceConfiguration = ConfigFactory.defaultReference(this.getClass().getClassLoader()).withOnlyPath("voidframework");
-        final Config config = applicationConfiguration.withFallback(referenceConfiguration).resolve();
-        LOGGER.info("Configuration fetched with success ({} keys)", config.entrySet().size());
+        final Config configuration = applicationConfiguration.withFallback(referenceConfiguration).resolve();
+        LOGGER.info("Configuration fetched with success ({} keys)", configuration.entrySet().size());
 
-        // Scan all classpath to find useful classes
+        // Find useful classes to load
         LOGGER.info("Scanning class path");
-        final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        final List<Class<?>> moduleList = new ArrayList<>();
-        final List<Class<?>> classList = new ArrayList<>();
-        final List<ConverterInformation> converterInfoList = new ArrayList<>();
-        try (final ScanResult scanResult = new ClassGraph()
-            .acceptPackages(config.getStringList("voidframework.core.acceptedScanPaths").toArray(new String[0]))
-            .rejectPackages(config.getStringList("voidframework.core.rejectedScanPaths").toArray(new String[0]))
-            .addClassLoader(classLoader)
-            .enableAnnotationInfo()
-            .enableMethodInfo()
-            .scan()) {
-
-            for (final ClassInfo classInfo : scanResult.getAllClasses()) {
-
-                if (classInfo.getAnnotationInfo(BindClass.class) != null && !classInfo.isInterfaceOrAnnotation()) {
-                    classList.add(classInfo.loadClass(false));
-                } else if (classInfo.extendsSuperclass(AbstractModule.class)) {
-                    moduleList.add(classInfo.loadClass(false));
-                } else if (classInfo.implementsInterface(TypeConverter.class)) {
-                    // Determine source class and target class
-                    final List<TypeArgument> typeArgumentList = classInfo.getTypeSignature().getSuperinterfaceSignatures()
-                        .get(0)
-                        .getTypeArguments();
-                    if (typeArgumentList.size() != 2) {
-                        // Technically not possible, but you might as well be 100% sure
-                        throw new ConversionException.InvalidConverter(classInfo.getName(), "Bad number of type parameter");
-                    }
-
-                    final String sourceClassName = typeArgumentList.get(0).getTypeSignature().toString();
-                    final Class<?> sourceClassType = ClassResolver.forName(sourceClassName, classLoader);
-                    if (sourceClassType == null) {
-                        throw new ConversionException.InvalidConverter(
-                            classInfo.getName(), "Can't retrieve Class<?> from '" + sourceClassName + "'");
-                    }
-
-                    final String targetClassName = typeArgumentList.get(1).getTypeSignature().toString();
-                    final Class<?> targetClassType = ClassResolver.forName(targetClassName, classLoader);
-                    if (targetClassType == null) {
-                        throw new ConversionException.InvalidConverter(
-                            classInfo.getName(), "Can't retrieve Class<?> from '" + targetClassName + "'");
-                    }
-
-                    // Retrieves constructor
-                    final MethodInfoList constructorInfoList = classInfo.getConstructorInfo();
-                    if (constructorInfoList.isEmpty()) {
-                        throw new ConversionException.InvalidConverter(classInfo.getName(), "No constructor found");
-                    }
-
-                    final MethodInfo constructorInfo = constructorInfoList.get(0);
-
-                    converterInfoList.add(
-                        new ConverterInformation(sourceClassType, targetClassType, constructorInfo.loadClassAndGetConstructor().getDeclaringClass()));
-                }
-            }
+        final InputStream inputStream = this.getClass().getResourceAsStream("/classpath.bootstrap");
+        final ScannedClassesToLoad scannedClassesToLoad;
+        if (inputStream != null) {
+            scannedClassesToLoad = this.restoreClassesToLoad(inputStream);
+        } else {
+            scannedClassesToLoad = this.findClassesToLoad(
+                configuration.getStringList("voidframework.core.acceptedScanPaths").toArray(new String[0]),
+                configuration.getStringList("voidframework.core.rejectedScanPaths").toArray(new String[0]));
         }
-        LOGGER.info("Found {} useful classes", classList.size() + converterInfoList.size() + moduleList.size());
+        LOGGER.info("Found {} useful classes", scannedClassesToLoad.count());
 
         // Configure core components
-        this.lifeCycleManager = new LifeCycleManager(config);
+        this.lifeCycleManager = new LifeCycleManager(configuration);
 
         final AbstractModule coreModule = new AbstractModule() {
 
             @Override
             protected void configure() {
-                bind(Config.class).toInstance(config);
+                bind(Config.class).toInstance(configuration);
                 bind(ConverterManager.class).to(DefaultConverterManager.class).asEagerSingleton();
                 bind(Conversion.class).to(DefaultConversion.class).asEagerSingleton();
 
@@ -161,7 +117,7 @@ public class ApplicationLauncher {
             @Override
             @SuppressWarnings("unchecked")
             protected void configure() {
-                for (final Class<?> clazz : classList) {
+                for (final Class<?> clazz : scannedClassesToLoad.bindableList) {
                     bind(clazz);
 
                     for (final Class<?> interfaceClassType : clazz.getInterfaces()) {
@@ -175,8 +131,8 @@ public class ApplicationLauncher {
 
         // Configure app components
         final List<AbstractModule> appModuleList = new ArrayList<>();
-        final List<String> disabledModuleList = config.getStringList("voidframework.core.disabledModules");
-        for (final Class<?> moduleClass : moduleList) {
+        final List<String> disabledModuleList = configuration.getStringList("voidframework.core.disabledModules");
+        for (final Class<?> moduleClass : scannedClassesToLoad.moduleList) {
             if (disabledModuleList.contains(moduleClass.getName())) {
                 // Don't load this module
                 continue;
@@ -187,7 +143,7 @@ public class ApplicationLauncher {
                 try {
                     appModule = (AbstractModule) moduleClass.getDeclaredConstructor().newInstance();
                 } catch (final IllegalArgumentException | NoSuchMethodException ignore) {
-                    appModule = (AbstractModule) moduleClass.getDeclaredConstructor(Config.class).newInstance(config);
+                    appModule = (AbstractModule) moduleClass.getDeclaredConstructor(Config.class).newInstance(configuration);
                 }
 
                 appModuleList.add(appModule);
@@ -203,7 +159,7 @@ public class ApplicationLauncher {
         // Register detected converters
         LOGGER.info("Registering converters");
         final ConverterManager converterManager = this.injector.getInstance(ConverterManager.class);
-        for (final ConverterInformation converterInfo : converterInfoList) {
+        for (final ConverterInformation converterInfo : scannedClassesToLoad.converterInformationList) {
             final TypeConverter<?, ?> converter = (TypeConverter<?, ?>) injector.getInstance(converterInfo.converterTypeClass);
             converterManager.registerConverter(converterInfo.sourceTypeClass, converterInfo.targetTypeClass, converter);
         }
@@ -231,6 +187,93 @@ public class ApplicationLauncher {
     }
 
     /**
+     * Scan given paths to find classes to bind.
+     *
+     * @param acceptedScanPaths The locations to scan for classes to bind
+     * @param rejectedScanPaths The locations to exclude from the scan
+     * @return Scan result
+     */
+    private ScannedClassesToLoad findClassesToLoad(final String[] acceptedScanPaths,
+                                                   final String[] rejectedScanPaths) {
+
+        final ScannedClassesToLoad scannedClassesToLoad = new ScannedClassesToLoad(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+
+        try (final ScanResult scanResult = new ClassGraph()
+            .acceptPackages(acceptedScanPaths)
+            .rejectPackages(rejectedScanPaths)
+            .enableAnnotationInfo()
+            .enableMethodInfo()
+            .scan()) {
+
+            for (final ClassInfo classInfo : scanResult.getAllClasses()) {
+
+                if (classInfo.getAnnotationInfo(BindClass.class) != null && !classInfo.isInterfaceOrAnnotation()) {
+                    scannedClassesToLoad.bindableList.add(classInfo.loadClass(false));
+                } else if (classInfo.extendsSuperclass(AbstractModule.class)) {
+                    scannedClassesToLoad.moduleList.add(classInfo.loadClass(false));
+                } else if (classInfo.implementsInterface(TypeConverter.class)) {
+                    // Determine source class and target class
+                    final List<TypeArgument> typeArgumentList = classInfo.getTypeSignature().getSuperinterfaceSignatures()
+                        .get(0)
+                        .getTypeArguments();
+                    if (typeArgumentList.size() != 2) {
+                        // Technically not possible, but you might as well be 100% sure
+                        throw new ConversionException.InvalidConverter(classInfo.getName(), "Bad number of type parameter");
+                    }
+
+                    final String sourceClassName = typeArgumentList.get(0).getTypeSignature().toString();
+                    final Class<?> sourceClassType = ClassResolver.forName(sourceClassName);
+                    if (sourceClassType == null) {
+                        throw new ConversionException.InvalidConverter(
+                            classInfo.getName(), "Can't retrieve Class<?> from '" + sourceClassName + "'");
+                    }
+
+                    final String targetClassName = typeArgumentList.get(1).getTypeSignature().toString();
+                    final Class<?> targetClassType = ClassResolver.forName(targetClassName);
+                    if (targetClassType == null) {
+                        throw new ConversionException.InvalidConverter(
+                            classInfo.getName(), "Can't retrieve Class<?> from '" + targetClassName + "'");
+                    }
+
+                    // Retrieves constructor
+                    final MethodInfoList constructorInfoList = classInfo.getConstructorInfo();
+                    if (constructorInfoList.isEmpty()) {
+                        throw new ConversionException.InvalidConverter(classInfo.getName(), "No constructor found");
+                    }
+
+                    final MethodInfo constructorInfo = constructorInfoList.get(0);
+
+                    scannedClassesToLoad.converterInformationList.add(
+                        new ConverterInformation(sourceClassType, targetClassType, constructorInfo.loadClassAndGetConstructor().getDeclaringClass()));
+                }
+            }
+        }
+
+        return scannedClassesToLoad;
+    }
+
+    /**
+     * Restore {@code ScannedClassesToLoad} from the given stream.
+     *
+     * @param inputStream The stream to use to restore {@code ScannedClassesToLoad}
+     * @return Restored {@code ScannedClassesToLoad}
+     */
+    private ScannedClassesToLoad restoreClassesToLoad(final InputStream inputStream) {
+        final Kryo kryo = new Kryo();
+        kryo.setRegistrationRequired(false);
+        kryo.register(ArrayList.class);
+        kryo.register(Class.class);
+        kryo.register(ConverterInformation.class);
+        kryo.register(ScannedClassesToLoad.class);
+
+        final Input input = new Input(inputStream);
+        final ScannedClassesToLoad scannedClassesToLoad = kryo.readObject(input, ScannedClassesToLoad.class);
+        input.close();
+
+        return scannedClassesToLoad;
+    }
+
+    /**
      * Display the banner.
      */
     private void displayBanner() {
@@ -252,7 +295,7 @@ public class ApplicationLauncher {
      * @param fileName The file name to read
      * @return The file content
      */
-    String readFileContent(final String fileName) {
+    private String readFileContent(final String fileName) {
         try (final InputStream inputStream = this.getClass().getResourceAsStream(fileName)) {
             if (inputStream != null) {
                 return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8).trim();
@@ -261,6 +304,27 @@ public class ApplicationLauncher {
         }
 
         return null;
+    }
+
+    /**
+     * Scanned classes to load into Guice.
+     *
+     * @param moduleList               The module classes list
+     * @param bindableList             The bindable classes list
+     * @param converterInformationList The converter information list
+     */
+    private record ScannedClassesToLoad(List<Class<?>> moduleList,
+                                        List<Class<?>> bindableList,
+                                        List<ConverterInformation> converterInformationList) {
+
+        /**
+         * Returns the number of scanned classes.
+         *
+         * @return The number of scanned classes
+         */
+        public int count() {
+            return moduleList.size() + bindableList.size() + converterInformationList.size();
+        }
     }
 
     /**
