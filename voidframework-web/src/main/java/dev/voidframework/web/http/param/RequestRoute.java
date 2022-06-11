@@ -29,7 +29,7 @@ public @interface RequestRoute {
      *
      * @return The route URL
      */
-    String route();
+    String route() default "/";
 
     ///**
     // * Returns the route alias name.

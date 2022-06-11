@@ -28,14 +28,58 @@ public class ControllerAnnotationListener implements TypeListener {
     @Override
     public <I> void hear(final TypeLiteral<I> type, final TypeEncounter<I> encounter) {
         final Class<?> classType = type.getRawType();
+        final WebController webController = classType.getAnnotation(WebController.class);
 
-        if (classType.isAnnotationPresent(WebController.class)) {
+        if (webController != null) {
             for (final Method method : classType.getMethods()) {
                 if (method.isAnnotationPresent(RequestRoute.class)) {
                     final RequestRoute requestRoute = method.getAnnotation(RequestRoute.class);
-                    router.addRoute(requestRoute.method(), requestRoute.route(), classType, method);
+                    final String completeRoute = this.appendPrefixToRoute(webController.prefixRoute(), requestRoute.route());
+
+                    router.addRoute(requestRoute.method(), completeRoute, classType, method);
                 }
             }
         }
+    }
+
+    /**
+     * Prepends prefix to a route.
+     *
+     * @param prefix The prefix to prepend
+     * @param route  The route to use
+     * @return The complete route
+     */
+    private String appendPrefixToRoute(final String prefix, final String route) {
+        final String cleanedPrefix = this.cleanRoutePath(prefix);
+        final String cleanedRoute = this.cleanRoutePath(route);
+
+        if (cleanedPrefix.endsWith("/") && cleanedRoute.charAt(0) == '/') {
+            return cleanedPrefix + cleanedRoute.substring(1);
+        }
+
+        return this.cleanRoutePath(cleanedPrefix + cleanedRoute);
+    }
+
+    /**
+     * Cleans the given route path.
+     *
+     * @param routePath The route path to clean
+     * @return Cleaned route path
+     */
+    private String cleanRoutePath(final String routePath) {
+        String cleanedRoutePath = routePath.trim();
+
+        if (cleanedRoutePath.isEmpty() || cleanedRoutePath.equals("/")) {
+            return "/";
+        }
+
+        if (cleanedRoutePath.charAt(0) != '/') {
+            cleanedRoutePath = '/' + cleanedRoutePath;
+        }
+        if (cleanedRoutePath.endsWith("/")) {
+            cleanedRoutePath = cleanedRoutePath.substring(0, cleanedRoutePath.length() - 1);
+        }
+
+        return cleanedRoutePath;
     }
 }

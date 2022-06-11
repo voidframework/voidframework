@@ -44,7 +44,7 @@ public class HelloWorldController implements HttpContentType {
      * @param context The current context
      * @return A Result
      */
-    @RequestRoute(method = HttpMethod.GET, route = "/")
+    @RequestRoute(method = HttpMethod.GET)
     public Result showHomePage(final Context context) {
         return Result.ok(this.templateRenderer.render("home_page.ftl", context.getLocale()));
     }

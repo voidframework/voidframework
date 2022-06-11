@@ -16,4 +16,11 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WebController {
+
+    /**
+     * Defines a prefix that will be applied to all routes defined in the annotated class.
+     *
+     * @return The prefix to apply
+     */
+    String prefixRoute() default "";
 }
