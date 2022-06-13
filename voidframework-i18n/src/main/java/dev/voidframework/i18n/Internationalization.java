@@ -8,7 +8,7 @@ import java.util.Locale;
 public interface Internationalization {
 
     /**
-     * Retrieve a message.
+     * Retrieves a message.
      *
      * @param locale The locale corresponding to the translation to be used
      * @param key    The message key
@@ -17,7 +17,7 @@ public interface Internationalization {
     String getMessage(final Locale locale, final String key);
 
     /**
-     * Retrieve a message.
+     * Retrieves a message.
      *
      * @param locale        The locale corresponding to the translation to be used
      * @param key           The message key
@@ -27,7 +27,7 @@ public interface Internationalization {
     String getMessage(final Locale locale, final String key, final Object... argumentArray);
 
     /**
-     * Retrieve a message.
+     * Retrieves a message.
      *
      * @param locale        The locale corresponding to the translation to be used
      * @param quantity      The quantity to determine the plural key to use

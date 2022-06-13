@@ -46,22 +46,23 @@
 
         <!-- Dependencies -->
         <dependency.version.classgraph>4.8.147</dependency.version.classgraph>
-        <dependency.version.commons-lang>3.12.0</dependency.version.commons-lang>
+        <dependency.version.commons.lang>3.12.0</dependency.version.commons.lang>
         <dependency.version.flyway>8.5.12</dependency.version.flyway>
         <dependency.version.freemarker>2.3.31</dependency.version.freemarker>
         <dependency.version.guice>5.1.0</dependency.version.guice>
-        <dependency.version.hibernate>6.1.0.Final</dependency.version.hibernate>
+        <dependency.version.hibernate.orm>6.1.0.Final</dependency.version.hibernate.orm>
+        <dependency.version.hibernate.validator>7.0.4.Final</dependency.version.hibernate.validator>
         <dependency.version.hikaricp>5.0.1</dependency.version.hikaricp>
         <dependency.version.jackson.core>2.13.3</dependency.version.jackson.core>
         <dependency.version.jackson>2.13.3</dependency.version.jackson>
+        <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
+        <dependency.version.jakarta.persistenceapi>3.1.0</dependency.version.jakarta.persistenceapi>
         <dependency.version.jwt>3.19.2</dependency.version.jwt>
         <dependency.version.kryo>5.3.0</dependency.version.kryo>
         <dependency.version.logback>1.2.11</dependency.version.logback>
-        <dependency.version.persistenceapi>3.1.0</dependency.version.persistenceapi>
         <dependency.version.tika>2.4.0</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
         <dependency.version.undertow>2.2.17.Final</dependency.version.undertow>
-        <dependency.version.validationapi>3.0.2</dependency.version.validationapi>
 
         <!-- Unit Tests -->
         <dependency.version.h2>2.1.212</dependency.version.h2>
@@ -80,6 +81,7 @@
         <module>voidframework-persistence-hibernate</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>
+        <module>voidframework-validation</module>
         <module>voidframework-web</module>
         <module>voidframework-web-healthcheck</module>
     </modules>
@@ -247,6 +249,11 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-validation</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-web</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
@@ -270,7 +277,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>${dependency.version.commons-lang}</version>
+                <version>${dependency.version.commons.lang}</version>
             </dependency>
             <dependency>
                 <groupId>com.typesafe</groupId>
@@ -352,7 +359,7 @@
             <dependency>
                 <groupId>org.hibernate.orm</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>${dependency.version.hibernate}</version>
+                <version>${dependency.version.hibernate.orm}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>jakarta.persistence</groupId>
@@ -363,7 +370,7 @@
             <dependency>
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
-                <version>${dependency.version.persistenceapi}</version>
+                <version>${dependency.version.jakarta.persistenceapi}</version>
             </dependency>
             <dependency>
                 <groupId>com.esotericsoftware</groupId>
@@ -376,9 +383,14 @@
                 <version>${dependency.version.flyway}</version>
             </dependency>
             <dependency>
-                <groupId>jakarta.validation</groupId>
-                <artifactId>jakarta.validation-api</artifactId>
-                <version>${dependency.version.validationapi}</version>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${dependency.version.hibernate.validator}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>jakarta.el</artifactId>
+                <version>${dependency.version.jakarta.el}</version>
             </dependency>
 
             <!-- Unit Tests -->

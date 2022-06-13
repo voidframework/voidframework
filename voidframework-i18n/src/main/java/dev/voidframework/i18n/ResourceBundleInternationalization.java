@@ -1,6 +1,6 @@
 package dev.voidframework.i18n;
 
-import com.google.inject.Singleton;
+import dev.voidframework.core.bindable.BindClass;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -12,8 +12,8 @@ import java.util.ResourceBundle;
 /**
  * Resource bundle based internationalization.
  */
-@Singleton
-public final class ResourceBundleInternationalization implements dev.voidframework.i18n.Internationalization {
+@BindClass
+public final class ResourceBundleInternationalization implements Internationalization {
 
     private static final String BUNDLE_BASE_NAME = "messages";
     private static final String UNKNOWN_KEY_SURROUNDING = "%";

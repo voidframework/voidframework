@@ -43,7 +43,7 @@
                         </goals>
                         <phase>process-sources</phase>
                         <configuration>
-                            <mainClass>dev.voidframework.core.generator.ClasspathBootstrapGenerator</mainClass>
+                            <mainClass>dev.voidframework.core.classestoload.generator.ClasspathBootstrapGenerator</mainClass>
                             <arguments>
                                 <argument>${project.build.outputDirectory}</argument>
                             </arguments>
@@ -112,6 +112,10 @@
         <dependency>
             <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-template-freemarker</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.voidframework</groupId>
+            <artifactId>voidframework-validation</artifactId>
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>

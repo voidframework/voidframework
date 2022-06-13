@@ -7,7 +7,7 @@ package dev.voidframework.cache.engine;
 public interface CacheEngine {
 
     /**
-     * Retrieve a value from cache.
+     * Retrieves a value from cache.
      *
      * @param cacheKey The key
      * @return The value, otherwise, {@code null}

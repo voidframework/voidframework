@@ -9,9 +9,9 @@ import com.google.inject.multibindings.Multibinder;
 import com.google.inject.util.Modules;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import dev.voidframework.core.classpath.ConverterInformation;
-import dev.voidframework.core.classpath.ScannedClassesToLoad;
-import dev.voidframework.core.classpath.VoidFrameworkClasspathScanner;
+import dev.voidframework.core.classestoload.ClassesToLoadScanner;
+import dev.voidframework.core.classestoload.ConverterInformation;
+import dev.voidframework.core.classestoload.ScannedClassesToLoad;
 import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.core.conversion.ConverterManager;
 import dev.voidframework.core.conversion.TypeConverter;
@@ -79,9 +79,9 @@ public class ApplicationLauncher {
         final InputStream inputStream = this.getClass().getResourceAsStream("/classpath.bootstrap");
         final ScannedClassesToLoad scannedClassesToLoad;
         if (inputStream != null) {
-            scannedClassesToLoad = VoidFrameworkClasspathScanner.restoreClassesToLoad(inputStream);
+            scannedClassesToLoad = ClassesToLoadScanner.restoreClassesToLoad(inputStream);
         } else {
-            scannedClassesToLoad = VoidFrameworkClasspathScanner.findClassesToLoad(
+            scannedClassesToLoad = ClassesToLoadScanner.findClassesToLoad(
                 configuration.getStringList("voidframework.core.acceptedScanPaths").toArray(new String[0]),
                 configuration.getStringList("voidframework.core.rejectedScanPaths").toArray(new String[0]));
         }
@@ -109,6 +109,10 @@ public class ApplicationLauncher {
             @Override
             @SuppressWarnings("unchecked")
             protected void configure() {
+                if (configuration.getBoolean("voidframework.core.requireExplicitBindings")) {
+                    binder().requireExplicitBindings();
+                }
+
                 for (final Class<?> clazz : scannedClassesToLoad.bindableList()) {
                     bind(clazz);
 
@@ -116,6 +120,12 @@ public class ApplicationLauncher {
                         this.multibinderMap.computeIfAbsent(interfaceClassType,
                             key -> Multibinder.newSetBinder(binder(), interfaceClassType)
                         ).addBinding().to((Class) clazz);
+                    }
+                }
+
+                if (configuration.getBoolean("voidframework.core.requireExplicitBindings")) {
+                    for (final ConverterInformation converterInformation : scannedClassesToLoad.converterInformationList()) {
+                        bind(converterInformation.converterTypeClass());
                     }
                 }
             }

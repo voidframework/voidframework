@@ -1,4 +1,4 @@
-package dev.voidframework.core.classpath;
+package dev.voidframework.core.classestoload;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -24,9 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Classpath scanner.
+ * Classpath scanner to fin classes to load.
  */
-public final class VoidFrameworkClasspathScanner {
+public final class ClassesToLoadScanner {
 
     /**
      * Scan given paths to find classes to bind.

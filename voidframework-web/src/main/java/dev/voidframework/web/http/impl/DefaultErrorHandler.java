@@ -1,5 +1,6 @@
 package dev.voidframework.web.http.impl;
 
+import dev.voidframework.core.bindable.BindClass;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.ErrorHandler;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Default implementation of {@link ErrorHandler}.
  */
+@BindClass
 public class DefaultErrorHandler implements ErrorHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandler.class);

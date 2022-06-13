@@ -1,9 +1,9 @@
-package dev.voidframework.core.generator;
+package dev.voidframework.core.classestoload.generator;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import dev.voidframework.core.classpath.ScannedClassesToLoad;
-import dev.voidframework.core.classpath.VoidFrameworkClasspathScanner;
+import dev.voidframework.core.classestoload.ClassesToLoadScanner;
+import dev.voidframework.core.classestoload.ScannedClassesToLoad;
 
 import java.nio.file.Paths;
 
@@ -29,11 +29,11 @@ public final class ClasspathBootstrapGenerator {
         final Config configuration = applicationConfiguration.withFallback(referenceConfiguration).resolve();
 
         // Scan classpath
-        final ScannedClassesToLoad scannedClassesToLoad = VoidFrameworkClasspathScanner.findClassesToLoad(
+        final ScannedClassesToLoad scannedClassesToLoad = ClassesToLoadScanner.findClassesToLoad(
             configuration.getStringList("voidframework.core.acceptedScanPaths").toArray(new String[0]),
             configuration.getStringList("voidframework.core.rejectedScanPaths").toArray(new String[0]));
 
         // Create "classpath.bootstrap" file
-        VoidFrameworkClasspathScanner.persistClassesToLoad(scannedClassesToLoad, Paths.get(args[0]));
+        ClassesToLoadScanner.persistClassesToLoad(scannedClassesToLoad, Paths.get(args[0]));
     }
 }

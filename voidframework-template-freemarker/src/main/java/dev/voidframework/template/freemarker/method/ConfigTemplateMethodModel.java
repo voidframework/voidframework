@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * FreeMarker method: retrieve value from the configuration into the template.
+ * FreeMarker method: retrieves value from the configuration into the template.
  */
 public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
 

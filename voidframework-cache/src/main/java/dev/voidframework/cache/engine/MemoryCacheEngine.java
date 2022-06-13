@@ -2,6 +2,7 @@ package dev.voidframework.cache.engine;
 
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
+import dev.voidframework.core.bindable.BindClass;
 import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
@@ -13,7 +14,8 @@ import java.util.Map;
 /**
  * In-memory cache implementation.
  */
-public final class MemoryCacheEngine implements dev.voidframework.cache.engine.CacheEngine {
+@BindClass
+public final class MemoryCacheEngine implements CacheEngine {
 
     private final int flushWhenFullMaxItem;
     private final Map<String, CachedItem> cacheMap;

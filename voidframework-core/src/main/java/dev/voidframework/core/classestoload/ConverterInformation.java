@@ -1,4 +1,4 @@
-package dev.voidframework.core.classpath;
+package dev.voidframework.core.classestoload;
 
 /**
  * Converter information.

@@ -6,6 +6,9 @@ import com.google.inject.Inject;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.helper.Yaml;
 import dev.voidframework.template.TemplateRenderer;
+import dev.voidframework.validation.Validated;
+import dev.voidframework.validation.ValidationService;
+import dev.voidframework.validation.validator.TrimmedLength;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.HttpContentType;
@@ -27,15 +30,19 @@ import java.util.UUID;
 public class HelloWorldController implements HttpContentType {
 
     private final TemplateRenderer templateRenderer;
+    private final ValidationService validationService;
 
     /**
      * Build a new instance.
      *
-     * @param templateRenderer The template rendered instance
+     * @param templateRenderer  The template rendered instance
+     * @param validationService The validation service instance
      */
     @Inject
-    public HelloWorldController(final TemplateRenderer templateRenderer) {
+    public HelloWorldController(final TemplateRenderer templateRenderer,
+                                final ValidationService validationService) {
         this.templateRenderer = templateRenderer;
+        this.validationService = validationService;
     }
 
     /**
@@ -91,6 +98,22 @@ public class HelloWorldController implements HttpContentType {
     }
 
     /**
+     * Demo HTTP form.
+     *
+     * @param pojo The POJO retrieved from the body content
+     * @return A Result
+     */
+    @RequestRoute(method = HttpMethod.POST, route = "/form2")
+    public Result postForm2(final Context context, @RequestBody Pojo pojo) {
+        final Validated<Pojo> pojoValidated = this.validationService.validate(pojo, context.getLocale());
+        if (pojoValidated.hasError()) {
+            return Result.ok(Yaml.toYaml(pojoValidated.getError()).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
+        }
+
+        return Result.ok(Yaml.toYaml(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
+    }
+
+    /**
      * Simple POJO.
      */
     public static class Pojo {
@@ -103,11 +126,13 @@ public class HelloWorldController implements HttpContentType {
         /**
          * POJO's first name.
          */
+        @TrimmedLength(min = 2)
         public final String firstName;
 
         /**
          * POJO's last name.
          */
+        @TrimmedLength(min = 2)
         public final String lastName;
 
         /**

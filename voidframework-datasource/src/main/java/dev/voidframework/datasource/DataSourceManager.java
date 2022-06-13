@@ -23,7 +23,7 @@ public final class DataSourceManager {
     }
 
     /**
-     * Retrieve a connection from the default data source.
+     * Retrieves a connection from the default data source.
      *
      * @return A connection to the data source
      * @throws SQLException        If a database access error occurs
@@ -34,7 +34,7 @@ public final class DataSourceManager {
     }
 
     /**
-     * Retrieve a connection from a specific data source.
+     * Retrieves a connection from a specific data source.
      *
      * @param dataSourceName The datasource name
      * @return A connection to the data source
@@ -47,7 +47,7 @@ public final class DataSourceManager {
     }
 
     /**
-     * Retrieve the default data source.
+     * Retrieves the default data source.
      *
      * @return The data source
      */
@@ -56,7 +56,7 @@ public final class DataSourceManager {
     }
 
     /**
-     * Retrieve a specific data source.
+     * Retrieves a specific data source.
      *
      * @param dataSourceName The data source name
      * @return The data source
