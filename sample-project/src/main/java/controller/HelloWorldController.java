@@ -3,6 +3,7 @@ package controller;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.helper.Yaml;
 import dev.voidframework.template.TemplateRenderer;
@@ -26,6 +27,7 @@ import java.util.UUID;
 /**
  * A simple "Hello World" web controller.
  */
+@Singleton
 @WebController
 public class HelloWorldController implements HttpContentType {
 

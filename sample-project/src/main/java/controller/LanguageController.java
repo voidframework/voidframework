@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
@@ -15,6 +16,7 @@ import java.util.Locale;
 /**
  * This controller allows visitor to change I18N language.
  */
+@Singleton
 @WebController
 public final class LanguageController {
 

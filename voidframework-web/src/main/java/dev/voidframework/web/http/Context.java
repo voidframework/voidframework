@@ -1,5 +1,7 @@
 package dev.voidframework.web.http;
 
+import dev.voidframework.core.lang.TypedMap;
+
 import java.util.Locale;
 
 /**
@@ -7,9 +9,10 @@ import java.util.Locale;
  */
 public final class Context {
 
+    private final TypedMap attributes;
     private final HttpRequest httpRequest;
-
     private final Session session;
+
     private Locale locale;
 
     /**
@@ -20,9 +23,19 @@ public final class Context {
      * @param locale      The current locale
      */
     public Context(final HttpRequest httpRequest, final Session session, final Locale locale) {
+        this.attributes = new TypedMap();
         this.httpRequest = httpRequest;
         this.session = session;
         this.locale = locale;
+    }
+
+    /**
+     * Retrieves context attributes.
+     *
+     * @return The attributes
+     */
+    public TypedMap getAttributes() {
+        return this.attributes;
     }
 
     /**
