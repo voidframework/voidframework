@@ -81,45 +81,7 @@ public final class HttpRequestHandler {
                 return (Result) resolvedRoute.method().invoke(controllerInstance);
             } else {
                 // Method have some parameter(s)
-                final Object[] methodArgumentValueArray = new Object[resolvedRoute.method().getParameterCount()];
-                int idx = 0;
-                for (final Parameter parameter : resolvedRoute.method().getParameters()) {
-                    if (parameter.getType().isAssignableFrom(Context.class)) {
-                        methodArgumentValueArray[idx] = context;
-                        idx += 1;
-                        continue;
-                    }
-
-                    final RequestBody requestBody = parameter.getAnnotation(RequestBody.class);
-                    final RequestPath requestPath = parameter.getAnnotation(RequestPath.class);
-                    final RequestVariable requestVariable = parameter.getAnnotation(RequestVariable.class);
-
-                    if (requestBody != null) {
-                        if (context.getRequest().getBodyContent().contentType() != null) {
-                            methodArgumentValueArray[idx] = switch (context.getRequest().getBodyContent().contentType()) {
-                                case HttpContentType.APPLICATION_JSON -> context.getRequest().getBodyContent().asJson(parameter.getType());
-                                case HttpContentType.MULTIPART_FORM_DATA -> context.getRequest().getBodyContent().asFormData(parameter.getType());
-                                case HttpContentType.TEXT_YAML -> context.getRequest().getBodyContent().asYaml(parameter.getType());
-                                default -> throw new HttpException.BadRequest("Unhandled body content");
-                            };
-                        } else {
-                            methodArgumentValueArray[idx] = null;
-                        }
-                    } else if (requestPath != null) {
-                        methodArgumentValueArray[idx] = convertValueToParameterType(
-                            resolvedRoute.extractedParameterValues().getOrDefault(requestPath.value(), null),
-                            parameter.getType());
-                    } else if (requestVariable != null) {
-                        methodArgumentValueArray[idx] = convertValueToParameterType(
-                            context.getRequest().getQueryStringParameter(requestVariable.value()),
-                            parameter.getType());
-                    } else {
-                        methodArgumentValueArray[idx] = this.injector.getInstance(parameter.getType());
-                    }
-
-                    idx += 1;
-                }
-
+                final Object[] methodArgumentValueArray = this.buildMethodArguments(context, resolvedRoute);
                 return (Result) resolvedRoute.method().invoke(controllerInstance, methodArgumentValueArray);
             }
         } catch (final Throwable throwable) {
@@ -132,6 +94,57 @@ public final class HttpRequestHandler {
 
             return errorHandler.onServerError(context, cause);
         }
+    }
+
+    /**
+     * Builds method arguments.
+     *
+     * @param context The current context
+     * @param resolvedRoute The resolved route
+     * @return An array containing method arguments
+     */
+    private Object[] buildMethodArguments(final Context context, final ResolvedRoute resolvedRoute) {
+        int idx = 0;
+        final Object[] methodArgumentValueArray = new Object[resolvedRoute.method().getParameterCount()];
+
+        for (final Parameter parameter : resolvedRoute.method().getParameters()) {
+            if (parameter.getType().isAssignableFrom(Context.class)) {
+                methodArgumentValueArray[idx] = context;
+                idx += 1;
+                continue;
+            }
+
+            final RequestBody requestBody = parameter.getAnnotation(RequestBody.class);
+            final RequestPath requestPath = parameter.getAnnotation(RequestPath.class);
+            final RequestVariable requestVariable = parameter.getAnnotation(RequestVariable.class);
+
+            if (requestBody != null) {
+                if (context.getRequest().getBodyContent().contentType() != null) {
+                    methodArgumentValueArray[idx] = switch (context.getRequest().getBodyContent().contentType()) {
+                        case HttpContentType.APPLICATION_JSON -> context.getRequest().getBodyContent().asJson(parameter.getType());
+                        case HttpContentType.MULTIPART_FORM_DATA -> context.getRequest().getBodyContent().asFormData(parameter.getType());
+                        case HttpContentType.TEXT_YAML -> context.getRequest().getBodyContent().asYaml(parameter.getType());
+                        default -> throw new HttpException.BadRequest("Unhandled body content");
+                    };
+                } else {
+                    methodArgumentValueArray[idx] = null;
+                }
+            } else if (requestPath != null) {
+                methodArgumentValueArray[idx] = convertValueToParameterType(
+                    resolvedRoute.extractedParameterValues().getOrDefault(requestPath.value(), null),
+                    parameter.getType());
+            } else if (requestVariable != null) {
+                methodArgumentValueArray[idx] = convertValueToParameterType(
+                    context.getRequest().getQueryStringParameter(requestVariable.value()),
+                    parameter.getType());
+            } else {
+                methodArgumentValueArray[idx] = this.injector.getInstance(parameter.getType());
+            }
+
+            idx += 1;
+        }
+
+        return methodArgumentValueArray;
     }
 
     /**
