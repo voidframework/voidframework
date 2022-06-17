@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +50,13 @@ public final class HealthCheckManager {
         final Map<String, Health> healthPerNameMap = new HashMap<>();
 
         for (final HealthChecker healthChecker : this.healthCheckerList) {
-            final Health health = healthChecker.checkHealth();
+            Health health;
+            try {
+                health = healthChecker.checkHealth();
+            } catch (final Throwable throwable) {
+                health = new Health(Health.Status.DOWN, Collections.emptyMap());
+            }
+
             healthPerNameMap.put(healthChecker.getName(), health);
         }
 
