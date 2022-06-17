@@ -1,7 +1,7 @@
 package dev.voidframework.web.routing;
 
 /**
- * This interface allows custom application to define http routes.
+ * This interface allows application to manually define http routes.
  */
 public interface AppRoutesDefinition {
 

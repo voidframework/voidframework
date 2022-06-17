@@ -19,6 +19,18 @@ public final class TypedMap {
     }
 
     /**
+     * Retrieves the value associated to the specified key.
+     *
+     * @param typedKey The typed key
+     * @param <T>      The value type
+     * @return The value associated to the specified key, otherwise, {@code null}
+     */
+    @SuppressWarnings("unchecked")
+    public <T> T get(final Key<T> typedKey) {
+        return (T) this.internalMap.get(typedKey);
+    }
+
+    /**
      * Associates the specified value with the specified key.
      *
      * @param typedKey The typed key
@@ -32,15 +44,15 @@ public final class TypedMap {
     }
 
     /**
-     * Retrieves the specified value associated to the specified key.
+     * Removes the value associated to the specified key.
      *
      * @param typedKey The typed key
      * @param <T>      The value type
      * @return The value associated to the specified key, otherwise, {@code null}
      */
     @SuppressWarnings("unchecked")
-    public <T> T get(final Key<T> typedKey) {
-        return (T) this.internalMap.get(typedKey);
+    public <T> T remove(final Key<T> typedKey) {
+        return (T) this.internalMap.remove(typedKey);
     }
 
     @Override

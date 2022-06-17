@@ -9,6 +9,7 @@ import dev.voidframework.core.helper.ClassResolver;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.core.lifecycle.LifeCycleStop;
 import dev.voidframework.web.exception.ErrorHandlerException;
+import dev.voidframework.web.filter.Filter;
 import dev.voidframework.web.http.ErrorHandler;
 import dev.voidframework.web.http.HttpRequestHandler;
 import dev.voidframework.web.http.converter.StringToBooleanConverter;
@@ -29,6 +30,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -92,8 +95,21 @@ public class WebServer {
             throw new ErrorHandlerException.CantInstantiate(errorHandlerClassName, exception);
         }
 
+        // Retrieves global filters
+        final List<Class<? extends Filter>> globalFilterList = new ArrayList<>();
+        if (this.configuration.hasPath("voidframework.web.globalFilters")) {
+            for (final String filterName : this.configuration.getStringList("voidframework.web.globalFilters")) {
+                final Class<? extends Filter> filterClass = ClassResolver.forName(filterName);
+                if (filterClass == null) {
+                    throw new RuntimeException("Can't resolve filter '" + filterName + "'");
+                }
+
+                globalFilterList.add(filterClass);
+            }
+        }
+
         // Instantiate the Http request handler
-        this.httpRequestHandler = new HttpRequestHandler(this.injector, errorHandler);
+        this.httpRequestHandler = new HttpRequestHandler(this.injector, errorHandler, globalFilterList);
 
         // Built-in converters
         final ConverterManager converterManager = this.injector.getInstance(ConverterManager.class);

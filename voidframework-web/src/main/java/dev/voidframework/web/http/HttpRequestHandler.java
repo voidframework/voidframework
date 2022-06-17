@@ -3,6 +3,9 @@ package dev.voidframework.web.http;
 import com.google.inject.Injector;
 import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.web.exception.HttpException;
+import dev.voidframework.web.filter.DefaultFilterChain;
+import dev.voidframework.web.filter.Filter;
+import dev.voidframework.web.filter.FilterChain;
 import dev.voidframework.web.http.param.RequestBody;
 import dev.voidframework.web.http.param.RequestPath;
 import dev.voidframework.web.http.param.RequestVariable;
@@ -10,7 +13,9 @@ import dev.voidframework.web.routing.ResolvedRoute;
 import dev.voidframework.web.routing.Router;
 
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -29,6 +34,7 @@ public final class HttpRequestHandler {
         put(short.class, new PrimitiveAlternative(Short.class, 0));
     }};
 
+    final List<Class<? extends Filter>> globalFilterClassTypes;
     private final Conversion conversion;
     private final Injector injector;
     private final Router router;
@@ -37,14 +43,17 @@ public final class HttpRequestHandler {
     /**
      * Build a new instance.
      *
-     * @param injector     The injector instance
-     * @param errorHandler The error handler to use
+     * @param injector               The injector instance
+     * @param errorHandler           The error handler to use
+     * @param globalFilterClassTypes The global filter class types
      */
     public HttpRequestHandler(final Injector injector,
-                              final ErrorHandler errorHandler) {
+                              final ErrorHandler errorHandler,
+                              final List<Class<? extends Filter>> globalFilterClassTypes) {
 
         this.injector = injector;
         this.errorHandler = errorHandler;
+        this.globalFilterClassTypes = globalFilterClassTypes;
         this.conversion = this.injector.getInstance(Conversion.class);
         this.router = this.injector.getInstance(Router.class);
     }
@@ -68,30 +77,63 @@ public final class HttpRequestHandler {
      */
     public Result onRouteRequest(final Context context) {
 
+        // The processing carried out here is based exclusively on the chaining of Filters, some
+        // of which are conditioned according to whether the route is found. This way, global
+        // filters will always be executed, even on error pages
+        final List<Filter> filterList = new ArrayList<>();
+
+        // Instantiates global filters
+        for (final Class<? extends Filter> filterClassType : this.globalFilterClassTypes) {
+            filterList.add(this.injector.getInstance(filterClassType));
+        }
+
+        // Tries to resolve route
         final ResolvedRoute resolvedRoute = router.resolveRoute(context.getRequest().getHttpMethod(), context.getRequest().getRequestURI());
         if (resolvedRoute == null) {
-            return errorHandler.onNotFound(context, null);
+            // No route found, only the Filter showing the "404" error page is required
+            final Filter callNotFoundFilter = (ctx, filterChain) -> errorHandler.onNotFound(context, null);
+            filterList.add(callNotFoundFilter);
+        } else {
+            // Instantiates controller and method filters
+            for (final Class<? extends Filter> filterClassType : resolvedRoute.filterClassTypes()) {
+                filterList.add(this.injector.getInstance(filterClassType));
+            }
+
+            // Instantiates the Filter in charge of calling the controller method with the
+            // right arguments and handling possible errors
+            final Filter callControllerFile = (ctx, filterChain) -> {
+                final Object controllerInstance = injector.getInstance(resolvedRoute.controllerClassType());
+
+                try {
+                    if (resolvedRoute.method().getParameterCount() == 0) {
+                        // No parameters, just invoke the controller method
+                        return (Result) resolvedRoute.method().invoke(controllerInstance);
+                    } else {
+                        // Method have some parameter(s)
+                        final Object[] methodArgumentValueArray = buildMethodArguments(ctx, resolvedRoute);
+                        return (Result) resolvedRoute.method().invoke(controllerInstance, methodArgumentValueArray);
+                    }
+                } catch (final Throwable throwable) {
+                    final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+                    if (cause instanceof HttpException.NotFound) {
+                        return errorHandler.onNotFound(context, (HttpException.NotFound) cause);
+                    } else if (cause instanceof HttpException.BadRequest) {
+                        return errorHandler.onBadRequest(context, (HttpException.BadRequest) cause);
+                    }
+
+                    return errorHandler.onServerError(context, cause);
+                }
+            };
+
+            filterList.add(callControllerFile);
         }
 
         try {
-            final Object controllerInstance = this.injector.getInstance(resolvedRoute.controllerClassType());
-
-            if (resolvedRoute.method().getParameterCount() == 0) {
-                // No parameters, just invoke the controller method
-                return (Result) resolvedRoute.method().invoke(controllerInstance);
-            } else {
-                // Method have some parameter(s)
-                final Object[] methodArgumentValueArray = this.buildMethodArguments(context, resolvedRoute);
-                return (Result) resolvedRoute.method().invoke(controllerInstance, methodArgumentValueArray);
-            }
+            // Process the entire Filters chain
+            final FilterChain filterChain = new DefaultFilterChain(filterList);
+            return filterChain.applyNext(context);
         } catch (final Throwable throwable) {
             final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
-            if (cause instanceof HttpException.NotFound) {
-                return errorHandler.onNotFound(context, (HttpException.NotFound) cause);
-            } else if (cause instanceof HttpException.BadRequest) {
-                return errorHandler.onBadRequest(context, (HttpException.BadRequest) cause);
-            }
-
             return errorHandler.onServerError(context, cause);
         }
     }
@@ -99,7 +141,7 @@ public final class HttpRequestHandler {
     /**
      * Builds method arguments.
      *
-     * @param context The current context
+     * @param context       The current context
      * @param resolvedRoute The resolved route
      * @return An array containing method arguments
      */

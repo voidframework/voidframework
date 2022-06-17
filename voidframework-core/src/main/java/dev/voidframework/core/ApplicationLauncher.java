@@ -83,7 +83,8 @@ public class ApplicationLauncher {
         } else {
             scannedClassesToLoad = ClassesToLoadScanner.findClassesToLoad(
                 configuration.getStringList("voidframework.core.acceptedScanPaths").toArray(new String[0]),
-                configuration.getStringList("voidframework.core.rejectedScanPaths").toArray(new String[0]));
+                configuration.getStringList("voidframework.core.rejectedScanPaths").toArray(new String[0]),
+                configuration.getStringList("voidframework.core.bindExtraInterfaces"));
         }
         LOGGER.info("Found {} useful classes", scannedClassesToLoad.count());
 

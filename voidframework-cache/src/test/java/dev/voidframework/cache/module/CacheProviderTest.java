@@ -22,9 +22,9 @@ public final class CacheProviderTest {
     @Test
     public void injectorExist() {
         final Config configuration = ConfigFactory.parseString("""
-                voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
-                voidframework.cache.inMemory.flushWhenFullMaxItem = 500
-                """);
+            voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
+            voidframework.cache.inMemory.flushWhenFullMaxItem = 500
+            """);
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {

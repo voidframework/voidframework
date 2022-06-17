@@ -57,6 +57,47 @@ public class HttpException extends RuntimeException {
     }
 
     /**
+     * Exception indicates that a server-side error occur.
+     */
+    public static class InternalServerError extends HttpException {
+
+        /**
+         * Build a new instance.
+         */
+        public InternalServerError() {
+            this(null, null);
+        }
+
+        /**
+         * Build a new instance.
+         *
+         * @param message The provided message
+         */
+        public InternalServerError(final String message) {
+            this(message, null);
+        }
+
+        /**
+         * Build a new instance.
+         *
+         * @param cause The cause
+         */
+        public InternalServerError(final Throwable cause) {
+            this(cause.getMessage(), cause);
+        }
+
+        /**
+         * Build a new instance.
+         *
+         * @param message The provided message
+         * @param cause   The cause
+         */
+        public InternalServerError(final String message, final Throwable cause) {
+            super(message, cause);
+        }
+    }
+
+    /**
      * Exception indicates that a resource was not found.
      */
     public static class NotFound extends HttpException {

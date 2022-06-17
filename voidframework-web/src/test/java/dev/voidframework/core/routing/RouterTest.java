@@ -18,7 +18,7 @@ import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class RouterTest {
+public final class RouterTest {
 
     @Test
     public void addRoute() {

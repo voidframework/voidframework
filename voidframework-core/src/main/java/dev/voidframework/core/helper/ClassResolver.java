@@ -13,13 +13,32 @@ public final class ClassResolver {
      * @param className Name of the class
      * @return Resolved {@code Class<?>}
      */
-    public static Class<?> forName(final String className) {
+    public static Class<?> forName(final String className, final String toto) {
         if (StringUtils.isBlank(className)) {
             return null;
         }
 
         try {
             return Class.forName(className);
+        } catch (final ClassNotFoundException ignore) {
+            return null;
+        }
+    }
+
+    /**
+     * Resolves {@code Class<?>} for a class name.
+     *
+     * @param className Name of the class
+     * @return Resolved {@code Class<?>}
+     */
+    @SuppressWarnings("unchecked")
+    public static <CLASS_TYPE> Class<? extends CLASS_TYPE> forName(final String className) {
+        if (StringUtils.isBlank(className)) {
+            return null;
+        }
+
+        try {
+            return (Class<? extends CLASS_TYPE>) Class.forName(className);
         } catch (final ClassNotFoundException ignore) {
             return null;
         }

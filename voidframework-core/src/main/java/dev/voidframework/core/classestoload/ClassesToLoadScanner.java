@@ -33,10 +33,12 @@ public final class ClassesToLoadScanner {
      *
      * @param acceptedScanPaths The locations to scan for classes to bind
      * @param rejectedScanPaths The locations to exclude from the scan
+     * @param extraInterfaces   The extra interface for which consider implementations as useful classes to load
      * @return Scan result
      */
     public static ScannedClassesToLoad findClassesToLoad(final String[] acceptedScanPaths,
-                                                         final String[] rejectedScanPaths) {
+                                                         final String[] rejectedScanPaths,
+                                                         final List<String> extraInterfaces) {
 
         final ScannedClassesToLoad scannedClassesToLoad = new ScannedClassesToLoad(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
@@ -49,7 +51,7 @@ public final class ClassesToLoadScanner {
 
             for (final ClassInfo classInfo : scanResult.getAllClasses()) {
 
-                if (classInfo.getAnnotationInfo(BindClass.class) != null && !classInfo.isInterfaceOrAnnotation()) {
+                if (isBindable(classInfo, extraInterfaces)) {
                     scannedClassesToLoad.bindableList().add(classInfo.loadClass(false));
                 } else if (classInfo.extendsSuperclass(AbstractModule.class)) {
                     scannedClassesToLoad.moduleList().add(classInfo.loadClass(false));
@@ -101,6 +103,7 @@ public final class ClassesToLoadScanner {
      * @return Restored {@code ScannedClassesToLoad}
      */
     public static ScannedClassesToLoad restoreClassesToLoad(final InputStream inputStream) {
+
         final Kryo kryo = new Kryo();
         kryo.setRegistrationRequired(false);
         kryo.register(ArrayList.class);
@@ -123,6 +126,7 @@ public final class ClassesToLoadScanner {
      */
     public static void persistClassesToLoad(final ScannedClassesToLoad scannedClassesToLoad,
                                             final Path outputDirectoryPath) {
+
         final Kryo kryo = new Kryo();
         kryo.setRegistrationRequired(false);
         kryo.register(ArrayList.class);
@@ -135,7 +139,30 @@ public final class ClassesToLoadScanner {
             final Output output = new Output(new FileOutputStream(outputFile));
             kryo.writeObject(output, scannedClassesToLoad);
             output.close();
-        } catch (final IOException exception) {
+        } catch (final IOException ignore) {
         }
+    }
+
+    /**
+     * Checks if current class can be bind.
+     *
+     * @param classInfo       The current class information
+     * @param extraInterfaces The extra interface for which consider implementations as useful classes to load
+     * @return {@code true} if can be bind, otherwise {@code false}
+     */
+    private static boolean isBindable(final ClassInfo classInfo,
+                                      final List<String> extraInterfaces) {
+
+        if (classInfo.getAnnotationInfo(BindClass.class) != null && !classInfo.isInterfaceOrAnnotation()) {
+            return true;
+        }
+
+        for (final String interfaceName : extraInterfaces) {
+            if (classInfo.implementsInterface(interfaceName)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

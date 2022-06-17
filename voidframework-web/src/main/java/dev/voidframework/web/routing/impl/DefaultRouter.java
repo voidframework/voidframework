@@ -3,6 +3,8 @@ package dev.voidframework.web.routing.impl;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dev.voidframework.core.helper.ProxyDetector;
+import dev.voidframework.web.filter.Filter;
+import dev.voidframework.web.filter.WithFilter;
 import dev.voidframework.web.routing.HttpMethod;
 import dev.voidframework.web.routing.ResolvedRoute;
 import dev.voidframework.web.routing.Route;
@@ -13,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -61,7 +64,18 @@ public class DefaultRouter implements Router {
             : controllerClassType;
         LOGGER.debug("Add route {} {} {}::{}", httpMethod, routeUrl, controllerClass.getName(), method.getName());
 
-        final Route route = new Route(httpMethod, Pattern.compile(routeUrl), controllerClass, method);
+        final List<Class<? extends Filter>> filterClassList = new ArrayList<>();
+        WithFilter withFilter = controllerClass.getAnnotation(WithFilter.class);
+        if (withFilter != null) {
+            filterClassList.addAll(Arrays.asList(withFilter.value()));
+        }
+
+        withFilter = method.getAnnotation(WithFilter.class);
+        if (withFilter != null) {
+            filterClassList.addAll(Arrays.asList(withFilter.value()));
+        }
+
+        final Route route = new Route(httpMethod, Pattern.compile(routeUrl), filterClassList, controllerClass, method);
         this.routeListPerHttpMethodMap.computeIfAbsent(httpMethod, (key) -> new ArrayList<>()).add(route);
     }
 
@@ -87,7 +101,7 @@ public class DefaultRouter implements Router {
                         }
                     }
 
-                    return new ResolvedRoute(route.controllerClassType(), route.method(), extractedParameterMap);
+                    return new ResolvedRoute(route.filterClassTypes(), route.controllerClassType(), route.method(), extractedParameterMap);
                 }
             }
         }
