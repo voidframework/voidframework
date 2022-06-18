@@ -3,7 +3,6 @@ package dev.voidframework.web.server;
 import com.typesafe.config.Config;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.lang.Either;
-import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.Cookie;
@@ -46,7 +45,6 @@ public class UndertowHttpHandler implements HttpHandler {
     private final Config configuration;
     private final HttpRequestHandler httpRequestHandler;
     private final SessionSigner sessionSigner;
-    private final TemplateRenderer templateRenderer;
     private final MultiPartParserDefinition multiPartParserDefinition;
 
     /**
@@ -55,16 +53,13 @@ public class UndertowHttpHandler implements HttpHandler {
      * @param configuration      The application configuration
      * @param httpRequestHandler The HTTP request handler
      * @param sessionSigner      The session signer
-     * @param templateRenderer   The template renderer
      */
     public UndertowHttpHandler(final Config configuration,
                                final HttpRequestHandler httpRequestHandler,
-                               final SessionSigner sessionSigner,
-                               final TemplateRenderer templateRenderer) {
+                               final SessionSigner sessionSigner) {
         this.configuration = configuration;
         this.httpRequestHandler = httpRequestHandler;
         this.sessionSigner = sessionSigner;
-        this.templateRenderer = templateRenderer;
 
         this.multiPartParserDefinition = new MultiPartParserDefinition()
             //.setTempFileLocation(new File(System.getProperty("java.io.tmpdir")).toPath())
@@ -124,13 +119,6 @@ public class UndertowHttpHandler implements HttpHandler {
         // Check if exchange is still available
         if (httpServerExchange.isComplete()) {
             return;
-        }
-
-        // Process the result
-        InputStream inputStream = null;
-        final Result.ResultProcessor resultProcessor = result.getResultProcessor();
-        if (resultProcessor != null) {
-            inputStream = resultProcessor.process(context, this.templateRenderer);
         }
 
         // Set the return HttpCode and Content-Type
@@ -198,6 +186,7 @@ public class UndertowHttpHandler implements HttpHandler {
         }
 
         // Returns content
+        final InputStream inputStream = result.getResultProcessor().getInputStream();
         if (inputStream != null) {
             final OutputStream outputStream = httpServerExchange.getOutputStream();
             try {

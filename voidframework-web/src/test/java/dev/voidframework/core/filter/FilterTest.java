@@ -38,6 +38,6 @@ public final class FilterTest {
         Assertions.assertEquals(2, result.getHeaders().size());
         Assertions.assertEquals("Value", result.getHeaders().get("New-Header"));
         Assertions.assertEquals("Value2", result.getHeaders().get("New-Header-2"));
-        Assertions.assertEquals("Hello World!", new String(result.getResultProcessor().process(context, null).readAllBytes(), Charsets.UTF_8));
+        Assertions.assertEquals("Hello World!", new String(result.getResultProcessor().getInputStream().readAllBytes(), Charsets.UTF_8));
     }
 }

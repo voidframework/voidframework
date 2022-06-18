@@ -8,7 +8,6 @@ import dev.voidframework.core.conversion.ConverterManager;
 import dev.voidframework.core.helper.ClassResolver;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.core.lifecycle.LifeCycleStop;
-import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.web.exception.ErrorHandlerException;
 import dev.voidframework.web.exception.FilterException;
 import dev.voidframework.web.exception.RoutingException;
@@ -33,7 +32,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -144,18 +142,11 @@ public class WebServer {
                 });
         }
 
-        TemplateRenderer templateRenderer = null;
-        try {
-            templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        } catch (final Exception ignore) {
-        }
-
         // Defines the HTTP handler
         final HttpHandler httpHandler = new UndertowHttpHandler(
             this.configuration,
             this.httpRequestHandler,
-            new SessionSigner(this.configuration),
-            templateRenderer);
+            new SessionSigner(this.configuration));
 
         // Configure Undertow
         this.undertowServer = Undertow.builder()

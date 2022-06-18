@@ -2,6 +2,7 @@ package dev.voidframework.web.http;
 
 import com.google.inject.Injector;
 import dev.voidframework.core.conversion.Conversion;
+import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.filter.DefaultFilterChain;
 import dev.voidframework.web.filter.Filter;
@@ -39,6 +40,7 @@ public final class HttpRequestHandler {
     private final Injector injector;
     private final Router router;
     private final ErrorHandler errorHandler;
+    private TemplateRenderer templateRenderer;
 
     /**
      * Build a new instance.
@@ -56,6 +58,11 @@ public final class HttpRequestHandler {
         this.globalFilterClassTypes = globalFilterClassTypes;
         this.conversion = this.injector.getInstance(Conversion.class);
         this.router = this.injector.getInstance(Router.class);
+        try {
+            this.templateRenderer = this.injector.getInstance(TemplateRenderer.class);
+        } catch (final Exception ignore) {
+            this.templateRenderer = null;
+        }
     }
 
     /**
@@ -91,7 +98,12 @@ public final class HttpRequestHandler {
         final ResolvedRoute resolvedRoute = router.resolveRoute(context.getRequest().getHttpMethod(), context.getRequest().getRequestURI());
         if (resolvedRoute == null) {
             // No route found, only the Filter showing the "404" error page is required
-            final Filter callNotFoundFilter = (ctx, filterChain) -> errorHandler.onNotFound(context, null);
+            final Filter callNotFoundFilter = (ctx, filterChain) -> {
+                final Result result = errorHandler.onNotFound(ctx, null);
+                result.getResultProcessor().process(ctx, templateRenderer);
+
+                return result;
+            };
             filterList.add(callNotFoundFilter);
         } else {
             // Instantiates controller and method filters
@@ -105,23 +117,34 @@ public final class HttpRequestHandler {
                 final Object controllerInstance = injector.getInstance(resolvedRoute.controllerClassType());
 
                 try {
+                    final Result result;
                     if (resolvedRoute.method().getParameterCount() == 0) {
                         // No parameters, just invoke the controller method
-                        return (Result) resolvedRoute.method().invoke(controllerInstance);
+                        result = (Result) resolvedRoute.method().invoke(controllerInstance);
                     } else {
                         // Method have some parameter(s)
                         final Object[] methodArgumentValueArray = buildMethodArguments(ctx, resolvedRoute);
-                        return (Result) resolvedRoute.method().invoke(controllerInstance, methodArgumentValueArray);
-                    }
-                } catch (final Throwable throwable) {
-                    final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
-                    if (cause instanceof HttpException.NotFound) {
-                        return errorHandler.onNotFound(context, (HttpException.NotFound) cause);
-                    } else if (cause instanceof HttpException.BadRequest) {
-                        return errorHandler.onBadRequest(context, (HttpException.BadRequest) cause);
+                        result = (Result) resolvedRoute.method().invoke(controllerInstance, methodArgumentValueArray);
                     }
 
-                    return errorHandler.onServerError(context, cause);
+                    result.getResultProcessor().process(ctx, templateRenderer);
+                    return result;
+
+                } catch (final Throwable throwable) {
+                    final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+
+                    final Result result;
+                    if (cause instanceof HttpException.NotFound) {
+                        result = errorHandler.onNotFound(ctx, (HttpException.NotFound) cause);
+                    } else if (cause instanceof HttpException.BadRequest) {
+                        result = errorHandler.onBadRequest(ctx, (HttpException.BadRequest) cause);
+                    } else {
+                        result = errorHandler.onServerError(ctx, cause);
+                    }
+
+                    result.getResultProcessor().process(ctx, templateRenderer);
+
+                    return result;
                 }
             };
 
@@ -134,7 +157,9 @@ public final class HttpRequestHandler {
             return filterChain.applyNext(context);
         } catch (final Throwable throwable) {
             final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
-            return errorHandler.onServerError(context, cause);
+            final Result result = errorHandler.onServerError(context, cause);
+            result.getResultProcessor().process(context, templateRenderer);
+            return result;
         }
     }
 

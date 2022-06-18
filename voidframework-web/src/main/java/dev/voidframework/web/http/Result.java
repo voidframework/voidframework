@@ -15,6 +15,8 @@ import java.util.Map;
  */
 public final class Result {
 
+    private static final NoContentResultProcessor NO_CONTENT_RESULT_PROCESSOR = new NoContentResultProcessor();
+
     private final int httpCode;
     private final String contentType;
     private final ResultProcessor resultProcessor;
@@ -161,12 +163,22 @@ public final class Result {
     }
 
     /**
+     * Internal Server Error (500).
+     *
+     * @param templateResult The template to render
+     * @return A result
+     */
+    public static Result internalServerError(final TemplateResult templateResult) {
+        return new Result(HttpReturnCode.NOT_FOUND, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+    }
+
+    /**
      * No Content (204).
      *
      * @return A result
      */
     public static Result noContent() {
-        return new Result(HttpReturnCode.NO_CONTENT, null, null);
+        return new Result(HttpReturnCode.NO_CONTENT, NO_CONTENT_RESULT_PROCESSOR, null);
     }
 
     /**
@@ -198,6 +210,16 @@ public final class Result {
      */
     public static Result notFound(final JsonNode content) {
         return new Result(HttpReturnCode.NOT_FOUND, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+    }
+
+    /**
+     * Not Found (404).
+     *
+     * @param templateResult The template to render
+     * @return A result
+     */
+    public static Result notFound(final TemplateResult templateResult) {
+        return new Result(HttpReturnCode.NOT_FOUND, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -290,7 +312,7 @@ public final class Result {
      * @return A result
      */
     public static Result redirectPermanentlyTo(final String uri) {
-        return new Result(HttpReturnCode.MOVED_PERMANENTLY, null, null).withHeader("Location", uri);
+        return new Result(HttpReturnCode.MOVED_PERMANENTLY, NO_CONTENT_RESULT_PROCESSOR, null).withHeader("Location", uri);
     }
 
     /**
@@ -300,7 +322,7 @@ public final class Result {
      * @return A result
      */
     public static Result redirectTemporaryTo(final String uri) {
-        return new Result(HttpReturnCode.FOUND, null, null).withHeader("Location", uri);
+        return new Result(HttpReturnCode.FOUND, NO_CONTENT_RESULT_PROCESSOR, null).withHeader("Location", uri);
     }
 
     /**
@@ -406,7 +428,6 @@ public final class Result {
     /**
      * Result processor. In charge to transform a content (any type) into an {@code InputStream}.
      */
-    @FunctionalInterface
     public interface ResultProcessor {
 
         /**
@@ -414,9 +435,30 @@ public final class Result {
          *
          * @param context          The current context
          * @param templateRenderer The template rendered if available
-         * @return An input stream containing the processed result
          */
-        InputStream process(final Context context, final TemplateRenderer templateRenderer);
+        void process(final Context context, final TemplateRenderer templateRenderer);
+
+        /**
+         * Get the result input stream.
+         *
+         * @return The result input stream
+         */
+        InputStream getInputStream();
+    }
+
+    /**
+     * No content ("do nothing" processor).
+     */
+    private static class NoContentResultProcessor implements ResultProcessor {
+
+        @Override
+        public void process(final Context context, final TemplateRenderer templateRenderer) {
+        }
+
+        @Override
+        public InputStream getInputStream() {
+            return null;
+        }
     }
 
     /**
@@ -436,7 +478,11 @@ public final class Result {
         }
 
         @Override
-        public InputStream process(final Context context, final TemplateRenderer templateRenderer) {
+        public void process(final Context context, final TemplateRenderer templateRenderer) {
+        }
+
+        @Override
+        public InputStream getInputStream() {
             if (object == null) {
                 return ByteArrayInputStream.nullInputStream();
             } else if (object instanceof byte[]) {
@@ -457,6 +503,8 @@ public final class Result {
         private final String templateName;
         private final Map<String, Object> dataModel;
 
+        private InputStream inputStream;
+
         /**
          * Build a new instance.
          *
@@ -466,10 +514,11 @@ public final class Result {
         public TemplateResultProcessor(final String templateName, final Map<String, Object> dataModel) {
             this.templateName = templateName;
             this.dataModel = dataModel;
+            this.inputStream = null;
         }
 
         @Override
-        public InputStream process(final Context context, final TemplateRenderer templateRenderer) {
+        public void process(final Context context, final TemplateRenderer templateRenderer) {
             if (templateRenderer == null) {
                 // TODO: Create a custom exception
                 throw new RuntimeException("NO TEMPLATE ENGINE");
@@ -481,7 +530,12 @@ public final class Result {
 
             context.getFlashMessages().clear();
 
-            return new ByteArrayInputStream(renderedTemplate.getBytes(StandardCharsets.UTF_8));
+            this.inputStream = new ByteArrayInputStream(renderedTemplate.getBytes(StandardCharsets.UTF_8));
+        }
+
+        @Override
+        public InputStream getInputStream() {
+            return this.inputStream;
         }
     }
 }
