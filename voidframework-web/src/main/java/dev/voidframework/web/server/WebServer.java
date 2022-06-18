@@ -9,6 +9,8 @@ import dev.voidframework.core.helper.ClassResolver;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.core.lifecycle.LifeCycleStop;
 import dev.voidframework.web.exception.ErrorHandlerException;
+import dev.voidframework.web.exception.FilterException;
+import dev.voidframework.web.exception.RoutingException;
 import dev.voidframework.web.filter.Filter;
 import dev.voidframework.web.http.ErrorHandler;
 import dev.voidframework.web.http.HttpRequestHandler;
@@ -101,7 +103,7 @@ public class WebServer {
             for (final String filterName : this.configuration.getStringList("voidframework.web.globalFilters")) {
                 final Class<? extends Filter> filterClass = ClassResolver.forName(filterName);
                 if (filterClass == null) {
-                    throw new RuntimeException("Can't resolve filter '" + filterName + "'");
+                    throw new FilterException.LoadFailure(filterName);
                 }
 
                 globalFilterList.add(filterClass);
@@ -132,7 +134,7 @@ public class WebServer {
                 .forEach(appRoutesDefinitionClassName -> {
                     final Class<?> abstractRoutesDefinitionClass = ClassResolver.forName(appRoutesDefinitionClassName);
                     if (abstractRoutesDefinitionClass == null) {
-                        throw new RuntimeException("Can't find routes definition '" + appRoutesDefinitionClassName + "'");
+                        throw new RoutingException.AppRouteDefinitionLoadFailure(appRoutesDefinitionClassName);
                     }
 
                     final AppRoutesDefinition appRoutesDefinition = (AppRoutesDefinition) this.injector.getInstance(abstractRoutesDefinitionClass);

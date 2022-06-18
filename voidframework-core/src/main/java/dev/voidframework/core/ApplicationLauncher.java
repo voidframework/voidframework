@@ -17,6 +17,7 @@ import dev.voidframework.core.conversion.ConverterManager;
 import dev.voidframework.core.conversion.TypeConverter;
 import dev.voidframework.core.conversion.impl.DefaultConversion;
 import dev.voidframework.core.conversion.impl.DefaultConverterManager;
+import dev.voidframework.core.exception.AppLauncherException;
 import dev.voidframework.core.helper.VoidFrameworkVersion;
 import dev.voidframework.core.lifecycle.LifeCycleAnnotationListener;
 import dev.voidframework.core.lifecycle.LifeCycleManager;
@@ -57,12 +58,12 @@ public class ApplicationLauncher {
      */
     public void launch() {
         if (this.injector != null) {
-            throw new RuntimeException("Application is already launch");
+            throw new AppLauncherException.AlreadyRunning();
         }
 
         // Base
         System.setProperty("file.encoding", "UTF-8");
-        Runtime.getRuntime().addShutdownHook(new Thread(this::stop));
+        configureShutdownHook();
         displayBanner();
 
         // Load configuration
@@ -151,7 +152,7 @@ public class ApplicationLauncher {
 
                 appModuleList.add(appModule);
             } catch (final InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-                throw new RuntimeException("Can't find Module '" + moduleClass + "'", ex);
+                throw new AppLauncherException.ModuleInitFailure(moduleClass, ex);
             }
         }
         LOGGER.info("Modules loaded ({} modules)", appModuleList.size());
@@ -174,6 +175,16 @@ public class ApplicationLauncher {
         // Ready
         final long endTimeMillis = System.currentTimeMillis();
         LOGGER.info("Application started in {}ms", endTimeMillis - startTimeMillis);
+    }
+
+    /**
+     * Configures the shutdown hook.
+     */
+    private void configureShutdownHook() {
+        final Thread shutdownThread = new Thread(this::stop);
+        shutdownThread.setName("Shutdown");
+
+        Runtime.getRuntime().addShutdownHook(shutdownThread);
     }
 
     /**

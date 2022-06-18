@@ -1,7 +1,7 @@
 package dev.voidframework.web.exception;
 
 /**
- * All exceptions related to the error handler are subclasses of {@code RoutingException}.
+ * All exceptions related to the error handler are subclasses of {@code ErrorHandlerException}.
  */
 public class ErrorHandlerException extends RuntimeException {
 
@@ -72,7 +72,7 @@ public class ErrorHandlerException extends RuntimeException {
          * Build a new instance.
          *
          * @param className The class name
-         * @param cause     The cause exception
+         * @param cause     The cause
          */
         public CantInstantiate(final String className, final Exception cause) {
             super("Can't instantiate '" + className + "'", cause);

@@ -7,6 +7,7 @@ import com.typesafe.config.Config;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.voidframework.datasource.DataSourceManager;
+import dev.voidframework.exception.DataSourceException;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -81,7 +82,7 @@ public class HikariCpDataSourceManagerProvider implements Provider<DataSourceMan
             .collect(Collectors.toSet());
 
         if (dbConfigurationNameSet.isEmpty()) {
-            throw new RuntimeException("DataSource is not configured");
+            throw new DataSourceException.NotConfigured();
         }
 
         for (final String dbConfigurationName : dbConfigurationNameSet) {

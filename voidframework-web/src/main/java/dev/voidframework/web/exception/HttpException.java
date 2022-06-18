@@ -1,7 +1,7 @@
 package dev.voidframework.web.exception;
 
 /**
- * All exceptions related to http possible errors are subclasses of {@code RoutingException}.
+ * All exceptions related to http possible errors are subclasses of {@code HttpException}.
  */
 public class HttpException extends RuntimeException {
 

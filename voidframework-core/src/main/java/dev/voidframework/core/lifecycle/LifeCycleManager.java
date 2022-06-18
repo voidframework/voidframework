@@ -142,6 +142,7 @@ public final class LifeCycleManager {
             }
 
             final long start = System.currentTimeMillis();
+            thread.setName("LifeCycle");
             thread.start();
             thread.join(gracefulStopTimeout);
             final long end = System.currentTimeMillis();

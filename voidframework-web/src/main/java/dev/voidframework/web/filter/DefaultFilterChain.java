@@ -1,5 +1,6 @@
 package dev.voidframework.web.filter;
 
+import dev.voidframework.web.exception.FilterException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.Result;
 
@@ -37,6 +38,6 @@ public final class DefaultFilterChain implements FilterChain {
             return this.filterList.get(this.currentFilterIndex).apply(context, this);
         }
 
-        throw new RuntimeException("Filter chain overflow detected!");
+        throw new FilterException.Overflow(this.currentFilterIndex, this.filterList.size());
     }
 }

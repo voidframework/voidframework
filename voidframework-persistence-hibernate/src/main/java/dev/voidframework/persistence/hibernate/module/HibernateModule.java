@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.typesafe.config.Config;
+import dev.voidframework.exception.DataSourceException;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -31,7 +32,7 @@ public class HibernateModule extends AbstractModule {
     @Override
     protected void configure() {
         if (!this.configuration.hasPathOrNull("voidframework.datasource")) {
-            throw new RuntimeException("DataSource is not configured");
+            throw new DataSourceException.NotConfigured();
         }
 
         final Set<String> dbConfigurationNameSet = this.configuration.getConfig("voidframework.datasource").entrySet()
@@ -47,7 +48,7 @@ public class HibernateModule extends AbstractModule {
             .collect(Collectors.toSet());
 
         if (dbConfigurationNameSet.isEmpty()) {
-            throw new RuntimeException("DataSource is not configured");
+            throw new DataSourceException.NotConfigured();
         }
 
         for (final String dbConfigurationName : dbConfigurationNameSet) {

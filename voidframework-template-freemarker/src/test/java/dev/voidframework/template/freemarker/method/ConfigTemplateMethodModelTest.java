@@ -8,7 +8,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.i18n.module.InternationalizationModule;
 import dev.voidframework.template.TemplateRenderer;
-import dev.voidframework.template.exception.TemplateRendererException;
+import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.template.freemarker.module.TemplateFreeMarkerModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -73,8 +73,8 @@ public class ConfigTemplateMethodModelTest {
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
-        final TemplateRendererException.RenderingFailure exception = Assertions.assertThrows(
-            TemplateRendererException.RenderingFailure.class,
+        final TemplateException.RenderingFailure exception = Assertions.assertThrows(
+            TemplateException.RenderingFailure.class,
             () -> templateRenderer.render("configurationNotFound.ftl", Locale.ENGLISH));
         Assertions.assertEquals("Can't render template", exception.getMessage());
         Assertions.assertEquals("String: 1: No configuration setting found for key 'unknownKey'", exception.getCause().getCause().getMessage());
@@ -85,8 +85,8 @@ public class ConfigTemplateMethodModelTest {
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
-        final TemplateRendererException.RenderingFailure exception = Assertions.assertThrows(
-            TemplateRendererException.RenderingFailure.class,
+        final TemplateException.RenderingFailure exception = Assertions.assertThrows(
+            TemplateException.RenderingFailure.class,
             () -> templateRenderer.render("wrongArguments.ftl", Locale.ENGLISH));
         Assertions.assertEquals("Can't render template", exception.getMessage());
         Assertions.assertTrue(exception.getCause().getMessage().contains("Wrong arguments"));

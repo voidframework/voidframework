@@ -8,7 +8,7 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.i18n.module.InternationalizationModule;
 import dev.voidframework.template.TemplateRenderer;
-import dev.voidframework.template.exception.TemplateRendererException;
+import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.template.freemarker.module.TemplateFreeMarkerModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -44,8 +44,8 @@ public class FreeMarkerTemplateRendererTest {
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
-        final TemplateRendererException.DataModelNotProvided exception = Assertions.assertThrows(
-            TemplateRendererException.DataModelNotProvided.class,
+        final TemplateException.DataModelNotProvided exception = Assertions.assertThrows(
+            TemplateException.DataModelNotProvided.class,
             () -> templateRenderer.render("renderWithDataModel.ftl", Locale.ENGLISH, null));
         Assertions.assertEquals("Data model was not provided", exception.getMessage());
     }
@@ -55,8 +55,8 @@ public class FreeMarkerTemplateRendererTest {
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
-        final TemplateRendererException.RenderingFailure exception = Assertions.assertThrows(
-            TemplateRendererException.RenderingFailure.class,
+        final TemplateException.RenderingFailure exception = Assertions.assertThrows(
+            TemplateException.RenderingFailure.class,
             () -> templateRenderer.render("renderWithDataModel.ftl", Locale.ENGLISH, new HashMap<>()));
         Assertions.assertEquals("Can't render template", exception.getMessage());
         Assertions.assertTrue(exception.getCause().getMessage().contains("The following has evaluated to null or missing"));

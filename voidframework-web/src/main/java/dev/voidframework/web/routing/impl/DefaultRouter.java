@@ -3,6 +3,7 @@ package dev.voidframework.web.routing.impl;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dev.voidframework.core.helper.ProxyDetector;
+import dev.voidframework.web.exception.RoutingException;
 import dev.voidframework.web.filter.Filter;
 import dev.voidframework.web.filter.WithFilter;
 import dev.voidframework.web.routing.HttpMethod;
@@ -58,6 +59,8 @@ public class DefaultRouter implements Router {
                          final String routeUrl,
                          final Class<?> controllerClassType,
                          final Method method) {
+
+        this.checkAddRouteArguments(httpMethod, routeUrl, controllerClassType, method);
 
         final Class<?> controllerClass = ProxyDetector.isProxy(controllerClassType)
             ? controllerClassType.getSuperclass()
@@ -122,5 +125,30 @@ public class DefaultRouter implements Router {
     @Override
     public Map<HttpMethod, List<Route>> getRoutesAsMap() {
         return ImmutableMap.copyOf(routeListPerHttpMethodMap);
+    }
+
+    /**
+     * Checks given arguments are valid.
+     * This method will throw an exception if any argument is invalid.
+     *
+     * @param httpMethod          The HTTP method (ie: GET)
+     * @param routeUrl            The route url
+     * @param controllerClassType The controller class type
+     * @param method              The method to call
+     */
+    private void checkAddRouteArguments(final HttpMethod httpMethod,
+                                        final String routeUrl,
+                                        final Class<?> controllerClassType,
+                                        final Method method) {
+
+        if (httpMethod == null) {
+            throw new RoutingException.BadRoutingArgument("httpMethod", httpMethod);
+        } else if (routeUrl == null || (routeUrl.length() != routeUrl.trim().length())) {
+            throw new RoutingException.BadRoutingArgument("routeUrl", routeUrl);
+        } else if (controllerClassType == null) {
+            throw new RoutingException.BadRoutingArgument("controllerClassType", controllerClassType);
+        } else if (method == null) {
+            throw new RoutingException.BadRoutingArgument("method", method);
+        }
     }
 }

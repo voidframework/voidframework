@@ -4,11 +4,10 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.voidframework.i18n.Internationalization;
 import dev.voidframework.template.TemplateRenderer;
-import dev.voidframework.template.exception.TemplateRendererException;
+import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.template.freemarker.method.InternationalizationTemplateMethodModel;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
-import freemarker.template.TemplateException;
 import freemarker.template.TemplateMethodModelEx;
 
 import java.io.IOException;
@@ -48,7 +47,7 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
     @Override
     public String render(final String templateName, final Locale locale, final Map<String, Object> dataModel) {
         if (dataModel == null) {
-            throw new TemplateRendererException.DataModelNotProvided();
+            throw new TemplateException.DataModelNotProvided();
         }
 
         final TemplateMethodModelEx internationalizationMethodModel = new InternationalizationTemplateMethodModel(
@@ -64,8 +63,8 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
             final Template template = this.freeMarkerConfiguration.getTemplate(templateName, locale);
             template.process(dataModel, writer);
             return writer.toString();
-        } catch (final IOException | NullPointerException | TemplateException e) {
-            throw new TemplateRendererException.RenderingFailure(e);
+        } catch (final IOException | NullPointerException | freemarker.template.TemplateException e) {
+            throw new TemplateException.RenderingFailure(e);
         }
     }
 }
