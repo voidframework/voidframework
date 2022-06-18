@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.helper.Yaml;
-import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.validation.Validated;
 import dev.voidframework.validation.ValidationService;
 import dev.voidframework.validation.validator.TrimmedLength;
@@ -14,6 +13,7 @@ import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.HttpContentType;
 import dev.voidframework.web.http.Result;
+import dev.voidframework.web.http.TemplateResult;
 import dev.voidframework.web.http.param.RequestBody;
 import dev.voidframework.web.http.param.RequestPath;
 import dev.voidframework.web.http.param.RequestRoute;
@@ -31,31 +31,26 @@ import java.util.UUID;
 @WebController
 public class HelloWorldController implements HttpContentType {
 
-    private final TemplateRenderer templateRenderer;
     private final ValidationService validationService;
 
     /**
      * Build a new instance.
      *
-     * @param templateRenderer  The template rendered instance
      * @param validationService The validation service instance
      */
     @Inject
-    public HelloWorldController(final TemplateRenderer templateRenderer,
-                                final ValidationService validationService) {
-        this.templateRenderer = templateRenderer;
+    public HelloWorldController(final ValidationService validationService) {
         this.validationService = validationService;
     }
 
     /**
      * Display the home page.
      *
-     * @param context The current context
      * @return A Result
      */
     @RequestRoute(method = HttpMethod.GET)
-    public Result showHomePage(final Context context) {
-        return Result.ok(this.templateRenderer.render("home_page.ftl", context.getLocale()));
+    public Result showHomePage() {
+        return Result.ok(TemplateResult.of("home_page.ftl"));
     }
 
     /**
@@ -73,7 +68,7 @@ public class HelloWorldController implements HttpContentType {
         dataModel.put("name", number);
         dataModel.put("remoteHostName", context.getRequest().getRemoteHostName());
 
-        return Result.ok(this.templateRenderer.render("say_hello.ftl", context.getLocale(), dataModel));
+        return Result.ok(TemplateResult.of("say_hello.ftl", dataModel));
     }
 
     /**

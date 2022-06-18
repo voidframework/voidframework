@@ -5,6 +5,7 @@ import dev.voidframework.web.filter.DefaultFilterChain;
 import dev.voidframework.web.filter.Filter;
 import dev.voidframework.web.filter.FilterChain;
 import dev.voidframework.web.http.Context;
+import dev.voidframework.web.http.FlashMessages;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.Session;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +30,7 @@ public final class FilterTest {
             (ctx, filterChain) -> Result.ok("Hello World!"));
         final FilterChain filterChain = new DefaultFilterChain(filterList);
 
-        final Context context = new Context(null, new Session(), Locale.ENGLISH);
+        final Context context = new Context(null, new Session(), new FlashMessages(), Locale.ENGLISH);
         final Result result = filterChain.applyNext(context);
 
         Assertions.assertNotNull(result);
@@ -37,6 +38,6 @@ public final class FilterTest {
         Assertions.assertEquals(2, result.getHeaders().size());
         Assertions.assertEquals("Value", result.getHeaders().get("New-Header"));
         Assertions.assertEquals("Value2", result.getHeaders().get("New-Header-2"));
-        Assertions.assertEquals("Hello World!", new String(result.getInputStream().readAllBytes(), Charsets.UTF_8));
+        Assertions.assertEquals("Hello World!", new String(result.getResultProcessor().process(context, null).readAllBytes(), Charsets.UTF_8));
     }
 }

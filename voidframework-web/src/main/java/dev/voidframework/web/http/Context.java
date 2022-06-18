@@ -12,20 +12,27 @@ public final class Context {
     private final TypedMap attributes;
     private final HttpRequest httpRequest;
     private final Session session;
+    private final FlashMessages flashMessages;
 
     private Locale locale;
 
     /**
      * Build a new instance.
      *
-     * @param httpRequest The HTTP request
-     * @param session     The current session
-     * @param locale      The current locale
+     * @param httpRequest  The HTTP request
+     * @param session      The current session
+     * @param flashMessages The current flash message
+     * @param locale       The current locale
      */
-    public Context(final HttpRequest httpRequest, final Session session, final Locale locale) {
+    public Context(final HttpRequest httpRequest,
+                   final Session session,
+                   final FlashMessages flashMessages,
+                   final Locale locale) {
+
         this.attributes = new TypedMap();
         this.httpRequest = httpRequest;
         this.session = session;
+        this.flashMessages = flashMessages;
         this.locale = locale;
     }
 
@@ -54,6 +61,15 @@ public final class Context {
      */
     public Session getSession() {
         return this.session;
+    }
+
+    /**
+     * Retrieves the flash messages.
+     *
+     * @return The flash messages
+     */
+    public FlashMessages getFlashMessages() {
+        return this.flashMessages;
     }
 
     /**

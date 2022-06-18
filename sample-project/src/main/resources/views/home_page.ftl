@@ -16,6 +16,27 @@
         </a>
     </header>
 
+    <#if (flash.error)??>
+        <div class="alert alert-danger">
+            <span type="button" class="close float-end" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            ${i18n(flash.error)}
+        </div>
+    </#if>
+
+    <#if (flash.warning)??>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <span type="button" class="close float-end" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            ${i18n(flash.warning)}
+        </div>
+    </#if>
+
+    <#if (flash.success)??>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <span type="button" class="close float-end" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+            ${i18n(flash.success)}
+        </div>
+    </#if>
+
     <main>
         <h1>${i18n("key")}</h1>
     </main>

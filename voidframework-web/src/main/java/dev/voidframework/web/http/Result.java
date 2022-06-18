@@ -2,6 +2,7 @@ package dev.voidframework.web.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import dev.voidframework.core.helper.Json;
+import dev.voidframework.template.TemplateRenderer;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -15,21 +16,21 @@ import java.util.Map;
 public final class Result {
 
     private final int httpCode;
-    private final Object content;
     private final String contentType;
+    private final ResultProcessor resultProcessor;
     private final Map<String, String> headerMap;
     private final Map<String, Cookie> cookieMap;
 
     /**
      * Build a new instance.
      *
-     * @param httpCode    The result HTTP code
-     * @param content     The result content
-     * @param contentType The result content type
+     * @param httpCode        The result HTTP code
+     * @param resultProcessor The result processor
+     * @param contentType     The result content type
      */
-    private Result(final int httpCode, final Object content, final String contentType) {
+    private Result(final int httpCode, final ResultProcessor resultProcessor, final String contentType) {
         this.httpCode = httpCode;
-        this.content = content;
+        this.resultProcessor = resultProcessor;
         this.contentType = contentType;
         this.headerMap = new HashMap<>();
         this.cookieMap = new HashMap<>();
@@ -42,7 +43,7 @@ public final class Result {
      * @return A result
      */
     public static Result badRequest(final String content) {
-        return new Result(HttpReturnCode.BAD_REQUEST, content, HttpContentType.TEXT_HTML);
+        return new Result(HttpReturnCode.BAD_REQUEST, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -53,7 +54,7 @@ public final class Result {
      * @return A result
      */
     public static Result badRequest(final byte[] content, final String contentType) {
-        return new Result(HttpReturnCode.BAD_REQUEST, content, contentType);
+        return new Result(HttpReturnCode.BAD_REQUEST, new ObjectResultProcessor(content), contentType);
     }
 
     /**
@@ -63,7 +64,7 @@ public final class Result {
      * @return A result
      */
     public static Result badRequest(final JsonNode content) {
-        return new Result(HttpReturnCode.BAD_REQUEST, Json.toString(content), HttpContentType.APPLICATION_JSON);
+        return new Result(HttpReturnCode.BAD_REQUEST, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -73,7 +74,7 @@ public final class Result {
      * @return A result
      */
     public static Result created(final String content) {
-        return new Result(HttpReturnCode.CREATED, content, HttpContentType.TEXT_HTML);
+        return new Result(HttpReturnCode.CREATED, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -84,7 +85,7 @@ public final class Result {
      * @return A result
      */
     public static Result created(final byte[] content, final String contentType) {
-        return new Result(HttpReturnCode.CREATED, content, contentType);
+        return new Result(HttpReturnCode.CREATED, new ObjectResultProcessor(content), contentType);
     }
 
     /**
@@ -94,7 +95,7 @@ public final class Result {
      * @return A result
      */
     public static Result created(final JsonNode content) {
-        return new Result(HttpReturnCode.CREATED, Json.toString(content), HttpContentType.APPLICATION_JSON);
+        return new Result(HttpReturnCode.CREATED, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -104,7 +105,7 @@ public final class Result {
      * @return A result
      */
     public static Result forbidden(final String content) {
-        return new Result(HttpReturnCode.FORBIDDEN, content, HttpContentType.TEXT_HTML);
+        return new Result(HttpReturnCode.FORBIDDEN, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -115,7 +116,7 @@ public final class Result {
      * @return A result
      */
     public static Result forbidden(final byte[] content, final String contentType) {
-        return new Result(HttpReturnCode.FORBIDDEN, content, contentType);
+        return new Result(HttpReturnCode.FORBIDDEN, new ObjectResultProcessor(content), contentType);
     }
 
     /**
@@ -125,7 +126,7 @@ public final class Result {
      * @return A result
      */
     public static Result forbidden(final JsonNode content) {
-        return new Result(HttpReturnCode.FORBIDDEN, Json.toString(content), HttpContentType.APPLICATION_JSON);
+        return new Result(HttpReturnCode.FORBIDDEN, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -135,7 +136,7 @@ public final class Result {
      * @return A result
      */
     public static Result internalServerError(final String content) {
-        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, content, HttpContentType.TEXT_HTML);
+        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -146,7 +147,7 @@ public final class Result {
      * @return A result
      */
     public static Result internalServerError(final byte[] content, final String contentType) {
-        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, content, contentType);
+        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, new ObjectResultProcessor(content), contentType);
     }
 
     /**
@@ -156,7 +157,7 @@ public final class Result {
      * @return A result
      */
     public static Result internalServerError(final JsonNode content) {
-        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, Json.toString(content), HttpContentType.APPLICATION_JSON);
+        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -175,7 +176,7 @@ public final class Result {
      * @return A result
      */
     public static Result notFound(final String content) {
-        return new Result(HttpReturnCode.NOT_FOUND, content, HttpContentType.TEXT_HTML);
+        return new Result(HttpReturnCode.NOT_FOUND, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -186,7 +187,7 @@ public final class Result {
      * @return A result
      */
     public static Result notFound(final byte[] content, final String contentType) {
-        return new Result(HttpReturnCode.NOT_FOUND, content, contentType);
+        return new Result(HttpReturnCode.NOT_FOUND, new ObjectResultProcessor(content), contentType);
     }
 
     /**
@@ -196,7 +197,7 @@ public final class Result {
      * @return A result
      */
     public static Result notFound(final JsonNode content) {
-        return new Result(HttpReturnCode.NOT_FOUND, Json.toString(content), HttpContentType.APPLICATION_JSON);
+        return new Result(HttpReturnCode.NOT_FOUND, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -206,7 +207,7 @@ public final class Result {
      * @return A result
      */
     public static Result notImplemented(final String content) {
-        return new Result(HttpReturnCode.NOT_IMPLEMENTED, content, HttpContentType.TEXT_HTML);
+        return new Result(HttpReturnCode.NOT_IMPLEMENTED, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -217,7 +218,7 @@ public final class Result {
      * @return A result
      */
     public static Result notImplemented(final byte[] content, final String contentType) {
-        return new Result(HttpReturnCode.NOT_IMPLEMENTED, content, contentType);
+        return new Result(HttpReturnCode.NOT_IMPLEMENTED, new ObjectResultProcessor(content), contentType);
     }
 
     /**
@@ -227,7 +228,7 @@ public final class Result {
      * @return A result
      */
     public static Result notImplemented(final JsonNode content) {
-        return new Result(HttpReturnCode.NOT_IMPLEMENTED, Json.toString(content), HttpContentType.APPLICATION_JSON);
+        return new Result(HttpReturnCode.NOT_IMPLEMENTED, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -237,7 +238,7 @@ public final class Result {
      * @return A result
      */
     public static Result ok(final String content) {
-        return new Result(HttpReturnCode.OK, content, HttpContentType.TEXT_HTML);
+        return new Result(HttpReturnCode.OK, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -248,7 +249,7 @@ public final class Result {
      * @return A result
      */
     public static Result ok(final byte[] content, final String contentType) {
-        return new Result(HttpReturnCode.OK, content, contentType);
+        return new Result(HttpReturnCode.OK, new ObjectResultProcessor(content), contentType);
     }
 
     /**
@@ -259,7 +260,7 @@ public final class Result {
      * @return A result
      */
     public static Result ok(final InputStream content, final String contentType) {
-        return new Result(HttpReturnCode.OK, content, contentType);
+        return new Result(HttpReturnCode.OK, new ObjectResultProcessor(content), contentType);
     }
 
     /**
@@ -269,7 +270,17 @@ public final class Result {
      * @return A result
      */
     public static Result ok(final JsonNode content) {
-        return new Result(HttpReturnCode.OK, Json.toString(content), HttpContentType.APPLICATION_JSON);
+        return new Result(HttpReturnCode.OK, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+    }
+
+    /**
+     * Ok (200).
+     *
+     * @param templateResult The template to render
+     * @return A result
+     */
+    public static Result ok(final TemplateResult templateResult) {
+        return new Result(HttpReturnCode.OK, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -384,19 +395,93 @@ public final class Result {
     }
 
     /**
-     * Get the result as InputStream.
+     * Get tje result processor.
      *
-     * @return The result as InputStream
+     * @return The result processor
      */
-    public InputStream getInputStream() {
-        if (content == null) {
-            return ByteArrayInputStream.nullInputStream();
-        } else if (content instanceof byte[]) {
-            return new ByteArrayInputStream((byte[]) content);
-        } else if (content instanceof InputStream) {
-            return (InputStream) content;
+    public ResultProcessor getResultProcessor() {
+        return this.resultProcessor;
+    }
+
+    /**
+     * Result processor. In charge to transform a content (any type) into an {@code InputStream}.
+     */
+    @FunctionalInterface
+    public interface ResultProcessor {
+
+        /**
+         * Process the result.
+         *
+         * @param context          The current context
+         * @param templateRenderer The template rendered if available
+         * @return An input stream containing the processed result
+         */
+        InputStream process(final Context context, final TemplateRenderer templateRenderer);
+    }
+
+    /**
+     * Process a simple object.
+     */
+    private static class ObjectResultProcessor implements ResultProcessor {
+
+        private final Object object;
+
+        /**
+         * Build a new instance.
+         *
+         * @param object Object to process
+         */
+        public ObjectResultProcessor(final Object object) {
+            this.object = object;
         }
 
-        return new ByteArrayInputStream(content.toString().getBytes(StandardCharsets.UTF_8));
+        @Override
+        public InputStream process(final Context context, final TemplateRenderer templateRenderer) {
+            if (object == null) {
+                return ByteArrayInputStream.nullInputStream();
+            } else if (object instanceof byte[]) {
+                return new ByteArrayInputStream((byte[]) object);
+            } else if (object instanceof InputStream) {
+                return (InputStream) object;
+            }
+
+            return new ByteArrayInputStream(object.toString().getBytes(StandardCharsets.UTF_8));
+        }
+    }
+
+    /**
+     * Process a template.
+     */
+    private static class TemplateResultProcessor implements ResultProcessor {
+
+        private final String templateName;
+        private final Map<String, Object> dataModel;
+
+        /**
+         * Build a new instance.
+         *
+         * @param templateName The name of the template to render
+         * @param dataModel    The data model to use
+         */
+        public TemplateResultProcessor(final String templateName, final Map<String, Object> dataModel) {
+            this.templateName = templateName;
+            this.dataModel = dataModel;
+        }
+
+        @Override
+        public InputStream process(final Context context, final TemplateRenderer templateRenderer) {
+            if (templateRenderer == null) {
+                // TODO: Create a custom exception
+                throw new RuntimeException("NO TEMPLATE ENGINE");
+            }
+
+            this.dataModel.put("flash", context.getFlashMessages());
+
+            final String renderedTemplate = templateRenderer.render(this.templateName, context.getLocale(), this.dataModel);
+
+            context.getFlashMessages().clear();
+
+            return new ByteArrayInputStream(renderedTemplate.getBytes(StandardCharsets.UTF_8));
+        }
     }
 }

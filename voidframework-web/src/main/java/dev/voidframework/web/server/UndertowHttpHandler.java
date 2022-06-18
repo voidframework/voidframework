@@ -1,10 +1,13 @@
 package dev.voidframework.web.server;
 
 import com.typesafe.config.Config;
+import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.lang.Either;
+import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.Cookie;
+import dev.voidframework.web.http.FlashMessages;
 import dev.voidframework.web.http.FormItem;
 import dev.voidframework.web.http.HttpRequest;
 import dev.voidframework.web.http.HttpRequestBodyContent;
@@ -25,6 +28,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +46,7 @@ public class UndertowHttpHandler implements HttpHandler {
     private final Config configuration;
     private final HttpRequestHandler httpRequestHandler;
     private final SessionSigner sessionSigner;
+    private final TemplateRenderer templateRenderer;
     private final MultiPartParserDefinition multiPartParserDefinition;
 
     /**
@@ -50,13 +55,16 @@ public class UndertowHttpHandler implements HttpHandler {
      * @param configuration      The application configuration
      * @param httpRequestHandler The HTTP request handler
      * @param sessionSigner      The session signer
+     * @param templateRenderer   The template renderer
      */
     public UndertowHttpHandler(final Config configuration,
                                final HttpRequestHandler httpRequestHandler,
-                               final SessionSigner sessionSigner) {
+                               final SessionSigner sessionSigner,
+                               final TemplateRenderer templateRenderer) {
         this.configuration = configuration;
         this.httpRequestHandler = httpRequestHandler;
         this.sessionSigner = sessionSigner;
+        this.templateRenderer = templateRenderer;
 
         this.multiPartParserDefinition = new MultiPartParserDefinition()
             //.setTempFileLocation(new File(System.getProperty("java.io.tmpdir")).toPath())
@@ -88,6 +96,15 @@ public class UndertowHttpHandler implements HttpHandler {
             session = new Session();
         }
 
+        Cookie flashMessagesCookie = httpRequest.getCookie(this.configuration.getString("voidframework.web.flashMessages.cookieName"));
+        final FlashMessages flashMessages;
+        if (flashMessagesCookie != null) {
+            flashMessages = new FlashMessages(
+                Json.fromJson(Json.toJson(flashMessagesCookie.value().getBytes(StandardCharsets.UTF_8)), FlashMessages.class));
+        } else {
+            flashMessages = new FlashMessages();
+        }
+
         final Locale i18nLocale;
         final List<String> availableLanguageList = this.configuration.getStringList("voidframework.web.language.availableLanguages");
         Cookie i18nCookie = httpRequest.getCookie(this.configuration.getString("voidframework.web.language.cookieName"));
@@ -97,7 +114,7 @@ public class UndertowHttpHandler implements HttpHandler {
             i18nLocale = availableLanguageList.isEmpty() ? null : Locale.forLanguageTag(availableLanguageList.get(0));
         }
 
-        final Context context = new Context(httpRequest, session, i18nLocale);
+        final Context context = new Context(httpRequest, session, flashMessages, i18nLocale);
 
         // Process request (if no error occur before)
         final Result result = httpRequestOrException.hasLeft()
@@ -107,6 +124,13 @@ public class UndertowHttpHandler implements HttpHandler {
         // Check if exchange is still available
         if (httpServerExchange.isComplete()) {
             return;
+        }
+
+        // Process the result
+        InputStream inputStream = null;
+        final Result.ResultProcessor resultProcessor = result.getResultProcessor();
+        if (resultProcessor != null) {
+            inputStream = resultProcessor.process(context, this.templateRenderer);
         }
 
         // Set the return HttpCode and Content-Type
@@ -120,7 +144,7 @@ public class UndertowHttpHandler implements HttpHandler {
                 entrySet.getValue());
         }
 
-        // Persist session to Cookie
+        // Persists session to Cookie
         if (context.getSession().isModified()) {
             sessionCookie = Cookie.of(
                 this.configuration.getString("voidframework.web.session.cookieName"),
@@ -134,7 +158,19 @@ public class UndertowHttpHandler implements HttpHandler {
             result.withCookie(sessionCookie);
         }
 
-        // Persist locale to Cookie
+        // Persists flash messages to Cookie
+        if (context.getFlashMessages().isModified()) {
+            flashMessagesCookie = Cookie.of(
+                this.configuration.getString("voidframework.web.flashMessages.cookieName"),
+                Json.toJson(context.getFlashMessages()).toString(),
+                this.configuration.getBoolean("voidframework.web.flashMessages.cookieHttpOnly"),
+                this.configuration.getBoolean("voidframework.web.flashMessages.cookieSecure"),
+                context.getFlashMessages().isEmpty() ? Duration.ZERO : null);
+
+            result.withCookie(flashMessagesCookie);
+        }
+
+        // Persists locale to Cookie
         if (context.getLocale() != null && context.getLocale() != i18nLocale) {
             i18nCookie = Cookie.of(
                 this.configuration.getString("voidframework.web.language.cookieName"),
@@ -162,21 +198,22 @@ public class UndertowHttpHandler implements HttpHandler {
         }
 
         // Returns content
-        final OutputStream outputStream = httpServerExchange.getOutputStream();
-        final InputStream inputStream = result.getInputStream();
-        try {
-            httpServerExchange.setResponseContentLength(inputStream.available());
+        if (inputStream != null) {
+            final OutputStream outputStream = httpServerExchange.getOutputStream();
+            try {
+                httpServerExchange.setResponseContentLength(inputStream.available());
 
-            final byte[] buffer = new byte[8192];
-            int readLength;
-            while ((readLength = inputStream.read(buffer, 0, buffer.length)) > 0) {
-                outputStream.write(buffer, 0, readLength);
-                outputStream.flush();
+                final byte[] buffer = new byte[8192];
+                int readLength;
+                while ((readLength = inputStream.read(buffer, 0, buffer.length)) > 0) {
+                    outputStream.write(buffer, 0, readLength);
+                    outputStream.flush();
+                }
+            } catch (final Exception ignore) {
+            } finally {
+                IOUtils.closeQuietly(outputStream);
+                IOUtils.closeQuietly(inputStream);
             }
-        } catch (final Exception ignore) {
-        } finally {
-            IOUtils.closeQuietly(outputStream);
-            IOUtils.closeQuietly(inputStream);
         }
     }
 

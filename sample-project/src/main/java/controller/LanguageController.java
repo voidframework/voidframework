@@ -49,6 +49,8 @@ public final class LanguageController {
             context.setLocal(Locale.forLanguageTag(requestedLanguage));
         }
 
+        context.getFlashMessages().put("success", "flash.language.changed");
+
         // Redirect to the previous page, otherwise, "/"
         final String referer = context.getRequest().getHeader("referer");
         if (StringUtils.isNotBlank(referer)) {

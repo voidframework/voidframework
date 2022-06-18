@@ -4,32 +4,32 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An HTTP session.
+ * HTTP Flash messages.
  */
-public class Session extends HashMap<String, String> {
+public class FlashMessages extends HashMap<String, String> {
 
     /**
-     * Indicate if the session has been modified.
+     * Indicate if any flash message has been modified.
      */
     transient private boolean isModified;
 
     /**
      * Build a new instance.
      */
-    public Session() {
+    public FlashMessages() {
     }
 
     /**
      * Build a new instance.
      *
-     * @param sessionData Initial session data
+     * @param flashMessageData Initial flash messages data
      */
-    public Session(final Map<String, String> sessionData) {
-        super(sessionData);
+    public FlashMessages(final Map<String, String> flashMessageData) {
+        super(flashMessageData);
     }
 
     /**
-     * Removes a value from the session.
+     * Removes a flash message.
      *
      * @param key Key whose mapping value to remove
      * @return The previous value associated with key, otherwise, {@code null}
@@ -41,7 +41,7 @@ public class Session extends HashMap<String, String> {
     }
 
     /**
-     * Adds the single value to the session.
+     * Adds the single flash message.
      */
     @Override
     public String put(final String key, final String value) {
@@ -50,7 +50,7 @@ public class Session extends HashMap<String, String> {
     }
 
     /**
-     * Adds the multiple values to the session.
+     * Adds multiple flash messages.
      */
     @Override
     public void putAll(final Map<? extends String, ? extends String> values) {
@@ -59,7 +59,7 @@ public class Session extends HashMap<String, String> {
     }
 
     /**
-     * Clears all data from the session.
+     * Clears all flash messages.
      */
     @Override
     public void clear() {
@@ -68,9 +68,9 @@ public class Session extends HashMap<String, String> {
     }
 
     /**
-     * Checks if the session has been modified.
+     * Checks if any flash message has been modified.
      *
-     * @return {@code true} if the session has been modified, otherwise, {@code false}
+     * @return {@code true} if any flash message has been modified, otherwise, {@code false}
      */
     public boolean isModified() {
         return isModified;
