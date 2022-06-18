@@ -135,7 +135,7 @@ public class UndertowHttpHandler implements HttpHandler {
         }
 
         // Persist locale to Cookie
-        if (context.getLocale() != null) {
+        if (context.getLocale() != null && context.getLocale() != i18nLocale) {
             i18nCookie = Cookie.of(
                 this.configuration.getString("voidframework.web.language.cookieName"),
                 context.getLocale().toLanguageTag(),
