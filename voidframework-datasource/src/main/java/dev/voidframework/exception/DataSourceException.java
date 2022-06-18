@@ -25,6 +25,19 @@ public class DataSourceException extends RuntimeException {
     }
 
     /**
+     * Exception indicates that driver can't be loaded.
+     */
+    public static class DriverLoadFailure extends DataSourceException {
+
+        /**
+         * Build a new instance.
+         */
+        public DriverLoadFailure(final String configKeyName, final Throwable cause) {
+            super("Failed to load driver class '" + configKeyName + "'", cause);
+        }
+    }
+
+    /**
      * Exception indicates that data source configuration is missing.
      */
     public static class NotConfigured extends DataSourceException {

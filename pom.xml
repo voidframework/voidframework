@@ -45,6 +45,7 @@
         <plugin.version.surefire>2.22.2</plugin.version.surefire>
 
         <!-- Dependencies -->
+        <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
         <dependency.version.classgraph>4.8.147</dependency.version.classgraph>
         <dependency.version.commons.lang>3.12.0</dependency.version.commons.lang>
         <dependency.version.flyway>8.5.12</dependency.version.flyway>
@@ -74,6 +75,7 @@
         <module>voidframework-core</module>
         <module>voidframework-cache</module>
         <module>voidframework-datasource</module>
+        <module>voidframework-datasource-c3p0</module>
         <module>voidframework-datasource-hikaricp</module>
         <module>voidframework-healthcheck</module>
         <module>voidframework-i18n</module>
@@ -355,6 +357,11 @@
                         <artifactId>slf4j-api</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.mchange</groupId>
+                <artifactId>c3p0</artifactId>
+                <version>${dependency.version.c3p0}</version>
             </dependency>
             <dependency>
                 <groupId>org.hibernate.orm</groupId>

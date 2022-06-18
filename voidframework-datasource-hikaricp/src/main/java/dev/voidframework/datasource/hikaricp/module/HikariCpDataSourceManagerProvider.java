@@ -91,10 +91,14 @@ public class HikariCpDataSourceManagerProvider implements Provider<DataSourceMan
 
             final HikariConfig hikariConfig = new HikariConfig();
             hikariConfig.setPoolName(dbConfigurationName);
-            hikariConfig.setDriverClassName(dbConfiguration.getString("driver"));
             hikariConfig.setJdbcUrl(dbConfiguration.getString("url"));
             hikariConfig.setUsername(dbConfiguration.getString("username"));
             hikariConfig.setPassword(dbConfiguration.getString("password"));
+            try {
+                hikariConfig.setDriverClassName(dbConfiguration.getString("driver"));
+            } catch (final RuntimeException exception) {
+                throw new DataSourceException.DriverLoadFailure(dbConfiguration.getString("driver"), exception);
+            }
 
             for (final Map.Entry<String, BiConsumer<HikariConfig, Config>> entrySet : optionalHikariConfigToApplyMap.entrySet()) {
                 if (dbConfiguration.hasPath(entrySet.getKey())) {
