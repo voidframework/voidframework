@@ -79,7 +79,7 @@ public class DefaultErrorHandler implements ErrorHandler {
             final StackTraceElement stackTraceElement = throwable.getStackTrace()[0];
             final int lineNumberFromZero = stackTraceElement.getLineNumber() - 1;
 
-            final String javaFileName = stackTraceElement.getClassName().replace(".", File.separator) + ".java";
+            final String javaFileName = stackTraceElement.getClassName().replace(".", File.separator).split("\\$", 2)[0] + ".java";
             final Optional<Path> javaFilepathOptional = resolvePossibleJavaFileLocation(javaFileName);
             final List<FileLine> fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero))
                 .orElseGet(ArrayList::new);

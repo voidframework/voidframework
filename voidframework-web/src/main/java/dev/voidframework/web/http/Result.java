@@ -3,6 +3,7 @@ package dev.voidframework.web.http;
 import com.fasterxml.jackson.databind.JsonNode;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.template.TemplateRenderer;
+import dev.voidframework.template.exception.TemplateException;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -520,17 +521,15 @@ public final class Result {
         @Override
         public void process(final Context context, final TemplateRenderer templateRenderer) {
             if (templateRenderer == null) {
-                // TODO: Create a custom exception
-                throw new RuntimeException("NO TEMPLATE ENGINE");
+                throw new TemplateException.NoTemplateEngine();
             }
 
             this.dataModel.put("flash", context.getFlashMessages());
 
             final String renderedTemplate = templateRenderer.render(this.templateName, context.getLocale(), this.dataModel);
+            this.inputStream = new ByteArrayInputStream(renderedTemplate.getBytes(StandardCharsets.UTF_8));
 
             context.getFlashMessages().clear();
-
-            this.inputStream = new ByteArrayInputStream(renderedTemplate.getBytes(StandardCharsets.UTF_8));
         }
 
         @Override

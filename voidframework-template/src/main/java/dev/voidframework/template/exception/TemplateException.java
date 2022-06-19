@@ -66,4 +66,17 @@ public class TemplateException extends RuntimeException {
             super("Can't initialize the template engine", cause);
         }
     }
+
+    /**
+     * Exception indicates that template engine wasn't found.
+     */
+    public static class NoTemplateEngine extends TemplateException {
+
+        /**
+         * Build a new instance.
+         */
+        public NoTemplateEngine() {
+            super("No template engine found, check that you have activated an implementation of the template engine");
+        }
+    }
 }
