@@ -1,5 +1,7 @@
 package dev.voidframework.web.http;
 
+import dev.voidframework.core.helper.Json;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +51,18 @@ public final class TemplateResult {
      */
     public static TemplateResult of(final String templateName,
                                     final Map<String, Object> dataModel) {
-        return new TemplateResult(templateName, dataModel);
+        return new TemplateResult(templateName, dataModel != null ? dataModel : new HashMap<>());
+    }
+
+    /**
+     * Build a new instance.
+     *
+     * @param templateName The name of the template to render
+     * @param dataModel    The data model to use
+     * @return Newly created instance
+     */
+    public static TemplateResult of(final String templateName,
+                                    final Object dataModel) {
+        return new TemplateResult(templateName, Json.toMap(dataModel));
     }
 }

@@ -1,6 +1,7 @@
 package dev.voidframework.core.helper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +19,9 @@ import java.util.Map;
  * Helper to handle JSON document.
  */
 public final class Json {
+
+    private static final TypeReference<Map<String, Object>> MAP_TYPE_REFERENCE = new TypeReference<>() {
+    };
 
     private static final ObjectMapper objectMapper = JsonMapper.builder()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -60,7 +64,7 @@ public final class Json {
     /**
      * Converts a byte array to a JSON document.
      *
-     * @param data data to convert in JSON
+     * @param data Data to convert in JSON
      * @return The JSON node
      */
     public static JsonNode toJson(final byte[] data) {
@@ -91,13 +95,27 @@ public final class Json {
      * Converts a data map into to a Java object.
      *
      * @param <OUTPUT_TYPE> The type of the Java object
-     * @param dataMap       data map to convert
+     * @param dataMap       Data map to convert
      * @param clazz         Expected Java object type
      * @return The Java object
      */
     public static <OUTPUT_TYPE> OUTPUT_TYPE fromMap(final Map<?, ?> dataMap, final Class<OUTPUT_TYPE> clazz) {
         try {
             return objectMapper.convertValue(dataMap, clazz);
+        } catch (final NullPointerException | IllegalArgumentException e) {
+            return null;
+        }
+    }
+
+    /**
+     * Converts an object into a data map.
+     *
+     * @param obj Object to convert
+     * @return The data map
+     */
+    public static Map<String, Object> toMap(final Object obj) {
+        try {
+            return objectMapper.convertValue(obj, MAP_TYPE_REFERENCE);
         } catch (final NullPointerException | IllegalArgumentException e) {
             return null;
         }

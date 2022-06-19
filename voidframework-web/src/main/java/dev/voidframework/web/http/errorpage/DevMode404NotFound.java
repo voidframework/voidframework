@@ -32,7 +32,7 @@ public final class DevMode404NotFound {
             border: solid 3px #e7961c;
             padding: 20px 20px 20px 20px;
             display: block;
-            background-color: #f8d7da;
+            background-color: #edeadd;
             color: #5d3604;
             font-size: 1.2rem;
             max-height: 250px;
