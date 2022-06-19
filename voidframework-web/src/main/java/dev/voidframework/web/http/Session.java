@@ -63,8 +63,10 @@ public class Session extends HashMap<String, String> {
      */
     @Override
     public void clear() {
-        this.isModified = true;
-        super.clear();
+        if (!this.isEmpty()) {
+            this.isModified = true;
+            super.clear();
+        }
     }
 
     /**
