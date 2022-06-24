@@ -141,7 +141,9 @@ public final class SchedulerManager {
         LOGGER.info("Method {}::{} is scheduled to be run every {} seconds{}",
             scheduledHandler.classType().getName(),
             scheduledHandler.method().getName(),
-            scheduledHandler.scheduledAnnotation().fixedRate(),
+            scheduledHandler.scheduledAnnotation().fixedDelay() >= 1
+                ? scheduledHandler.scheduledAnnotation().fixedDelay()
+                : scheduledHandler.scheduledAnnotation().fixedRate(),
             scheduledHandler.scheduledAnnotation().initialDelay() > 0
                 ? " after an initial delay of %d seconds".formatted(scheduledHandler.scheduledAnnotation().initialDelay())
                 : StringUtils.EMPTY);
@@ -163,7 +165,7 @@ public final class SchedulerManager {
                             exception);
                     }
 
-                    scheduledExecutorService.schedule(this, scheduledHandler.scheduledAnnotation().fixedRate(), TimeUnit.MILLISECONDS);
+                    scheduledExecutorService.schedule(this, scheduledHandler.scheduledAnnotation().fixedDelay(), TimeUnit.MILLISECONDS);
                     return null;
                 }
             };
