@@ -46,7 +46,6 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     public EntityManagerProvider(final String dataSourceName) {
         this.dataSourceName = dataSourceName;
         this.currentEntityManager = new ThreadLocal<>();
-        this.currentEntityManager.set(new ArrayDeque<>());
     }
 
     /**
@@ -61,7 +60,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
     @Override
     public EntityManager get() {
-        if (this.hasAtLeastOneEntityManagerInitialized()) {
+        if (this.isEntityManagerMustBeInitialized()) {
             createEntityManagerFactoryIfNeeded();
             return this.entityManagerFactory.createEntityManager();
         }
@@ -74,7 +73,13 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      */
     public void initializeNewEntityFactoryManager() {
         createEntityManagerFactoryIfNeeded();
-        this.currentEntityManager.get().addFirst(this.entityManagerFactory.createEntityManager());
+
+        Deque<EntityManager> currentEntityManagerDeque = this.currentEntityManager.get();
+        if (currentEntityManagerDeque == null) {
+            currentEntityManagerDeque = new ArrayDeque<>();
+            this.currentEntityManager.set(currentEntityManagerDeque);
+        }
+        currentEntityManagerDeque.addFirst(this.entityManagerFactory.createEntityManager());
     }
 
     /**
@@ -93,8 +98,9 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      *
      * @return {@code true} at least one entity manager is initialized, otherwise, {@code false}
      */
-    public boolean hasAtLeastOneEntityManagerInitialized() {
-        return this.currentEntityManager.get().isEmpty();
+    public boolean isEntityManagerMustBeInitialized() {
+        final Deque<EntityManager> currentEntityManagerDeque = this.currentEntityManager.get();
+        return currentEntityManagerDeque == null || currentEntityManagerDeque.isEmpty();
     }
 
     /**

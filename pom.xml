@@ -81,6 +81,7 @@
         <module>voidframework-i18n</module>
         <module>voidframework-migration-flyway</module>
         <module>voidframework-persistence-hibernate</module>
+        <module>voidframework-scheduler</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>
         <module>voidframework-validation</module>
@@ -237,6 +238,11 @@
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-persistence-hibernate</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-scheduler</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
             <dependency>

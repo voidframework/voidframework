@@ -37,7 +37,7 @@ public class TransactionalInterceptor implements MethodInterceptor {
         }
 
         // Create a new EntityManager for this current thread (must be done once)
-        if (this.entityManagerProvider.hasAtLeastOneEntityManagerInitialized() || transactionalAnnotation.value() == Transactional.TxType.REQUIRES_NEW) {
+        if (this.entityManagerProvider.isEntityManagerMustBeInitialized() || transactionalAnnotation.value() == Transactional.TxType.REQUIRES_NEW) {
             this.entityManagerProvider.initializeNewEntityFactoryManager();
         }
 

@@ -1,6 +1,7 @@
 package dev.voidframework.core.helper;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * Reflection-based utility methods.
@@ -66,6 +67,54 @@ public final class Reflection {
             field.setAccessible(true);
             field.set(classInstance, value);
             field.setAccessible(false);
+        } catch (final Exception ignore) {
+        }
+    }
+
+    /**
+     * Calls a method.
+     *
+     * @param classInstance     The instance of the class in which the method is located
+     * @param methodeName       The method name
+     * @param returnTypeClass   The returned value type
+     * @param argumentTypeArray The method argument types
+     * @param argumentArray     The method arguments
+     * @param <RETURN_TYPE>     Type of the return value
+     * @return The method call result
+     */
+    public static <RETURN_TYPE> RETURN_TYPE callMethod(final Object classInstance,
+                                                       final String methodeName,
+                                                       final Class<RETURN_TYPE> returnTypeClass,
+                                                       final Class<?>[] argumentTypeArray,
+                                                       final Object... argumentArray) {
+        try {
+            final Method method = classInstance.getClass().getDeclaredMethod(methodeName, argumentTypeArray);
+            method.setAccessible(true);
+
+            final RETURN_TYPE ret = returnTypeClass.cast(method.invoke(classInstance, argumentArray));
+            method.setAccessible(false);
+
+            return ret;
+        } catch (final Exception ignore) {
+            return null;
+        }
+    }
+
+    /**
+     * Calls a method.
+     *
+     * @param classInstance The instance of the class in which the method is located
+     * @param methodeName   The method name
+     * @param argumentArray The method arguments
+     */
+    public static void callMethod(final Object classInstance,
+                                  final String methodeName,
+                                  final Object... argumentArray) {
+        try {
+            final Method method = classInstance.getClass().getDeclaredMethod(methodeName);
+            method.setAccessible(true);
+            method.invoke(classInstance, argumentArray);
+            method.setAccessible(false);
         } catch (final Exception ignore) {
         }
     }

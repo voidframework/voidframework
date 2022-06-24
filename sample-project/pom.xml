@@ -111,6 +111,10 @@
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>
+            <artifactId>voidframework-scheduler</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-template-freemarker</artifactId>
         </dependency>
         <dependency>

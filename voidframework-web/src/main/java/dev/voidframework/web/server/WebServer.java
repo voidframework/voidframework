@@ -69,7 +69,7 @@ public class WebServer {
     /**
      * Start the web server.
      */
-    @LifeCycleStart
+    @LifeCycleStart(priority = 800)
     @SuppressWarnings("unused")
     public void startWebServer() {
 
