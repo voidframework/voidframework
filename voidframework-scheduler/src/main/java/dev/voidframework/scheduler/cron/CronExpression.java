@@ -118,7 +118,7 @@ public class CronExpression {
         }
 
         // Parses the prepared CRON expression
-        cronExpressionPartArray = new CronExpressionPart[6];
+        this.cronExpressionPartArray = new CronExpressionPart[6];
         for (int idx = 0; idx < cronExpressionPartArray.length; ++idx) {
             // Standardize CRON expression
             final String standardizedPart = cronArray[idx]
@@ -127,7 +127,7 @@ public class CronExpression {
 
             // Parse and validate each part
             try {
-                cronExpressionPartArray[idx] = parseCronExpressionPart(standardizedPart);
+                this.cronExpressionPartArray[idx] = this.parseCronExpressionPart(standardizedPart);
                 if (idx < CRON_EXPRESSION_PART_VALIDATOR.size()) {
                     CRON_EXPRESSION_PART_VALIDATOR.get(idx).accept(cronExpressionPartArray[idx]);
                 }

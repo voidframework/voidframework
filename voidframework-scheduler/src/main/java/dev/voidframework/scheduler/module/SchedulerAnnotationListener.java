@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  */
 public class SchedulerAnnotationListener implements TypeListener {
 
-    private ScheduledHandlers scheduledHandlers;
+    private final ScheduledHandlers scheduledHandlers;
 
     /**
      * Build a new instance.

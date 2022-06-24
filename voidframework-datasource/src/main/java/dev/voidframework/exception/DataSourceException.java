@@ -31,9 +31,12 @@ public class DataSourceException extends RuntimeException {
 
         /**
          * Build a new instance.
+         *
+         * @param driverClassName The driver class name
+         * @param cause           The cause
          */
-        public DriverLoadFailure(final String configKeyName, final Throwable cause) {
-            super("Failed to load driver class '" + configKeyName + "'", cause);
+        public DriverLoadFailure(final String driverClassName, final Throwable cause) {
+            super("Failed to load driver class '" + driverClassName + "'", cause);
         }
     }
 

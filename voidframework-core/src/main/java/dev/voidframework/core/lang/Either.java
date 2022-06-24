@@ -95,13 +95,11 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
                       final Consumer<RIGHT_TYPE> rightConsumer) {
         if (this.left != null && leftConsumer != null) {
             leftConsumer.accept(this.left);
-        }
-
-        if (this.right != null && rightConsumer != null) {
+        } else if (this.right != null && rightConsumer != null) {
             rightConsumer.accept(this.right);
+        } else {
+            throw new IllegalArgumentException((this.left != null ? "Left" : "Right") + " consumer is required, but was null");
         }
-
-        throw new IllegalArgumentException((this.left != null ? "Left" : "Right") + " consumer is required, but was null");
     }
 
     /**

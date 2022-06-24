@@ -53,9 +53,9 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
         final TemplateMethodModelEx internationalizationMethodModel = new InternationalizationTemplateMethodModel(
             locale,
             this.internationalization);
+
         dataModel.put("i18n", internationalizationMethodModel);
         dataModel.put("_", internationalizationMethodModel);
-
         dataModel.put("lang", locale.toLanguageTag());
 
         try {

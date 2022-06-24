@@ -13,6 +13,9 @@ public final class Ping {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Ping.class);
 
+    /**
+     * Ping.
+     */
     @Scheduled(cron = "0 */5 * * * *")
     public void doPing() {
         LOGGER.info("PING!!");

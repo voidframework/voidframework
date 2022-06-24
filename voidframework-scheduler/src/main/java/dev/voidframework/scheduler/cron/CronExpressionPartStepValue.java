@@ -20,7 +20,7 @@ class CronExpressionPartStepValue implements CronExpressionPart {
 
     @Override
     public boolean isNotCompliant(final int value) {
-        return stepValue == -1 || value % stepValue == 0;
+        return this.stepValue == -1 || value % this.stepValue == 0;
     }
 
     @Override
@@ -28,11 +28,11 @@ class CronExpressionPartStepValue implements CronExpressionPart {
                                 final int allowedMaxStepValue,
                                 final int allowedMinValue,
                                 final int allowedMaxValue) {
-        if (stepValue != -1) {
-            if (!(stepValue >= allowedMinStepValue && stepValue <= allowedMaxStepValue)) {
+        if (this.stepValue != -1) {
+            if (!(this.stepValue >= allowedMinStepValue && this.stepValue <= allowedMaxStepValue)) {
                 throw new SchedulerException.InvalidCronExpression(
                     "Step value '%s' is invalid. It must be between '%s..%s'.",
-                    stepValue,
+                    this.stepValue,
                     allowedMaxStepValue,
                     allowedMinStepValue);
             }

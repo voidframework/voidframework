@@ -27,7 +27,7 @@ class CronExpressionPartList extends CronExpressionPartStepValue {
 
     @Override
     public boolean isNotCompliant(final int value) {
-        return super.isNotCompliant(value) ^ lst.contains(value);
+        return super.isNotCompliant(value) ^ this.lst.contains(value);
     }
 
     @Override
@@ -37,10 +37,10 @@ class CronExpressionPartList extends CronExpressionPartStepValue {
                                 final int allowedMaxValue) {
         super.assertViolation(allowedMinStepValue, allowedMaxStepValue, allowedMinValue, allowedMaxValue);
 
-        if (lst.stream().anyMatch(value -> (value < allowedMinValue) || (value > allowedMaxValue))) {
+        if (this.lst.stream().anyMatch(value -> (value < allowedMinValue) || (value > allowedMaxValue))) {
             throw new SchedulerException.InvalidCronExpression(
                 "List '%s' is invalid. All values must be between '%s..%s'.",
-                Arrays.toString(lst.toArray()),
+                Arrays.toString(this.lst.toArray()),
                 allowedMinValue,
                 allowedMaxValue);
         }

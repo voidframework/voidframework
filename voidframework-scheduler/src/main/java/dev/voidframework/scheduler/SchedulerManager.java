@@ -47,6 +47,9 @@ public final class SchedulerManager {
             new SchedulerThreadFactory());
     }
 
+    /**
+     * Start the scheduler.
+     */
     @LifeCycleStart(priority = 600)
     @SuppressWarnings("unused")
     public void startScheduler() {
@@ -61,6 +64,9 @@ public final class SchedulerManager {
         }
     }
 
+    /**
+     * Stop the scheduler.
+     */
     @LifeCycleStop(priority = 1)
     @SuppressWarnings("unused")
     public void stopScheduler() {
@@ -215,6 +221,7 @@ public final class SchedulerManager {
         }
 
         @Override
+        @SuppressWarnings("NullableProblems")
         public Thread newThread(final Runnable runnable) {
             final Thread thread = new Thread(group, runnable, namePrefix + threadNumber.getAndIncrement(), 0);
             if (thread.isDaemon()) {

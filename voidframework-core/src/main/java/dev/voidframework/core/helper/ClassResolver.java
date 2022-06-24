@@ -10,25 +10,8 @@ public final class ClassResolver {
     /**
      * Resolves {@code Class<?>} for a class name.
      *
-     * @param className Name of the class
-     * @return Resolved {@code Class<?>}
-     */
-    public static Class<?> forName(final String className, final String toto) {
-        if (StringUtils.isBlank(className)) {
-            return null;
-        }
-
-        try {
-            return Class.forName(className);
-        } catch (final ClassNotFoundException ignore) {
-            return null;
-        }
-    }
-
-    /**
-     * Resolves {@code Class<?>} for a class name.
-     *
-     * @param className Name of the class
+     * @param className    Name of the class
+     * @param <CLASS_TYPE> The type of the resolved class
      * @return Resolved {@code Class<?>}
      */
     @SuppressWarnings("unchecked")
