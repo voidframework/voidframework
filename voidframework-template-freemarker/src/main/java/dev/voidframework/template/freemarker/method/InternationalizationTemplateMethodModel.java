@@ -25,6 +25,7 @@ public class InternationalizationTemplateMethodModel implements TemplateMethodMo
      */
     public InternationalizationTemplateMethodModel(final Locale locale,
                                                    final Internationalization internationalization) {
+
         this.locale = locale;
         this.internationalization = internationalization;
     }
@@ -32,6 +33,7 @@ public class InternationalizationTemplateMethodModel implements TemplateMethodMo
     @Override
     @SuppressWarnings("unchecked")
     public TemplateModel exec(final List args) throws TemplateModelException {
+
         if (args.size() < 1) {
             throw new TemplateModelException("Wrong arguments");
         }

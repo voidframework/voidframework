@@ -18,6 +18,7 @@ class CronExpressionPartRange extends CronExpressionPartStepValue {
      * @param max       The max range value
      */
     public CronExpressionPartRange(final int stepValue, final int min, final int max) {
+
         super(stepValue);
 
         this.min = min;
@@ -26,6 +27,7 @@ class CronExpressionPartRange extends CronExpressionPartStepValue {
 
     @Override
     public boolean isNotCompliant(final int value) {
+
         return super.isNotCompliant(value) ^ (value >= this.min && value <= this.max);
     }
 
@@ -34,6 +36,7 @@ class CronExpressionPartRange extends CronExpressionPartStepValue {
                                 final int allowedMaxStepValue,
                                 final int allowedMinValue,
                                 final int allowedMaxValue) {
+
         super.assertViolation(allowedMinStepValue, allowedMaxStepValue, allowedMinValue, allowedMaxValue);
 
         if ((this.min < allowedMinValue) || (this.max > allowedMaxValue)) {

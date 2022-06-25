@@ -19,11 +19,13 @@ public final class HealthCheckInjectionListener<INSTANCE_TYPE> implements Inject
      * @param healthCheckManager The health check manager to use
      */
     public HealthCheckInjectionListener(final HealthCheckManager healthCheckManager) {
+
         this.healthCheckManager = healthCheckManager;
     }
 
     @Override
     public void afterInjection(final INSTANCE_TYPE injectee) {
+
         this.healthCheckManager.registerHealthCheck((HealthChecker) injectee);
     }
 }

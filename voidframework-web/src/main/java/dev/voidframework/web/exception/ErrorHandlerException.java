@@ -12,6 +12,7 @@ public class ErrorHandlerException extends RuntimeException {
      * @param cause   The root cause
      */
     protected ErrorHandlerException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -21,6 +22,7 @@ public class ErrorHandlerException extends RuntimeException {
      * @param message The detail message
      */
     protected ErrorHandlerException(final String message) {
+
         this(message, null);
     }
 
@@ -35,6 +37,7 @@ public class ErrorHandlerException extends RuntimeException {
          * @param className The class name
          */
         public ClassNotFound(final String className) {
+
             super("Unable to resolve error handler '" + className + "'");
         }
     }
@@ -50,6 +53,7 @@ public class ErrorHandlerException extends RuntimeException {
          * @param className The class name
          */
         public InvalidClass(final String className) {
+
             super("'" + className + "' must inherit from ErrorHandler interface");
         }
     }
@@ -65,6 +69,7 @@ public class ErrorHandlerException extends RuntimeException {
          * @param className The class name
          */
         public CantInstantiate(final String className) {
+
             super("Can't instantiate '" + className + "'");
         }
 
@@ -75,6 +80,7 @@ public class ErrorHandlerException extends RuntimeException {
          * @param cause     The cause
          */
         public CantInstantiate(final String className, final Exception cause) {
+
             super("Can't instantiate '" + className + "'", cause);
         }
     }

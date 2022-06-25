@@ -28,6 +28,7 @@ public record Cookie(String name,
      * @return Newly created expired cookie
      */
     static Cookie expired(final String name) {
+
         return new Cookie(name, null, null, null, false, false, Duration.ZERO);
     }
 
@@ -39,6 +40,7 @@ public record Cookie(String name,
      * @return Newly created cookie
      */
     public static Cookie of(final String name, final String value) {
+
         return new Cookie(name, value, null, "/", false, false, null);
     }
 
@@ -53,6 +55,7 @@ public record Cookie(String name,
      * @return Newly created cookie
      */
     public static Cookie of(final String name, final String value, final boolean isHttpOnly, final boolean isSecure, final Duration timeToLive) {
+
         return new Cookie(name, value, null, "/", isHttpOnly, isSecure, timeToLive);
     }
 
@@ -65,6 +68,7 @@ public record Cookie(String name,
      * @return Newly created cookie
      */
     public static Cookie of(final String name, final String value, final Duration timeToLive) {
+
         return new Cookie(name, value, null, "/", false, false, timeToLive);
     }
 }

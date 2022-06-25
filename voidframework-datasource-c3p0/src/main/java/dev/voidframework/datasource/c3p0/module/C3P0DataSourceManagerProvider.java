@@ -32,11 +32,13 @@ public class C3P0DataSourceManagerProvider implements Provider<DataSourceManager
      */
     @Inject
     private C3P0DataSourceManagerProvider(final Config configuration) {
+
         this.configuration = configuration;
     }
 
     @Override
     public DataSourceManager get() {
+
         // Returns data source manager if existin&g
         if (dataSourceManager != null) {
             return this.dataSourceManager;

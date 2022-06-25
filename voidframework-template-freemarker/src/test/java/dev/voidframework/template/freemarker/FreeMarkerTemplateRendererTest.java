@@ -27,6 +27,7 @@ public class FreeMarkerTemplateRendererTest {
     private final Injector injector;
 
     public FreeMarkerTemplateRendererTest() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = false");
 
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
@@ -41,6 +42,7 @@ public class FreeMarkerTemplateRendererTest {
 
     @Test
     public void dataModelNotProvided() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
@@ -52,6 +54,7 @@ public class FreeMarkerTemplateRendererTest {
 
     @Test
     public void dataModelIsEmptyVariableNotFound() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
@@ -64,6 +67,7 @@ public class FreeMarkerTemplateRendererTest {
 
     @Test
     public void renderWithDataModel() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
@@ -81,6 +85,7 @@ public class FreeMarkerTemplateRendererTest {
 
     @Test
     public void renderWithoutDataModel() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 

@@ -93,6 +93,7 @@ public class CronExpression {
      * @param cron The CRON expression to parse
      */
     public CronExpression(final String cron) {
+
         // ┌───────────── second (0 - 59)
         // │ ┌───────────── minute (0 - 59)
         // │ │ ┌───────────── hour (0 - 23)
@@ -149,6 +150,7 @@ public class CronExpression {
      * @return The next delay in milliseconds
      */
     public long getNextDelayMilliseconds(final ZoneId zoneId) {
+
         return getNextDelayMilliseconds(LocalDateTime.now(zoneId));
     }
 
@@ -159,6 +161,7 @@ public class CronExpression {
      * @return The next delay in milliseconds
      */
     private long getNextDelayMilliseconds(final LocalDateTime from) {
+
         LocalDateTime nextTrigger = from.plusSeconds(1);
 
         CronExpressionPart cronExpressionPart = cronExpressionPartArray[IDX_SECOND];
@@ -196,6 +199,7 @@ public class CronExpression {
     }
 
     private CronExpressionPart parseCronExpressionPart(final String str) {
+
         CronExpressionPart cronExpressionPart = null;
 
         if (str.contains("-")) {

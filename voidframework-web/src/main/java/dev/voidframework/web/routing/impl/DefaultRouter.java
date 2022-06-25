@@ -40,10 +40,12 @@ public class DefaultRouter implements Router {
      * Build a new instance.
      */
     public DefaultRouter() {
+
         this.routeListPerHttpMethodMap = new HashMap<>();
     }
 
     private static Set<String> getNamedGroup(final String regex) {
+
         final Set<String> namedGroups = new TreeSet<>();
 
         final Matcher matcher = PATTERN_EXTRACT_REGEXP_GROUP_NAME.matcher(regex);
@@ -84,6 +86,7 @@ public class DefaultRouter implements Router {
 
     @Override
     public ResolvedRoute resolveRoute(final HttpMethod httpMethod, final String uri) {
+
         if (httpMethod == null || StringUtils.isEmpty(uri)) {
             return null;
         }
@@ -114,6 +117,7 @@ public class DefaultRouter implements Router {
 
     @Override
     public List<Route> getRoutesAsList() {
+
         final List<Route> routeList = routeListPerHttpMethodMap.values()
             .stream()
             .flatMap(List::stream)
@@ -124,6 +128,7 @@ public class DefaultRouter implements Router {
 
     @Override
     public Map<HttpMethod, List<Route>> getRoutesAsMap() {
+
         return ImmutableMap.copyOf(routeListPerHttpMethodMap);
     }
 

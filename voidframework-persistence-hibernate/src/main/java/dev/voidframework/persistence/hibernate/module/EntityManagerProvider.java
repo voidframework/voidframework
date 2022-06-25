@@ -44,6 +44,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * @param dataSourceName The data source name
      */
     public EntityManagerProvider(final String dataSourceName) {
+
         this.dataSourceName = dataSourceName;
         this.currentEntityManager = new ThreadLocal<>();
     }
@@ -55,11 +56,13 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      */
     @Inject
     public void setDataSourceManagerProvider(final Provider<DataSourceManager> dataSourceManagerProvider) {
+
         this.dataSourceManagerProvider = dataSourceManagerProvider;
     }
 
     @Override
     public EntityManager get() {
+
         if (this.isEntityManagerMustBeInitialized()) {
             createEntityManagerFactoryIfNeeded();
             return this.entityManagerFactory.createEntityManager();
@@ -72,6 +75,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * Initializes a new entity manager for the current Thread.
      */
     public void initializeNewEntityFactoryManager() {
+
         createEntityManagerFactoryIfNeeded();
 
         Deque<EntityManager> currentEntityManagerDeque = this.currentEntityManager.get();
@@ -86,6 +90,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * Destroys the latest entity manager initialized for the current Thread.
      */
     public void destroyLatestEntityManager() {
+
         final EntityManager entityManager = this.currentEntityManager.get().removeFirst();
 
         if (entityManager != null) {
@@ -99,6 +104,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * @return {@code true} at least one entity manager is initialized, otherwise, {@code false}
      */
     public boolean isEntityManagerMustBeInitialized() {
+
         final Deque<EntityManager> currentEntityManagerDeque = this.currentEntityManager.get();
         return currentEntityManagerDeque == null || currentEntityManagerDeque.isEmpty();
     }
@@ -107,6 +113,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * Creates the entity manager factory, if needed.
      */
     private void createEntityManagerFactoryIfNeeded() {
+
         if (this.entityManagerFactory == null) {
             this.entityManagerFactory = new HibernatePersistenceProvider().createContainerEntityManagerFactory(
                 new PersistenceUnitInfoIml(dataSourceName),
@@ -127,42 +134,50 @@ public class EntityManagerProvider implements Provider<EntityManager> {
          * @param persistenceUnitName Name of the persistence unit
          */
         private PersistenceUnitInfoIml(final String persistenceUnitName) {
+
             super();
             this.persistenceUnitName = persistenceUnitName;
         }
 
         @Override
         public String getPersistenceUnitName() {
+
             return this.persistenceUnitName;
         }
 
         @Override
         public String getPersistenceProviderClassName() {
+
             return null;
         }
 
         @Override
         public PersistenceUnitTransactionType getTransactionType() {
+
             return PersistenceUnitTransactionType.RESOURCE_LOCAL;
         }
 
         @Override
         public DataSource getJtaDataSource() {
+
             return null;
         }
 
         @Override
         public DataSource getNonJtaDataSource() {
+
             return null;
         }
 
         @Override
         public List<String> getMappingFileNames() {
+
             return Collections.emptyList();
         }
 
         @Override
         public List<URL> getJarFileUrls() {
+
             try {
                 return Collections.list(this.getClass().getClassLoader().getResources(""));
             } catch (final IOException ignore) {
@@ -172,41 +187,49 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
         @Override
         public URL getPersistenceUnitRootUrl() {
+
             return null;
         }
 
         @Override
         public List<String> getManagedClassNames() {
+
             return Collections.emptyList();
         }
 
         @Override
         public boolean excludeUnlistedClasses() {
+
             return false;
         }
 
         @Override
         public SharedCacheMode getSharedCacheMode() {
+
             return null;
         }
 
         @Override
         public ValidationMode getValidationMode() {
+
             return null;
         }
 
         @Override
         public Properties getProperties() {
+
             return new Properties();
         }
 
         @Override
         public String getPersistenceXMLSchemaVersion() {
+
             return null;
         }
 
         @Override
         public ClassLoader getClassLoader() {
+
             return null;
         }
 
@@ -216,6 +239,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
         @Override
         public ClassLoader getNewTempClassLoader() {
+
             return null;
         }
     }

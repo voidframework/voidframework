@@ -10,6 +10,7 @@ public class HikariCpDataSourceModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
         bind(DataSourceManager.class).toProvider(HikariCpDataSourceManagerProvider.class);
     }
 }

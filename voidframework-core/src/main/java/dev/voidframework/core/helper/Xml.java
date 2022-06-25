@@ -29,6 +29,7 @@ public final class Xml {
      * @return The string representation.
      */
     public static String toString(final Document xml) {
+
         final Writer writer = new StringWriter();
         try {
             TransformerFactory.newInstance()
@@ -49,6 +50,7 @@ public final class Xml {
      * @return The XML document
      */
     public static Document toXml(final byte[] data) {
+
         try {
             final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             factory.setFeature("http://xml.org/sax/features/external-general-entities", false);

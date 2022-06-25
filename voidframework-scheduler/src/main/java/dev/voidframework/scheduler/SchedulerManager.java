@@ -41,6 +41,7 @@ public final class SchedulerManager {
      */
     @Inject
     public SchedulerManager(final Config configuration, final Injector injector) {
+
         this.injector = injector;
         this.scheduledExecutorService = Executors.newScheduledThreadPool(
             configuration.getInt("voidframework.scheduler.threadPoolSize"),
@@ -53,6 +54,7 @@ public final class SchedulerManager {
     @LifeCycleStart(priority = 600)
     @SuppressWarnings("unused")
     public void startScheduler() {
+
         final ScheduledHandlers scheduledHandlers = this.injector.getInstance(ScheduledHandlers.class);
 
         for (final ScheduledHandlers.ScheduledHandler scheduledHandler : scheduledHandlers) {
@@ -70,6 +72,7 @@ public final class SchedulerManager {
     @LifeCycleStop(priority = 1)
     @SuppressWarnings("unused")
     public void stopScheduler() {
+
         try {
             this.scheduledExecutorService.shutdownNow();
         } catch (final Exception exception) {
@@ -83,6 +86,7 @@ public final class SchedulerManager {
      * @param scheduledHandler The scheduled method handler
      */
     private void registerCron(final ScheduledHandlers.ScheduledHandler scheduledHandler) {
+
         // Setting up the callable to use
         final CronExpression cronExpression = new CronExpression(scheduledHandler.scheduledAnnotation().cron());
         final ZoneId zoneId = ZoneId.of(scheduledHandler.scheduledAnnotation().cronZone());
@@ -123,6 +127,7 @@ public final class SchedulerManager {
      * @param scheduledHandler The scheduled method handler
      */
     private void registerDelay(final ScheduledHandlers.ScheduledHandler scheduledHandler) {
+
         // Checking the different possible options. If something goes wrong, an exception will be thrown
         if (scheduledHandler.scheduledAnnotation().fixedDelay() < 0) {
             throw new SchedulerException.InvalidFixedDelay(
@@ -216,6 +221,7 @@ public final class SchedulerManager {
          * Build a new instance.
          */
         public SchedulerThreadFactory() {
+
             this.group = Thread.currentThread().getThreadGroup();
             this.namePrefix = "scheduler-";
         }
@@ -223,6 +229,7 @@ public final class SchedulerManager {
         @Override
         @SuppressWarnings("NullableProblems")
         public Thread newThread(final Runnable runnable) {
+
             final Thread thread = new Thread(group, runnable, namePrefix + threadNumber.getAndIncrement(), 0);
             if (thread.isDaemon()) {
                 thread.setDaemon(false);

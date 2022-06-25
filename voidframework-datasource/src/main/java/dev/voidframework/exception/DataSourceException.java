@@ -11,6 +11,7 @@ public class DataSourceException extends RuntimeException {
      * @param message The detail message
      */
     protected DataSourceException(final String message) {
+
         this(message, null);
     }
 
@@ -21,6 +22,7 @@ public class DataSourceException extends RuntimeException {
      * @param cause   The cause
      */
     protected DataSourceException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -36,6 +38,7 @@ public class DataSourceException extends RuntimeException {
          * @param cause           The cause
          */
         public DriverLoadFailure(final String driverClassName, final Throwable cause) {
+
             super("Failed to load driver class '" + driverClassName + "'", cause);
         }
     }
@@ -49,6 +52,7 @@ public class DataSourceException extends RuntimeException {
          * Build a new instance.
          */
         public NotConfigured() {
+
             super("DataSource is not configured");
         }
     }

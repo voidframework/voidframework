@@ -15,6 +15,7 @@ public final class TypedMap {
      * Build a new instance.
      */
     public TypedMap() {
+
         this.internalMap = new HashMap<>();
     }
 
@@ -27,6 +28,7 @@ public final class TypedMap {
      */
     @SuppressWarnings("unchecked")
     public <T> T get(final Key<T> typedKey) {
+
         return (T) this.internalMap.get(typedKey);
     }
 
@@ -40,6 +42,7 @@ public final class TypedMap {
      */
     @SuppressWarnings("unchecked")
     public <T> T put(final Key<T> typedKey, T value) {
+
         return (T) this.internalMap.put(typedKey, value);
     }
 
@@ -52,11 +55,13 @@ public final class TypedMap {
      */
     @SuppressWarnings("unchecked")
     public <T> T remove(final Key<T> typedKey) {
+
         return (T) this.internalMap.remove(typedKey);
     }
 
     @Override
     public boolean equals(final Object o) {
+
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final TypedMap typedMap = (TypedMap) o;
@@ -65,11 +70,13 @@ public final class TypedMap {
 
     @Override
     public int hashCode() {
+
         return Objects.hash(internalMap);
     }
 
     @Override
     public String toString() {
+
         return this.internalMap.toString();
     }
 
@@ -88,6 +95,7 @@ public final class TypedMap {
          * @param keyName The key name
          */
         private Key(final String keyName) {
+
             this.keyName = keyName;
         }
 
@@ -99,11 +107,13 @@ public final class TypedMap {
          * @return The created key
          */
         public static <V> Key<V> of(final String keyName) {
+
             return new Key<>(keyName);
         }
 
         @Override
         public boolean equals(final Object o) {
+
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             final Key<?> key = (Key<?>) o;
@@ -112,11 +122,13 @@ public final class TypedMap {
 
         @Override
         public int hashCode() {
+
             return Objects.hash(keyName);
         }
 
         @Override
         public String toString() {
+
             return this.keyName;
         }
     }

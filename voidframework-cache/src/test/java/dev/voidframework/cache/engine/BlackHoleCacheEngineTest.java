@@ -12,6 +12,7 @@ public final class BlackHoleCacheEngineTest {
 
     @Test
     public void getUnknownValue() {
+
         final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
 
         final Object value = blackHoleCacheEngine.get("key");
@@ -20,6 +21,7 @@ public final class BlackHoleCacheEngineTest {
 
     @Test
     public void setValueAndGetValueKey() {
+
         final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
 
         blackHoleCacheEngine.set("key", 1337, 60);

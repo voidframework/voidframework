@@ -9,6 +9,7 @@ public class StringToShortConverter implements TypeConverter<String, Short> {
 
     @Override
     public Short convert(final String source) {
+
         try {
             return Short.valueOf(source);
         } catch (final NumberFormatException ignore) {

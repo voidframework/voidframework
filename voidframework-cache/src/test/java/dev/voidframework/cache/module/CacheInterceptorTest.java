@@ -21,6 +21,7 @@ public final class CacheInterceptorTest {
 
     @Test
     public void interceptorBlackHoleEngine() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.cache.engine = dev.voidframework.cache.engine.BlackHoleCacheEngine");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
@@ -44,6 +45,7 @@ public final class CacheInterceptorTest {
 
     @Test
     public void interceptorMemoryCacheEngine() {
+
         final Config configuration = ConfigFactory.parseString("""
             voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
             voidframework.cache.inMemory.flushWhenFullMaxItem = 500
@@ -81,6 +83,7 @@ public final class CacheInterceptorTest {
 
     @Test
     public void interceptorTimeToLive() throws InterruptedException {
+
         final Config configuration = ConfigFactory.parseString("""
             voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
             voidframework.cache.inMemory.flushWhenFullMaxItem = 500
@@ -112,11 +115,13 @@ public final class CacheInterceptorTest {
 
         @Cache(timeToLive = 1)
         public String doSomething() {
+
             return UUID.randomUUID().toString();
         }
 
         @Cache(key = "simple.key")
         public String doSomethingSimpleKey() {
+
             return UUID.randomUUID().toString();
         }
     }

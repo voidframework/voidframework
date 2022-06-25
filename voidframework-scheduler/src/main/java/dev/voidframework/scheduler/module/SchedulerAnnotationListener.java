@@ -20,11 +20,13 @@ public class SchedulerAnnotationListener implements TypeListener {
      * @param scheduledHandlers The scheduled hooks
      */
     public SchedulerAnnotationListener(final ScheduledHandlers scheduledHandlers) {
+
         this.scheduledHandlers = scheduledHandlers;
     }
 
     @Override
     public <I> void hear(final TypeLiteral<I> type, final TypeEncounter<I> encounter) {
+
         final Class<?> classType = type.getRawType();
 
         for (final Method method : classType.getDeclaredMethods()) {

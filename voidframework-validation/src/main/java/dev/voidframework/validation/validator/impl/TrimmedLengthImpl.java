@@ -14,11 +14,13 @@ public class TrimmedLengthImpl implements ConstraintValidator<TrimmedLength, Str
 
     @Override
     public void initialize(final TrimmedLength constraintAnnotation) {
+
         this.constraintAnnotation = constraintAnnotation;
     }
 
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
+
         if (value == null) {
             return true;
         }

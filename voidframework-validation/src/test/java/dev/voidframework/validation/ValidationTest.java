@@ -13,13 +13,14 @@ import java.util.Locale;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class ValidationServiceTest {
+public final class ValidationTest {
 
     @Test
     public void withError() {
+
         final Pojo pojo = new Pojo("Camille Dominique");
-        final ValidationService validationService = new ValidationService();
-        final Validated<Pojo> pojoValidated = validationService.validate(pojo, Locale.ENGLISH);
+        final Validation validation = new Validation();
+        final Validated<Pojo> pojoValidated = validation.validate(pojo, Locale.ENGLISH);
 
         Assertions.assertNotNull(pojoValidated);
         Assertions.assertTrue(pojoValidated.hasError());
@@ -46,9 +47,10 @@ public final class ValidationServiceTest {
 
     @Test
     public void withoutError() {
+
         final Pojo pojo = new Pojo("abc@local");
-        final ValidationService validationService = new ValidationService();
-        final Validated<Pojo> pojoValidated = validationService.validate(pojo, Locale.ENGLISH);
+        final Validation validation = new Validation();
+        final Validated<Pojo> pojoValidated = validation.validate(pojo, Locale.ENGLISH);
 
         Assertions.assertNotNull(pojoValidated);
         Assertions.assertFalse(pojoValidated.hasError());

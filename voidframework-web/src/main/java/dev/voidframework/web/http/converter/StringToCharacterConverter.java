@@ -9,6 +9,7 @@ public class StringToCharacterConverter implements TypeConverter<String, Charact
 
     @Override
     public Character convert(final String source) {
+
         return source.charAt(0);
     }
 }

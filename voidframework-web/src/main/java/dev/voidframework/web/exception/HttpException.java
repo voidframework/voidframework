@@ -12,6 +12,7 @@ public class HttpException extends RuntimeException {
      * @param cause   The root cause
      */
     protected HttpException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -21,6 +22,7 @@ public class HttpException extends RuntimeException {
      * @param message The detail message
      */
     protected HttpException(final String message) {
+
         this(message, null);
     }
 
@@ -33,6 +35,7 @@ public class HttpException extends RuntimeException {
          * Build a new instance.
          */
         public BadRequest() {
+
             this(null);
         }
 
@@ -42,6 +45,7 @@ public class HttpException extends RuntimeException {
          * @param message The provided message
          */
         public BadRequest(final String message) {
+
             super(message);
         }
 
@@ -52,6 +56,7 @@ public class HttpException extends RuntimeException {
          * @param cause   The cause
          */
         public BadRequest(final String message, final Throwable cause) {
+
             super(message, cause);
         }
     }
@@ -65,6 +70,7 @@ public class HttpException extends RuntimeException {
          * Build a new instance.
          */
         public InternalServerError() {
+
             this(null, null);
         }
 
@@ -74,6 +80,7 @@ public class HttpException extends RuntimeException {
          * @param message The provided message
          */
         public InternalServerError(final String message) {
+
             this(message, null);
         }
 
@@ -83,6 +90,7 @@ public class HttpException extends RuntimeException {
          * @param cause The cause
          */
         public InternalServerError(final Throwable cause) {
+
             this(cause.getMessage(), cause);
         }
 
@@ -93,6 +101,7 @@ public class HttpException extends RuntimeException {
          * @param cause   The cause
          */
         public InternalServerError(final String message, final Throwable cause) {
+
             super(message, cause);
         }
     }
@@ -106,6 +115,7 @@ public class HttpException extends RuntimeException {
          * Build a new instance.
          */
         public NotFound() {
+
             this(null);
         }
 
@@ -115,6 +125,7 @@ public class HttpException extends RuntimeException {
          * @param message The provided message
          */
         public NotFound(final String message) {
+
             super(message);
         }
     }

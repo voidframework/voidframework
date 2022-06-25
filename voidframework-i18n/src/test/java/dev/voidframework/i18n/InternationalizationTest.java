@@ -15,11 +15,13 @@ public final class InternationalizationTest {
 
     @BeforeAll
     public static void beforeAll() {
+
         Locale.setDefault(Locale.ENGLISH);
     }
 
     @Test
     public void getMessage() {
+
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msgHelloEnglish = internationalization.getMessage(Locale.ENGLISH, "hello.world");
@@ -41,6 +43,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessageArgument() {
+
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msgHelloEnglish = internationalization.getMessage(Locale.ENGLISH, "hello.name", "Aurelia");
@@ -54,6 +57,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessageComplexFormat() {
+
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msgZeroComment = internationalization.getMessage(Locale.ENGLISH, "complex.format", 0);
@@ -71,6 +75,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessageLocalNull() {
+
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msg = internationalization.getMessage(null, "hello.world");
@@ -80,6 +85,7 @@ public final class InternationalizationTest {
 
     @Test
     public void getMessagePluraleForm() {
+
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
         final String msgPlural0English = internationalization.getMessage(Locale.ENGLISH, 0, "inbox", "BoxName", 0);

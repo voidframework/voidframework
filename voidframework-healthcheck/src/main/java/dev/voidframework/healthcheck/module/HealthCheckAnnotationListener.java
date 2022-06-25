@@ -19,11 +19,13 @@ public final class HealthCheckAnnotationListener implements TypeListener {
      * @param healthCheckManager The health check manager to use
      */
     public HealthCheckAnnotationListener(final HealthCheckManager healthCheckManager) {
+
         this.healthCheckManager = healthCheckManager;
     }
 
     @Override
     public <CLASS_TYPE> void hear(final TypeLiteral<CLASS_TYPE> type, final TypeEncounter<CLASS_TYPE> encounter) {
+
         final Class<?> classType = type.getRawType();
 
         if (HealthChecker.class.isAssignableFrom(classType)) {

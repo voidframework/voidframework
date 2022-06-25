@@ -31,6 +31,7 @@ public class HibernateModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
         if (!this.configuration.hasPathOrNull("voidframework.datasource")) {
             throw new DataSourceException.NotConfigured();
         }

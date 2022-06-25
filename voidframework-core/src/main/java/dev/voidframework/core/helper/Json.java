@@ -39,6 +39,7 @@ public final class Json {
      * @return The string representation.
      */
     public static String toString(final JsonNode json) {
+
         try {
             final ObjectWriter writer = objectMapper.writer();
             return writer.writeValueAsString(json);
@@ -54,6 +55,7 @@ public final class Json {
      * @return The JSON node
      */
     public static JsonNode toJson(final Object obj) {
+
         try {
             return objectMapper.valueToTree(obj);
         } catch (final IllegalArgumentException e) {
@@ -68,6 +70,7 @@ public final class Json {
      * @return The JSON node
      */
     public static JsonNode toJson(final byte[] data) {
+
         try {
             return objectMapper.readTree(data);
         } catch (final IllegalArgumentException | IOException e) {
@@ -84,6 +87,7 @@ public final class Json {
      * @return The Java object
      */
     public static <OUTPUT_TYPE> OUTPUT_TYPE fromJson(final JsonNode json, final Class<OUTPUT_TYPE> clazz) {
+
         try {
             return objectMapper.treeToValue(json, clazz);
         } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException e) {
@@ -100,6 +104,7 @@ public final class Json {
      * @return The Java object
      */
     public static <OUTPUT_TYPE> OUTPUT_TYPE fromMap(final Map<?, ?> dataMap, final Class<OUTPUT_TYPE> clazz) {
+
         try {
             return objectMapper.convertValue(dataMap, clazz);
         } catch (final NullPointerException | IllegalArgumentException e) {
@@ -114,6 +119,7 @@ public final class Json {
      * @return The data map
      */
     public static Map<String, Object> toMap(final Object obj) {
+
         try {
             return objectMapper.convertValue(obj, MAP_TYPE_REFERENCE);
         } catch (final NullPointerException | IllegalArgumentException e) {

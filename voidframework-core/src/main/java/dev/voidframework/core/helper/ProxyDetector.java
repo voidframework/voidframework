@@ -16,7 +16,9 @@ public final class ProxyDetector {
      * @return {@code true} if the object is a proxy
      */
     public static boolean isProxy(final Object object) {
-        return (object != null) && (Proxy.isProxyClass(object.getClass()) || object.getClass().getName().contains(CGLIB_CLASS_SEPARATOR));
+
+        return (object != null)
+            && (Proxy.isProxyClass(object.getClass()) || object.getClass().getName().contains(CGLIB_CLASS_SEPARATOR));
     }
 
     /**
@@ -26,6 +28,8 @@ public final class ProxyDetector {
      * @return {@code true} if the class is a proxy
      */
     public static boolean isProxy(final Class<?> clazz) {
-        return (clazz != null) && (Proxy.isProxyClass(clazz) || clazz.getName().contains(CGLIB_CLASS_SEPARATOR));
+
+        return (clazz != null)
+            && (Proxy.isProxyClass(clazz) || clazz.getName().contains(CGLIB_CLASS_SEPARATOR));
     }
 }

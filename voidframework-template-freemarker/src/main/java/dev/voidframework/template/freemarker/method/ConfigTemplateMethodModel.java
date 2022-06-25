@@ -25,11 +25,13 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
      * @param configuration The application configuration
      */
     public ConfigTemplateMethodModel(final Config configuration) {
+
         this.configuration = configuration;
     }
 
     @Override
     public TemplateModel exec(final List args) throws TemplateModelException {
+
         if (args.size() != 1) {
             throw new TemplateModelException("Wrong arguments");
         }

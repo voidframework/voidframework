@@ -29,18 +29,21 @@ public class DefaultConversion implements Conversion {
      */
     @Inject
     public DefaultConversion(final ConverterManager converterManager) {
+
         this.converterManager = converterManager;
     }
 
     @Override
     public <SOURCE_TYPE, TARGET_TYPE> boolean canConvert(final Class<SOURCE_TYPE> sourceTypeClass,
                                                          final Class<TARGET_TYPE> targetTypeClass) {
+
         return converterManager.hasConvertFor(sourceTypeClass, targetTypeClass);
     }
 
     @Override
     public <TARGET_TYPE> boolean canConvert(final Object object,
                                             final Class<TARGET_TYPE> targetTypeClass) {
+
         if (object == null) {
             // null value can always be converted
             return true;
@@ -53,6 +56,7 @@ public class DefaultConversion implements Conversion {
     @SuppressWarnings("unchecked")
     public <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE convert(final SOURCE_TYPE object,
                                                           final Class<TARGET_TYPE> targetTypeClass) {
+
         if (object == null) {
             return null;
         }
@@ -64,6 +68,7 @@ public class DefaultConversion implements Conversion {
     public <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE convert(final SOURCE_TYPE object,
                                                           final Class<SOURCE_TYPE> sourceTypeClass,
                                                           final Class<TARGET_TYPE> targetTypeClass) {
+
         if (object == null) {
             return null;
         }
@@ -82,6 +87,7 @@ public class DefaultConversion implements Conversion {
     @Override
     public <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final Iterable<SOURCE_TYPE> objectIterable,
                                                                 final Class<TARGET_TYPE> targetTypeClass) {
+
         if (objectIterable == null) {
             return null;
         }
@@ -96,6 +102,7 @@ public class DefaultConversion implements Conversion {
     public <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final Iterable<SOURCE_TYPE> objectIterable,
                                                                 final Class<SOURCE_TYPE> sourceTypeClass,
                                                                 final Class<TARGET_TYPE> targetTypeClass) {
+
         if (objectIterable == null) {
             return null;
         }
@@ -109,10 +116,10 @@ public class DefaultConversion implements Conversion {
     @Override
     public <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final List<SOURCE_TYPE> objectList,
                                                                 final Class<TARGET_TYPE> targetTypeClass) {
+
         if (objectList == null) {
             return null;
-        }
-        if (objectList.isEmpty()) {
+        } else if (objectList.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -126,10 +133,10 @@ public class DefaultConversion implements Conversion {
     public <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final List<SOURCE_TYPE> objectList,
                                                                 final Class<SOURCE_TYPE> sourceTypeClass,
                                                                 final Class<TARGET_TYPE> targetTypeClass) {
+
         if (objectList == null) {
             return null;
-        }
-        if (objectList.isEmpty()) {
+        } else if (objectList.isEmpty()) {
             return Collections.emptyList();
         }
 
@@ -142,10 +149,10 @@ public class DefaultConversion implements Conversion {
     @Override
     public <SOURCE_TYPE, TARGET_TYPE> Set<TARGET_TYPE> convert(final Set<SOURCE_TYPE> objectSet,
                                                                final Class<TARGET_TYPE> targetTypeClass) {
+
         if (objectSet == null) {
             return null;
-        }
-        if (objectSet.isEmpty()) {
+        } else if (objectSet.isEmpty()) {
             return Collections.emptySet();
         }
 
@@ -159,10 +166,10 @@ public class DefaultConversion implements Conversion {
     public <SOURCE_TYPE, TARGET_TYPE> Set<TARGET_TYPE> convert(final Set<SOURCE_TYPE> objectSet,
                                                                final Class<SOURCE_TYPE> sourceTypeClass,
                                                                final Class<TARGET_TYPE> targetTypeClass) {
+
         if (objectSet == null) {
             return null;
-        }
-        if (objectSet.isEmpty()) {
+        } else if (objectSet.isEmpty()) {
             return Collections.emptySet();
         }
 
@@ -224,6 +231,7 @@ public class DefaultConversion implements Conversion {
                                                                   final Collection<TARGET_TYPE> objectTargetCollection,
                                                                   final Class<SOURCE_TYPE> sourceTypeClass,
                                                                   final Class<TARGET_TYPE> targetTypeClass) {
+
         final TypeConverter<SOURCE_TYPE, TARGET_TYPE> converter = converterManager.getConverter(
             sourceTypeClass,
             targetTypeClass);

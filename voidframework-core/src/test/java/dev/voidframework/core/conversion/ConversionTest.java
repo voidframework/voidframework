@@ -11,6 +11,7 @@ public final class ConversionTest {
 
     @Test
     public void registerConverter() {
+
         final ConverterManager converterManager = new DefaultConverterManager();
         converterManager.registerConverter(String.class, Integer.class, new StringToIntegerConverter());
 
@@ -24,6 +25,7 @@ public final class ConversionTest {
 
         @Override
         public Integer convert(final String source) {
+
             try {
                 return Integer.valueOf(source);
             } catch (final NumberFormatException ignore) {

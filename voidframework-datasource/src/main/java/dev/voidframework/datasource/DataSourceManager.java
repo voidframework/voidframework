@@ -19,6 +19,7 @@ public final class DataSourceManager {
      * @param dataSourcePerNameMap Handled data sources
      */
     public DataSourceManager(final Map<String, DataSource> dataSourcePerNameMap) {
+
         this.dataSourcePerNameMap = dataSourcePerNameMap;
     }
 
@@ -30,6 +31,7 @@ public final class DataSourceManager {
      * @throws SQLTimeoutException If a timeout occur during database access
      */
     public Connection getConnection() throws SQLException {
+
         return this.dataSourcePerNameMap.get("default").getConnection();
     }
 
@@ -42,6 +44,7 @@ public final class DataSourceManager {
      * @throws SQLTimeoutException If a timeout occur during database access
      */
     public Connection getConnection(final String dataSourceName) throws SQLException {
+
         final DataSource dataSource = this.dataSourcePerNameMap.get(dataSourceName);
         return dataSource != null ? dataSource.getConnection() : null;
     }
@@ -52,6 +55,7 @@ public final class DataSourceManager {
      * @return The data source
      */
     public DataSource getDataSource() {
+
         return this.dataSourcePerNameMap.get("default");
     }
 
@@ -62,6 +66,7 @@ public final class DataSourceManager {
      * @return The data source
      */
     public DataSource getDataSource(final String dataSourceName) {
+
         return this.dataSourcePerNameMap.get(dataSourceName);
     }
 }

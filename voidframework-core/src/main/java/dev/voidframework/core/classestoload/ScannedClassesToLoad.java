@@ -14,9 +14,9 @@ public record ScannedClassesToLoad(List<Class<?>> moduleList,
                                    List<ConverterInformation> converterInformationList) {
 
     /**
-     * Returns the number of scanned classes.
+     * Returns the number of scanned classes detected as loadable.
      *
-     * @return The number of scanned classes
+     * @return The number of scanned classes detected as loadable
      */
     public int count() {
         return moduleList.size() + bindableList.size() + converterInformationList.size();

@@ -8,16 +8,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class TrimmedSizeTest {
+public final class InputStreamSizeTest {
 
     @Test
     public void withError() {
 
-        final Pojo pojo = new Pojo("                                 ");
+        final Pojo pojo = new Pojo(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)));
         final Validation validation = new Validation();
         final Validated<Pojo> pojoValidated = validation.validate(pojo, Locale.ENGLISH);
 
@@ -31,7 +34,7 @@ public final class TrimmedSizeTest {
     @Test
     public void withoutError() {
 
-        final Pojo pojo = new Pojo("           abc@local             ");
+        final Pojo pojo = new Pojo(new ByteArrayInputStream("123456".getBytes(StandardCharsets.UTF_8)));
         final Validation validation = new Validation();
         final Validated<Pojo> pojoValidated = validation.validate(pojo, Locale.ENGLISH);
 
@@ -45,8 +48,8 @@ public final class TrimmedSizeTest {
     /**
      * Pojo.
      *
-     * @param firstName The first name
+     * @param is The input stream
      */
-    private record Pojo(@TrimmedLength(min = 1, max = 10) String firstName) {
+    private record Pojo(@InputStreamSize(min = 1, max = 10) InputStream is) {
     }
 }

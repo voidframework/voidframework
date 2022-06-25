@@ -20,6 +20,7 @@ class CronExpressionPartList extends CronExpressionPartStepValue {
      * @param lst       A list of integers
      */
     public CronExpressionPartList(final int stepValue, final List<Integer> lst) {
+
         super(stepValue);
 
         this.lst = lst != null ? lst : Collections.emptyList();
@@ -27,6 +28,7 @@ class CronExpressionPartList extends CronExpressionPartStepValue {
 
     @Override
     public boolean isNotCompliant(final int value) {
+
         return super.isNotCompliant(value) ^ this.lst.contains(value);
     }
 
@@ -35,6 +37,7 @@ class CronExpressionPartList extends CronExpressionPartStepValue {
                                 final int allowedMaxStepValue,
                                 final int allowedMinValue,
                                 final int allowedMaxValue) {
+
         super.assertViolation(allowedMinStepValue, allowedMaxStepValue, allowedMinValue, allowedMaxValue);
 
         if (this.lst.stream().anyMatch(value -> (value < allowedMinValue) || (value > allowedMaxValue))) {

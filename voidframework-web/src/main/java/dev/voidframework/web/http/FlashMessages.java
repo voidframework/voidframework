@@ -25,6 +25,7 @@ public class FlashMessages extends HashMap<String, String> {
      * @param flashMessageData Initial flash messages data
      */
     public FlashMessages(final Map<String, String> flashMessageData) {
+
         super(flashMessageData);
     }
 
@@ -36,6 +37,7 @@ public class FlashMessages extends HashMap<String, String> {
      */
     @Override
     public String remove(final Object key) {
+
         this.isModified = true;
         return super.remove(key);
     }
@@ -45,6 +47,7 @@ public class FlashMessages extends HashMap<String, String> {
      */
     @Override
     public String put(final String key, final String value) {
+
         this.isModified = true;
         return super.put(key, value);
     }
@@ -54,6 +57,7 @@ public class FlashMessages extends HashMap<String, String> {
      */
     @Override
     public void putAll(final Map<? extends String, ? extends String> values) {
+
         this.isModified = true;
         super.putAll(values);
     }
@@ -63,6 +67,7 @@ public class FlashMessages extends HashMap<String, String> {
      */
     @Override
     public void clear() {
+
         if (!this.isEmpty()) {
             this.isModified = true;
             super.clear();
@@ -75,6 +80,7 @@ public class FlashMessages extends HashMap<String, String> {
      * @return {@code true} if any flash message has been modified, otherwise, {@code false}
      */
     public boolean isModified() {
-        return isModified;
+
+       return isModified;
     }
 }

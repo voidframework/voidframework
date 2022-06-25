@@ -26,6 +26,7 @@ public final class PersistenceHibernateTest {
     private final Injector injector;
 
     public PersistenceHibernateTest() {
+
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
             voidframework.datasource.default.driver = "org.h2.Driver"
@@ -45,8 +46,10 @@ public final class PersistenceHibernateTest {
             voidframework.datasource.default.maximumPoolSize = 15
             """);
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+
             @Override
             protected void configure() {
+
                 install(new HikariCpDataSourceModule());
                 install(new HibernateModule(configuration));
                 bind(Config.class).toInstance(configuration);
@@ -56,6 +59,7 @@ public final class PersistenceHibernateTest {
 
     @Test
     public void entityFactory() {
+
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);
 
@@ -71,6 +75,7 @@ public final class PersistenceHibernateTest {
 
     @Test
     public void transaction() {
+
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);
 
@@ -105,6 +110,7 @@ public final class PersistenceHibernateTest {
 
     @Test
     public void managedEntityQuery() {
+
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);
 

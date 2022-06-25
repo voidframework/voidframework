@@ -25,6 +25,7 @@ public class ConfigTemplateMethodModelTest {
     private final Injector injector;
 
     public ConfigTemplateMethodModelTest() {
+
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
             test.number = 42
@@ -48,6 +49,7 @@ public class ConfigTemplateMethodModelTest {
 
     @Test
     public void configurationFound() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
@@ -70,6 +72,7 @@ public class ConfigTemplateMethodModelTest {
 
     @Test
     public void configuratioNotFound() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
@@ -82,6 +85,7 @@ public class ConfigTemplateMethodModelTest {
 
     @Test
     public void wrongArguments() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 

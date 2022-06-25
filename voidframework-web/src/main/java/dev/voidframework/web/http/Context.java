@@ -42,6 +42,7 @@ public final class Context {
      * @return The attributes
      */
     public TypedMap getAttributes() {
+
         return this.attributes;
     }
 
@@ -51,6 +52,7 @@ public final class Context {
      * @return The current request
      */
     public HttpRequest getRequest() {
+
         return this.httpRequest;
     }
 
@@ -60,6 +62,7 @@ public final class Context {
      * @return The current session
      */
     public Session getSession() {
+
         return this.session;
     }
 
@@ -69,6 +72,7 @@ public final class Context {
      * @return The flash messages
      */
     public FlashMessages getFlashMessages() {
+
         return this.flashMessages;
     }
 
@@ -78,6 +82,7 @@ public final class Context {
      * @return The current locale
      */
     public Locale getLocale() {
+
         return locale;
     }
 
@@ -87,6 +92,7 @@ public final class Context {
      * @param locale The locale to use
      */
     public void setLocal(final Locale locale) {
+
         this.locale = locale;
     }
 }

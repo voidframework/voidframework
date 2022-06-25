@@ -12,6 +12,7 @@ public class LifeCycleException extends RuntimeException {
      * @param cause   The cause
      */
     protected LifeCycleException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -28,6 +29,7 @@ public class LifeCycleException extends RuntimeException {
          * @param cause      The cause
          */
         public InvocationFailure(final String className, final String methodName, final Throwable cause) {
+
             super("Life cycle invocation failure for " + className + "::" + methodName, cause);
         }
     }

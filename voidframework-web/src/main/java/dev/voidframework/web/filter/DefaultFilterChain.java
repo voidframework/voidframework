@@ -20,6 +20,7 @@ public final class DefaultFilterChain implements FilterChain {
      * @param filterList Filters to apply
      */
     public DefaultFilterChain(final List<Filter> filterList) {
+
         this.filterList = filterList;
         this.currentFilterIndex = -1;
     }
@@ -32,6 +33,7 @@ public final class DefaultFilterChain implements FilterChain {
      */
     @Override
     public Result applyNext(final Context context) {
+
         if (this.currentFilterIndex < this.filterList.size()) {
             this.currentFilterIndex += 1;
 

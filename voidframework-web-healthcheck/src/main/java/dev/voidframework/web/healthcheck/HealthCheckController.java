@@ -26,6 +26,7 @@ public final class HealthCheckController {
      */
     @Inject
     public HealthCheckController(final HealthCheckManager healthCheckManager) {
+
         this.healthCheckManager = healthCheckManager;
     }
 
@@ -36,6 +37,7 @@ public final class HealthCheckController {
      */
     @RequestRoute(method = HttpMethod.GET, route = "/healthcheck")
     public Result healthCheck() {
+
         final Map<String, Health> healthPerNameMap = healthCheckManager.checkHealth();
         return Result.ok(Json.toJson(healthPerNameMap));
     }

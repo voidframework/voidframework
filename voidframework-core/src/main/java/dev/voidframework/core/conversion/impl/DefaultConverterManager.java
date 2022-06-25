@@ -57,6 +57,7 @@ public final class DefaultConverterManager implements ConverterManager {
 
     @Override
     public int count() {
+
         return this.converterMap.size();
     }
 }

@@ -11,6 +11,7 @@ public class AppLauncherException extends RuntimeException {
      * @param message The detail message
      */
     protected AppLauncherException(final String message) {
+
         this(message, null);
     }
 
@@ -21,6 +22,7 @@ public class AppLauncherException extends RuntimeException {
      * @param cause   The cause
      */
     protected AppLauncherException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -33,6 +35,7 @@ public class AppLauncherException extends RuntimeException {
          * Build a new instance.
          */
         public AlreadyRunning() {
+
             super("Application is already running");
         }
     }
@@ -49,6 +52,7 @@ public class AppLauncherException extends RuntimeException {
          * @param cause       The cause
          */
         public ModuleInitFailure(final Class<?> moduleClass, final Throwable cause) {
+
             super("Can't initialize Module '" + moduleClass + "'", cause);
         }
     }

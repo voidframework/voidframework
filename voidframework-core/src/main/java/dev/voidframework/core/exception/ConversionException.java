@@ -11,6 +11,7 @@ public class ConversionException extends RuntimeException {
      * @param message The detail message
      */
     protected ConversionException(final String message) {
+
         super(message, null);
     }
 
@@ -27,6 +28,7 @@ public class ConversionException extends RuntimeException {
          */
         public ConverterAlreadyRegistered(final Class<?> sourceTypeClass,
                                           final Class<?> targetTypeClass) {
+
             super("Converter<source=" + sourceTypeClass.getName() + ", target=" + targetTypeClass.getName() + "> already registered");
         }
     }
@@ -44,6 +46,7 @@ public class ConversionException extends RuntimeException {
          */
         public ConverterDoesNotExist(final Class<?> sourceTypeClass,
                                      final Class<?> targetTypeClass) {
+
             super("Converter<source=" + sourceTypeClass.getName() + ", target=" + targetTypeClass.getName() + "> does not exist");
         }
     }
@@ -60,6 +63,7 @@ public class ConversionException extends RuntimeException {
          * @param errorMessage  The error message
          */
         public InvalidConverter(final String converterName, final String errorMessage) {
+
             super("Converter '" + converterName + "' is invalid: " + errorMessage);
         }
     }

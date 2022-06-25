@@ -20,6 +20,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void flushWhenFullMaxItem() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 3");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
@@ -42,6 +43,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void getUnknownValue() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
@@ -57,6 +59,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void setValueAndGetValueKey() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
@@ -80,6 +83,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void timeToLive() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
@@ -107,6 +111,7 @@ public final class MemoryCacheEngineTest {
 
     @Test
     public void timeToLiveExpiration() throws InterruptedException {
+
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 

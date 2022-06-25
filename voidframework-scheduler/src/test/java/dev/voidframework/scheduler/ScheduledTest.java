@@ -12,6 +12,7 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -23,11 +24,12 @@ public final class ScheduledTest {
 
     @Test
     public void testSchedulerWithCron() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.scheduler.threadPoolSize = 5");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
-                bind(Demo.class);
+                bind(Demo.class).asEagerSingleton();
 
                 bind(Config.class).toInstance(configuration);
                 install(new SchedulerModule());
@@ -43,8 +45,8 @@ public final class ScheduledTest {
             schedulerManager.stopScheduler();
         }
 
-        Assertions.assertEquals(2, ScheduledTest.counterCron.get());
-        Assertions.assertEquals(2, ScheduledTest.counterRate.get());
+        Assertions.assertTrue(List.of(2, 3).contains(ScheduledTest.counterCron.get()));
+        Assertions.assertTrue(List.of(2, 3).contains(ScheduledTest.counterRate.get()));
         Assertions.assertEquals(1, ScheduledTest.counterDelay.get());
     }
 
@@ -52,11 +54,13 @@ public final class ScheduledTest {
 
         @Scheduled(cron = "* * * * * *")
         public void everySecondsCron() {
+
             ScheduledTest.counterCron.incrementAndGet();
         }
 
         @Scheduled(fixedRate = 1000)
         public void everySecondsRate() {
+
             ScheduledTest.counterRate.incrementAndGet();
             try {
                 Thread.sleep(10000);
@@ -66,6 +70,7 @@ public final class ScheduledTest {
 
         @Scheduled(fixedDelay = 1000)
         public void everySecondsDelay() {
+
             ScheduledTest.counterDelay.incrementAndGet();
             try {
                 Thread.sleep(10000);

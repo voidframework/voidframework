@@ -30,6 +30,7 @@ public class TransactionalInterceptor implements MethodInterceptor {
 
     @Override
     public Object invoke(final MethodInvocation methodInvocation) throws Throwable {
+
         // Retrieves the transaction configuration
         Transactional transactionalAnnotation = methodInvocation.getMethod().getAnnotation(Transactional.class);
         if (transactionalAnnotation == null) {
@@ -109,6 +110,7 @@ public class TransactionalInterceptor implements MethodInterceptor {
      * @return {@code true} if a rollback should be performed, otherwise {@code false}
      */
     private boolean hasToRollback(final Transactional transactionalAnnotation, final Class<?> throwableClass) {
+
         // "dontRollbackOn" always takes precedence
         for (final Class<?> dontRollbackOn : transactionalAnnotation.dontRollbackOn()) {
             if (dontRollbackOn == throwableClass) {

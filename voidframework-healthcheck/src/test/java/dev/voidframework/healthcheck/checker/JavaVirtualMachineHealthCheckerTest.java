@@ -14,6 +14,7 @@ public final class JavaVirtualMachineHealthCheckerTest {
 
     @Test
     public void checkHealth() {
+
         final HealthChecker healthChecker = new JavaVirtualMachineHealthChecker();
         Assertions.assertEquals("JVM", healthChecker.getName());
 

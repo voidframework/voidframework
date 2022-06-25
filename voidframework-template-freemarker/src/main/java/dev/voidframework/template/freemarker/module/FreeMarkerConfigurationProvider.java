@@ -41,11 +41,13 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
      */
     @Inject
     public FreeMarkerConfigurationProvider(final Config configuration) {
+
         this.configuration = configuration;
     }
 
     @Override
     public Configuration get() {
+
         if (this.freeMarkerConfiguration != null) {
             return this.freeMarkerConfiguration;
         }
@@ -95,6 +97,7 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
      * @return The possible template locations
      */
     private List<Path> resolvePossibleLocations() {
+
         final Path rootPath = Paths.get(System.getProperty("user.dir"));
         final Path resolvePath = Path.of("src", "main", "resources", "views");
 

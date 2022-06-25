@@ -22,6 +22,7 @@ public final class RouterTest {
 
     @Test
     public void addRoute() {
+
         final Router router = new DefaultRouter();
         final Method method = resolveMethod("displayHelloWorld", SampleController.class);
         router.addRoute(HttpMethod.GET, "/", SampleController.class, method);
@@ -40,6 +41,7 @@ public final class RouterTest {
 
     @Test
     public void resolveRoute() {
+
         final Router router = new DefaultRouter();
         final Method methodDisplay = resolveMethod("displayHelloWorld", SampleController.class);
         final Method methodRegister = resolveMethod("displayRegister", SampleController.class);
@@ -56,6 +58,7 @@ public final class RouterTest {
 
     @Test
     public void resolveRoute_withRegularExpression() {
+
         final Router router = new DefaultRouter();
         final Method methodDisplay = resolveMethod("displayHelloWorld", SampleController.class);
         final Method methodRegister = resolveMethod("displayRegister", SampleController.class);
@@ -82,6 +85,7 @@ public final class RouterTest {
      * @return The method
      */
     private Method resolveMethod(final String methodName, final Class<?> classType) {
+
         for (final Method method : classType.getMethods()) {
             if (method.getName().equals(methodName)) {
                 return method;
@@ -93,14 +97,17 @@ public final class RouterTest {
     private static final class SampleController {
 
         public Result displayHelloWorld() {
+
             return Result.ok("Hello World!");
         }
 
         public Result displayRegister() {
+
             return Result.ok("Register Form");
         }
 
         public Result displayAccount(final @RequestPath("accountId") String accountId) {
+
             return Result.ok("My Account ID is " + accountId);
         }
 

@@ -73,6 +73,7 @@ public final class HttpRequestHandler {
      * @return A result
      */
     public Result onBadRequest(final Context context, final HttpException.BadRequest cause) {
+
         return errorHandler.onBadRequest(context, cause);
     }
 
@@ -171,6 +172,7 @@ public final class HttpRequestHandler {
      * @return An array containing method arguments
      */
     private Object[] buildMethodArguments(final Context context, final ResolvedRoute resolvedRoute) {
+
         int idx = 0;
         final Object[] methodArgumentValueArray = new Object[resolvedRoute.method().getParameterCount()];
 
@@ -222,6 +224,7 @@ public final class HttpRequestHandler {
      * @return The converter value, otherwise, null
      */
     private Object convertValueToParameterType(final String value, final Class<?> parameterTypeClass) {
+
         Class<?> clazzToUse = parameterTypeClass;
         Object defaultValue = null;
 

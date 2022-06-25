@@ -39,6 +39,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      */
     @Inject
     public AbstractStaticAssetsController(final Config configuration) {
+
         this.runInDevMode = configuration.getBoolean("voidframework.core.runInDevMode");
         this.baseAssetResourcesDirectory = configuration.getString("voidframework.web.baseAssetResourcesDirectory");
     }
@@ -52,6 +53,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      */
     @RequestRoute(method = HttpMethod.GET, route = "/webjars/(?<fileName>.*)")
     public Result webjarAsset(@RequestPath("fileName") final String fileName) {
+
         if (StringUtils.isBlank(fileName) || fileName.contains("..")) {
             throw new HttpException.NotFound();
         }
@@ -75,6 +77,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      */
     @RequestRoute(method = HttpMethod.GET, route = "/(favicon.ico|robots.txt)")
     public Result staticAsset(final Context context) {
+
         return staticAsset(context.getRequest().getRequestURI());
     }
 
@@ -87,6 +90,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      */
     @RequestRoute(method = HttpMethod.GET, route = "/static/(?<fileName>.*)")
     public Result staticAsset(@RequestPath("fileName") final String fileName) {
+
         if (StringUtils.isBlank(fileName) || fileName.contains("..")) {
             throw new HttpException.NotFound();
         }
@@ -131,6 +135,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      * @return The detected file content
      */
     private String detectFileContentType(final String fileName) {
+
         final Tika tika = new Tika();
         String contentType = tika.detect(fileName);
 
@@ -149,6 +154,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      * @return The file location, otherwise, null
      */
     private Path resolveLocation(final String fileName) {
+
         final Path rootPath = Paths.get(System.getProperty("user.dir"));
         final Path resolvePath = Path.of("src", "main", "resources", this.baseAssetResourcesDirectory, fileName);
 

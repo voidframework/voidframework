@@ -13,6 +13,7 @@ public class WebModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
         final Router router = new DefaultRouter();
 
         bind(Router.class).toInstance(router);

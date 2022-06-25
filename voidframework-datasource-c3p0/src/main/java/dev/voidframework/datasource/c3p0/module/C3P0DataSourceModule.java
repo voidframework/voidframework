@@ -10,6 +10,7 @@ public class C3P0DataSourceModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
         bind(DataSourceManager.class).toProvider(C3P0DataSourceManagerProvider.class);
     }
 }

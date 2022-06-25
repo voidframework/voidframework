@@ -9,6 +9,7 @@ public class StringToFloatConverter implements TypeConverter<String, Float> {
 
     @Override
     public Float convert(final String source) {
+
         try {
             return Float.valueOf(source);
         } catch (final NumberFormatException ignore) {

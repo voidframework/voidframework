@@ -31,19 +31,21 @@ public final class UndertowRequest implements HttpRequest {
      */
     public UndertowRequest(final HttpServerExchange httpServerExchange,
                            final HttpRequestBodyContent httpRequestBodyContent) {
+
         this.httpServerExchange = httpServerExchange;
         this.httpRequestBodyContent = httpRequestBodyContent;
     }
 
     @Override
     public String getCharset() {
+
         return httpServerExchange.getRequestCharset();
     }
 
     @Override
     public Cookie getCookie(final String cookieName) {
-        final io.undertow.server.handlers.Cookie c =
-            this.httpServerExchange.getRequestCookie(cookieName);
+
+        final io.undertow.server.handlers.Cookie c = this.httpServerExchange.getRequestCookie(cookieName);
 
         return c != null
             ? Cookie.of(c.getName(), c.getValue())
@@ -52,11 +54,13 @@ public final class UndertowRequest implements HttpRequest {
 
     @Override
     public String getHeader(final String headerName) {
+
         return this.httpServerExchange.getRequestHeaders().getFirst(headerName);
     }
 
     @Override
     public Map<String, List<String>> getHeaders() {
+
         final Map<String, List<String>> headerMap = new HashMap<>();
         final Iterator<HeaderValues> iterator = this.httpServerExchange.getRequestHeaders().iterator();
 
@@ -71,21 +75,25 @@ public final class UndertowRequest implements HttpRequest {
 
     @Override
     public HttpMethod getHttpMethod() {
+
         return HttpMethod.valueOf(this.httpServerExchange.getRequestMethod().toString());
     }
 
     @Override
     public InputStream getInputSteam() {
+
         return httpServerExchange.getInputStream();
     }
 
     @Override
     public String getQueryString() {
+
         return this.httpServerExchange.getQueryString();
     }
 
     @Override
     public String getQueryStringParameter(final String parameterName) {
+
         if (parameterName == null) {
             return null;
         }
@@ -97,6 +105,7 @@ public final class UndertowRequest implements HttpRequest {
 
     @Override
     public Map<String, List<String>> getQueryStringParameters() {
+
         final Map<String, List<String>> parametersPerKeyMap = new HashMap<>();
 
         for (final Map.Entry<String, Deque<String>> entrySet : this.httpServerExchange.getQueryParameters().entrySet()) {
@@ -108,21 +117,25 @@ public final class UndertowRequest implements HttpRequest {
 
     @Override
     public String getRemoteHostName() {
+
         return this.httpServerExchange.getHostName();
     }
 
     @Override
     public String getRequestURL() {
+
         return this.httpServerExchange.getRequestURL();
     }
 
     @Override
     public String getRequestURI() {
+
         return this.httpServerExchange.getRequestURI();
     }
 
     @Override
     public HttpRequestBodyContent getBodyContent() {
+
         return this.httpRequestBodyContent;
     }
 }

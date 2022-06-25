@@ -13,11 +13,13 @@ public class JavaVirtualMachineHealthChecker implements HealthChecker {
 
     @Override
     public String getName() {
+
         return "JVM";
     }
 
     @Override
     public Health checkHealth() {
+
         final Map<String, Object> detailsMap = new LinkedHashMap<>();
 
         detailsMap.put("javaVersion", Runtime.version().toString());

@@ -12,6 +12,7 @@ public class TemplateException extends RuntimeException {
      * @param cause   The root cause
      */
     protected TemplateException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -21,6 +22,7 @@ public class TemplateException extends RuntimeException {
      * @param message The detail message
      */
     protected TemplateException(final String message) {
+
         this(message, null);
     }
 
@@ -33,6 +35,7 @@ public class TemplateException extends RuntimeException {
          * Build a new instance.
          */
         public DataModelNotProvided() {
+
             super("Data model was not provided");
         }
     }
@@ -48,6 +51,7 @@ public class TemplateException extends RuntimeException {
          * @param cause The cause
          */
         public RenderingFailure(final Throwable cause) {
+
             super("Can't render template", cause);
         }
     }
@@ -63,6 +67,7 @@ public class TemplateException extends RuntimeException {
          * @param cause The cause
          */
         public TemplateEngineInitFailure(final Throwable cause) {
+
             super("Can't initialize the template engine", cause);
         }
     }
@@ -76,6 +81,7 @@ public class TemplateException extends RuntimeException {
          * Build a new instance.
          */
         public NoTemplateEngine() {
+
             super("No template engine found, check that you have activated an implementation of the template engine");
         }
     }

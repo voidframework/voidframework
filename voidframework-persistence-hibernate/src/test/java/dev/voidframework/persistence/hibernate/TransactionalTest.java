@@ -31,6 +31,7 @@ public final class TransactionalTest {
     private final Injector injector;
 
     public TransactionalTest() {
+
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
             voidframework.datasource.default.driver = "org.h2.Driver"
@@ -50,8 +51,10 @@ public final class TransactionalTest {
             voidframework.datasource.default.maximumPoolSize = 5
             """);
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+
             @Override
             protected void configure() {
+
                 install(new HikariCpDataSourceModule());
                 install(new HibernateModule(configuration));
                 bind(Config.class).toInstance(configuration);
@@ -61,12 +64,14 @@ public final class TransactionalTest {
 
     @Test
     public void transactionalMandatoryWithTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.callInnerTransaction(dummyService::transactionalMandatoryWithTransaction);
     }
 
     @Test
     public void transactionalMandatoryWithoutTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         final TransactionRequiredException exception = Assertions.assertThrows(
             TransactionRequiredException.class,
@@ -80,6 +85,7 @@ public final class TransactionalTest {
 
     @Test
     public void transactionalNeverWithTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         final InvalidTransactionException exception = Assertions.assertThrows(
             InvalidTransactionException.class,
@@ -93,54 +99,63 @@ public final class TransactionalTest {
 
     @Test
     public void transactionalNeverWithoutTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.transactionalNeverWithoutTransaction();
     }
 
     @Test
     public void transactionalNotSupportedWithTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.callInnerTransaction(dummyService::transactionalNotSupportedWithTransaction);
     }
 
     @Test
     public void transactionalNotSupportedWithoutTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.transactionalNotSupportedWithoutTransaction();
     }
 
     @Test
     public void transactionalRequiredNewWithTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.callInnerTransaction(dummyService::transactionalRequiredNewWithTransaction);
     }
 
     @Test
     public void transactionalRequiredNewWithoutTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.transactionalRequiredNewWithoutTransaction();
     }
 
     @Test
     public void transactionalRequiredWithTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.callInnerTransaction(dummyService::transactionalRequiredWithTransaction);
     }
 
     @Test
     public void transactionalRequiredWithoutTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.transactionalRequiredWithoutTransaction();
     }
 
     @Test
     public void transactionalSupportWithTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.callInnerTransaction(dummyService::transactionalSupportWithTransaction);
     }
 
     @Test
     public void transactionalSupportWithoutTransaction() {
+
         final DummyService dummyService = this.injector.getInstance(DummyService.class);
         dummyService.transactionalSupportWithoutTransaction();
     }
@@ -151,17 +166,20 @@ public final class TransactionalTest {
 
         @Inject
         public DummyService(final Provider<EntityManager> entityManagerProvider) {
+
             this.entityManagerProvider = entityManagerProvider;
         }
 
         @Transactional(Transactional.TxType.REQUIRED)
         public void callInnerTransaction(final Consumer<EntityTransaction> consumer) {
+
             final EntityTransaction transaction = this.entityManagerProvider.get().getTransaction();
             consumer.accept(transaction);
         }
 
         @Transactional(Transactional.TxType.MANDATORY)
         public void transactionalMandatoryWithTransaction(final EntityTransaction parentTransaction) {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertTrue(entityManager.isJoinedToTransaction());
             Assertions.assertEquals(parentTransaction, entityManager.getTransaction());
@@ -179,12 +197,14 @@ public final class TransactionalTest {
 
         @Transactional(Transactional.TxType.NEVER)
         public void transactionalNeverWithoutTransaction() {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertFalse(entityManager.isJoinedToTransaction());
         }
 
         @Transactional(Transactional.TxType.NOT_SUPPORTED)
         public void transactionalNotSupportedWithTransaction(final EntityTransaction parentTransaction) {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertFalse(entityManager.isJoinedToTransaction());
             Assertions.assertNotEquals(parentTransaction, entityManager.getTransaction());
@@ -192,12 +212,14 @@ public final class TransactionalTest {
 
         @Transactional(Transactional.TxType.NOT_SUPPORTED)
         public void transactionalNotSupportedWithoutTransaction() {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertFalse(entityManager.isJoinedToTransaction());
         }
 
         @Transactional(Transactional.TxType.SUPPORTS)
         public void transactionalSupportWithTransaction(final EntityTransaction parentTransaction) {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertTrue(entityManager.isJoinedToTransaction());
             Assertions.assertEquals(parentTransaction, entityManager.getTransaction());
@@ -205,12 +227,14 @@ public final class TransactionalTest {
 
         @Transactional(Transactional.TxType.SUPPORTS)
         public void transactionalSupportWithoutTransaction() {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertFalse(entityManager.isJoinedToTransaction());
         }
 
         @Transactional(Transactional.TxType.REQUIRES_NEW)
         public void transactionalRequiredNewWithTransaction(final EntityTransaction parentTransaction) {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertTrue(entityManager.isJoinedToTransaction());
             Assertions.assertNotEquals(parentTransaction, entityManager.getTransaction());
@@ -218,12 +242,14 @@ public final class TransactionalTest {
 
         @Transactional(Transactional.TxType.REQUIRES_NEW)
         public void transactionalRequiredNewWithoutTransaction() {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertTrue(entityManager.isJoinedToTransaction());
         }
 
         @Transactional(Transactional.TxType.REQUIRED)
         public void transactionalRequiredWithTransaction(final EntityTransaction parentTransaction) {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertTrue(entityManager.isJoinedToTransaction());
             Assertions.assertEquals(parentTransaction, entityManager.getTransaction());
@@ -244,6 +270,7 @@ public final class TransactionalTest {
 
         @Transactional(Transactional.TxType.REQUIRED)
         public void transactionalRequiredWithoutTransaction() {
+
             final EntityManager entityManager = this.entityManagerProvider.get();
             Assertions.assertTrue(entityManager.isJoinedToTransaction());
 

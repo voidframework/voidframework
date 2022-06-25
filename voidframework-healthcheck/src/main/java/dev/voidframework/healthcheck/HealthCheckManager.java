@@ -27,6 +27,7 @@ public final class HealthCheckManager {
      * @param configuration The application configuration
      */
     public HealthCheckManager(final Config configuration) {
+
         this.configuration = configuration;
         this.healthCheckerList = new ArrayList<>();
     }
@@ -37,6 +38,7 @@ public final class HealthCheckManager {
      * @param healthChecker The health checker to register
      */
     public void registerHealthCheck(final dev.voidframework.healthcheck.HealthChecker healthChecker) {
+
         LOGGER.debug("Register HealthCheck {}", healthChecker.getName());
         this.healthCheckerList.add(healthChecker);
     }
@@ -47,6 +49,7 @@ public final class HealthCheckManager {
      * @return The health status report
      */
     public Map<String, Health> checkHealth() {
+
         final Map<String, Health> healthPerNameMap = new HashMap<>();
 
         for (final HealthChecker healthChecker : this.healthCheckerList) {

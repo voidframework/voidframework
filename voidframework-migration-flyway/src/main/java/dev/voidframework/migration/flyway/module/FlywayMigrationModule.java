@@ -10,6 +10,7 @@ public class FlywayMigrationModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
         bind(FlywayMigration.class).asEagerSingleton();
     }
 }

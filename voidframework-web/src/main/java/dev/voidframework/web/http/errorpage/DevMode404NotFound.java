@@ -104,6 +104,7 @@ public final class DevMode404NotFound {
     public static String render(final HttpMethod requestMethod,
                                 final String requestUri,
                                 final List<Route> routeList) {
+
         final StringBuilder availableRoutesBuilder = new StringBuilder();
         for (final Route route : routeList) {
             availableRoutesBuilder.append(FILE_PATTERN_ENTRY.formatted(

@@ -57,6 +57,7 @@ public class UndertowHttpHandler implements HttpHandler {
     public UndertowHttpHandler(final Config configuration,
                                final HttpRequestHandler httpRequestHandler,
                                final SessionSigner sessionSigner) {
+
         this.configuration = configuration;
         this.httpRequestHandler = httpRequestHandler;
         this.sessionSigner = sessionSigner;
@@ -71,6 +72,7 @@ public class UndertowHttpHandler implements HttpHandler {
 
     @Override
     public void handleRequest(final HttpServerExchange httpServerExchange) {
+
         httpServerExchange.startBlocking();
 
         // Create HTTP request
@@ -213,6 +215,7 @@ public class UndertowHttpHandler implements HttpHandler {
      * @return The newly created HTTP request, otherwise, an exception
      */
     private Either<HttpRequest, HttpException.BadRequest> createHttpRequestWithOptionalBodyContent(final HttpServerExchange httpServerExchange) {
+
         final HttpRequest httpRequest;
 
         String contentType = httpServerExchange.getRequestHeaders().getLast("Content-Type");
@@ -269,6 +272,7 @@ public class UndertowHttpHandler implements HttpHandler {
      * @return The newly created HTTP request
      */
     private HttpRequest createHttpRequestWithoutBodyContent(final HttpServerExchange httpServerExchange) {
+
         return new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(null, null, null));
     }
 }

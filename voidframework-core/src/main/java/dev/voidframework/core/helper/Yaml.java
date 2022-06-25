@@ -35,6 +35,7 @@ public final class Yaml {
      * @return The string representation.
      */
     public static String toString(final JsonNode yaml) {
+
         try {
             final ObjectWriter writer = objectMapper.writer();
             return writer.writeValueAsString(yaml);
@@ -50,6 +51,7 @@ public final class Yaml {
      * @return The YAML node
      */
     public static String toYaml(final Object obj) {
+
         try {
             return objectMapper.writeValueAsString(obj);
         } catch (final IllegalArgumentException | JsonProcessingException e) {
@@ -64,6 +66,7 @@ public final class Yaml {
      * @return The YAML node
      */
     public static JsonNode toYaml(final byte[] data) {
+
         try {
             return objectMapper.readTree(data);
         } catch (final IllegalArgumentException | IOException e) {
@@ -80,6 +83,7 @@ public final class Yaml {
      * @return The Java object
      */
     public static <OUTPUT_TYPE> OUTPUT_TYPE fromYaml(final JsonNode yaml, final Class<OUTPUT_TYPE> clazz) {
+
         try {
             return objectMapper.treeToValue(yaml, clazz);
         } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException e) {

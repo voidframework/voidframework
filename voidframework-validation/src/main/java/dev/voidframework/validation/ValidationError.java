@@ -16,7 +16,10 @@ public class ValidationError {
      * @param messageKey    The error message key
      * @param argumentArray The error message arguments
      */
-    public ValidationError(final String message, final String messageKey, final Object... argumentArray) {
+    public ValidationError(final String message,
+                           final String messageKey,
+                           final Object... argumentArray) {
+
         this.message = message;
         this.messageKey = messageKey;
         this.argumentArray = argumentArray;
@@ -28,6 +31,7 @@ public class ValidationError {
      * @return The translated error message
      */
     public String getMessage() {
+
         return message;
     }
 
@@ -37,6 +41,7 @@ public class ValidationError {
      * @return The error message key
      */
     public String getMessageKey() {
+
         return messageKey;
     }
 
@@ -46,6 +51,7 @@ public class ValidationError {
      * @return The error message arguments
      */
     public Object[] getArgumentArray() {
+
         return argumentArray;
     }
 }

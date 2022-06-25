@@ -18,6 +18,7 @@ public final class VoidFrameworkVersion {
      * @return The version number "x.y.z"
      */
     public static String getVersion() {
+
         if (versionCache == null) {
             try (final InputStream fis = VoidFrameworkVersion.class.getResourceAsStream("/voidframework.version")) {
                 final Properties properties = new Properties();

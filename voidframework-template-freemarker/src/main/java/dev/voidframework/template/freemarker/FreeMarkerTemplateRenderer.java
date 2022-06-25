@@ -35,17 +35,20 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
     @Inject
     public FreeMarkerTemplateRenderer(final Configuration freeMarkerConfiguration,
                                       final Internationalization internationalization) {
+
         this.freeMarkerConfiguration = freeMarkerConfiguration;
         this.internationalization = internationalization;
     }
 
     @Override
     public String render(final String templateName, final Locale locale) {
+
         return render(templateName, locale, new HashMap<>());
     }
 
     @Override
     public String render(final String templateName, final Locale locale, final Map<String, Object> dataModel) {
+
         if (dataModel == null) {
             throw new TemplateException.DataModelNotProvided();
         }

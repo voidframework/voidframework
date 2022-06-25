@@ -19,11 +19,13 @@ public final class LifeCycleInjectionListener<INSTANCE_TYPE> implements Injectio
      * @param lifeCycleManager The life cycle manager to use
      */
     public LifeCycleInjectionListener(final LifeCycleManager lifeCycleManager) {
+
         this.lifeCycleManager = lifeCycleManager;
     }
 
     @Override
     public void afterInjection(final INSTANCE_TYPE injectee) {
+
         for (final Method method : injectee.getClass().getMethods()) {
             final LifeCycleStart lifeCycleStartAnnotation = method.getAnnotation(LifeCycleStart.class);
             if (lifeCycleStartAnnotation != null) {

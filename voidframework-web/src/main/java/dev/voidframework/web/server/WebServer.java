@@ -176,6 +176,7 @@ public class WebServer {
     @LifeCycleStop(gracefulStopTimeoutConfigKey = "voidframework.web.gracefulStopTimeout")
     @SuppressWarnings("unused")
     public void stopWebServer() {
+
         if (this.undertowServer != null) {
             this.undertowServer.stop();
             this.undertowServer = null;

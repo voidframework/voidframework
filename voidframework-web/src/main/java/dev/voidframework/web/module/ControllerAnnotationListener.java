@@ -22,11 +22,13 @@ public class ControllerAnnotationListener implements TypeListener {
      * @param router The current router
      */
     public ControllerAnnotationListener(final Router router) {
+
         this.router = router;
     }
 
     @Override
     public <I> void hear(final TypeLiteral<I> type, final TypeEncounter<I> encounter) {
+
         final Class<?> classType = type.getRawType();
         final WebController webController = classType.getAnnotation(WebController.class);
 
@@ -50,6 +52,7 @@ public class ControllerAnnotationListener implements TypeListener {
      * @return The complete route
      */
     private String appendPrefixToRoute(final String prefix, final String route) {
+
         final String cleanedPrefix = this.cleanRoutePath(prefix);
         final String cleanedRoute = this.cleanRoutePath(route);
 
@@ -67,6 +70,7 @@ public class ControllerAnnotationListener implements TypeListener {
      * @return Cleaned route path
      */
     private String cleanRoutePath(final String routePath) {
+
         String cleanedRoutePath = routePath.trim();
 
         if (cleanedRoutePath.isEmpty() || cleanedRoutePath.equals("/")) {

@@ -49,6 +49,7 @@ public class ApplicationLauncher {
      * Build a new instance.
      */
     public ApplicationLauncher() {
+
         this.injector = null;
         this.lifeCycleManager = null;
     }
@@ -57,6 +58,7 @@ public class ApplicationLauncher {
      * Launch Void Framework.
      */
     public void launch() {
+
         if (this.injector != null) {
             throw new AppLauncherException.AlreadyRunning();
         }
@@ -181,6 +183,7 @@ public class ApplicationLauncher {
      * Configures the shutdown hook.
      */
     private void configureShutdownHook() {
+
         final Thread shutdownThread = new Thread(this::stop);
         shutdownThread.setName("Shutdown");
 
@@ -204,6 +207,7 @@ public class ApplicationLauncher {
      * Display the banner.
      */
     private void displayBanner() {
+
         String bannerToDisplay = readFileContent("/banner.txt");
         if (bannerToDisplay == null) {
             bannerToDisplay = readFileContent("/banner.default.txt");
@@ -223,6 +227,7 @@ public class ApplicationLauncher {
      * @return The file content
      */
     private String readFileContent(final String fileName) {
+
         try (final InputStream inputStream = this.getClass().getResourceAsStream(fileName)) {
             if (inputStream != null) {
                 return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8).trim();

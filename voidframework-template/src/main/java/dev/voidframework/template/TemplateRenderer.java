@@ -4,7 +4,7 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * Template rendered must implements this interface.
+ * Template renderer must implements this interface.
  */
 public interface TemplateRenderer {
 

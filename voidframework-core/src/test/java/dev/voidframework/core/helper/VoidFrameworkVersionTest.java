@@ -12,6 +12,7 @@ public final class VoidFrameworkVersionTest {
 
     @Test
     public void version() {
+
         final String version = VoidFrameworkVersion.getVersion();
         Assertions.assertNotNull(version);
         Assertions.assertFalse(version.isBlank());

@@ -19,11 +19,13 @@ public class HealthCheckModule extends AbstractModule {
      * @param configuration The application configuration
      */
     public HealthCheckModule(final Config configuration) {
+
         this.configuration = configuration;
     }
 
     @Override
     protected void configure() {
+
         final HealthCheckManager healthCheckManager = new HealthCheckManager(this.configuration);
         requestInjection(healthCheckManager);
 

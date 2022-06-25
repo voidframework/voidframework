@@ -11,6 +11,7 @@ public class SchedulerException extends RuntimeException {
      * @param message The detail message
      */
     protected SchedulerException(final String message) {
+
         this(message, null);
     }
 
@@ -21,6 +22,7 @@ public class SchedulerException extends RuntimeException {
      * @param cause   The cause
      */
     protected SchedulerException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -33,6 +35,7 @@ public class SchedulerException extends RuntimeException {
          * Build a new instance.
          */
         public FixedDelayAndRateAreExclusive() {
+
             super("Values fixedDelay and fixedRate are mutually exclusive");
         }
     }
@@ -48,6 +51,7 @@ public class SchedulerException extends RuntimeException {
          * @param fixedRate The current fixed rate
          */
         public InvalidFixedDelay(final int fixedRate) {
+
             super("Value fixedDelay %d is invalid".formatted(fixedRate));
         }
     }
@@ -63,6 +67,7 @@ public class SchedulerException extends RuntimeException {
          * @param fixedRate The current fixed rate
          */
         public InvalidFixedRate(final int fixedRate) {
+
             super("Value fixedRate %d is invalid".formatted(fixedRate));
         }
     }
@@ -78,6 +83,7 @@ public class SchedulerException extends RuntimeException {
          * @param initialDelay The current initial delay
          */
         public InvalidInitialDelay(final int initialDelay) {
+
             super("The initial delay %d is invalid".formatted(initialDelay));
         }
     }
@@ -94,6 +100,7 @@ public class SchedulerException extends RuntimeException {
          * @param stringFormatArgs The arguments for the error message format
          */
         public InvalidCronExpression(final String errorMessage, final Object... stringFormatArgs) {
+
             super(String.format(errorMessage, stringFormatArgs));
         }
 
@@ -107,6 +114,7 @@ public class SchedulerException extends RuntimeException {
         public InvalidCronExpression(final InvalidCronExpression causeException,
                                      final String errorMessage,
                                      final Object... stringFormatArgs) {
+
             super(String.format(errorMessage, stringFormatArgs), causeException);
         }
     }

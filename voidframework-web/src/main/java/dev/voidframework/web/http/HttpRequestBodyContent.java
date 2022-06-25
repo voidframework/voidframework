@@ -29,6 +29,7 @@ public record HttpRequestBodyContent(String contentType,
      * @return A Java object
      */
     public <OUTPUT_CLASS_TYPE> OUTPUT_CLASS_TYPE asFormData(final Class<OUTPUT_CLASS_TYPE> outputClass) {
+
         final Map<String, String> flatValueMap = new HashMap<>();
         final Map<String, InputStream> flatFileMap = new HashMap<>();
 
@@ -57,6 +58,7 @@ public record HttpRequestBodyContent(String contentType,
      * @return A JSON node
      */
     public JsonNode asJson() {
+
         return Json.toJson(asRaw);
     }
 
@@ -68,6 +70,7 @@ public record HttpRequestBodyContent(String contentType,
      * @return A Java object
      */
     public <OUTPUT_CLASS_TYPE> OUTPUT_CLASS_TYPE asJson(final Class<OUTPUT_CLASS_TYPE> outputClass) {
+
         return Json.fromJson(asJson(), outputClass);
     }
 
@@ -77,6 +80,7 @@ public record HttpRequestBodyContent(String contentType,
      * @return An XML document
      */
     public Document asXml() {
+
         return Xml.toXml(asRaw);
     }
 
@@ -86,6 +90,7 @@ public record HttpRequestBodyContent(String contentType,
      * @return A YAML node
      */
     public JsonNode asYaml() {
+
         return Yaml.toYaml(asRaw);
     }
 
@@ -97,6 +102,7 @@ public record HttpRequestBodyContent(String contentType,
      * @return A Java object
      */
     public <OUTPUT_CLASS_TYPE> OUTPUT_CLASS_TYPE asYaml(final Class<OUTPUT_CLASS_TYPE> outputClass) {
+
         return Yaml.fromYaml(asYaml(), outputClass);
     }
 }

@@ -10,6 +10,7 @@ public final class InternationalizationModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
         bind(Internationalization.class).toProvider(InternationalizationProvider.class);
     }
 }

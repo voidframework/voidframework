@@ -15,6 +15,7 @@ public class StringToBooleanConverter implements TypeConverter<String, Boolean> 
 
     @Override
     public Boolean convert(final String source) {
+
         return VALUE_TRUE_LIST.contains(source.toLowerCase(Locale.ENGLISH));
     }
 }

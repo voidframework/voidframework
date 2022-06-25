@@ -27,12 +27,14 @@ public final class InternationalizationProvider implements Provider<Internationa
      */
     @Inject
     public InternationalizationProvider(final Config configuration, final Injector injector) {
+
         this.configuration = configuration;
         this.injector = injector;
     }
 
     @Override
     public Internationalization get() {
+
         if (this.internationalization == null) {
             if (configuration.hasPath("voidframework.i18n.engine")) {
                 final String internationalizationImplClassName = configuration.getString("voidframework.i18n.engine");

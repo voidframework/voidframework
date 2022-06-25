@@ -28,6 +28,7 @@ public final class TemplateResult {
      */
     private TemplateResult(final String templateName,
                            final Map<String, Object> dataModel) {
+
         this.templateName = templateName;
         this.dataModel = dataModel;
     }
@@ -39,6 +40,7 @@ public final class TemplateResult {
      * @return Newly created instance
      */
     public static TemplateResult of(final String templateName) {
+
         return new TemplateResult(templateName, new HashMap<>());
     }
 
@@ -51,6 +53,7 @@ public final class TemplateResult {
      */
     public static TemplateResult of(final String templateName,
                                     final Map<String, Object> dataModel) {
+
         return new TemplateResult(templateName, dataModel != null ? dataModel : new HashMap<>());
     }
 
@@ -63,6 +66,7 @@ public final class TemplateResult {
      */
     public static TemplateResult of(final String templateName,
                                     final Object dataModel) {
+
         return new TemplateResult(templateName, Json.toMap(dataModel));
     }
 }

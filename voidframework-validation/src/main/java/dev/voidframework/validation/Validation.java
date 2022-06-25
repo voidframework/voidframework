@@ -5,7 +5,6 @@ import dev.voidframework.core.bindable.Service;
 import jakarta.validation.Configuration;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.MessageInterpolator;
-import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
@@ -22,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Singleton
-public final class ValidationService {
+public final class Validation {
 
     // Validators do not return the arguments, but simply the value that was tested.
     // This list indicates arguments to be retrieved from the attributes.
@@ -34,7 +33,8 @@ public final class ValidationService {
     /**
      * Build a new instance.
      */
-    public ValidationService() {
+    public Validation() {
+
         this.validatorPerLocaleMap = new ConcurrentHashMap<>();
     }
 
@@ -46,6 +46,7 @@ public final class ValidationService {
      * @return The validated object
      */
     public <OBJ_TO_VALIDATE_TYPE> Validated<OBJ_TO_VALIDATE_TYPE> validate(final OBJ_TO_VALIDATE_TYPE objectToValidate) {
+
         return this.validate(objectToValidate, Locale.getDefault());
     }
 
@@ -94,6 +95,7 @@ public final class ValidationService {
      * @return The message arguments array
      */
     private Object[] createMessageArgumentArray(final ConstraintViolation<?> constraintViolation) {
+
         final Map<String, Object> attributeMap = constraintViolation.getConstraintDescriptor().getAttributes();
         return SORTED_ARGUMENT_TO_EXTRACT_LIST.stream()
             .filter(attributeMap::containsKey)
@@ -108,7 +110,8 @@ public final class ValidationService {
      * @return The newly created validator
      */
     private Validator createValidator(final Locale locale) {
-        Configuration<?> configuration = Validation.byDefaultProvider().configure();
+
+        Configuration<?> configuration = jakarta.validation.Validation.byDefaultProvider().configure();
         configuration = configuration.messageInterpolator(new MessageInterpolatorWithLocale(configuration.getDefaultMessageInterpolator(), locale));
 
         try (final ValidatorFactory validatorFactory = configuration.buildValidatorFactory()) {
@@ -126,11 +129,13 @@ public final class ValidationService {
 
         @Override
         public String interpolate(final String message, final Context context) {
+
             return this.delegate.interpolate(message, context, locale);
         }
 
         @Override
         public String interpolate(final String message, final Context context, final Locale locale) {
+
             return this.delegate.interpolate(message, context, locale);
         }
     }

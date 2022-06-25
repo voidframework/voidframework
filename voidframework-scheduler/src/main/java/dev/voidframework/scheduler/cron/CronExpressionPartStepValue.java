@@ -15,11 +15,13 @@ class CronExpressionPartStepValue implements CronExpressionPart {
      * @param stepValue The value
      */
     protected CronExpressionPartStepValue(final int stepValue) {
+
         this.stepValue = stepValue;
     }
 
     @Override
     public boolean isNotCompliant(final int value) {
+
         return this.stepValue == -1 || value % this.stepValue == 0;
     }
 
@@ -28,6 +30,7 @@ class CronExpressionPartStepValue implements CronExpressionPart {
                                 final int allowedMaxStepValue,
                                 final int allowedMinValue,
                                 final int allowedMaxValue) {
+
         if (this.stepValue != -1) {
             if (!(this.stepValue >= allowedMinStepValue && this.stepValue <= allowedMaxStepValue)) {
                 throw new SchedulerException.InvalidCronExpression(

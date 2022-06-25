@@ -44,17 +44,20 @@ public class DefaultErrorHandler implements ErrorHandler {
      */
     @Inject
     public DefaultErrorHandler(final Config configuration, final Router router) {
+
         this.configuration = configuration;
         this.router = router;
     }
 
     @Override
     public Result onBadRequest(final Context context, final HttpException.BadRequest badRequestException) {
+
         return Result.badRequest("400 Bad Request");
     }
 
     @Override
     public Result onNotFound(final Context context, final HttpException.NotFound notFoundException) {
+
         if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
             final Map<String, Object> dataModel = new HashMap<>();
             dataModel.put("httpMethod", context.getRequest().getHttpMethod());
@@ -73,6 +76,7 @@ public class DefaultErrorHandler implements ErrorHandler {
 
     @Override
     public Result onServerError(final Context context, final Throwable throwable) {
+
         LOGGER.error("Something goes wrong", throwable);
 
         if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
@@ -102,6 +106,7 @@ public class DefaultErrorHandler implements ErrorHandler {
      * @return The possible Java file location
      */
     private Optional<Path> resolvePossibleJavaFileLocation(final String javaFileName) {
+
         final Path rootPath = Paths.get(System.getProperty("user.dir"));
         Path resolvePath = Path.of("src", "main", "java", javaFileName);
 

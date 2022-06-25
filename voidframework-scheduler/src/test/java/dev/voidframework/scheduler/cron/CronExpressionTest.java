@@ -14,6 +14,7 @@ public final class CronExpressionTest {
 
     @Test
     public void badPartSingleValueTooHigh() {
+
         Assertions.assertThrowsExactly(
             SchedulerException.InvalidCronExpression.class,
             () -> new CronExpression("125 12 10 2-5 * *"));
@@ -21,6 +22,7 @@ public final class CronExpressionTest {
 
     @Test
     public void badPartListValueTooHigh() {
+
         Assertions.assertThrowsExactly(
             SchedulerException.InvalidCronExpression.class,
             () -> new CronExpression("1,2,71,4 12 10 2-5 * *"));
@@ -28,6 +30,7 @@ public final class CronExpressionTest {
 
     @Test
     public void badCronExpressionSize() {
+
         Assertions.assertThrowsExactly(
             SchedulerException.InvalidCronExpression.class,
             () -> new CronExpression("1,2,71,4 * *"));
@@ -35,6 +38,7 @@ public final class CronExpressionTest {
 
     @Test
     public void badCronExpressionTooManyWildcard() {
+
         Assertions.assertThrowsExactly(
             SchedulerException.InvalidCronExpression.class,
             () -> new CronExpression("0 12 10 2-5 ** *"));
@@ -42,6 +46,7 @@ public final class CronExpressionTest {
 
     @Test
     public void everySeconds() {
+
         // Given: Monday, June 20, 2022 12:00:00
         // Expected: Monday, June 20, 2022 12:00:01
         final CronExpression cronExpression = new CronExpression("* * * * * *");
@@ -55,6 +60,7 @@ public final class CronExpressionTest {
 
     @Test
     public void everyMinutes() {
+
         // Given: Monday, June 20, 2022 12:00:00
         // Expected: Monday, June 20, 2022 12:01:00
         final CronExpression cronExpression = new CronExpression("0 * * * * *");
@@ -68,6 +74,7 @@ public final class CronExpressionTest {
 
     @Test
     public void everyHours() {
+
         // Given: Monday, June 20, 2022 12:00:00
         // Expected: Monday, June 20, 2022 13:00:00
         final CronExpression cronExpression = new CronExpression("0 0 * * * *");
@@ -81,6 +88,7 @@ public final class CronExpressionTest {
 
     @Test
     public void everyDays() {
+
         // Given: Monday, June 20, 2022 12:00:00
         // Expected: Tuesday, June 21, 2022 12:00:00
         final CronExpression cronExpression = new CronExpression("0 0 0 * * *");
@@ -94,6 +102,7 @@ public final class CronExpressionTest {
 
     @Test
     public void everyDaysMonday() {
+
         // Given: Monday, June 27, 2022 12:00:00
         // Expected: Monday, July 4, 2022 00:00:00
         final CronExpression cronExpression = new CronExpression("0 0 0 * * mon");
@@ -107,6 +116,7 @@ public final class CronExpressionTest {
 
     @Test
     public void everyMonths() {
+
         // Given: Monday, June 20, 2022 12:00:00
         // Expected: Friday, July 1, 2022 00:00:00
         final CronExpression cronExpression = new CronExpression("0 0 0 1 * *");
@@ -120,6 +130,7 @@ public final class CronExpressionTest {
 
     @Test
     public void everyTwiceADayFromMondayToFriday() {
+
         // Twice a day (2h30 & 14h30) from Monday to Friday
         final CronExpression cronExpression = new CronExpression("0 30 2,14 * * 1-5");
 
@@ -146,6 +157,7 @@ public final class CronExpressionTest {
      * @return The method call result
      */
     private long callByReflection_getNextDelayMilliseconds(final CronExpression cronExpression, final LocalDateTime localDateTime) {
+
         final Long delay = Reflection.callMethod(
             cronExpression,
             "getNextDelayMilliseconds",

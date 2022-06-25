@@ -32,11 +32,13 @@ public class HikariCpDataSourceManagerProvider implements Provider<DataSourceMan
      */
     @Inject
     private HikariCpDataSourceManagerProvider(final Config configuration) {
+
         this.configuration = configuration;
     }
 
     @Override
     public DataSourceManager get() {
+
         // Returns data source manager if existing
         if (dataSourceManager != null) {
             return this.dataSourceManager;

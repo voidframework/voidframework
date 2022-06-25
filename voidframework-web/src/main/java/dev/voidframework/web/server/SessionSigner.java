@@ -36,6 +36,7 @@ public final class SessionSigner {
      * @param configuration The application configuration
      */
     public SessionSigner(final Config configuration) {
+
         this.configuration = configuration;
 
         final JWTVerifier.BaseVerification verification = (JWTVerifier.BaseVerification)
@@ -52,6 +53,7 @@ public final class SessionSigner {
      * @return The session retrieved from the signed session, otherwise, an empty session
      */
     public Session verify(final String signedSession) {
+
         try {
             final DecodedJWT decodedJWT = verifier.verify(signedSession);
 
@@ -76,6 +78,7 @@ public final class SessionSigner {
      * @return The signed session
      */
     public String sign(final Session session) {
+
         try {
             final Instant instantUtc = Instant.now();
             final Date dateNowUtc = Date.from(instantUtc);

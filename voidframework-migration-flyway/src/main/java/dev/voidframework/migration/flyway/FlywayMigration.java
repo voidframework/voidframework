@@ -32,6 +32,7 @@ public final class FlywayMigration {
     @Inject
     public FlywayMigration(final Config configuration,
                            final Provider<DataSourceManager> dataSourceManagerProvider) {
+
         this.configuration = configuration;
         this.dataSourceManagerProvider = dataSourceManagerProvider;
     }
@@ -41,6 +42,7 @@ public final class FlywayMigration {
      */
     @LifeCycleStart(priority = 50)
     public void migrate() {
+
         final List<String> scriptLocationList = this.configuration.getStringList("voidframework.migration.flyway.scriptLocations")
             .stream()
             .filter(StringUtils::isNotEmpty)

@@ -30,6 +30,7 @@ public class FlywayMigrationTest {
     private final Injector injector;
 
     public FlywayMigrationTest() {
+
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
             voidframework.datasource.default.driver = "org.h2.Driver"
@@ -55,8 +56,10 @@ public class FlywayMigrationTest {
             voidframework.migration.flyway.scriptLocations = ["migrations"]
             """);
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+
             @Override
             protected void configure() {
+
                 install(new HikariCpDataSourceModule());
                 install(new FlywayMigrationModule());
                 bind(Config.class).toInstance(configuration);
@@ -66,6 +69,7 @@ public class FlywayMigrationTest {
 
     @Test
     public void migration() throws SQLException {
+
         final FlywayMigration flywayMigration = this.injector.getInstance(FlywayMigration.class);
         Assertions.assertNotNull(flywayMigration);
 

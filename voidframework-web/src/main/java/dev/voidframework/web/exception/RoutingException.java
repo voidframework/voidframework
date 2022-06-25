@@ -12,6 +12,7 @@ public class RoutingException extends RuntimeException {
      * @param cause   The root cause
      */
     protected RoutingException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -21,6 +22,7 @@ public class RoutingException extends RuntimeException {
      * @param message The detail message
      */
     protected RoutingException(final String message) {
+
         this(message, null);
     }
 
@@ -35,6 +37,7 @@ public class RoutingException extends RuntimeException {
          * @param appRoutesDefinitionClassName The app defined route definition class name
          */
         public AppRouteDefinitionLoadFailure(final String appRoutesDefinitionClassName) {
+
             super("Can't find routes definition '" + appRoutesDefinitionClassName + "'");
         }
     }
@@ -51,6 +54,7 @@ public class RoutingException extends RuntimeException {
          * @param currentValue The current invalid value
          */
         public BadRoutingArgument(final String argumentName, final Object currentValue) {
+
             super("The argument '" + argumentName + "' is invalid, current value is: " + currentValue);
         }
     }

@@ -29,6 +29,7 @@ public final class ResourceBundleInternationalization implements Internationaliz
 
     @Override
     public String getMessage(final Locale locale, final String key) {
+
         if (locale == null) {
             return UNKNOWN_KEY_SURROUNDING + key + UNKNOWN_KEY_SURROUNDING;
         }
@@ -48,11 +49,13 @@ public final class ResourceBundleInternationalization implements Internationaliz
 
     @Override
     public String getMessage(final Locale locale, final String key, final Object... argumentArray) {
+
         return MessageFormat.format(this.getMessage(locale, key), argumentArray);
     }
 
     @Override
     public String getMessage(final Locale locale, final long quantity, final String key, final Object... argumentArray) {
+
         final String resolvedMessageFormat;
         if (quantity == 0) {
             resolvedMessageFormat = this.getMessage(locale, key + ".0");

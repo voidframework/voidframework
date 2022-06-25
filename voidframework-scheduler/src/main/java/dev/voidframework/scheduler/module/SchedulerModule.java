@@ -11,6 +11,7 @@ public class SchedulerModule extends AbstractModule {
 
     @Override
     protected void configure() {
+
         final ScheduledHandlers schedulerHooks = new ScheduledHandlers();
 
         bind(ScheduledHandlers.class).toInstance(schedulerHooks);

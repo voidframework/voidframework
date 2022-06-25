@@ -20,6 +20,7 @@ public final class Reflection {
     public static <VALUE_TYPE> VALUE_TYPE getFieldValue(final Object classInstance,
                                                         final String fieldName,
                                                         final Class<VALUE_TYPE> valueTypeClass) {
+
         try {
             final Field field = classInstance.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -42,6 +43,7 @@ public final class Reflection {
     public static <VALUE_TYPE> VALUE_TYPE getFieldValue(final Object classInstance,
                                                         final String fieldName,
                                                         final WrappedClass<VALUE_TYPE> wrappedClass) {
+
         try {
             final Field field = classInstance.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -62,6 +64,7 @@ public final class Reflection {
     public static void setFieldValue(final Object classInstance,
                                      final String fieldName,
                                      final Object value) {
+
         try {
             final Field field = classInstance.getClass().getDeclaredField(fieldName);
             field.setAccessible(true);
@@ -87,6 +90,7 @@ public final class Reflection {
                                                        final Class<RETURN_TYPE> returnTypeClass,
                                                        final Class<?>[] argumentTypeArray,
                                                        final Object... argumentArray) {
+
         try {
             final Method method = classInstance.getClass().getDeclaredMethod(methodeName, argumentTypeArray);
             method.setAccessible(true);
@@ -110,6 +114,7 @@ public final class Reflection {
     public static void callMethod(final Object classInstance,
                                   final String methodeName,
                                   final Object... argumentArray) {
+
         try {
             final Method method = classInstance.getClass().getDeclaredMethod(methodeName);
             method.setAccessible(true);
@@ -133,6 +138,7 @@ public final class Reflection {
          */
         @SuppressWarnings("unchecked")
         public WrappedClass() {
+
             this.classType = (Class<CLASS_TYPE>) this.getClass().getSuperclass();
         }
 
@@ -142,6 +148,7 @@ public final class Reflection {
          * @return The wrapped class type
          */
         public Class<CLASS_TYPE> getWrappedClass() {
+
             return this.classType;
         }
     }

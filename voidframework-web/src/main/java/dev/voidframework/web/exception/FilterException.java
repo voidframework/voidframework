@@ -12,6 +12,7 @@ public class FilterException extends RuntimeException {
      * @param cause   The root cause
      */
     protected FilterException(final String message, final Throwable cause) {
+
         super(message, cause);
     }
 
@@ -21,6 +22,7 @@ public class FilterException extends RuntimeException {
      * @param message The detail message
      */
     protected FilterException(final String message) {
+
         this(message, null);
     }
 
@@ -35,6 +37,7 @@ public class FilterException extends RuntimeException {
          * @param filterClassName The Filter class name
          */
         public LoadFailure(final String filterClassName) {
+
             super("Can't load Filter '" + filterClassName + "'");
         }
     }
@@ -51,6 +54,7 @@ public class FilterException extends RuntimeException {
          * @param filterListSize The filter list size
          */
         public Overflow(final int currentIndex, final int filterListSize) {
+
             super("Filter chain overflow detected! Current index ("
                 + currentIndex
                 + ") is greater or equal to filter list size ("

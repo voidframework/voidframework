@@ -107,6 +107,7 @@ public final class DevMode500InternalServerError {
                                 final String errorLocation,
                                 final int errorLineNumber,
                                 final List<DefaultErrorHandler.FileLine> fileLineList) {
+
         final StringBuilder fileSnippedBuilder = new StringBuilder();
         for (final DefaultErrorHandler.FileLine fileLine : fileLineList) {
             fileSnippedBuilder.append(FILE_PATTERN_ENTRY.formatted(

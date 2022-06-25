@@ -27,6 +27,7 @@ public final class HealthCheckTest {
 
     @Test
     public void test() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = true");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
@@ -56,11 +57,13 @@ public final class HealthCheckTest {
 
         @Override
         public String getName() {
+
             return "DUMMY_CHECKER";
         }
 
         @Override
         public Health checkHealth() {
+
             return new Health(Health.Status.UP, Collections.emptyMap());
         }
     }

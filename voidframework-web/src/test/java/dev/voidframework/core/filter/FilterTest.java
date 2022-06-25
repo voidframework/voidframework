@@ -24,6 +24,7 @@ public final class FilterTest {
 
     @Test
     public void filterChain() throws IOException {
+
         final List<Filter> filterList = List.of(
             (ctx, filterChain) -> filterChain.applyNext(ctx).withHeader("New-Header-2", "Value2"),
             (ctx, filterChain) -> filterChain.applyNext(ctx).withHeader("New-Header", "Value"),

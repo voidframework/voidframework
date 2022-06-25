@@ -34,6 +34,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return {@code true} if validated object has one error or more, otherwise {@code false}
      */
     public boolean hasError() {
+
         return !this.validationErrorPerPathMap.isEmpty();
     }
 
@@ -44,6 +45,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return {@code true} if the specific path of validated object has one error or more, otherwise {@code false}
      */
     public boolean hasError(final String path) {
+
         final List<ValidationError> validationErrorList = this.validationErrorPerPathMap.get(path);
         return validationErrorList != null && !validationErrorList.isEmpty();
     }
@@ -54,6 +56,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return {@code true} if validated object has no errors, otherwise {@code false}
      */
     public boolean isValid() {
+
         return this.validationErrorPerPathMap.isEmpty();
     }
 
@@ -63,6 +66,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return All errors group by path
      */
     public Map<String, List<ValidationError>> getError() {
+
         return this.validationErrorPerPathMap;
     }
 
@@ -73,6 +77,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return The error if exists, otherwise, {@code null}
      */
     public ValidationError getError(final String path) {
+
         final List<ValidationError> validationErrorList = this.validationErrorPerPathMap.get(path);
         return validationErrorList == null ? null : validationErrorList.get(0);
     }
@@ -84,6 +89,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return The error if exists, otherwise, {@code null}
      */
     public List<ValidationError> getErrorList(final String path) {
+
         final List<ValidationError> validationErrorList = this.validationErrorPerPathMap.get(path);
         return validationErrorList == null ? Collections.emptyList() : validationErrorList;
     }
@@ -94,6 +100,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return The validated object
      */
     public VALIDATED_OBJ_TYPE getInstance() {
+
         return this.instance;
     }
 }

@@ -26,6 +26,7 @@ public final class DataSourceTest {
     private final Injector injector;
 
     public DataSourceTest() {
+
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
             voidframework.datasource.default.driver = "org.h2.Driver"
@@ -48,6 +49,7 @@ public final class DataSourceTest {
 
     @Test
     public void defaultConnection() throws SQLException {
+
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
@@ -58,6 +60,7 @@ public final class DataSourceTest {
 
     @Test
     public void specificConnection() throws SQLException {
+
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
@@ -68,6 +71,7 @@ public final class DataSourceTest {
 
     @Test
     public void unknownConnection() throws SQLException {
+
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
@@ -77,6 +81,7 @@ public final class DataSourceTest {
 
     @Test
     public void defaultDataSource() throws SQLException {
+
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
@@ -90,6 +95,7 @@ public final class DataSourceTest {
 
     @Test
     public void specificDataSource() throws SQLException {
+
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 
@@ -103,6 +109,7 @@ public final class DataSourceTest {
 
     @Test
     public void unknownDataSource() {
+
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 

@@ -9,6 +9,7 @@ public class StringToLongConverter implements TypeConverter<String, Long> {
 
     @Override
     public Long convert(final String source) {
+
         try {
             return Long.valueOf(source);
         } catch (final NumberFormatException ignore) {

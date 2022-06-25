@@ -24,6 +24,7 @@ public class InternationalizationTemplateMethodModelTest {
     private final Injector injector;
 
     public InternationalizationTemplateMethodModelTest() {
+
         final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = true");
 
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
@@ -38,6 +39,7 @@ public class InternationalizationTemplateMethodModelTest {
 
     @Test
     public void translationFound() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 
@@ -50,6 +52,7 @@ public class InternationalizationTemplateMethodModelTest {
 
     @Test
     public void translationNotFound() {
+
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         Assertions.assertNotNull(templateRenderer);
 

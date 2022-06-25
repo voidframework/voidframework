@@ -18,6 +18,7 @@ public final class ClasspathBootstrapGenerator {
      * @param args The arguments
      */
     public static void main(final String[] args) {
+
         if (args.length == 0) {
             throw new RuntimeException("Output directory must be provided!");
         }

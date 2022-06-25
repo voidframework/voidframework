@@ -16,6 +16,7 @@ public final class ClassResolver {
      */
     @SuppressWarnings("unchecked")
     public static <CLASS_TYPE> Class<? extends CLASS_TYPE> forName(final String className) {
+
         if (StringUtils.isBlank(className)) {
             return null;
         }
@@ -35,6 +36,7 @@ public final class ClassResolver {
      * @return Resolved {@code Class<?>}
      */
     public static Class<?> forName(final String className, final ClassLoader classLoader) {
+
         if (StringUtils.isBlank(className)) {
             return null;
         }

@@ -20,11 +20,13 @@ public final class LifeCycleAnnotationListener implements TypeListener {
      * @param lifeCycleManager The life cycle manager to use
      */
     public LifeCycleAnnotationListener(final LifeCycleManager lifeCycleManager) {
+
         this.lifeCycleManager = lifeCycleManager;
     }
 
     @Override
     public <CLASS_TYPE> void hear(final TypeLiteral<CLASS_TYPE> type, final TypeEncounter<CLASS_TYPE> encounter) {
+
         final Class<?> classType = type.getRawType();
 
         for (final Method method : classType.getMethods()) {
