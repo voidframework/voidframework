@@ -45,14 +45,39 @@ public class TemplateException extends RuntimeException {
      */
     public static class RenderingFailure extends TemplateException {
 
+        private final String templateName;
+        private final int lineNumber;
+
         /**
          * Build a new instance.
          *
-         * @param cause The cause
+         * @param templateName The template name
+         * @param lineNumber   The line where the error occur
+         * @param cause        The cause
          */
-        public RenderingFailure(final Throwable cause) {
+        public RenderingFailure(final String templateName, final int lineNumber, final Throwable cause) {
 
             super("Can't render template", cause);
+            this.templateName = templateName;
+            this.lineNumber = lineNumber;
+        }
+
+        /**
+         * Gets the template name.
+         *
+         * @return The template name
+         */
+        public String getTemplateName() {
+            return this.templateName;
+        }
+
+        /**
+         * Gets the line number.
+         *
+         * @return The line number
+         */
+        public int getLineNumber() {
+            return this.lineNumber;
         }
     }
 

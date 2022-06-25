@@ -3,6 +3,7 @@ package dev.voidframework.web.http.impl;
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
 import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.ErrorHandler;
@@ -80,18 +81,34 @@ public class DefaultErrorHandler implements ErrorHandler {
         LOGGER.error("Something goes wrong", throwable);
 
         if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
-            final StackTraceElement stackTraceElement = throwable.getStackTrace()[0];
-            final int lineNumberFromZero = stackTraceElement.getLineNumber() - 1;
+            final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
 
-            final String javaFileName = stackTraceElement.getClassName().replace(".", File.separator).split("\\$", 2)[0] + ".java";
-            final Optional<Path> javaFilepathOptional = resolvePossibleJavaFileLocation(javaFileName);
-            final List<FileLine> fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero))
-                .orElseGet(ArrayList::new);
+            final String subHeaderError;
+            final int lineNumberFromZero;
+            final List<FileLine> fileLineList;
+            if (throwable.getClass() == TemplateException.RenderingFailure.class) {
+                // Template rendering error
+                final TemplateException.RenderingFailure renderingFailure = (TemplateException.RenderingFailure) throwable;
+                final Optional<Path> javaFilepathOptional = resolvePossibleTemplateFileLocation(renderingFailure.getTemplateName());
+
+                lineNumberFromZero = renderingFailure.getLineNumber();
+                subHeaderError = javaFilepathOptional.map(Path::toString).orElse(renderingFailure.getTemplateName()) + ":" + lineNumberFromZero;
+                fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero)).orElseGet(ArrayList::new);
+            } else {
+                // Generic error
+                final StackTraceElement stackTraceElement = cause.getStackTrace()[0];
+                subHeaderError = stackTraceElement.toString();
+                lineNumberFromZero = stackTraceElement.getLineNumber() - 1;
+
+                final String javaFileName = stackTraceElement.getClassName().replace(".", File.separator).split("\\$", 2)[0] + ".java";
+                final Optional<Path> javaFilepathOptional = resolvePossibleJavaFileLocation(javaFileName);
+                fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero)).orElseGet(ArrayList::new);
+            }
 
             return Result.internalServerError(
                 DevMode500InternalServerError.render(
-                    throwable.getMessage() != null ? throwable.getMessage() : "Oops, something goes wrong",
-                    stackTraceElement.toString(),
+                    cause.getMessage() != null ? cause.getMessage() : "Oops, something goes wrong",
+                    subHeaderError,
                     lineNumberFromZero,
                     fileLineList));
         }
@@ -109,6 +126,34 @@ public class DefaultErrorHandler implements ErrorHandler {
 
         final Path rootPath = Paths.get(System.getProperty("user.dir"));
         Path resolvePath = Path.of("src", "main", "java", javaFileName);
+
+        final Path firstPossibleLocation = rootPath.resolve(resolvePath);
+        if (firstPossibleLocation.toFile().exists()) {
+            return Optional.of(firstPossibleLocation);
+        }
+
+        try (final Stream<Path> stream = Files.walk(rootPath, 1)) {
+            return stream
+                .filter(Files::isDirectory)
+                .map(Path::getFileName)
+                .map(path -> path.resolve(resolvePath))
+                .filter(Files::exists)
+                .findFirst();
+        } catch (final IOException ignore) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Resolve possible Template file location.
+     *
+     * @param templateFileName The Template file to find
+     * @return The possible Template file location
+     */
+    private Optional<Path> resolvePossibleTemplateFileLocation(final String templateFileName) {
+
+        final Path rootPath = Paths.get(System.getProperty("user.dir"));
+        Path resolvePath = Path.of("src", "main", "resources", "views", templateFileName);
 
         final Path firstPossibleLocation = rootPath.resolve(resolvePath);
         if (firstPossibleLocation.toFile().exists()) {

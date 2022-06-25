@@ -132,15 +132,15 @@ public final class HttpRequestHandler {
                     return result;
 
                 } catch (final Throwable throwable) {
-                    final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+                    //final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
 
                     final Result result;
-                    if (cause instanceof HttpException.NotFound) {
-                        result = errorHandler.onNotFound(ctx, (HttpException.NotFound) cause);
-                    } else if (cause instanceof HttpException.BadRequest) {
-                        result = errorHandler.onBadRequest(ctx, (HttpException.BadRequest) cause);
+                    if (throwable instanceof HttpException.NotFound) {
+                        result = errorHandler.onNotFound(ctx, (HttpException.NotFound) throwable);
+                    } else if (throwable instanceof HttpException.BadRequest) {
+                        result = errorHandler.onBadRequest(ctx, (HttpException.BadRequest) throwable);
                     } else {
-                        result = errorHandler.onServerError(ctx, cause);
+                        result = errorHandler.onServerError(ctx, throwable);
                     }
 
                     result.getResultProcessor().process(ctx, templateRenderer);
@@ -157,8 +157,8 @@ public final class HttpRequestHandler {
             final FilterChain filterChain = new DefaultFilterChain(filterList);
             return filterChain.applyNext(context);
         } catch (final Throwable throwable) {
-            final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
-            final Result result = errorHandler.onServerError(context, cause);
+            //final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+            final Result result = errorHandler.onServerError(context, throwable);
             result.getResultProcessor().process(context, templateRenderer);
             return result;
         }

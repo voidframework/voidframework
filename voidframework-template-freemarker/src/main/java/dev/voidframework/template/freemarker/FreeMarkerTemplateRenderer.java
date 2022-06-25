@@ -10,7 +10,6 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateMethodModelEx;
 
-import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.HashMap;
@@ -66,8 +65,10 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
             final Template template = this.freeMarkerConfiguration.getTemplate(templateName, locale);
             template.process(dataModel, writer);
             return writer.toString();
-        } catch (final IOException | NullPointerException | freemarker.template.TemplateException e) {
-            throw new TemplateException.RenderingFailure(e);
+        } catch (final freemarker.template.TemplateException exception) {
+            throw new TemplateException.RenderingFailure(templateName, exception.getEndLineNumber() - 1, exception);
+        } catch (final Exception exception) {
+            throw new TemplateException.RenderingFailure(templateName, -1, exception);
         }
     }
 }

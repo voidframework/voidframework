@@ -113,7 +113,7 @@ public final class DevMode500InternalServerError {
             fileSnippedBuilder.append(FILE_PATTERN_ENTRY.formatted(
                 errorLineNumber == fileLine.number() ? CLASS_ERROR : "",
                 fileLine.number(),
-                fileLine.content()));
+                fileLine.content().replace("<", "&lt;")));
         }
 
         return CONTENT.formatted(errorMessage, errorLocation, fileSnippedBuilder.toString());

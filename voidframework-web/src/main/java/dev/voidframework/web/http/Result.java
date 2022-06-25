@@ -569,6 +569,7 @@ public final class Result {
             }
 
             this.dataModel.put("flash", context.getFlashMessages());
+            this.dataModel.put("session", context.getSession());
 
             final String renderedTemplate = templateRenderer.render(this.templateName, context.getLocale(), this.dataModel);
             this.inputStream = new ByteArrayInputStream(renderedTemplate.getBytes(StandardCharsets.UTF_8));
