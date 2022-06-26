@@ -8,7 +8,6 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.datasource.DataSourceManager;
 import dev.voidframework.datasource.hikaricp.module.HikariCpDataSourceModule;
-import dev.voidframework.migration.flyway.module.FlywayMigrationModule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -61,7 +60,6 @@ public class FlywayMigrationTest {
             protected void configure() {
 
                 install(new HikariCpDataSourceModule());
-                install(new FlywayMigrationModule());
                 bind(Config.class).toInstance(configuration);
             }
         });

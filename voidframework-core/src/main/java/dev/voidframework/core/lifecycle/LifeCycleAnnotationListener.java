@@ -30,9 +30,15 @@ public final class LifeCycleAnnotationListener implements TypeListener {
         final Class<?> classType = type.getRawType();
 
         for (final Method method : classType.getMethods()) {
-            if (method.isAnnotationPresent(LifeCycleStart.class) || method.isAnnotationPresent(LifeCycleStop.class)) {
-                encounter.register(new LifeCycleInjectionListener<>(lifeCycleManager));
-                break;
+            final LifeCycleStart lifeCycleStartAnnotation = method.getAnnotation(LifeCycleStart.class);
+            if (lifeCycleStartAnnotation != null) {
+                this.lifeCycleManager.registerStart(classType, method, lifeCycleStartAnnotation.priority());
+            }
+
+            final LifeCycleStop lifeCycleStopAnnotation = method.getAnnotation(LifeCycleStop.class);
+            if (lifeCycleStopAnnotation != null) {
+                this.lifeCycleManager.registerStop(
+                    classType, method, lifeCycleStopAnnotation.priority(), lifeCycleStopAnnotation.gracefulStopTimeoutConfigKey());
             }
         }
     }

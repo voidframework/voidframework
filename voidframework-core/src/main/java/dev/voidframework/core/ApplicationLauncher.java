@@ -103,6 +103,8 @@ public class ApplicationLauncher {
                 bind(Conversion.class).to(DefaultConversion.class).asEagerSingleton();
 
                 bindListener(Matchers.any(), new LifeCycleAnnotationListener(lifeCycleManager));
+
+                requestInjection(lifeCycleManager);
             }
         };
 

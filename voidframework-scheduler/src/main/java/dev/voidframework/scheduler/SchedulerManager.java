@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
+import dev.voidframework.core.bindable.BindClass;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.core.lifecycle.LifeCycleStop;
 import dev.voidframework.scheduler.cron.CronExpression;
@@ -25,6 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Scheduler manager takes care of executing scheduled hooks defined by the
  * use of the {@link dev.voidframework.scheduler.Scheduled} annotations.
  */
+@BindClass
 @Singleton
 public final class SchedulerManager {
 

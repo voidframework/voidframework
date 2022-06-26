@@ -1,5 +1,7 @@
 package dev.voidframework.core.lifecycle;
 
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.typesafe.config.Config;
 import dev.voidframework.core.exception.LifeCycleException;
 import org.apache.commons.lang3.StringUtils;
@@ -12,8 +14,9 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- * Life cycle manager takes care of executing the various hooks defined by the
- * use of the {@link dev.voidframework.core.lifecycle.LifeCycleStart} and {@link dev.voidframework.core.lifecycle.LifeCycleStop} annotations.
+ * Life cycle manager takes care of executing the various hooks defined by the use of
+ * the {@link dev.voidframework.core.lifecycle.LifeCycleStart} and {@link dev.voidframework.core.lifecycle.LifeCycleStop}
+ * annotations.
  */
 public final class LifeCycleManager {
 
@@ -23,6 +26,7 @@ public final class LifeCycleManager {
     private final List<StartHandler> startHandlerList;
     private final List<StopHandler> stopHandlerList;
 
+    private Injector injector;
     private boolean isRunning;
 
     /**
@@ -39,35 +43,46 @@ public final class LifeCycleManager {
     }
 
     /**
+     * Sets the injector.
+     *
+     * @param injector The injector instance
+     */
+    @Inject
+    public void setInjector(final Injector injector) {
+
+        this.injector = injector;
+    }
+
+    /**
      * Register a "START" method.
      *
-     * @param classInstance The class instance where is located the method to invoke
-     * @param method        The method to invoke
-     * @param priority      The priority
+     * @param classType The class type where is located the method to invoke
+     * @param method    The method to invoke
+     * @param priority  The priority
      */
-    public void registerStart(final Object classInstance, final Method method, final int priority) {
+    public void registerStart(final Class<?> classType, final Method method, final int priority) {
 
-        LOGGER.debug("Register LifeCycle 'START' {}::{} (priority={})", classInstance.getClass().getName(), method.getName(), priority);
+        LOGGER.debug("Register LifeCycle 'START' {}::{} (priority={})", classType.getName(), method.getName(), priority);
 
         if (this.isRunning) {
-            this.invokeMethodStart(new StartHandler(classInstance, method, priority));
+            this.invokeMethodStart(new StartHandler(classType, method, priority));
         } else {
-            this.startHandlerList.add(new StartHandler(classInstance, method, priority));
+            this.startHandlerList.add(new StartHandler(classType, method, priority));
         }
     }
 
     /**
      * Register a "STOP" method.
      *
-     * @param classInstance                The class instance where is located the method to invoke
+     * @param classType                    The class type where is located the method to invoke
      * @param method                       The method to invoke
      * @param priority                     The priority
      * @param gracefulStopTimeoutConfigKey The graceful stop timeout configuration key
      */
-    public void registerStop(final Object classInstance, final Method method, final int priority, final String gracefulStopTimeoutConfigKey) {
+    public void registerStop(final Class<?> classType, final Method method, final int priority, final String gracefulStopTimeoutConfigKey) {
 
-        LOGGER.debug("Register LifeCycle 'STOP' {}::{} (priority={})", classInstance.getClass().getName(), method.getName(), priority);
-        this.stopHandlerList.add(new StopHandler(classInstance, method, priority, gracefulStopTimeoutConfigKey));
+        LOGGER.debug("Register LifeCycle 'STOP' {}::{} (priority={})", classType.getName(), method.getName(), priority);
+        this.stopHandlerList.add(new StopHandler(classType, method, priority, gracefulStopTimeoutConfigKey));
     }
 
     /**
@@ -107,14 +122,16 @@ public final class LifeCycleManager {
      */
     private void invokeMethodStart(final StartHandler startHandler) {
 
+        final Object classInstance = this.injector.getInstance(startHandler.classType);
+
         try {
             final long start = System.currentTimeMillis();
-            startHandler.method.invoke(startHandler.classInstance);
+            startHandler.method.invoke(classInstance);
             final long end = System.currentTimeMillis();
 
-            LOGGER.info("{}::{} executed in {}ms", startHandler.classInstance.getClass().getName(), startHandler.method.getName(), end - start);
+            LOGGER.info("{}::{} executed in {}ms", classInstance.getClass().getName(), startHandler.method.getName(), end - start);
         } catch (final Throwable t) {
-            throw new LifeCycleException.InvocationFailure(startHandler.classInstance.getClass().getName(), startHandler.method.getName(), t);
+            throw new LifeCycleException.InvocationFailure(classInstance.getClass().getName(), startHandler.method.getName(), t);
         }
     }
 
@@ -125,12 +142,14 @@ public final class LifeCycleManager {
      */
     private void invokeMethodStop(final StopHandler stopHandler) {
 
+        final Object classInstance = this.injector.getInstance(stopHandler.classType);
+
         try {
             final Thread thread = new Thread(() -> {
                 try {
-                    stopHandler.method.invoke(stopHandler.classInstance);
+                    stopHandler.method.invoke(classInstance);
                 } catch (final Throwable t) {
-                    LOGGER.error("Can't invoke {}::{}", stopHandler.classInstance.getClass().getName(), stopHandler.method.getName(), t);
+                    LOGGER.error("Can't invoke {}::{}", classInstance.getClass().getName(), stopHandler.method.getName(), t);
                 }
             });
 
@@ -147,20 +166,20 @@ public final class LifeCycleManager {
             thread.join(gracefulStopTimeout);
             final long end = System.currentTimeMillis();
 
-            LOGGER.info("{}::{} executed in {}ms", stopHandler.classInstance.getClass().getName(), stopHandler.method.getName(), end - start);
+            LOGGER.info("{}::{} executed in {}ms", classInstance.getClass().getName(), stopHandler.method.getName(), end - start);
         } catch (final InterruptedException e) {
-            LOGGER.info("{}::{} INTERRUPTED!", stopHandler.classInstance.getClass().getName(), stopHandler.method.getName());
+            LOGGER.info("{}::{} INTERRUPTED!", classInstance.getClass().getName(), stopHandler.method.getName());
         }
     }
 
     /**
      * "START" method handler.
      *
-     * @param classInstance The class instance where is located the method to invoke
-     * @param method        The method to invoke
-     * @param priority      The priority
+     * @param classType The class type
+     * @param method    The method to invoke
+     * @param priority  The priority
      */
-    private record StartHandler(Object classInstance,
+    private record StartHandler(Class<?> classType,
                                 Method method,
                                 int priority) {
     }
@@ -168,12 +187,12 @@ public final class LifeCycleManager {
     /**
      * "STOP" method handler.
      *
-     * @param classInstance                The class instance where is located the method to invoke
+     * @param classType                    The class type
      * @param method                       The method to invoke
      * @param priority                     The priority
      * @param gracefulStopTimeoutConfigKey The graceful stop timeout configuration key
      */
-    private record StopHandler(Object classInstance,
+    private record StopHandler(Class<?> classType,
                                Method method,
                                int priority,
                                String gracefulStopTimeoutConfigKey) {
