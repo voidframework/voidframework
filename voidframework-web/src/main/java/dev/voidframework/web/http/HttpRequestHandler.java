@@ -135,13 +135,13 @@ public final class HttpRequestHandler {
                     return result;
 
                 } catch (final Throwable throwable) {
-                    //final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+                    final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
 
                     final Result result;
-                    if (throwable instanceof HttpException.NotFound) {
-                        result = errorHandler.onNotFound(ctx, (HttpException.NotFound) throwable);
-                    } else if (throwable instanceof HttpException.BadRequest) {
-                        result = errorHandler.onBadRequest(ctx, (HttpException.BadRequest) throwable);
+                    if (cause instanceof HttpException.NotFound) {
+                        result = errorHandler.onNotFound(ctx, (HttpException.NotFound) cause);
+                    } else if (cause instanceof HttpException.BadRequest) {
+                        result = errorHandler.onBadRequest(ctx, (HttpException.BadRequest) cause);
                     } else {
                         result = errorHandler.onServerError(ctx, throwable);
                     }
