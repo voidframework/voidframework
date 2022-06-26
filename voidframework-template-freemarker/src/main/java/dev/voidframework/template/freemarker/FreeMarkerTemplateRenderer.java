@@ -1,11 +1,15 @@
 package dev.voidframework.template.freemarker;
 
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 import com.google.inject.Singleton;
+import dev.voidframework.core.helper.ClassResolver;
 import dev.voidframework.i18n.Internationalization;
 import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.template.freemarker.method.InternationalizationTemplateMethodModel;
+import dev.voidframework.template.freemarker.method.ReverseRouteTemplateMethodModel;
+import dev.voidframework.web.routing.Router;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateMethodModelEx;
@@ -24,19 +28,24 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
 
     private final Configuration freeMarkerConfiguration;
     private final Internationalization internationalization;
+    private TemplateMethodModelEx reverseRouteTemplateMethodModel;
 
     /**
      * Build a new instance.
      *
-     * @param freeMarkerConfiguration The FreeMarker configuration
-     * @param internationalization    The internationalization instance
+     * @param injector The injector instance
      */
     @Inject
-    public FreeMarkerTemplateRenderer(final Configuration freeMarkerConfiguration,
-                                      final Internationalization internationalization) {
+    public FreeMarkerTemplateRenderer(final Injector injector) {
 
-        this.freeMarkerConfiguration = freeMarkerConfiguration;
-        this.internationalization = internationalization;
+        this.freeMarkerConfiguration = injector.getInstance(Configuration.class);
+        this.internationalization = injector.getInstance(Internationalization.class);
+
+        try {
+            this.reverseRouteTemplateMethodModel = new ReverseRouteTemplateMethodModel(injector.getInstance(Router.class));
+        } catch (final Exception ignore) {
+            this.reverseRouteTemplateMethodModel = null;
+        }
     }
 
     @Override
@@ -59,6 +68,7 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
         dataModel.put("i18n", internationalizationMethodModel);
         dataModel.put("_", internationalizationMethodModel);
         dataModel.put("lang", locale.toLanguageTag());
+        dataModel.put("urlfor", reverseRouteTemplateMethodModel);
 
         try {
             final Writer writer = new StringWriter();

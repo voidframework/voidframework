@@ -19,8 +19,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
@@ -32,9 +34,11 @@ import java.util.regex.Pattern;
 public class DefaultRouter implements Router {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Router.class);
+    private static final Pattern PATTERN_EXTRACT_REGEXP_GROUP = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z\\d]*)>.*\\)");
     private static final Pattern PATTERN_EXTRACT_REGEXP_GROUP_NAME = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z\\d]*)>");
 
     private final Map<HttpMethod, List<Route>> routeListPerHttpMethodMap;
+    private final Map<String, List<Route>> routeListPerNameMap;
 
     /**
      * Build a new instance.
@@ -42,6 +46,7 @@ public class DefaultRouter implements Router {
     public DefaultRouter() {
 
         this.routeListPerHttpMethodMap = new HashMap<>();
+        this.routeListPerNameMap = new HashMap<>();
     }
 
     private static Set<String> getNamedGroup(final String regex) {
@@ -61,6 +66,15 @@ public class DefaultRouter implements Router {
                          final String routeUrl,
                          final Class<?> controllerClassType,
                          final Method method) {
+        this.addRoute(httpMethod, routeUrl, controllerClassType, method, StringUtils.EMPTY);
+    }
+
+    @Override
+    public void addRoute(final HttpMethod httpMethod,
+                         final String routeUrl,
+                         final Class<?> controllerClassType,
+                         final Method method,
+                         final String name) {
 
         this.checkAddRouteArguments(httpMethod, routeUrl, controllerClassType, method);
 
@@ -82,6 +96,11 @@ public class DefaultRouter implements Router {
 
         final Route route = new Route(httpMethod, Pattern.compile(routeUrl), filterClassList, controllerClass, method);
         this.routeListPerHttpMethodMap.computeIfAbsent(httpMethod, (key) -> new ArrayList<>()).add(route);
+
+        final String nameKey = StringUtils.isBlank(name)
+            ? (controllerClass.getName() + "." + method.getName()).replace("$", ".")
+            : name;
+        this.routeListPerNameMap.computeIfAbsent(nameKey, (key) -> new ArrayList<>()).add(route);
     }
 
     @Override
@@ -112,6 +131,43 @@ public class DefaultRouter implements Router {
             }
         }
 
+        return null;
+    }
+
+    @Override
+    public String reverseRoute(final String name, final List<Object> parameterList) {
+
+        if (StringUtils.isBlank(name)) {
+            return null;
+        }
+
+        // Retrieve route from given name
+        final List<Route> routeList = this.routeListPerNameMap.get(name);
+        if (routeList == null) {
+            return null;
+        }
+
+        for (final Route route : routeList) {
+            // Build URL for the route from given parameterList
+            final Matcher matcher = PATTERN_EXTRACT_REGEXP_GROUP.matcher(route.routePattern().toString());
+            final Iterator<Object> iterator = parameterList.iterator();
+            String url = StringUtils.EMPTY;
+            while (matcher.find()) {
+                url = matcher.replaceAll((matchResult) ->
+                    iterator.hasNext() ? Objects.toString(iterator.next()) : StringUtils.EMPTY);
+            }
+
+            if (url.isEmpty()) {
+                url += route.routePattern().toString();
+            }
+
+            // Test newly build URL against the route to validate arguments.
+            if (route.routePattern().matcher(url).matches()) {
+                return url;
+            }
+        }
+
+        // Impossible to build a route with the arguments provided
         return null;
     }
 
@@ -147,13 +203,13 @@ public class DefaultRouter implements Router {
                                         final Method method) {
 
         if (httpMethod == null) {
-            throw new RoutingException.BadRoutingArgument("httpMethod", httpMethod);
+            throw new RoutingException.BadRoutingArgument("httpMethod", null);
         } else if (routeUrl == null || (routeUrl.length() != routeUrl.trim().length())) {
             throw new RoutingException.BadRoutingArgument("routeUrl", routeUrl);
         } else if (controllerClassType == null) {
-            throw new RoutingException.BadRoutingArgument("controllerClassType", controllerClassType);
+            throw new RoutingException.BadRoutingArgument("controllerClassType", null);
         } else if (method == null) {
-            throw new RoutingException.BadRoutingArgument("method", method);
+            throw new RoutingException.BadRoutingArgument("method", null);
         }
     }
 }

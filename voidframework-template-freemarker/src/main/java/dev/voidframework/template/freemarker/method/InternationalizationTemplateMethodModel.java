@@ -32,17 +32,17 @@ public class InternationalizationTemplateMethodModel implements TemplateMethodMo
 
     @Override
     @SuppressWarnings("unchecked")
-    public TemplateModel exec(final List args) throws TemplateModelException {
+    public TemplateModel exec(final List argumentList) throws TemplateModelException {
 
-        if (args.size() < 1) {
+        if (argumentList.size() < 1) {
             throw new TemplateModelException("Wrong arguments");
         }
 
-        final String key = ((SimpleScalar) args.get(0)).getAsString();
+        final String key = ((SimpleScalar) argumentList.get(0)).getAsString();
         final String msg = this.internationalization.getMessage(
             locale,
             key,
-            args.stream().skip(1).map(SimpleScalar.class::cast).toArray(String[]::new));
+            argumentList.stream().skip(1).map(SimpleScalar.class::cast).toArray(String[]::new));
 
         return new SimpleScalar(msg);
     }

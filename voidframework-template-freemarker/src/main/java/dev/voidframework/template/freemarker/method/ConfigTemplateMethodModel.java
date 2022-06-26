@@ -30,13 +30,13 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
     }
 
     @Override
-    public TemplateModel exec(final List args) throws TemplateModelException {
+    public TemplateModel exec(final List argumentList) throws TemplateModelException {
 
-        if (args.size() != 1) {
+        if (argumentList.size() != 1) {
             throw new TemplateModelException("Wrong arguments");
         }
 
-        final Object value = this.configuration.getAnyRef(((SimpleScalar) args.get(0)).getAsString());
+        final Object value = this.configuration.getAnyRef(((SimpleScalar) argumentList.get(0)).getAsString());
         if (value instanceof String) {
             return new SimpleScalar((String) value);
         } else if (value instanceof Number) {

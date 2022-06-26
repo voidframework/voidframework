@@ -1,6 +1,7 @@
 package dev.voidframework.web.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.typesafe.config.Config;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.template.exception.TemplateException;
@@ -474,9 +475,10 @@ public final class Result {
          * Process the result.
          *
          * @param context          The current context
+         * @param configuration    The application configuration
          * @param templateRenderer The template rendered if available
          */
-        void process(final Context context, final TemplateRenderer templateRenderer);
+        void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer);
 
         /**
          * Get the result input stream.
@@ -492,7 +494,7 @@ public final class Result {
     private static class NoContentResultProcessor implements ResultProcessor {
 
         @Override
-        public void process(final Context context, final TemplateRenderer templateRenderer) {
+        public void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer) {
         }
 
         @Override
@@ -520,7 +522,7 @@ public final class Result {
         }
 
         @Override
-        public void process(final Context context, final TemplateRenderer templateRenderer) {
+        public void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer) {
         }
 
         @Override
@@ -562,7 +564,7 @@ public final class Result {
         }
 
         @Override
-        public void process(final Context context, final TemplateRenderer templateRenderer) {
+        public void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer) {
 
             if (templateRenderer == null) {
                 throw new TemplateException.NoTemplateEngine();
@@ -570,6 +572,8 @@ public final class Result {
 
             this.dataModel.put("flash", context.getFlashMessages());
             this.dataModel.put("session", context.getSession());
+            this.dataModel.put("isdevmode", configuration.getBoolean("voidframework.core.runInDevMode"));
+            this.dataModel.put("languages", configuration.getStringList("voidframework.web.language.availableLanguages"));
 
             final String renderedTemplate = templateRenderer.render(this.templateName, context.getLocale(), this.dataModel);
             this.inputStream = new ByteArrayInputStream(renderedTemplate.getBytes(StandardCharsets.UTF_8));

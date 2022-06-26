@@ -33,6 +33,11 @@
             <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-template</artifactId>
         </dependency>
+        <dependency>
+            <groupId>dev.voidframework</groupId>
+            <artifactId>voidframework-web</artifactId>
+            <optional>true</optional>
+        </dependency>
 
         <!-- Dependencies -->
         <dependency>

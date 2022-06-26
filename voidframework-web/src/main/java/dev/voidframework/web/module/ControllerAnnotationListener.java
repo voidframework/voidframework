@@ -38,7 +38,7 @@ public class ControllerAnnotationListener implements TypeListener {
                     final RequestRoute requestRoute = method.getAnnotation(RequestRoute.class);
                     final String completeRoute = this.appendPrefixToRoute(webController.prefixRoute(), requestRoute.route());
 
-                    router.addRoute(requestRoute.method(), completeRoute, classType, method);
+                    router.addRoute(requestRoute.method(), completeRoute, classType, method, requestRoute.name());
                 }
             }
         }

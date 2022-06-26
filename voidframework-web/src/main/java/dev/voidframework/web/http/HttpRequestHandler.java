@@ -1,6 +1,7 @@
 package dev.voidframework.web.http;
 
 import com.google.inject.Injector;
+import com.typesafe.config.Config;
 import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.web.exception.HttpException;
@@ -40,6 +41,7 @@ public final class HttpRequestHandler {
     private final Injector injector;
     private final Router router;
     private final ErrorHandler errorHandler;
+    private final Config configuration;
     private TemplateRenderer templateRenderer;
 
     /**
@@ -58,6 +60,7 @@ public final class HttpRequestHandler {
         this.globalFilterClassTypes = globalFilterClassTypes;
         this.conversion = this.injector.getInstance(Conversion.class);
         this.router = this.injector.getInstance(Router.class);
+        this.configuration = this.injector.getInstance(Config.class);
         try {
             this.templateRenderer = this.injector.getInstance(TemplateRenderer.class);
         } catch (final Exception ignore) {
@@ -101,7 +104,7 @@ public final class HttpRequestHandler {
             // No route found, only the Filter showing the "404" error page is required
             final Filter callNotFoundFilter = (ctx, filterChain) -> {
                 final Result result = errorHandler.onNotFound(ctx, null);
-                result.getResultProcessor().process(ctx, templateRenderer);
+                result.getResultProcessor().process(ctx, configuration, templateRenderer);
 
                 return result;
             };
@@ -128,7 +131,7 @@ public final class HttpRequestHandler {
                         result = (Result) resolvedRoute.method().invoke(controllerInstance, methodArgumentValueArray);
                     }
 
-                    result.getResultProcessor().process(ctx, templateRenderer);
+                    result.getResultProcessor().process(ctx, configuration, templateRenderer);
                     return result;
 
                 } catch (final Throwable throwable) {
@@ -143,7 +146,7 @@ public final class HttpRequestHandler {
                         result = errorHandler.onServerError(ctx, throwable);
                     }
 
-                    result.getResultProcessor().process(ctx, templateRenderer);
+                    result.getResultProcessor().process(ctx, configuration, templateRenderer);
 
                     return result;
                 }
@@ -159,7 +162,7 @@ public final class HttpRequestHandler {
         } catch (final Throwable throwable) {
             //final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
             final Result result = errorHandler.onServerError(context, throwable);
-            result.getResultProcessor().process(context, templateRenderer);
+            result.getResultProcessor().process(context, configuration, templateRenderer);
             return result;
         }
     }

@@ -54,7 +54,7 @@ public final class TemplateResult {
     public static TemplateResult of(final String templateName,
                                     final Map<String, Object> dataModel) {
 
-        return new TemplateResult(templateName, dataModel != null ? dataModel : new HashMap<>());
+        return new TemplateResult(templateName, dataModel != null ? new HashMap<>(dataModel) : new HashMap<>());
     }
 
     /**

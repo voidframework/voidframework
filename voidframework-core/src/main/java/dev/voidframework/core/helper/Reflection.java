@@ -75,6 +75,24 @@ public final class Reflection {
     }
 
     /**
+     * Resolves a methode from it name.
+     *
+     * @param methodName The method name
+     * @param classType  The class where are located this method
+     * @return The method
+     */
+    public static Method resolveMethod(final String methodName, final Class<?> classType) {
+
+        for (final Method method : classType.getMethods()) {
+            if (method.getName().equals(methodName)) {
+                return method;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Calls a method.
      *
      * @param classInstance     The instance of the class in which the method is located

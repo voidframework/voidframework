@@ -31,10 +31,11 @@ public @interface RequestRoute {
      */
     String route() default "/";
 
-    ///**
-    // * Returns the route alias name.
-    // *
-    // * @return The route alias name
-    // */
-    //String alias() default "";
+    /**
+     * Returns the route name.
+     * This name is used during the reverse URL process.
+     *
+     * @return The route name
+     */
+    String name() default "";
 }

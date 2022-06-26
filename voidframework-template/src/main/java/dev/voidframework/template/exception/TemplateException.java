@@ -68,6 +68,7 @@ public class TemplateException extends RuntimeException {
          * @return The template name
          */
         public String getTemplateName() {
+
             return this.templateName;
         }
 
@@ -77,6 +78,7 @@ public class TemplateException extends RuntimeException {
          * @return The line number
          */
         public int getLineNumber() {
+
             return this.lineNumber;
         }
     }
