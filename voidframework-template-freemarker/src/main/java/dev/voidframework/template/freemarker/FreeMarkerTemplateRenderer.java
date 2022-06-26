@@ -3,13 +3,13 @@ package dev.voidframework.template.freemarker;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
-import dev.voidframework.core.helper.ClassResolver;
 import dev.voidframework.i18n.Internationalization;
 import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.template.freemarker.method.InternationalizationTemplateMethodModel;
 import dev.voidframework.template.freemarker.method.ReverseRouteTemplateMethodModel;
 import dev.voidframework.web.routing.Router;
+import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateMethodModelEx;
@@ -76,6 +76,8 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
             template.process(dataModel, writer);
             return writer.toString();
         } catch (final freemarker.template.TemplateException exception) {
+            throw new TemplateException.RenderingFailure(templateName, exception.getEndLineNumber() - 1, exception);
+        } catch (final ParseException exception) {
             throw new TemplateException.RenderingFailure(templateName, exception.getEndLineNumber() - 1, exception);
         } catch (final Exception exception) {
             throw new TemplateException.RenderingFailure(templateName, -1, exception);

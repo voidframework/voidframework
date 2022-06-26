@@ -572,7 +572,6 @@ public final class Result {
 
             this.dataModel.put("flash", context.getFlashMessages());
             this.dataModel.put("session", context.getSession());
-            this.dataModel.put("isdevmode", configuration.getBoolean("voidframework.core.runInDevMode"));
             this.dataModel.put("languages", configuration.getStringList("voidframework.web.language.availableLanguages"));
 
             final String renderedTemplate = templateRenderer.render(this.templateName, context.getLocale(), this.dataModel);

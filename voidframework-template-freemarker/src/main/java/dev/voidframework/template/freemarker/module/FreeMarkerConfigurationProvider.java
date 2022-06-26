@@ -14,6 +14,7 @@ import freemarker.cache.TemplateLoader;
 import freemarker.core.HTMLOutputFormat;
 import freemarker.template.Configuration;
 import freemarker.template.SimpleScalar;
+import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateExceptionHandler;
 
 import java.io.IOException;
@@ -87,6 +88,9 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
 
         this.freeMarkerConfiguration.setSharedVariable("voidFrameworkVersion", new SimpleScalar(VoidFrameworkVersion.getVersion()));
         this.freeMarkerConfiguration.setSharedVariable("config", new ConfigTemplateMethodModel(this.configuration));
+        this.freeMarkerConfiguration.setSharedVariable("isDevMode", this.configuration.getBoolean("voidframework.core.runInDevMode")
+                ? TemplateBooleanModel.TRUE
+                : TemplateBooleanModel.FALSE);
 
         return this.freeMarkerConfiguration;
     }
