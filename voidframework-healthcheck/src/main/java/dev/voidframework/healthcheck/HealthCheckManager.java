@@ -19,7 +19,7 @@ public final class HealthCheckManager {
     private static final Logger LOGGER = LoggerFactory.getLogger(HealthCheckManager.class);
 
     private final Config configuration;
-    private final List<dev.voidframework.healthcheck.HealthChecker> healthCheckerList;
+    private final List<HealthChecker> healthCheckerList;
 
     /**
      * Build a new instance.
@@ -37,7 +37,7 @@ public final class HealthCheckManager {
      *
      * @param healthChecker The health checker to register
      */
-    public void registerHealthCheck(final dev.voidframework.healthcheck.HealthChecker healthChecker) {
+    public void registerHealthCheck(final HealthChecker healthChecker) {
 
         LOGGER.debug("Register HealthCheck {}", healthChecker.getName());
         this.healthCheckerList.add(healthChecker);

@@ -17,5 +17,5 @@ public interface HealthChecker {
      *
      * @return The component's health status
      */
-    dev.voidframework.healthcheck.Health checkHealth();
+    Health checkHealth();
 }
