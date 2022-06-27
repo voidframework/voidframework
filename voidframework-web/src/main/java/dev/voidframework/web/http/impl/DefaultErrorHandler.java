@@ -8,6 +8,7 @@ import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.ErrorHandler;
 import dev.voidframework.web.http.Result;
+import dev.voidframework.web.http.errorpage.DevMode400BadRequest;
 import dev.voidframework.web.http.errorpage.DevMode404NotFound;
 import dev.voidframework.web.http.errorpage.DevMode500InternalServerError;
 import dev.voidframework.web.routing.Router;
@@ -20,9 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -53,6 +52,18 @@ public class DefaultErrorHandler implements ErrorHandler {
     @Override
     public Result onBadRequest(final Context context, final HttpException.BadRequest badRequestException) {
 
+        if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
+            final Throwable cause = (badRequestException == null || badRequestException.getCause() == null)
+                ? null
+                : badRequestException.getCause();
+
+            final String errorMessage = cause == null
+                ? null
+                : cause.getMessage();
+
+            return Result.badRequest(DevMode400BadRequest.render(errorMessage));
+        }
+
         return Result.badRequest("400 Bad Request");
     }
 
@@ -60,11 +71,6 @@ public class DefaultErrorHandler implements ErrorHandler {
     public Result onNotFound(final Context context, final HttpException.NotFound notFoundException) {
 
         if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
-            final Map<String, Object> dataModel = new HashMap<>();
-            dataModel.put("httpMethod", context.getRequest().getHttpMethod());
-            dataModel.put("requestedUri", context.getRequest().getRequestURI());
-            dataModel.put("availableRoutes", router.getRoutesAsList());
-
             return Result.notFound(
                 DevMode404NotFound.render(
                     context.getRequest().getHttpMethod(),

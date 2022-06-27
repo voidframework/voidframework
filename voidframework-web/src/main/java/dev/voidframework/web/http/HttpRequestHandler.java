@@ -36,11 +36,12 @@ public final class HttpRequestHandler {
         put(short.class, new PrimitiveAlternative(Short.class, 0));
     }};
 
-    final List<Class<? extends Filter>> globalFilterClassTypes;
-    private final Conversion conversion;
     private final Injector injector;
-    private final Router router;
+    private final List<Class<? extends Filter>> globalFilterClassTypes;
+
     private final ErrorHandler errorHandler;
+    private final Conversion conversion;
+    private final Router router;
     private final Config configuration;
     private TemplateRenderer templateRenderer;
 
