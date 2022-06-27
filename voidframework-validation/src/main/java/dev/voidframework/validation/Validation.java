@@ -9,6 +9,7 @@ import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -71,7 +72,8 @@ public final class Validation {
         // Retrieves the correct validator according to the locale and validates the object provided
         final Validator validator = this.validatorPerLocaleMap.computeIfAbsent(locale, this::createValidator);
         final Set<ConstraintViolation<OBJ_TO_VALIDATE_TYPE>> constraintViolationSet = validator.validate(objectToValidate);
-        for (final ConstraintViolation<OBJ_TO_VALIDATE_TYPE> constraintViolation : constraintViolationSet) {
+
+        constraintViolationSet.stream().sorted(Comparator.comparing(ConstraintViolation::getMessageTemplate)).forEach(constraintViolation -> {
             final String fieldKey = constraintViolation.getPropertyPath().toString();
             final List<ValidationError> validationErrorList = validationErrorPerKeyMap.computeIfAbsent(
                 fieldKey,
@@ -82,7 +84,7 @@ public final class Validation {
                     constraintViolation.getMessage(),
                     constraintViolation.getMessageTemplate().replaceAll("[{}]", ""),
                     createMessageArgumentArray(constraintViolation)));
-        }
+        });
 
         // Result
         return new Validated<>(objectToValidate, validationErrorPerKeyMap);

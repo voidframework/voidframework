@@ -13,9 +13,13 @@ import freemarker.cache.MultiTemplateLoader;
 import freemarker.cache.TemplateLoader;
 import freemarker.core.HTMLOutputFormat;
 import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapperBuilder;
+import freemarker.template.SimpleNumber;
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateBooleanModel;
 import freemarker.template.TemplateExceptionHandler;
+import freemarker.template.TemplateMethodModelEx;
+import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -53,6 +57,9 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
             return this.freeMarkerConfiguration;
         }
 
+        final DefaultObjectWrapperBuilder defaultObjectWrapperBuilder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_31);
+        defaultObjectWrapperBuilder.setExposeFields(true);
+
         this.freeMarkerConfiguration = new Configuration(Configuration.VERSION_2_3_31);
         this.freeMarkerConfiguration.setDefaultEncoding("UTF-8");
         this.freeMarkerConfiguration.setFallbackOnNullLoopVariable(false);
@@ -61,6 +68,7 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
         this.freeMarkerConfiguration.setOutputFormat(HTMLOutputFormat.INSTANCE);
         this.freeMarkerConfiguration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         this.freeMarkerConfiguration.setWrapUncheckedExceptions(true);
+        this.freeMarkerConfiguration.setObjectWrapper(defaultObjectWrapperBuilder.build());
 
         if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
             try {
@@ -89,8 +97,10 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
         this.freeMarkerConfiguration.setSharedVariable("voidFrameworkVersion", new SimpleScalar(VoidFrameworkVersion.getVersion()));
         this.freeMarkerConfiguration.setSharedVariable("config", new ConfigTemplateMethodModel(this.configuration));
         this.freeMarkerConfiguration.setSharedVariable("isDevMode", this.configuration.getBoolean("voidframework.core.runInDevMode")
-                ? TemplateBooleanModel.TRUE
-                : TemplateBooleanModel.FALSE);
+            ? TemplateBooleanModel.TRUE
+            : TemplateBooleanModel.FALSE);
+        this.freeMarkerConfiguration.setSharedVariable("displaySize", (TemplateMethodModelEx) args ->
+            new SimpleScalar(FileUtils.byteCountToDisplaySize(((SimpleNumber) args.get(0)).getAsNumber().longValue())));
 
         return this.freeMarkerConfiguration;
     }

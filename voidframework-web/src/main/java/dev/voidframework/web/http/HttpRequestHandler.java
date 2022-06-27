@@ -195,7 +195,8 @@ public final class HttpRequestHandler {
                 if (context.getRequest().getBodyContent().contentType() != null) {
                     methodArgumentValueArray[idx] = switch (context.getRequest().getBodyContent().contentType()) {
                         case HttpContentType.APPLICATION_JSON -> context.getRequest().getBodyContent().asJson(parameter.getType());
-                        case HttpContentType.MULTIPART_FORM_DATA -> context.getRequest().getBodyContent().asFormData(parameter.getType());
+                        case HttpContentType.APPLICATION_X_FORM_URLENCODED, HttpContentType.MULTIPART_FORM_DATA ->
+                            context.getRequest().getBodyContent().asFormData(parameter.getType());
                         case HttpContentType.TEXT_YAML -> context.getRequest().getBodyContent().asYaml(parameter.getType());
                         default -> throw new HttpException.BadRequest("Unhandled body content");
                     };

@@ -30,7 +30,7 @@ public final class DevMode400BadRequest {
             padding: 20px 20px 20px 20px;
             display: block;
             background-color: #e3dded;
-            color: #5d3604;
+            color: #1b045d;
             font-size: 1.2rem;
             max-height: 250px;
         }

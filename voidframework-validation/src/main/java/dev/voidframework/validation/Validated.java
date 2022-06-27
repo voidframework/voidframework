@@ -29,6 +29,27 @@ public class Validated<VALIDATED_OBJ_TYPE> {
     }
 
     /**
+     * Creates an empty validated object.
+     *
+     * @param <VALIDATED_OBJ_TYPE> Type of the validated object
+     * @return Newly created instance
+     */
+    public static <VALIDATED_OBJ_TYPE> Validated<VALIDATED_OBJ_TYPE> emptyOf() {
+        return new Validated<>(null, new HashMap<>());
+    }
+
+    /**
+     * Creates an empty validated object.
+     *
+     * @param instance             The validated object instance
+     * @param <VALIDATED_OBJ_TYPE> Type of the validated object
+     * @return Newly created instance
+     */
+    public static <VALIDATED_OBJ_TYPE> Validated<VALIDATED_OBJ_TYPE> emptyOf(final VALIDATED_OBJ_TYPE instance) {
+        return new Validated<>(instance, new HashMap<>());
+    }
+
+    /**
      * Indicates if validated object has errors.
      *
      * @return {@code true} if validated object has one error or more, otherwise {@code false}

@@ -54,7 +54,7 @@ public class DefaultErrorHandler implements ErrorHandler {
 
         if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
             final Throwable cause = (badRequestException == null || badRequestException.getCause() == null)
-                ? null
+                ? badRequestException
                 : badRequestException.getCause();
 
             final String errorMessage = cause == null
@@ -87,7 +87,7 @@ public class DefaultErrorHandler implements ErrorHandler {
         LOGGER.error("Something goes wrong", throwable);
 
         if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
-            final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+            Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
 
             final String subHeaderError;
             final int lineNumberFromZero;
@@ -100,6 +100,10 @@ public class DefaultErrorHandler implements ErrorHandler {
                 lineNumberFromZero = renderingFailure.getLineNumber();
                 subHeaderError = javaFilepathOptional.map(Path::toString).orElse(renderingFailure.getTemplateName()) + ":" + lineNumberFromZero;
                 fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero)).orElseGet(ArrayList::new);
+
+                if (cause.getCause() != null) {
+                    cause = cause.getCause();
+                }
             } else {
                 // Generic error
                 final StackTraceElement stackTraceElement = cause.getStackTrace()[0];

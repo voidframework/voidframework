@@ -51,8 +51,16 @@ public interface Router {
      * Reverses a route to obtains a URL.
      *
      * @param name          The route name
+     * @return A string containing a URL
+     */
+    String reverseRoute(final String name);
+
+    /**
+     * Reverses a route to obtains a URL.
+     *
+     * @param name          The route name
      * @param parameterList The parameters to use
-     * @return A URL
+     * @return A string containing a URL
      */
     String reverseRoute(final String name, final List<Object> parameterList);
 

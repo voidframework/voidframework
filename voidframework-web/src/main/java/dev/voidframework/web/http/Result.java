@@ -76,6 +76,17 @@ public final class Result {
     }
 
     /**
+     * Bad request (400).
+     *
+     * @param templateResult The template to render
+     * @return A result
+     */
+    public static Result badRequest(final TemplateResult templateResult) {
+
+        return new Result(HttpReturnCode.BAD_REQUEST, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+    }
+
+    /**
      * Created (201).
      *
      * @param content The content
@@ -110,6 +121,17 @@ public final class Result {
     }
 
     /**
+     * Created (201).
+     *
+     * @param templateResult The template to render
+     * @return A result
+     */
+    public static Result created(final TemplateResult templateResult) {
+
+        return new Result(HttpReturnCode.CREATED, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+    }
+
+    /**
      * Forbidden (403).
      *
      * @param content The content
@@ -141,6 +163,17 @@ public final class Result {
     public static Result forbidden(final JsonNode content) {
 
         return new Result(HttpReturnCode.FORBIDDEN, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+    }
+
+    /**
+     * Forbidden (403).
+     *
+     * @param templateResult The template to render
+     * @return A result
+     */
+    public static Result forbidden(final TemplateResult templateResult) {
+
+        return new Result(HttpReturnCode.FORBIDDEN, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -275,6 +308,17 @@ public final class Result {
     public static Result notImplemented(final JsonNode content) {
 
         return new Result(HttpReturnCode.NOT_IMPLEMENTED, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+    }
+
+    /**
+     * Not Implemented (501).
+     *
+     * @param templateResult The template to render
+     * @return A result
+     */
+    public static Result notImplemented(final TemplateResult templateResult) {
+
+        return new Result(HttpReturnCode.NOT_IMPLEMENTED, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
     }
 
     /**

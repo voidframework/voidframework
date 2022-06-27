@@ -22,7 +22,7 @@ public @interface RequestRoute {
      *
      * @return The HTTP method
      */
-    HttpMethod method();
+    HttpMethod method() default HttpMethod.GET;
 
     /**
      * Returns the route URL (ie: /test/helloworld).

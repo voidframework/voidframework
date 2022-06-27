@@ -135,6 +135,11 @@ public class DefaultRouter implements Router {
     }
 
     @Override
+    public String reverseRoute(final String name) {
+        return reverseRoute(name, Collections.emptyList());
+    }
+
+    @Override
     public String reverseRoute(final String name, final List<Object> parameterList) {
 
         if (StringUtils.isBlank(name)) {

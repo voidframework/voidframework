@@ -1,11 +1,13 @@
 package dev.voidframework.template.freemarker.method;
 
 import dev.voidframework.i18n.Internationalization;
+import freemarker.template.SimpleNumber;
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -31,18 +33,28 @@ public class InternationalizationTemplateMethodModel implements TemplateMethodMo
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public TemplateModel exec(final List argumentList) throws TemplateModelException {
 
         if (argumentList.size() < 1) {
             throw new TemplateModelException("Wrong arguments");
         }
 
-        final String key = ((SimpleScalar) argumentList.get(0)).getAsString();
+        final List<Object> parsedArgumentList = new ArrayList<>();
+        for (final Object argument : argumentList) {
+            if (argument instanceof SimpleScalar) {
+                parsedArgumentList.add(((SimpleScalar) argument).getAsString());
+            } else if (argument instanceof SimpleNumber) {
+                parsedArgumentList.add(((SimpleNumber) argument).getAsNumber());
+            } else {
+                parsedArgumentList.add(argument);
+            }
+        }
+
+        final String key = parsedArgumentList.get(0).toString();
         final String msg = this.internationalization.getMessage(
             locale,
             key,
-            argumentList.stream().skip(1).map(SimpleScalar.class::cast).toArray(String[]::new));
+            parsedArgumentList.stream().skip(1).toArray(Object[]::new));
 
         return new SimpleScalar(msg);
     }

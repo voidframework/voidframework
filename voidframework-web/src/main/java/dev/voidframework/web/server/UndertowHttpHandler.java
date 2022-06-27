@@ -18,6 +18,7 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.CookieImpl;
 import io.undertow.server.handlers.form.FormData;
 import io.undertow.server.handlers.form.FormDataParser;
+import io.undertow.server.handlers.form.FormEncodedDataDefinition;
 import io.undertow.server.handlers.form.FormParserFactory;
 import io.undertow.server.handlers.form.MultiPartParserDefinition;
 import io.undertow.util.Headers;
@@ -45,6 +46,7 @@ public class UndertowHttpHandler implements HttpHandler {
     private final Config configuration;
     private final HttpRequestHandler httpRequestHandler;
     private final SessionSigner sessionSigner;
+    private final FormEncodedDataDefinition formEncodedDataDefinition;
     private final MultiPartParserDefinition multiPartParserDefinition;
 
     /**
@@ -61,6 +63,9 @@ public class UndertowHttpHandler implements HttpHandler {
         this.configuration = configuration;
         this.httpRequestHandler = httpRequestHandler;
         this.sessionSigner = sessionSigner;
+
+        this.formEncodedDataDefinition = new FormEncodedDataDefinition();
+        this.formEncodedDataDefinition.setDefaultEncoding("UTF-8");
 
         this.multiPartParserDefinition = new MultiPartParserDefinition()
             //.setTempFileLocation(new File(System.getProperty("java.io.tmpdir")).toPath())
@@ -227,7 +232,7 @@ public class UndertowHttpHandler implements HttpHandler {
 
             // Try to parse content
             try (final FormDataParser formDataParser = FormParserFactory.builder(false)
-                .addParser(this.multiPartParserDefinition)
+                .addParsers(this.formEncodedDataDefinition, this.multiPartParserDefinition)
                 .build()
                 .createParser(httpServerExchange)) {
 
