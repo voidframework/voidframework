@@ -117,7 +117,9 @@ public class EntityManagerProvider implements Provider<EntityManager> {
         if (this.entityManagerFactory == null) {
             this.entityManagerFactory = new HibernatePersistenceProvider().createContainerEntityManagerFactory(
                 new PersistenceUnitInfoIml(dataSourceName),
-                Map.of(AvailableSettings.DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName)));
+                Map.of(
+                    AvailableSettings.DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName),
+                    AvailableSettings.HBM2DDL_AUTO, "none"));
         }
     }
 
