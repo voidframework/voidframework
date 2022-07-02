@@ -7,9 +7,10 @@
     <groupId>dev.voidframework</groupId>
     <artifactId>voidframework</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Void Framework</name>
     <description>Light and modular Framework for Java</description>
+    <url>https://voidframework.dev</url>
 
     <scm>
         <connection>scm:git:https://github.com/voidframework/voidframework.git</connection>
@@ -29,13 +30,19 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <name>Thibault Meyer</name>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <voidframework.version>1.0.0-SNAPSHOT</voidframework.version>
+        <voidframework.version>1.0.0</voidframework.version>
 
         <!-- Plugins -->
         <plugin.version.mavengpg>3.0.1</plugin.version.mavengpg>
