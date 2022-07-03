@@ -21,6 +21,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
@@ -160,6 +162,62 @@ public final class TransactionalTest {
         dummyService.transactionalSupportWithoutTransaction();
     }
 
+    @Test
+    public void transactionalRollbackOnUncheckedException() {
+
+        // Creates table
+        final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
+        final EntityManager entityManager = entityManagerProvider.get();
+        final EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager
+            .createNativeQuery("""
+                CREATE TABLE UNIT_TEST_UNCHECKED_EX (
+                    ID  VARCHAR(36)   NOT NULL,
+                    PRIMARY KEY (id)
+                );
+                """)
+            .executeUpdate();
+        transaction.commit();
+
+        try {
+            final DummyService dummyService = this.injector.getInstance(DummyService.class);
+            dummyService.transactionalRequiredUncheckedException();
+        } catch (final NullPointerException ignore) {
+        }
+
+        final List<?> list = entityManagerProvider.get().createNativeQuery("SELECT * FROM UNIT_TEST_UNCHECKED_EX").getResultList();
+        Assertions.assertTrue(list.isEmpty());
+    }
+
+    @Test
+    public void transactionalDontRollbackOnCheckedException() {
+
+        // Creates table
+        final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
+        final EntityManager entityManager = entityManagerProvider.get();
+        final EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        entityManager
+            .createNativeQuery("""
+                CREATE TABLE UNIT_TEST_CHECKED_EX (
+                    ID  VARCHAR(36)   NOT NULL,
+                    PRIMARY KEY (id)
+                );
+                """)
+            .executeUpdate();
+        transaction.commit();
+
+        try {
+            final DummyService dummyService = this.injector.getInstance(DummyService.class);
+            dummyService.transactionalRequiredCheckedException();
+        } catch (final FileNotFoundException ignore) {
+        }
+
+        final List<?> list = entityManagerProvider.get().createNativeQuery("SELECT * FROM UNIT_TEST_CHECKED_EX").getResultList();
+        Assertions.assertFalse(list.isEmpty());
+    }
+
     public static class DummyService {
 
         private final Provider<EntityManager> entityManagerProvider;
@@ -286,6 +344,36 @@ public final class TransactionalTest {
                     INSERT INTO UNIT_TEST_%s (ID) VALUES ('f0288318-9ef8-4093-85c8-ba6cf5bf6fe5');
                     """.formatted(tableSuffix, tableSuffix))
                 .executeUpdate();
+        }
+
+        @Transactional(Transactional.TxType.REQUIRED)
+        public void transactionalRequiredUncheckedException() {
+
+            final EntityManager entityManager = this.entityManagerProvider.get();
+            Assertions.assertTrue(entityManager.isJoinedToTransaction());
+
+            entityManager
+                .createNativeQuery("""
+                    INSERT INTO UNIT_TEST_CHECKED_EX (ID) VALUES ('f0288318-9ef8-4093-85c8-ba6cf5bf6fe5');
+                    """)
+                .executeUpdate();
+
+            throw new NullPointerException();
+        }
+
+        @Transactional(Transactional.TxType.REQUIRED)
+        public void transactionalRequiredCheckedException() throws FileNotFoundException {
+
+            final EntityManager entityManager = this.entityManagerProvider.get();
+            Assertions.assertTrue(entityManager.isJoinedToTransaction());
+
+            entityManager
+                .createNativeQuery("""
+                    INSERT INTO UNIT_TEST_CHECKED_EX (ID) VALUES ('17930add-5049-4ae4-9a7e-bf826ed160bc');
+                    """)
+                .executeUpdate();
+
+            throw new FileNotFoundException();
         }
     }
 }
