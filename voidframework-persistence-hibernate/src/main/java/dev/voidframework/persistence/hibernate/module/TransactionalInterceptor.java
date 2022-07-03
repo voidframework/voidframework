@@ -119,7 +119,8 @@ public class TransactionalInterceptor implements MethodInterceptor {
         }
 
         // If the list is empty, you simply need to rollback
-        if (transactionalAnnotation.rollbackOn().length == 0) {
+        if (transactionalAnnotation.rollbackOn().length == 0
+            && RuntimeException.class.isAssignableFrom(throwableClass)) {
             return true;
         }
 
