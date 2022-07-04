@@ -10,14 +10,14 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Cache {
+public @interface CacheResult {
 
     /**
      * Key of the cache in which result is stored.
      *
      * @return Key of the cache in which result is stored
      */
-    String key() default "{class}::{method}";
+    String key() default "{class}.{method}";
 
     /**
      * Retention time (in seconds).

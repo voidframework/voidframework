@@ -27,12 +27,14 @@ public final class MemoryCacheEngine implements CacheEngine {
      */
     @Inject
     public MemoryCacheEngine(final Config configuration) {
+
         this.flushWhenFullMaxItem = configuration.getInt("voidframework.cache.inMemory.flushWhenFullMaxItem");
         this.cacheMap = Collections.synchronizedMap(new HashMap<>());
     }
 
     @Override
     public Object get(final String cacheKey) {
+
         if (StringUtils.isBlank(cacheKey)) {
             return null;
         }
@@ -50,6 +52,7 @@ public final class MemoryCacheEngine implements CacheEngine {
 
     @Override
     public void set(final String cacheKey, final Object value, final int timeToLive) {
+
         if (StringUtils.isNotBlank(cacheKey)) {
             if (this.cacheMap.size() >= this.flushWhenFullMaxItem) {
                 this.cacheMap.clear();
@@ -60,6 +63,14 @@ public final class MemoryCacheEngine implements CacheEngine {
                     ? LocalDateTime.now(ZoneOffset.UTC).plusSeconds(timeToLive)
                     : LocalDateTime.MAX);
             this.cacheMap.put(cacheKey, cachedItem);
+        }
+    }
+
+    @Override
+    public void remove(final String cacheKey) {
+
+        if (StringUtils.isNotBlank(cacheKey)) {
+            this.cacheMap.remove(cacheKey);
         }
     }
 

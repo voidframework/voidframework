@@ -1,7 +1,6 @@
 package dev.voidframework.cache.module;
 
 import com.google.inject.Inject;
-import dev.voidframework.cache.Cache;
 import dev.voidframework.cache.engine.BlackHoleCacheEngine;
 import dev.voidframework.cache.engine.CacheEngine;
 import dev.voidframework.core.helper.ProxyDetector;
@@ -9,16 +8,17 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
 /**
- * Intercepts method call when annotation {@link Cache} is used.
+ * Intercepts method calls to apply the desired cache behavior.
  */
-public final class CacheInterceptor implements MethodInterceptor {
+public abstract class CacheInterceptor implements MethodInterceptor {
 
-    private CacheEngine cacheEngine;
+    protected CacheEngine cacheEngine;
 
     /**
      * Build a new instance.
      */
     public CacheInterceptor() {
+
         this.cacheEngine = null;
     }
 
@@ -29,38 +29,47 @@ public final class CacheInterceptor implements MethodInterceptor {
      */
     @Inject
     public void setCacheEngine(final CacheEngine cacheEngine) {
+
         if (!(cacheEngine instanceof BlackHoleCacheEngine)) {
             this.cacheEngine = cacheEngine;
         }
     }
 
-    @Override
-    public Object invoke(final MethodInvocation methodInvocation) throws Throwable {
-        if (cacheEngine == null) {
-            return methodInvocation.proceed();
+    /**
+     * Resolves the cache key.
+     *
+     * @param methodInvocation The current method invocation
+     * @param keyPattern       The key pattern
+     * @return The resolved cache key
+     */
+    protected String resolveCacheKey(final MethodInvocation methodInvocation, final String keyPattern) {
+
+        String cacheKey = keyPattern;
+
+        if (cacheKey.isEmpty()) {
+            cacheKey = "{class}.{method}";
         }
 
-        final Cache cache = methodInvocation.getMethod().getAnnotation(Cache.class);
-
-        final String cacheKey;
-        if (cache.key().contains("{")) {
+        if (cacheKey.contains("{")) {
             final String className = ProxyDetector.isProxy(methodInvocation.getThis())
                 ? methodInvocation.getThis().getClass().getSuperclass().getName()
                 : methodInvocation.getThis().getClass().getName();
             final String methodName = methodInvocation.getMethod().getName();
-            cacheKey = cache.key()
+
+            cacheKey = keyPattern
                 .replace("{class}", className)
                 .replace("{method}", methodName);
-        } else {
-            cacheKey = cache.key();
+
+            final Object[] argumentArray = methodInvocation.getArguments();
+            for (int idx = 0; idx < argumentArray.length; idx += 1) {
+                if (argumentArray[idx] == null) {
+                    cacheKey = cacheKey.replace("{" + idx + "}", "null");
+                } else {
+                    cacheKey = cacheKey.replace("{" + idx + "}", argumentArray[idx].toString());
+                }
+            }
         }
 
-        Object value = this.cacheEngine.get(cacheKey);
-        if (value == null) {
-            value = methodInvocation.proceed();
-            this.cacheEngine.set(cacheKey, value, cache.timeToLive());
-        }
-
-        return value;
+        return cacheKey;
     }
 }

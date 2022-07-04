@@ -27,12 +27,14 @@ public final class CacheEngineProvider implements Provider<CacheEngine> {
      */
     @Inject
     public CacheEngineProvider(final Config configuration, final Injector injector) {
+
         this.configuration = configuration;
         this.injector = injector;
     }
 
     @Override
     public CacheEngine get() {
+
         if (this.cacheEngine == null) {
             if (configuration.hasPath("voidframework.cache.engine")) {
                 final String cacheEngineClassName = configuration.getString("voidframework.cache.engine");
