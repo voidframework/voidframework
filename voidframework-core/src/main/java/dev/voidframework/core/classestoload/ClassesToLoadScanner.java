@@ -104,12 +104,7 @@ public final class ClassesToLoadScanner {
      */
     public static ScannedClassesToLoad restoreClassesToLoad(final InputStream inputStream) {
 
-        final Kryo kryo = new Kryo();
-        kryo.setRegistrationRequired(false);
-        kryo.register(ArrayList.class);
-        kryo.register(Class.class);
-        kryo.register(ConverterInformation.class);
-        kryo.register(ScannedClassesToLoad.class);
+        final Kryo kryo = ClassesToLoadScanner.initializeKryo();
 
         final Input input = new Input(inputStream);
         final ScannedClassesToLoad scannedClassesToLoad = kryo.readObject(input, ScannedClassesToLoad.class);
@@ -127,12 +122,7 @@ public final class ClassesToLoadScanner {
     public static void persistClassesToLoad(final ScannedClassesToLoad scannedClassesToLoad,
                                             final Path outputDirectoryPath) {
 
-        final Kryo kryo = new Kryo();
-        kryo.setRegistrationRequired(false);
-        kryo.register(ArrayList.class);
-        kryo.register(Class.class);
-        kryo.register(ConverterInformation.class);
-        kryo.register(ScannedClassesToLoad.class);
+        final Kryo kryo = ClassesToLoadScanner.initializeKryo();
 
         try {
             final File outputFile = outputDirectoryPath.resolve("classpath.bootstrap").toFile();
@@ -141,6 +131,22 @@ public final class ClassesToLoadScanner {
             output.close();
         } catch (final IOException ignore) {
         }
+    }
+
+    /**
+     * Initializes Kryo.
+     *
+     * @return Instance of {@code Kryo}
+     */
+    private static Kryo initializeKryo() {
+        final Kryo kryo = new Kryo();
+        kryo.setRegistrationRequired(false);
+        kryo.register(ArrayList.class);
+        kryo.register(Class.class);
+        kryo.register(ConverterInformation.class);
+        kryo.register(ScannedClassesToLoad.class);
+
+        return kryo;
     }
 
     /**
