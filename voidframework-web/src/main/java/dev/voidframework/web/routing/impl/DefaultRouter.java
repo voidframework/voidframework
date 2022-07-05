@@ -10,6 +10,7 @@ import dev.voidframework.web.routing.HttpMethod;
 import dev.voidframework.web.routing.ResolvedRoute;
 import dev.voidframework.web.routing.Route;
 import dev.voidframework.web.routing.Router;
+import dev.voidframework.web.routing.RouterPostInitialization;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,11 +29,12 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 /**
  * Default implementation of {@link Router}.
  */
-public class DefaultRouter implements Router {
+public class DefaultRouter implements Router, RouterPostInitialization {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Router.class);
     private static final Pattern PATTERN_EXTRACT_REGEXP_GROUP = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z\\d]*)>.*\\)");
@@ -179,8 +182,9 @@ public class DefaultRouter implements Router {
     @Override
     public List<Route> getRoutesAsList() {
 
-        final List<Route> routeList = routeListPerHttpMethodMap.values()
-            .stream()
+        final List<Route> routeList = Stream.of(HttpMethod.values())
+            .map(routeListPerHttpMethodMap::get)
+            .filter(Objects::nonNull)
             .flatMap(List::stream)
             .toList();
 
@@ -191,6 +195,21 @@ public class DefaultRouter implements Router {
     public Map<HttpMethod, List<Route>> getRoutesAsMap() {
 
         return ImmutableMap.copyOf(routeListPerHttpMethodMap);
+    }
+
+    @Override
+    public void onPostInitialization() {
+
+        final Comparator<Route> regexIdxComparator = Comparator.comparingInt(obj -> {
+            final int idx = obj.routePattern().toString().indexOf("(");
+            return idx < 0 ? Integer.MAX_VALUE : idx;
+        });
+        final Comparator<Route> lengthComparator = Comparator.comparing(obj -> obj.routePattern().toString().length());
+        final Comparator<Route> alphaComparator = Comparator.comparing(Route::toString);
+
+        for (final Map.Entry<HttpMethod, List<Route>> entry : this.routeListPerHttpMethodMap.entrySet()) {
+            entry.getValue().sort(regexIdxComparator.reversed().thenComparing(lengthComparator.thenComparing(alphaComparator)));
+        }
     }
 
     /**
