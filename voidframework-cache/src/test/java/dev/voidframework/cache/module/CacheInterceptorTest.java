@@ -6,7 +6,8 @@ import com.google.inject.Injector;
 import com.google.inject.Stage;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import dev.voidframework.cache.Cache;
+import dev.voidframework.cache.CacheRemove;
+import dev.voidframework.cache.CacheResult;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -111,18 +112,65 @@ public final class CacheInterceptorTest {
         Assertions.assertNotEquals(contentCall1, contentCall2);
     }
 
+    @Test
+    public void interceptorKeyWithArgs() {
+
+        final Config configuration = ConfigFactory.parseString("""
+            voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
+            voidframework.cache.inMemory.flushWhenFullMaxItem = 500
+            """);
+        final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(Config.class).toInstance(configuration);
+                install(new CacheModule());
+            }
+        });
+
+        final Demo demo = injector.getInstance(Demo.class);
+
+        final String contentCall1 = demo.doSomethingKeyWithArgs("customId");
+        Assertions.assertNotNull(contentCall1);
+        Assertions.assertFalse(contentCall1.isBlank());
+
+        final String contentCall2 = demo.doSomethingKeyWithArgs("customId");
+        Assertions.assertNotNull(contentCall2);
+        Assertions.assertFalse(contentCall2.isBlank());
+
+        Assertions.assertEquals(contentCall1, contentCall2);
+
+        demo.removeCache("customId");
+
+        final String contentCall3 = demo.doSomethingKeyWithArgs("customId");
+        Assertions.assertNotNull(contentCall3);
+        Assertions.assertFalse(contentCall3.isBlank());
+
+        Assertions.assertNotEquals(contentCall1, contentCall3);
+        Assertions.assertNotEquals(contentCall2, contentCall3);
+    }
+
     public static class Demo {
 
-        @Cache(timeToLive = 1)
+        @CacheResult(timeToLive = 1)
         public String doSomething() {
 
             return UUID.randomUUID().toString();
         }
 
-        @Cache(key = "simple.key")
+        @CacheResult(key = "simple.key")
         public String doSomethingSimpleKey() {
 
             return UUID.randomUUID().toString();
+        }
+
+        @CacheResult(key = "{class}.key.{0}")
+        public String doSomethingKeyWithArgs(final String id) {
+
+            return UUID.randomUUID().toString();
+        }
+
+        @CacheRemove(key = "{class}.key.{0}")
+        public void removeCache(final String id) {
         }
     }
 }
