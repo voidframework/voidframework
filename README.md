@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/voidframework/voidframework/master/LICENSE)
 [![Java CI](https://img.shields.io/github/workflow/status/voidframework/voidframework/Java%20CI)](https://github.com/voidframework/voidframework/actions/workflows/main.yml)
-[![Repository size](https://img.shields.io/github/v/release/voidframework/voidframework)](https://github.com/voidframework/voidframework/releases)
+[![Repository release](https://img.shields.io/github/v/release/voidframework/voidframework)](https://github.com/voidframework/voidframework/releases)
 [![Repository size](https://img.shields.io/github/repo-size/voidframework/voidframework.svg?logo=git)](https://github.com/voidframework/voidframework)
 
 Light and modular Framework for Java
