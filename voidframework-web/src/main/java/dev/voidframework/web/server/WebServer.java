@@ -26,6 +26,7 @@ import dev.voidframework.web.http.converter.StringToShortConverter;
 import dev.voidframework.web.http.converter.StringToUUIDConverter;
 import dev.voidframework.web.routing.AppRoutesDefinition;
 import dev.voidframework.web.routing.Router;
+import dev.voidframework.web.routing.RouterPostInitialization;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
@@ -128,8 +129,8 @@ public class WebServer {
         converterManager.registerConverter(String.class, UUID.class, new StringToUUIDConverter());
 
         // Load custom routes
+        final Router router = this.injector.getInstance(Router.class);
         if (this.configuration.hasPath("voidframework.web.routes")) {
-            final Router router = this.injector.getInstance(Router.class);
             this.configuration.getStringList("voidframework.web.routes")
                 .stream()
                 .filter(StringUtils::isNotEmpty)
@@ -142,6 +143,11 @@ public class WebServer {
                     final AppRoutesDefinition appRoutesDefinition = (AppRoutesDefinition) this.injector.getInstance(abstractRoutesDefinitionClass);
                     appRoutesDefinition.defineAppRoutes(router);
                 });
+        }
+
+        // Post router initialization callback
+        if (router instanceof RouterPostInitialization) {
+            ((RouterPostInitialization) router).onPostInitialization();
         }
 
         // Defines the HTTP handler
