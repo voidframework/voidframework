@@ -335,6 +335,11 @@
                 <version>${dependency.version.jackson}</version>
             </dependency>
             <dependency>
+                <groupId>com.fasterxml.jackson.dataformat</groupId>
+                <artifactId>jackson-dataformat-xml</artifactId>
+                <version>2.12.2</version>
+            </dependency>
+            <dependency>
                 <groupId>io.github.classgraph</groupId>
                 <artifactId>classgraph</artifactId>
                 <version>${dependency.version.classgraph}</version>

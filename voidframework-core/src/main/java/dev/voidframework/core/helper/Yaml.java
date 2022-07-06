@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public final class Yaml {
 
-    private static final ObjectMapper objectMapper = JsonMapper.builder(new YAMLFactory())
+    private static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder(new YAMLFactory())
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         .configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, false)
@@ -37,7 +37,7 @@ public final class Yaml {
     public static String toString(final JsonNode yaml) {
 
         try {
-            final ObjectWriter writer = objectMapper.writer();
+            final ObjectWriter writer = OBJECT_MAPPER.writer();
             return writer.writeValueAsString(yaml);
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -53,7 +53,7 @@ public final class Yaml {
     public static String toYaml(final Object obj) {
 
         try {
-            return objectMapper.writeValueAsString(obj);
+            return OBJECT_MAPPER.writeValueAsString(obj);
         } catch (final IllegalArgumentException | JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -68,8 +68,8 @@ public final class Yaml {
     public static JsonNode toYaml(final byte[] data) {
 
         try {
-            return objectMapper.readTree(data);
-        } catch (final IllegalArgumentException | IOException e) {
+            return OBJECT_MAPPER.readTree(data);
+        } catch (final IllegalArgumentException | IOException ignore) {
             return null;
         }
     }
@@ -85,8 +85,25 @@ public final class Yaml {
     public static <OUTPUT_TYPE> OUTPUT_TYPE fromYaml(final JsonNode yaml, final Class<OUTPUT_TYPE> clazz) {
 
         try {
-            return objectMapper.treeToValue(yaml, clazz);
-        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException e) {
+            return OBJECT_MAPPER.treeToValue(yaml, clazz);
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ignore) {
+            return null;
+        }
+    }
+
+    /**
+     * Converts a YAML document into to a Java object.
+     *
+     * @param <OUTPUT_TYPE> The type of the Java object
+     * @param yamlByteArray YAML document as bytes array to convert
+     * @param clazz         Expected Java object type
+     * @return The Java object
+     */
+    public static <OUTPUT_TYPE> OUTPUT_TYPE fromYaml(final byte[] yamlByteArray, final Class<OUTPUT_TYPE> clazz) {
+
+        try {
+            return OBJECT_MAPPER.readValue(yamlByteArray, clazz);
+        } catch (final NullPointerException | IllegalArgumentException | IOException ignore) {
             return null;
         }
     }

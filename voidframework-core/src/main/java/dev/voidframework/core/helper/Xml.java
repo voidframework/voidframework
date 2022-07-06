@@ -1,5 +1,12 @@
 package dev.voidframework.core.helper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
+import com.fasterxml.jackson.datatype.joda.JodaModule;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -21,6 +28,15 @@ import java.io.Writer;
  * Helper to handle XML document.
  */
 public final class Xml {
+
+    private static final XmlMapper OBJECT_MAPPER = XmlMapper.builder()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        .configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, false)
+        .addModule(new JavaTimeModule())
+        .addModule(new Jdk8Module())
+        .addModule(new JodaModule())
+        .build();
 
     /**
      * Converts an XML to string.
@@ -44,6 +60,40 @@ public final class Xml {
     }
 
     /**
+     * Converts a XML document into to a Java object.
+     *
+     * @param <OUTPUT_TYPE> The type of the Java object
+     * @param xml           XML document to convert
+     * @param clazz         Expected Java object type
+     * @return The Java object
+     */
+    public static <OUTPUT_TYPE> OUTPUT_TYPE fromXml(final Document xml, final Class<OUTPUT_TYPE> clazz) {
+
+        try {
+            return OBJECT_MAPPER.readValue(toString(xml), clazz);
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ignore) {
+            return null;
+        }
+    }
+
+    /**
+     * Converts a XML document into to a Java object.
+     *
+     * @param <OUTPUT_TYPE> The type of the Java object
+     * @param xmlByteArray  XML document as bytes array to convert
+     * @param clazz         Expected Java object type
+     * @return The Java object
+     */
+    public static <OUTPUT_TYPE> OUTPUT_TYPE fromXml(final byte[] xmlByteArray, final Class<OUTPUT_TYPE> clazz) {
+
+        try {
+            return OBJECT_MAPPER.readValue(xmlByteArray, clazz);
+        } catch (final NullPointerException | IllegalArgumentException | IOException ignore) {
+            return null;
+        }
+    }
+
+    /**
      * Converts a byte array to an XML document.
      *
      * @param data data to convert in XML
@@ -62,7 +112,7 @@ public final class Xml {
 
             final InputStream inputStream = new ByteArrayInputStream(data);
             return builder.parse(inputStream);
-        } catch (final ParserConfigurationException | SAXException | IOException e) {
+        } catch (final ParserConfigurationException | SAXException | IOException ignore) {
             return null;
         }
     }
