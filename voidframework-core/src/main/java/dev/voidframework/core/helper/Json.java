@@ -23,7 +23,7 @@ public final class Json {
     private static final TypeReference<Map<String, Object>> MAP_TYPE_REFERENCE = new TypeReference<>() {
     };
 
-    private static final ObjectMapper objectMapper = JsonMapper.builder()
+    private static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
         .configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, false)
@@ -41,7 +41,7 @@ public final class Json {
     public static String toString(final JsonNode json) {
 
         try {
-            final ObjectWriter writer = objectMapper.writer();
+            final ObjectWriter writer = OBJECT_MAPPER.writer();
             return writer.writeValueAsString(json);
         } catch (final IOException e) {
             throw new RuntimeException(e);
@@ -57,7 +57,7 @@ public final class Json {
     public static JsonNode toJson(final Object obj) {
 
         try {
-            return objectMapper.valueToTree(obj);
+            return OBJECT_MAPPER.valueToTree(obj);
         } catch (final IllegalArgumentException e) {
             throw new RuntimeException(e);
         }
@@ -72,8 +72,8 @@ public final class Json {
     public static JsonNode toJson(final byte[] data) {
 
         try {
-            return objectMapper.readTree(data);
-        } catch (final IllegalArgumentException | IOException e) {
+            return OBJECT_MAPPER.readTree(data);
+        } catch (final IllegalArgumentException | IOException ignore) {
             return null;
         }
     }
@@ -89,8 +89,25 @@ public final class Json {
     public static <OUTPUT_TYPE> OUTPUT_TYPE fromJson(final JsonNode json, final Class<OUTPUT_TYPE> clazz) {
 
         try {
-            return objectMapper.treeToValue(json, clazz);
-        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException e) {
+            return OBJECT_MAPPER.treeToValue(json, clazz);
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ignore) {
+            return null;
+        }
+    }
+
+    /**
+     * Converts a JSON document into to a Java object.
+     *
+     * @param <OUTPUT_TYPE> The type of the Java object
+     * @param jsonByteArray JSON document as bytes array to convert
+     * @param clazz         Expected Java object type
+     * @return The Java object
+     */
+    public static <OUTPUT_TYPE> OUTPUT_TYPE fromJson(final byte[] jsonByteArray, final Class<OUTPUT_TYPE> clazz) {
+
+        try {
+            return OBJECT_MAPPER.readValue(jsonByteArray, clazz);
+        } catch (final NullPointerException | IOException | IllegalArgumentException ignore) {
             return null;
         }
     }
@@ -106,8 +123,8 @@ public final class Json {
     public static <OUTPUT_TYPE> OUTPUT_TYPE fromMap(final Map<?, ?> dataMap, final Class<OUTPUT_TYPE> clazz) {
 
         try {
-            return objectMapper.convertValue(dataMap, clazz);
-        } catch (final NullPointerException | IllegalArgumentException e) {
+            return OBJECT_MAPPER.convertValue(dataMap, clazz);
+        } catch (final NullPointerException | IllegalArgumentException ignore) {
             return null;
         }
     }
@@ -121,8 +138,8 @@ public final class Json {
     public static Map<String, Object> toMap(final Object obj) {
 
         try {
-            return objectMapper.convertValue(obj, MAP_TYPE_REFERENCE);
-        } catch (final NullPointerException | IllegalArgumentException e) {
+            return OBJECT_MAPPER.convertValue(obj, MAP_TYPE_REFERENCE);
+        } catch (final NullPointerException | IllegalArgumentException ignore) {
             return null;
         }
     }
