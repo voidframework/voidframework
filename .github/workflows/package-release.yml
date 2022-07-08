@@ -8,7 +8,6 @@ jobs:
     publish-ossrh:
         name: Publish to Central Repository
         runs-on: ubuntu-latest
-        needs: build
 
         steps:
             -   uses: actions/checkout@v3

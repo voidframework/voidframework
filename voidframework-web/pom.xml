@@ -7,7 +7,7 @@
     <parent>
         <artifactId>voidframework</artifactId>
         <groupId>dev.voidframework</groupId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.1</version>
     </parent>
 
     <artifactId>voidframework-web</artifactId>
