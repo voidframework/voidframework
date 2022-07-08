@@ -7,7 +7,7 @@
     <groupId>dev.voidframework</groupId>
     <artifactId>voidframework</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2-SNAPSHOT</version>
     <name>Void Framework</name>
     <description>Light and modular Framework for Java</description>
     <url>https://voidframework.dev</url>
@@ -42,7 +42,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <voidframework.version>1.0.1</voidframework.version>
+        <voidframework.version>1.0.2-SNAPSHOT</voidframework.version>
 
         <!-- Plugins -->
         <plugin.version.mavengpg>3.0.1</plugin.version.mavengpg>
