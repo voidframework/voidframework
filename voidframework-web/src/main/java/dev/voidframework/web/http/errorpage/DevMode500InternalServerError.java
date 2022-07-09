@@ -81,6 +81,7 @@ public final class DevMode500InternalServerError {
             <table>
                 %s
             </table>
+            <br/>
         </div>
         </html>
         """;

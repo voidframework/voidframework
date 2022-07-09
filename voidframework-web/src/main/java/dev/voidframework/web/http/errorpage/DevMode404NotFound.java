@@ -82,6 +82,7 @@ public final class DevMode404NotFound {
             <table>
                 %s
             </table>
+            <br/>
         </div>
         </html>
         """;
