@@ -170,16 +170,18 @@ public final class Reflection {
     /**
      * Calls a method.
      *
-     * @param classInstance The instance of the class in which the method is located
-     * @param methodeName   The method name
-     * @param argumentArray The method arguments
+     * @param classInstance     The instance of the class in which the method is located
+     * @param methodeName       The method name
+     * @param argumentTypeArray The method argument types
+     * @param argumentArray     The method arguments
      */
     public static void callMethod(final Object classInstance,
                                   final String methodeName,
+                                  final Class<?>[] argumentTypeArray,
                                   final Object... argumentArray) {
 
         try {
-            final Method method = classInstance.getClass().getDeclaredMethod(methodeName);
+            final Method method = classInstance.getClass().getDeclaredMethod(methodeName, argumentTypeArray);
             method.setAccessible(true);
             method.invoke(classInstance, argumentArray);
             method.setAccessible(false);
