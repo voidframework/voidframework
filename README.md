@@ -19,6 +19,11 @@ installed.
 
 
 
+## Maven central
+[Maven central - dev.voidframework](https://search.maven.org/search?q=g:dev.voidframework)
+
+
+
 ## License
 This project is released under terms of the [MIT license](https://raw.githubusercontent.com/voidframework/voidframework/master/LICENSE).
 
