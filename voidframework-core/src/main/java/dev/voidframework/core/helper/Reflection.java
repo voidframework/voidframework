@@ -1,5 +1,6 @@
 package dev.voidframework.core.helper;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -7,6 +8,50 @@ import java.lang.reflect.Method;
  * Reflection-based utility methods.
  */
 public final class Reflection {
+
+    /**
+     * Retrieves a specific annotated field.
+     *
+     * @param classInstance       The instance of the class in which the field is located
+     * @param annotationClassType The annotation
+     * @return The field, otherwise, null
+     */
+    public static Field getAnnotatedField(final Object classInstance,
+                                          final Class<? extends Annotation> annotationClassType) {
+
+        if (classInstance != null) {
+            return getAnnotatedField(classInstance.getClass(), annotationClassType);
+        }
+
+        return null;
+    }
+
+    /**
+     * Retrieves a specific annotated field.
+     *
+     * @param classType           The class type in which the field is located
+     * @param annotationClassType The annotation
+     * @return The field, otherwise, null
+     */
+    public static Field getAnnotatedField(final Class<?> classType,
+                                          final Class<? extends Annotation> annotationClassType) {
+
+        try {
+            Class<?> currentClassType = classType;
+            while (currentClassType != Object.class) {
+                for (final Field field : currentClassType.getDeclaredFields()) {
+                    if (field.isAnnotationPresent(annotationClassType)) {
+                        return field;
+                    }
+                }
+
+                currentClassType = currentClassType.getSuperclass();
+            }
+        } catch (final Exception ignore) {
+        }
+
+        return null;
+    }
 
     /**
      * Retrieves the value of a specific field.
