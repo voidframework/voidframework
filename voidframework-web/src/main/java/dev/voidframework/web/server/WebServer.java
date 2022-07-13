@@ -157,15 +157,26 @@ public class WebServer {
             new SessionSigner(this.configuration));
 
         // Configure Undertow
-        this.undertowServer = Undertow.builder()
+        final Undertow.Builder undertowBuilder = Undertow.builder()
             .setServerOption(UndertowOptions.SHUTDOWN_TIMEOUT, this.configuration.getInt("voidframework.web.gracefulStopTimeout"))
             .setServerOption(UndertowOptions.MULTIPART_MAX_ENTITY_SIZE, this.configuration.getMemorySize("voidframework.web.maxBodySize").toBytes())
             .setServerOption(UndertowOptions.MAX_ENTITY_SIZE, this.configuration.getMemorySize("voidframework.web.maxBodySize").toBytes())
             .addHttpListener(
                 configuration.getInt("voidframework.web.server.listenPort"),
                 configuration.getString("voidframework.web.server.listenHost"))
-            .setHandler(httpServerExchange -> httpServerExchange.dispatch(httpHandler))
-            .build();
+            .setHandler(httpServerExchange -> httpServerExchange.dispatch(httpHandler));
+
+        if (this.configuration.hasPath("voidframework.web.server.ioThreads")
+            && this.configuration.getInt("voidframework.web.server.ioThreads") > 0) {
+            undertowBuilder.setIoThreads(this.configuration.getInt("voidframework.web.server.ioThreads"));
+        }
+
+        if (this.configuration.hasPath("voidframework.web.server.workerThreads")
+            && this.configuration.getInt("voidframework.web.server.workerThreads") > 0) {
+            undertowBuilder.setWorkerThreads(this.configuration.getInt("voidframework.web.server.workerThreads"));
+        }
+
+        this.undertowServer = undertowBuilder.build();
 
         // Boot the web server
         this.undertowServer.start();
