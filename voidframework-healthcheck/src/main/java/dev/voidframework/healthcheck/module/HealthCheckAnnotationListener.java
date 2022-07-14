@@ -24,12 +24,13 @@ public final class HealthCheckAnnotationListener implements TypeListener {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <CLASS_TYPE> void hear(final TypeLiteral<CLASS_TYPE> type, final TypeEncounter<CLASS_TYPE> encounter) {
 
         final Class<?> classType = type.getRawType();
 
         if (HealthChecker.class.isAssignableFrom(classType)) {
-            encounter.register(new HealthCheckInjectionListener<>(healthCheckManager));
+            healthCheckManager.registerHealthCheck((Class<? extends HealthChecker>) classType);
         }
     }
 }

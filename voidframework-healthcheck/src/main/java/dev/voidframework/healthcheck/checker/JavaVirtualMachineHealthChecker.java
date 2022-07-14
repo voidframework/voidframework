@@ -1,5 +1,6 @@
 package dev.voidframework.healthcheck.checker;
 
+import com.google.inject.Singleton;
 import dev.voidframework.healthcheck.Health;
 import dev.voidframework.healthcheck.HealthChecker;
 
@@ -9,6 +10,7 @@ import java.util.Map;
 /**
  * Java Virtual Machine health checker.
  */
+@Singleton
 public class JavaVirtualMachineHealthChecker implements HealthChecker {
 
     @Override

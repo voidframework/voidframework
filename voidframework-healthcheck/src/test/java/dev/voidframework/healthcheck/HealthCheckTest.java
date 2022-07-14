@@ -4,8 +4,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
-import com.typesafe.config.Config;
-import com.typesafe.config.ConfigFactory;
 import dev.voidframework.core.helper.Reflection;
 import dev.voidframework.healthcheck.checker.JavaVirtualMachineHealthChecker;
 import dev.voidframework.healthcheck.module.HealthCheckModule;
@@ -28,11 +26,12 @@ public final class HealthCheckTest {
     @Test
     public void test() {
 
-        final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = true");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
-                install(new HealthCheckModule(configuration));
+
+                install(new HealthCheckModule());
+                bind(JavaVirtualMachineHealthChecker.class).asEagerSingleton();
                 bind(DummyChecker.class).asEagerSingleton();
             }
         });
@@ -40,11 +39,14 @@ public final class HealthCheckTest {
         final HealthCheckManager healthCheckManager = injector.getInstance(HealthCheckManager.class);
         Assertions.assertNotNull(healthCheckManager);
 
-        final List<HealthChecker> healthCheckerList = Reflection.getFieldValue(healthCheckManager, "healthCheckerList", new Reflection.WrappedClass<>());
+        final List<Class<? extends HealthChecker>> healthCheckerList = Reflection.getFieldValue(
+            healthCheckManager,
+            "healthCheckerList",
+            new Reflection.WrappedClass<>());
         Assertions.assertNotNull(healthCheckerList);
         Assertions.assertEquals(2, healthCheckerList.size());
-        Assertions.assertTrue(healthCheckerList.get(0) instanceof JavaVirtualMachineHealthChecker);
-        Assertions.assertTrue(healthCheckerList.get(1) instanceof DummyChecker);
+        Assertions.assertEquals(healthCheckerList.get(0), JavaVirtualMachineHealthChecker.class);
+        Assertions.assertEquals(healthCheckerList.get(1), DummyChecker.class);
 
         final Map<String, Health> healthPerNameMap = healthCheckManager.checkHealth();
         Assertions.assertNotNull(healthPerNameMap);
