@@ -1,11 +1,13 @@
 package dev.voidframework.healthcheck;
 
-import com.typesafe.config.Config;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,30 +19,39 @@ import java.util.Map;
 public final class HealthCheckManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HealthCheckManager.class);
+    private static final Comparator<Class<? extends HealthChecker>> HEALTHCHECKER_COMPARATOR = Comparator.comparing(Class::getName);
 
-    private final Config configuration;
-    private final List<HealthChecker> healthCheckerList;
+    private final List<Class<? extends HealthChecker>> healthCheckerList;
+    private Injector injector;
 
     /**
      * Build a new instance.
-     *
-     * @param configuration The application configuration
      */
-    public HealthCheckManager(final Config configuration) {
+    public HealthCheckManager() {
 
-        this.configuration = configuration;
         this.healthCheckerList = new ArrayList<>();
+    }
+
+    /**
+     * Sets the injector to use.
+     *
+     * @param injector The injector instance
+     */
+    @Inject
+    public void setInjector(final Injector injector) {
+
+        this.injector = injector;
     }
 
     /**
      * Registers a new health checker.
      *
-     * @param healthChecker The health checker to register
+     * @param healthCheckerClassType The health checker to register
      */
-    public void registerHealthCheck(final HealthChecker healthChecker) {
+    public void registerHealthCheck(final Class<? extends HealthChecker> healthCheckerClassType) {
 
-        LOGGER.debug("Register HealthCheck {}", healthChecker.getName());
-        this.healthCheckerList.add(healthChecker);
+        LOGGER.debug("Register HealthCheck {}", healthCheckerClassType.getSimpleName());
+        this.healthCheckerList.add(healthCheckerClassType);
     }
 
     /**
@@ -52,7 +63,9 @@ public final class HealthCheckManager {
 
         final Map<String, Health> healthPerNameMap = new HashMap<>();
 
-        for (final HealthChecker healthChecker : this.healthCheckerList) {
+        this.healthCheckerList.stream().sorted(HEALTHCHECKER_COMPARATOR).forEach(healthCheckerClassType -> {
+            final HealthChecker healthChecker = this.injector.getInstance(healthCheckerClassType);
+
             Health health;
             try {
                 health = healthChecker.checkHealth();
@@ -61,7 +74,7 @@ public final class HealthCheckManager {
             }
 
             healthPerNameMap.put(healthChecker.getName(), health);
-        }
+        });
 
         return healthPerNameMap;
     }
