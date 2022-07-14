@@ -113,6 +113,23 @@ public final class Json {
     }
 
     /**
+     * Converts a JSON document into to a Java object.
+     *
+     * @param <OUTPUT_TYPE> The type of the Java object
+     * @param json          JSON document as String to convert
+     * @param clazz         Expected Java object type
+     * @return The Java object
+     */
+    public static <OUTPUT_TYPE> OUTPUT_TYPE fromJson(final String json, final Class<OUTPUT_TYPE> clazz) {
+
+        try {
+            return OBJECT_MAPPER.readValue(json, clazz);
+        } catch (final NullPointerException | IOException | IllegalArgumentException ignore) {
+            return null;
+        }
+    }
+
+    /**
      * Converts a data map into to a Java object.
      *
      * @param <OUTPUT_TYPE> The type of the Java object
@@ -142,5 +159,14 @@ public final class Json {
         } catch (final NullPointerException | IllegalArgumentException ignore) {
             return null;
         }
+    }
+
+    /**
+     * Gets the object mapper.
+     *
+     * @return JSON object mapper
+     */
+    public static ObjectMapper objectMapper() {
+        return OBJECT_MAPPER;
     }
 }

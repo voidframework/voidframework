@@ -1,14 +1,13 @@
 package dev.voidframework.web.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.typesafe.config.Config;
 import dev.voidframework.core.helper.Json;
-import dev.voidframework.template.TemplateRenderer;
-import dev.voidframework.template.exception.TemplateException;
+import dev.voidframework.web.http.resultprocessor.NoContentResultProcessor;
+import dev.voidframework.web.http.resultprocessor.ObjectResultProcessor;
+import dev.voidframework.web.http.resultprocessor.ResultProcessor;
+import dev.voidframework.web.http.resultprocessor.TemplateResultProcessor;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +23,20 @@ public final class Result {
     private final ResultProcessor resultProcessor;
     private final Map<String, String> headerMap;
     private final Map<String, Cookie> cookieMap;
+
+    /**
+     * Build an empty new instance.
+     * This constructor is useful during deserialize process
+     */
+    @SuppressWarnings("unused")
+    public Result() {
+
+        this.httpCode = -1;
+        this.resultProcessor = null;
+        this.contentType = null;
+        this.headerMap = null;
+        this.cookieMap = null;
+    }
 
     /**
      * Build a new instance.
@@ -508,126 +521,5 @@ public final class Result {
     public ResultProcessor getResultProcessor() {
 
         return this.resultProcessor;
-    }
-
-    /**
-     * Result processor. In charge to transform a content (any type) into an {@code InputStream}.
-     */
-    public interface ResultProcessor {
-
-        /**
-         * Process the result.
-         *
-         * @param context          The current context
-         * @param configuration    The application configuration
-         * @param templateRenderer The template rendered if available
-         */
-        void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer);
-
-        /**
-         * Get the result input stream.
-         *
-         * @return The result input stream
-         */
-        InputStream getInputStream();
-    }
-
-    /**
-     * No content ("do nothing" processor).
-     */
-    private static class NoContentResultProcessor implements ResultProcessor {
-
-        @Override
-        public void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer) {
-        }
-
-        @Override
-        public InputStream getInputStream() {
-
-            return null;
-        }
-    }
-
-    /**
-     * Process a simple object.
-     */
-    private static class ObjectResultProcessor implements ResultProcessor {
-
-        private final Object object;
-
-        /**
-         * Build a new instance.
-         *
-         * @param object Object to process
-         */
-        public ObjectResultProcessor(final Object object) {
-
-            this.object = object;
-        }
-
-        @Override
-        public void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer) {
-        }
-
-        @Override
-        public InputStream getInputStream() {
-
-            if (object == null) {
-                return ByteArrayInputStream.nullInputStream();
-            } else if (object instanceof byte[]) {
-                return new ByteArrayInputStream((byte[]) object);
-            } else if (object instanceof InputStream) {
-                return (InputStream) object;
-            }
-
-            return new ByteArrayInputStream(object.toString().getBytes(StandardCharsets.UTF_8));
-        }
-    }
-
-    /**
-     * Process a template.
-     */
-    private static class TemplateResultProcessor implements ResultProcessor {
-
-        private final String templateName;
-        private final Map<String, Object> dataModel;
-
-        private InputStream inputStream;
-
-        /**
-         * Build a new instance.
-         *
-         * @param templateName The name of the template to render
-         * @param dataModel    The data model to use
-         */
-        public TemplateResultProcessor(final String templateName, final Map<String, Object> dataModel) {
-
-            this.templateName = templateName;
-            this.dataModel = dataModel;
-            this.inputStream = null;
-        }
-
-        @Override
-        public void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer) {
-
-            if (templateRenderer == null) {
-                throw new TemplateException.NoTemplateEngine();
-            }
-
-            this.dataModel.put("flash", context.getFlashMessages());
-            this.dataModel.put("session", context.getSession());
-            this.dataModel.put("languages", configuration.getStringList("voidframework.web.language.availableLanguages"));
-
-            final String renderedTemplate = templateRenderer.render(this.templateName, context.getLocale(), this.dataModel);
-            this.inputStream = new ByteArrayInputStream(renderedTemplate.getBytes(StandardCharsets.UTF_8));
-
-            context.getFlashMessages().clear();
-        }
-
-        @Override
-        public InputStream getInputStream() {
-
-            return this.inputStream;
-        }
     }
 }

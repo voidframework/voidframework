@@ -65,6 +65,7 @@
         <dependency.version.jackson>2.13.3</dependency.version.jackson>
         <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
         <dependency.version.jakarta.persistenceapi>3.1.0</dependency.version.jakarta.persistenceapi>
+        <dependency.version.jedis>4.2.3</dependency.version.jedis>
         <dependency.version.jwt>3.19.2</dependency.version.jwt>
         <dependency.version.kryo>5.3.0</dependency.version.kryo>
         <dependency.version.logback>1.2.11</dependency.version.logback>
@@ -81,6 +82,7 @@
     <modules>
         <module>voidframework-core</module>
         <module>voidframework-cache</module>
+        <module>voidframework-cache-redis</module>
         <module>voidframework-datasource</module>
         <module>voidframework-datasource-c3p0</module>
         <module>voidframework-datasource-hikaricp</module>
@@ -88,6 +90,8 @@
         <module>voidframework-i18n</module>
         <module>voidframework-migration-flyway</module>
         <module>voidframework-persistence-hibernate</module>
+        <module>voidframework-redis</module>
+        <module>voidframework-redis-healthcheck</module>
         <module>voidframework-scheduler</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>
@@ -219,6 +223,11 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-cache-redis</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-datasource</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
@@ -245,6 +254,16 @@
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-persistence-hibernate</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-redis</artifactId>
+                <version>${voidframework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-redis-healthcheck</artifactId>
                 <version>${voidframework.version}</version>
             </dependency>
             <dependency>
@@ -416,6 +435,11 @@
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.el</artifactId>
                 <version>${dependency.version.jakarta.el}</version>
+            </dependency>
+            <dependency>
+                <groupId>redis.clients</groupId>
+                <artifactId>jedis</artifactId>
+                <version>${dependency.version.jedis}</version>
             </dependency>
 
             <!-- Unit Tests -->
