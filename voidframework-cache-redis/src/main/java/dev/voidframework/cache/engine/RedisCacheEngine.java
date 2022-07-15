@@ -28,6 +28,7 @@ public class RedisCacheEngine implements CacheEngine {
      */
     @Inject
     public RedisCacheEngine(final Redis redis) {
+
         this.redis = redis;
 
         this.kryo = new Kryo();

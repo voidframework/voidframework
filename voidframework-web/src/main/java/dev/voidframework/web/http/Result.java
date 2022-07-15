@@ -17,6 +17,7 @@ import java.util.Map;
 public final class Result {
 
     private static final NoContentResultProcessor NO_CONTENT_RESULT_PROCESSOR = new NoContentResultProcessor();
+    private static final String NO_CONTENT_TYPE = null;
 
     private final int httpCode;
     private final String contentType;
@@ -34,8 +35,8 @@ public final class Result {
         this.httpCode = -1;
         this.resultProcessor = null;
         this.contentType = null;
-        this.headerMap = null;
-        this.cookieMap = null;
+        this.headerMap = Map.of();
+        this.cookieMap = Map.of();
     }
 
     /**
@@ -62,7 +63,10 @@ public final class Result {
      */
     public static Result badRequest(final String content) {
 
-        return new Result(HttpReturnCode.BAD_REQUEST, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.BAD_REQUEST,
+            new ObjectResultProcessor(content),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -74,7 +78,10 @@ public final class Result {
      */
     public static Result badRequest(final byte[] content, final String contentType) {
 
-        return new Result(HttpReturnCode.BAD_REQUEST, new ObjectResultProcessor(content), contentType);
+        return new Result(
+            HttpReturnCode.BAD_REQUEST,
+            new ObjectResultProcessor(content),
+            contentType);
     }
 
     /**
@@ -85,7 +92,10 @@ public final class Result {
      */
     public static Result badRequest(final JsonNode content) {
 
-        return new Result(HttpReturnCode.BAD_REQUEST, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+        return new Result(
+            HttpReturnCode.BAD_REQUEST,
+            new ObjectResultProcessor(Json.toString(content)),
+            HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -96,7 +106,10 @@ public final class Result {
      */
     public static Result badRequest(final TemplateResult templateResult) {
 
-        return new Result(HttpReturnCode.BAD_REQUEST, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.BAD_REQUEST,
+            new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -107,7 +120,10 @@ public final class Result {
      */
     public static Result created(final String content) {
 
-        return new Result(HttpReturnCode.CREATED, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.CREATED,
+            new ObjectResultProcessor(content),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -119,7 +135,10 @@ public final class Result {
      */
     public static Result created(final byte[] content, final String contentType) {
 
-        return new Result(HttpReturnCode.CREATED, new ObjectResultProcessor(content), contentType);
+        return new Result(
+            HttpReturnCode.CREATED,
+            new ObjectResultProcessor(content),
+            contentType);
     }
 
     /**
@@ -130,7 +149,10 @@ public final class Result {
      */
     public static Result created(final JsonNode content) {
 
-        return new Result(HttpReturnCode.CREATED, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+        return new Result(
+            HttpReturnCode.CREATED,
+            new ObjectResultProcessor(Json.toString(content)),
+            HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -141,7 +163,10 @@ public final class Result {
      */
     public static Result created(final TemplateResult templateResult) {
 
-        return new Result(HttpReturnCode.CREATED, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.CREATED,
+            new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -152,7 +177,10 @@ public final class Result {
      */
     public static Result forbidden(final String content) {
 
-        return new Result(HttpReturnCode.FORBIDDEN, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.FORBIDDEN,
+            new ObjectResultProcessor(content),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -164,7 +192,10 @@ public final class Result {
      */
     public static Result forbidden(final byte[] content, final String contentType) {
 
-        return new Result(HttpReturnCode.FORBIDDEN, new ObjectResultProcessor(content), contentType);
+        return new Result(
+            HttpReturnCode.FORBIDDEN,
+            new ObjectResultProcessor(content),
+            contentType);
     }
 
     /**
@@ -175,7 +206,10 @@ public final class Result {
      */
     public static Result forbidden(final JsonNode content) {
 
-        return new Result(HttpReturnCode.FORBIDDEN, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+        return new Result(
+            HttpReturnCode.FORBIDDEN,
+            new ObjectResultProcessor(Json.toString(content)),
+            HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -186,7 +220,10 @@ public final class Result {
      */
     public static Result forbidden(final TemplateResult templateResult) {
 
-        return new Result(HttpReturnCode.FORBIDDEN, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.FORBIDDEN,
+            new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -197,7 +234,10 @@ public final class Result {
      */
     public static Result internalServerError(final String content) {
 
-        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.INTERNAL_SERVER_ERROR,
+            new ObjectResultProcessor(content),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -209,7 +249,10 @@ public final class Result {
      */
     public static Result internalServerError(final byte[] content, final String contentType) {
 
-        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, new ObjectResultProcessor(content), contentType);
+        return new Result(
+            HttpReturnCode.INTERNAL_SERVER_ERROR,
+            new ObjectResultProcessor(content),
+            contentType);
     }
 
     /**
@@ -220,7 +263,10 @@ public final class Result {
      */
     public static Result internalServerError(final JsonNode content) {
 
-        return new Result(HttpReturnCode.INTERNAL_SERVER_ERROR, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+        return new Result(
+            HttpReturnCode.INTERNAL_SERVER_ERROR,
+            new ObjectResultProcessor(Json.toString(content)),
+            HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -231,7 +277,10 @@ public final class Result {
      */
     public static Result internalServerError(final TemplateResult templateResult) {
 
-        return new Result(HttpReturnCode.NOT_FOUND, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.NOT_FOUND,
+            new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -241,7 +290,10 @@ public final class Result {
      */
     public static Result noContent() {
 
-        return new Result(HttpReturnCode.NO_CONTENT, NO_CONTENT_RESULT_PROCESSOR, null);
+        return new Result(
+            HttpReturnCode.NO_CONTENT,
+            NO_CONTENT_RESULT_PROCESSOR,
+            NO_CONTENT_TYPE);
     }
 
     /**
@@ -252,7 +304,10 @@ public final class Result {
      */
     public static Result notFound(final String content) {
 
-        return new Result(HttpReturnCode.NOT_FOUND, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.NOT_FOUND,
+            new ObjectResultProcessor(content),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -264,7 +319,10 @@ public final class Result {
      */
     public static Result notFound(final byte[] content, final String contentType) {
 
-        return new Result(HttpReturnCode.NOT_FOUND, new ObjectResultProcessor(content), contentType);
+        return new Result(
+            HttpReturnCode.NOT_FOUND,
+            new ObjectResultProcessor(content),
+            contentType);
     }
 
     /**
@@ -275,7 +333,10 @@ public final class Result {
      */
     public static Result notFound(final JsonNode content) {
 
-        return new Result(HttpReturnCode.NOT_FOUND, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+        return new Result(
+            HttpReturnCode.NOT_FOUND,
+            new ObjectResultProcessor(Json.toString(content)),
+            HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -286,7 +347,10 @@ public final class Result {
      */
     public static Result notFound(final TemplateResult templateResult) {
 
-        return new Result(HttpReturnCode.NOT_FOUND, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.NOT_FOUND,
+            new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -297,7 +361,10 @@ public final class Result {
      */
     public static Result notImplemented(final String content) {
 
-        return new Result(HttpReturnCode.NOT_IMPLEMENTED, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.NOT_IMPLEMENTED,
+            new ObjectResultProcessor(content),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -309,7 +376,10 @@ public final class Result {
      */
     public static Result notImplemented(final byte[] content, final String contentType) {
 
-        return new Result(HttpReturnCode.NOT_IMPLEMENTED, new ObjectResultProcessor(content), contentType);
+        return new Result(
+            HttpReturnCode.NOT_IMPLEMENTED,
+            new ObjectResultProcessor(content),
+            contentType);
     }
 
     /**
@@ -320,7 +390,10 @@ public final class Result {
      */
     public static Result notImplemented(final JsonNode content) {
 
-        return new Result(HttpReturnCode.NOT_IMPLEMENTED, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+        return new Result(
+            HttpReturnCode.NOT_IMPLEMENTED,
+            new ObjectResultProcessor(Json.toString(content)),
+            HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -331,7 +404,10 @@ public final class Result {
      */
     public static Result notImplemented(final TemplateResult templateResult) {
 
-        return new Result(HttpReturnCode.NOT_IMPLEMENTED, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.NOT_IMPLEMENTED,
+            new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -342,7 +418,10 @@ public final class Result {
      */
     public static Result ok(final String content) {
 
-        return new Result(HttpReturnCode.OK, new ObjectResultProcessor(content), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.OK,
+            new ObjectResultProcessor(content),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -354,7 +433,10 @@ public final class Result {
      */
     public static Result ok(final byte[] content, final String contentType) {
 
-        return new Result(HttpReturnCode.OK, new ObjectResultProcessor(content), contentType);
+        return new Result(
+            HttpReturnCode.OK,
+            new ObjectResultProcessor(content),
+            contentType);
     }
 
     /**
@@ -366,7 +448,10 @@ public final class Result {
      */
     public static Result ok(final InputStream content, final String contentType) {
 
-        return new Result(HttpReturnCode.OK, new ObjectResultProcessor(content), contentType);
+        return new Result(
+            HttpReturnCode.OK,
+            new ObjectResultProcessor(content),
+            contentType);
     }
 
     /**
@@ -377,7 +462,10 @@ public final class Result {
      */
     public static Result ok(final JsonNode content) {
 
-        return new Result(HttpReturnCode.OK, new ObjectResultProcessor(Json.toString(content)), HttpContentType.APPLICATION_JSON);
+        return new Result(
+            HttpReturnCode.OK,
+            new ObjectResultProcessor(Json.toString(content)),
+            HttpContentType.APPLICATION_JSON);
     }
 
     /**
@@ -388,7 +476,10 @@ public final class Result {
      */
     public static Result ok(final TemplateResult templateResult) {
 
-        return new Result(HttpReturnCode.OK, new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel), HttpContentType.TEXT_HTML);
+        return new Result(
+            HttpReturnCode.OK,
+            new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
     }
 
     /**
@@ -399,7 +490,11 @@ public final class Result {
      */
     public static Result redirectPermanentlyTo(final String uri) {
 
-        return new Result(HttpReturnCode.MOVED_PERMANENTLY, NO_CONTENT_RESULT_PROCESSOR, null).withHeader("Location", uri);
+        return new Result(
+            HttpReturnCode.MOVED_PERMANENTLY,
+            NO_CONTENT_RESULT_PROCESSOR,
+            NO_CONTENT_TYPE
+        ).withHeader("Location", uri);
     }
 
     /**
@@ -410,7 +505,11 @@ public final class Result {
      */
     public static Result redirectTemporaryTo(final String uri) {
 
-        return new Result(HttpReturnCode.FOUND, NO_CONTENT_RESULT_PROCESSOR, null).withHeader("Location", uri);
+        return new Result(
+            HttpReturnCode.FOUND,
+            NO_CONTENT_RESULT_PROCESSOR,
+            NO_CONTENT_TYPE
+        ).withHeader("Location", uri);
     }
 
     /**

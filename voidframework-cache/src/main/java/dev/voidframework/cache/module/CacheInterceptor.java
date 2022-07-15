@@ -12,6 +12,9 @@ import org.aopalliance.intercept.MethodInvocation;
  */
 public abstract class CacheInterceptor implements MethodInterceptor {
 
+    /**
+     * Cache engine to use.
+     */
     protected CacheEngine cacheEngine;
 
     /**

@@ -39,13 +39,16 @@ public class DefaultRedis implements Redis {
      * @param configuration The application configuration
      */
     @Inject
-    public DefaultRedis(final Provider<Jedis> jedisProvider, final Config configuration) {
+    public DefaultRedis(final Provider<Jedis> jedisProvider,
+                        final Config configuration) {
+
         this.jedisProvider = jedisProvider;
         this.defaultDatabase = configuration.getInt("voidframework.redis.defaultDatabase");
     }
 
     @Override
     public Jedis getConnection() {
+
         if (this.defaultDatabase == 0) {
             return this.jedisProvider.get();
         }
@@ -55,6 +58,7 @@ public class DefaultRedis implements Redis {
 
     @Override
     public Jedis getConnection(final int db) {
+
         final Jedis jedis = this.jedisProvider.get();
         jedis.select(db >= 0 ? db : this.defaultDatabase);
 
@@ -63,81 +67,126 @@ public class DefaultRedis implements Redis {
 
     @Override
     public <T> T get(final String key, final TypeReference<T> typeReference) {
+
         return this.get(key, Json.objectMapper().readerFor(typeReference));
     }
 
     @Override
     public <T> T get(final String key, final Class<T> clazz) {
+
         return this.get(key, Json.objectMapper().readerFor(clazz));
     }
 
     @Override
     public <T> T get(final String key, final JavaType javaType) {
+
         return this.get(key, Json.objectMapper().readerFor(javaType));
     }
 
     @Override
-    public <T> void set(final String key, final TypeReference<T> typeReference, final T value) {
+    public <T> void set(final String key,
+                        final TypeReference<T> typeReference,
+                        final T value) {
+
         this.set(key, typeReference, value, 0);
     }
 
     @Override
-    public <T> void set(final String key, final TypeReference<T> typeReference, final T value, final int expiration) {
+    public <T> void set(final String key,
+                        final TypeReference<T> typeReference,
+                        final T value,
+                        final int expiration) {
+
         this.set(key, Json.objectMapper().writerFor(typeReference), value, expiration);
     }
 
     @Override
-    public <T> void set(final String key, final Class<T> clazz, final T value) {
+    public <T> void set(final String key,
+                        final Class<T> clazz,
+                        final T value) {
+
         this.set(key, clazz, value, 0);
     }
 
     @Override
-    public <T> void set(final String key, final Class<T> clazz, final T value, final int expiration) {
+    public <T> void set(final String key,
+                        final Class<T> clazz,
+                        final T value,
+                        final int expiration) {
+
         this.set(key, Json.objectMapper().writerFor(clazz), value, expiration);
     }
 
     @Override
-    public void set(final String key, final JavaType javaType, final Object value) {
+    public void set(final String key,
+                    final JavaType javaType,
+                    final Object value) {
+
         this.set(key, javaType, value, 0);
     }
 
     @Override
-    public void set(final String key, final JavaType javaType, final Object value, final int expiration) {
+    public void set(final String key,
+                    final JavaType javaType,
+                    final Object value,
+                    final int expiration) {
+
         this.set(key, Json.objectMapper().writerFor(javaType), value, expiration);
     }
 
     @Override
-    public <T> T getOrElse(final String key, final TypeReference<T> typeReference, final Callable<T> block) {
+    public <T> T getOrElse(final String key,
+                           final TypeReference<T> typeReference,
+                           final Callable<T> block) {
+
         return this.getOrElse(key, typeReference, block, 0);
     }
 
     @Override
-    public <T> T getOrElse(final String key, final TypeReference<T> typeReference, final Callable<T> block, final int expiration) {
+    public <T> T getOrElse(final String key,
+                           final TypeReference<T> typeReference,
+                           final Callable<T> block,
+                           final int expiration) {
+
         return this.getOrElse(key, Json.objectMapper().readerFor(typeReference), Json.objectMapper().writerFor(typeReference), block, expiration);
     }
 
     @Override
-    public <T> T getOrElse(final String key, final Class<T> clazz, final Callable<T> block) {
+    public <T> T getOrElse(final String key,
+                           final Class<T> clazz,
+                           final Callable<T> block) {
+
         return this.getOrElse(key, clazz, block, 0);
     }
 
     @Override
-    public <T> T getOrElse(final String key, final Class<T> clazz, final Callable<T> block, final int expiration) {
+    public <T> T getOrElse(final String key,
+                           final Class<T> clazz,
+                           final Callable<T> block,
+                           final int expiration) {
+
         return this.getOrElse(key, Json.objectMapper().readerFor(clazz), Json.objectMapper().writerFor(clazz), block, expiration);
     }
 
     @Override
-    public <T> T getOrElse(final String key, final JavaType javaType, final Callable<T> block) {
+    public <T> T getOrElse(final String key,
+                           final JavaType javaType,
+                           final Callable<T> block) {
         return this.getOrElse(key, javaType, block, 0);
     }
 
     @Override
-    public <T> T getOrElse(final String key, final JavaType javaType, final Callable<T> block, final int expiration) {
+    public <T> T getOrElse(final String key,
+                           final JavaType javaType,
+                           final Callable<T> block,
+                           final int expiration) {
+
         return this.getOrElse(key, Json.objectMapper().readerFor(javaType), Json.objectMapper().writerFor(javaType), block, expiration);
     }
 
     @Override
     public void remove(final String key) {
+
         try (final Jedis jedis = this.getConnection()) {
             jedis.del(key);
         }
@@ -145,6 +194,7 @@ public class DefaultRedis implements Redis {
 
     @Override
     public void remove(final String... keys) {
+
         try (final Jedis jedis = this.getConnection()) {
             for (final String key : keys) {
                 jedis.del(key);
@@ -154,6 +204,7 @@ public class DefaultRedis implements Redis {
 
     @Override
     public boolean exists(final String key) {
+
         final boolean exists;
 
         try (final Jedis jedis = this.getConnection()) {
@@ -164,68 +215,104 @@ public class DefaultRedis implements Redis {
     }
 
     @Override
-    public <T> void addInList(final String key, final TypeReference<T> typeReference, final Object value) {
+    public <T> void addInList(final String key,
+                              final TypeReference<T> typeReference,
+                              final Object value) {
+
         this.addInList(key, Json.objectMapper().writerFor(typeReference), value);
     }
 
     @Override
-    public <T> void addInList(final String key, final TypeReference<T> typeReference, final Object value, final int maxItem) {
+    public <T> void addInList(final String key,
+                              final TypeReference<T> typeReference,
+                              final Object value,
+                              final int maxItem) {
+
         this.addInList(key, Json.objectMapper().writerFor(typeReference), value, maxItem);
     }
 
     @Override
-    public <T> void addInList(final String key, final Class<T> clazz, final T value) {
+    public <T> void addInList(final String key,
+                              final Class<T> clazz,
+                              final T value) {
+
         this.addInList(key, Json.objectMapper().writerFor(clazz), value);
     }
 
     @Override
-    public <T> void addInList(final String key, final Class<T> clazz, final T value, final int maxItem) {
+    public <T> void addInList(final String key,
+                              final Class<T> clazz,
+                              final T value,
+                              final int maxItem) {
+
         this.addInList(key, Json.objectMapper().writerFor(clazz), value, maxItem);
     }
 
     @Override
-    public void addInList(final String key, final JavaType javaType, final Object value) {
+    public void addInList(final String key,
+                          final JavaType javaType,
+                          final Object value) {
+
         this.addInList(key, Json.objectMapper().writerFor(javaType), value);
     }
 
     @Override
-    public void addInList(final String key, final JavaType javaType, final Object value, final int maxItem) {
+    public void addInList(final String key,
+                          final JavaType javaType,
+                          final Object value,
+                          final int maxItem) {
+
         this.addInList(key, Json.objectMapper().writerFor(javaType), value, maxItem);
     }
 
     @Override
     public <T> List<T> getFromList(final String key, final TypeReference<T> typeReference) {
+
         return this.getFromList(key, typeReference, 0, -1);
     }
 
     @Override
-    public <T> List<T> getFromList(final String key, final TypeReference<T> typeReference, final int offset,
+    public <T> List<T> getFromList(final String key,
+                                   final TypeReference<T> typeReference,
+                                   final int offset,
                                    final int count) {
+
         return this.getFromList(key, Json.objectMapper().readerFor(typeReference), offset, count);
     }
 
     @Override
     public <T> List<T> getFromList(final String key, final Class<T> clazz) {
+
         return this.getFromList(key, clazz, 0, -1);
     }
 
     @Override
-    public <T> List<T> getFromList(final String key, final Class<T> clazz, final int offset, final int count) {
+    public <T> List<T> getFromList(final String key,
+                                   final Class<T> clazz,
+                                   final int offset,
+                                   final int count) {
+
         return this.getFromList(key, Json.objectMapper().readerFor(clazz), offset, count);
     }
 
     @Override
     public <T> List<T> getFromList(final String key, final JavaType javaType) {
+
         return this.getFromList(key, javaType, 0, -1);
     }
 
     @Override
-    public <T> List<T> getFromList(final String key, final JavaType javaType, final int offset, final int count) {
+    public <T> List<T> getFromList(final String key,
+                                   final JavaType javaType,
+                                   final int offset,
+                                   final int count) {
+
         return this.getFromList(key, Json.objectMapper().readerFor(javaType), offset, count);
     }
 
     @Override
     public boolean tryLock(final String key, final int expiration) {
+
         long ret = 0;
 
         try (final Jedis jedis = this.getConnection()) {
@@ -244,6 +331,7 @@ public class DefaultRedis implements Redis {
 
     @Override
     public long decrement(final String key, final int expiration) {
+
         final long value;
 
         try (final Jedis jedis = this.getConnection()) {
@@ -258,16 +346,19 @@ public class DefaultRedis implements Redis {
 
     @Override
     public long decrement(final String key) {
+
         return this.decrement(key, -1);
     }
 
     @Override
     public long increment(final String key) {
+
         return this.increment(key, -1);
     }
 
     @Override
     public long increment(final String key, final int expiration) {
+
         final long value;
 
         try (final Jedis jedis = this.getConnection()) {
@@ -287,7 +378,10 @@ public class DefaultRedis implements Redis {
      * @param writer The object writer
      * @param value  The value to add in the list
      */
-    private void addInList(final String key, final ObjectWriter writer, final Object value) {
+    private void addInList(final String key,
+                           final ObjectWriter writer,
+                           final Object value) {
+
         try {
             final String data = writer.writeValueAsString(value);
             try (final Jedis jedis = this.getConnection()) {
@@ -306,7 +400,11 @@ public class DefaultRedis implements Redis {
      * @param value   The value to add in the list
      * @param maxItem The number of entries to keep in list
      */
-    private void addInList(final String key, final ObjectWriter writer, final Object value, final int maxItem) {
+    private void addInList(final String key,
+                           final ObjectWriter writer,
+                           final Object value,
+                           final int maxItem) {
+
         try {
             final String data = writer.writeValueAsString(value);
             try (final Jedis jedis = this.getConnection()) {
@@ -327,6 +425,7 @@ public class DefaultRedis implements Redis {
      * @return The object or null.
      */
     private <T> T get(final String key, final ObjectReader reader) {
+
         T object = null;
 
         try {
@@ -354,7 +453,11 @@ public class DefaultRedis implements Redis {
      * @param <T>    Generic type of something implementing {@code java.io.Serializable}
      * @return The values list
      */
-    private <T> List<T> getFromList(final String key, final ObjectReader reader, final int offset, final int count) {
+    private <T> List<T> getFromList(final String key,
+                                    final ObjectReader reader,
+                                    final int offset,
+                                    final int count) {
+
         final List<T> objects = new ArrayList<>();
 
         try {
@@ -386,8 +489,12 @@ public class DefaultRedis implements Redis {
      * @param <T>        Generic type of something
      * @return value
      */
-    private <T> T getOrElse(final String key, final ObjectReader reader, final ObjectWriter writer,
-                            final Callable<T> block, final int expiration) {
+    private <T> T getOrElse(final String key,
+                            final ObjectReader reader,
+                            final ObjectWriter writer,
+                            final Callable<T> block,
+                            final int expiration) {
+
         T data = this.get(key, reader);
 
         if (data == null) {
@@ -409,7 +516,11 @@ public class DefaultRedis implements Redis {
      * @param writer The object writer
      * @param value  The value to set
      */
-    private void set(final String key, final ObjectWriter writer, final Object value, final int expiration) {
+    private void set(final String key,
+                     final ObjectWriter writer,
+                     final Object value,
+                     final int expiration) {
+
         try {
             final String data = writer.writeValueAsString(value);
             try (final Jedis jedis = this.getConnection()) {
