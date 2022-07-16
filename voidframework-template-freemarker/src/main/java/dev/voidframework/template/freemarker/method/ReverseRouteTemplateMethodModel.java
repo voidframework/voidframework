@@ -27,7 +27,6 @@ public class ReverseRouteTemplateMethodModel implements TemplateMethodModelEx {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Object exec(final List argumentList) throws TemplateModelException {
 
         if (argumentList.size() < 1) {
