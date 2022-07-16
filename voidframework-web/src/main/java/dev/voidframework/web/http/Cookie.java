@@ -29,7 +29,7 @@ public record Cookie(String name,
      */
     static Cookie expired(final String name) {
 
-        return new Cookie(name, null, null, null, false, false, Duration.ZERO);
+        return new Cookie(name, null, null, "/", false, false, Duration.ZERO);
     }
 
     /**
