@@ -68,6 +68,8 @@ public class HikariCpDataSourceManagerProvider implements Provider<DataSourceMan
             hikariCfg.setMinimumIdle(appCfg.getInt("minimumIdle")));
         optionalHikariConfigToApplyMap.put("maximumPoolSize", (hikariCfg, appCfg) ->
             hikariCfg.setMaximumPoolSize(appCfg.getInt("maximumPoolSize")));
+        optionalHikariConfigToApplyMap.put("maxConnectionAge", (hikariCfg, appCfg) ->
+            hikariCfg.setMaxLifetime(appCfg.getInt("maxConnectionAge")));
 
         // Configuration of the different data sources
         final Map<String, DataSource> hikariDataSourcePerNameMap = new HashMap<>();

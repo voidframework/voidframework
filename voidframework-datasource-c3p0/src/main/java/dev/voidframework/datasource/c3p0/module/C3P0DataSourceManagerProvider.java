@@ -10,6 +10,7 @@ import dev.voidframework.exception.DataSourceException;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -46,22 +47,26 @@ public class C3P0DataSourceManagerProvider implements Provider<DataSourceManager
 
         // Defines the parameters of the data source which are optional
         final Map<String, BiConsumer<ComboPooledDataSource, Config>> optionalHikariConfigToApplyMap = new HashMap<>();
-        optionalHikariConfigToApplyMap.put("idleTimeout", (c3p0Cfg, appCfg) ->
-            c3p0Cfg.setMaxIdleTimeExcessConnections(appCfg.getInt("idleTimeout")));
+        optionalHikariConfigToApplyMap.put("connectionTimeout", (c3p0Cfg, appCfg) -> {
+            try {
+                c3p0Cfg.setLoginTimeout(appCfg.getInt("connectionTimeout") / 1000);
+            } catch (final SQLException ignore) {
+            }
+        });
         optionalHikariConfigToApplyMap.put("prepStmtCacheSize", (c3p0Cfg, appCfg) ->
             c3p0Cfg.setMaxStatements(appCfg.getInt("prepStmtCacheSize")));
         optionalHikariConfigToApplyMap.put("statementCacheNumDeferredCloseThreads", (c3p0Cfg, appCfg) ->
             c3p0Cfg.setStatementCacheNumDeferredCloseThreads(appCfg.getInt("statementCacheNumDeferredCloseThreads")));
         optionalHikariConfigToApplyMap.put("idleTimeout",
-            (c3p0Cfg, appCfg) -> c3p0Cfg.setMaxIdleTime(appCfg.getInt("idleTimeout")));
+            (c3p0Cfg, appCfg) -> c3p0Cfg.setMaxIdleTime(appCfg.getInt("idleTimeout") / 1000));
         optionalHikariConfigToApplyMap.put("maxConnectionAge", (c3p0Cfg, appCfg) ->
-            c3p0Cfg.setMaxConnectionAge(appCfg.getInt("maxConnectionAge")));
+            c3p0Cfg.setMaxConnectionAge(appCfg.getInt("maxConnectionAge") / 1000));
         optionalHikariConfigToApplyMap.put("autoCommit", (c3p0Cfg, appCfg) ->
             c3p0Cfg.setAutoCommitOnClose(appCfg.getBoolean("autoCommit")));
-        optionalHikariConfigToApplyMap.put("minimumIdle", (c3p0Cfg, appCfg) ->
-            c3p0Cfg.setInitialPoolSize(appCfg.getInt("minimumIdle")));
-        optionalHikariConfigToApplyMap.put("minimumIdle", (c3p0Cfg, appCfg) ->
-            c3p0Cfg.setMinPoolSize(appCfg.getInt("minimumIdle")));
+        optionalHikariConfigToApplyMap.put("minimumIdle", (c3p0Cfg, appCfg) -> {
+            c3p0Cfg.setMinPoolSize(appCfg.getInt("minimumIdle"));
+            c3p0Cfg.setInitialPoolSize(appCfg.getInt("minimumIdle"));
+        });
         optionalHikariConfigToApplyMap.put("maximumPoolSize", (c3p0Cfg, appCfg) ->
             c3p0Cfg.setMaxPoolSize(appCfg.getInt("maximumPoolSize")));
         optionalHikariConfigToApplyMap.put("acquireIncrement", (c3p0Cfg, appCfg) ->
