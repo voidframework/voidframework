@@ -72,7 +72,7 @@ public class UndertowHttpHandler implements HttpHandler {
             .setTempFileLocation(null)
             .setDefaultEncoding("UTF-8");
         this.multiPartParserDefinition.setFileSizeThreshold(
-            this.configuration.getMemorySize("voidframework.web.fileSizeThreshold").toBytes());
+            this.configuration.getMemorySize("voidframework.web.server.fileSizeThreshold").toBytes());
     }
 
     @Override
@@ -189,7 +189,7 @@ public class UndertowHttpHandler implements HttpHandler {
                 cookieImpl = cookieImpl.setMaxAge((int) cookie.timeToLive().toSeconds());
             }
 
-            httpServerExchange.setResponseCookie(cookieImpl);
+            httpServerExchange.setResponseCookie(cookieImpl.setSameSite(true).setSameSiteMode(cookie.sameSiteMode()));
         }
 
         // Returns content

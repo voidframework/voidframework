@@ -159,8 +159,8 @@ public class WebServer {
         // Configure Undertow
         final Undertow.Builder undertowBuilder = Undertow.builder()
             .setServerOption(UndertowOptions.SHUTDOWN_TIMEOUT, this.configuration.getInt("voidframework.web.gracefulStopTimeout"))
-            .setServerOption(UndertowOptions.MULTIPART_MAX_ENTITY_SIZE, this.configuration.getMemorySize("voidframework.web.maxBodySize").toBytes())
-            .setServerOption(UndertowOptions.MAX_ENTITY_SIZE, this.configuration.getMemorySize("voidframework.web.maxBodySize").toBytes())
+            .setServerOption(UndertowOptions.MULTIPART_MAX_ENTITY_SIZE, this.configuration.getMemorySize("voidframework.web.server.maxBodySize").toBytes())
+            .setServerOption(UndertowOptions.MAX_ENTITY_SIZE, this.configuration.getMemorySize("voidframework.web.server.maxBodySize").toBytes())
             .addHttpListener(
                 configuration.getInt("voidframework.web.server.listenPort"),
                 configuration.getString("voidframework.web.server.listenHost"))

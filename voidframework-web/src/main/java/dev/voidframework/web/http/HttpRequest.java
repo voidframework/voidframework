@@ -12,14 +12,14 @@ import java.util.Map;
 public interface HttpRequest {
 
     /**
-     * Return the request charset.
+     * Returns the request charset.
      *
      * @return The request charset
      */
     String getCharset();
 
     /**
-     * Return a cookie.
+     * Returns a cookie.
      *
      * @param cookieName The cookie name
      * @return The cookie, otherwise, null
@@ -27,7 +27,15 @@ public interface HttpRequest {
     Cookie getCookie(String cookieName);
 
     /**
-     * Return a single header.
+     * Checks if the current request accept a specific content type.
+     *
+     * @param contentType The content type
+     * @return {@code true} if the content type is accepted, otherwise, {@code false}
+     */
+    boolean acceptContentType(final String contentType);
+
+    /**
+     * Returns a single header.
      *
      * @param headerName The header name
      * @return The requested header value, otherwise, a null value
@@ -35,7 +43,7 @@ public interface HttpRequest {
     String getHeader(final String headerName);
 
     /**
-     * Return all headers.
+     * Returns all headers.
      *
      * @return All headers
      */
@@ -56,14 +64,14 @@ public interface HttpRequest {
     InputStream getInputSteam();
 
     /**
-     * Return the query string, without the leading "?".
+     * Returns the query string, without the leading "?".
      *
      * @return The query string
      */
     String getQueryString();
 
     /**
-     * Return the query string parameter value.
+     * Returns the query string parameter value.
      *
      * @param parameterName The parameter name
      * @return The query string parameter value
@@ -71,28 +79,28 @@ public interface HttpRequest {
     String getQueryStringParameter(String parameterName);
 
     /**
-     * Return all query string parameters.
+     * Returns all query string parameters.
      *
      * @return All query string parameters
      */
     Map<String, List<String>> getQueryStringParameters();
 
     /**
-     * Return the remote host that this request was sent to.
+     * Returns the remote host that this request was sent to.
      *
      * @return The remote host name
      */
     String getRemoteHostName();
 
     /**
-     * Return the complete URL as seen by the user.
+     * Returns the complete URL as seen by the user.
      *
      * @return The request URL
      */
     String getRequestURL();
 
     /**
-     * Return the original request URI.
+     * Returns the original request URI.
      * This is not decoded in any way, and does not include the query string.
      *
      * @return The request URI
@@ -100,7 +108,7 @@ public interface HttpRequest {
     String getRequestURI();
 
     /**
-     * Return the body content;
+     * Returns the body content;
      *
      * @return The body content
      */
