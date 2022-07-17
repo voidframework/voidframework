@@ -69,6 +69,7 @@ public class DefaultRouter implements Router, RouterPostInitialization {
                          final String routeUrl,
                          final Class<?> controllerClassType,
                          final Method method) {
+
         this.addRoute(httpMethod, routeUrl, controllerClassType, method, StringUtils.EMPTY);
     }
 
@@ -204,11 +205,19 @@ public class DefaultRouter implements Router, RouterPostInitialization {
             final int idx = obj.routePattern().toString().indexOf("(");
             return idx < 0 ? Integer.MAX_VALUE : idx;
         });
+        final Comparator<Route> regexCaptureIdxComparator = Comparator.comparingInt(obj -> {
+            final int idx = obj.routePattern().toString().indexOf("(?");
+            return idx < 0 ? Integer.MIN_VALUE : idx;
+        });
         final Comparator<Route> lengthComparator = Comparator.comparing(obj -> obj.routePattern().toString().length());
         final Comparator<Route> alphaComparator = Comparator.comparing(Route::toString);
+        final Comparator<Route> routeComparator = regexIdxComparator.reversed()
+            .thenComparing(regexCaptureIdxComparator)
+            .thenComparing(lengthComparator)
+            .thenComparing(alphaComparator);
 
         for (final Map.Entry<HttpMethod, List<Route>> entry : this.routeListPerHttpMethodMap.entrySet()) {
-            entry.getValue().sort(regexIdxComparator.reversed().thenComparing(lengthComparator.thenComparing(alphaComparator)));
+            entry.getValue().sort(routeComparator);
         }
     }
 
