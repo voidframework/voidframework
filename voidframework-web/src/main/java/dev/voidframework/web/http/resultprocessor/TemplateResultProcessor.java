@@ -3,6 +3,7 @@ package dev.voidframework.web.http.resultprocessor;
 import com.typesafe.config.Config;
 import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.template.exception.TemplateException;
+import dev.voidframework.web.csrf.CSRFFilter;
 import dev.voidframework.web.http.Context;
 
 import java.io.ByteArrayInputStream;
@@ -56,6 +57,7 @@ public class TemplateResultProcessor implements ResultProcessor {
             this.dataModel.put("flash", context.getFlashMessages());
             this.dataModel.put("session", context.getSession());
             this.dataModel.put("languages", configuration.getStringList("voidframework.web.language.availableLanguages"));
+            this.dataModel.put("csrfToken", context.getAttributes().get(CSRFFilter.CSRF_TOKEN_KEY));
         }
 
         final String renderedTemplate = templateRenderer.render(this.templateName, context.getLocale(), this.dataModel);

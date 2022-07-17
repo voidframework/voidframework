@@ -4,6 +4,7 @@ import com.google.inject.Injector;
 import com.typesafe.config.Config;
 import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.template.TemplateRenderer;
+import dev.voidframework.web.csrf.CSRFFilter;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.filter.DefaultFilterChain;
 import dev.voidframework.web.filter.Filter;
@@ -102,6 +103,9 @@ public final class HttpRequestHandler {
         // Tries to resolve route
         final ResolvedRoute resolvedRoute = router.resolveRoute(context.getRequest().getHttpMethod(), context.getRequest().getRequestURI());
         if (resolvedRoute == null) {
+            // CSRF checking not needed on 404 error page
+            context.getAttributes().put(CSRFFilter.BYPASS_CSRF_VERIFICATION, Boolean.TRUE);
+
             // No route found, only the Filter showing the "404" error page is required
             final Filter callNotFoundFilter = (ctx, filterChain) -> {
                 final Result result = errorHandler.onNotFound(ctx, null);
@@ -111,6 +115,12 @@ public final class HttpRequestHandler {
             };
             filterList.add(callNotFoundFilter);
         } else {
+            // CSRF Modifier
+            if (resolvedRoute.controllerClassType().isAnnotationPresent(NoCSRF.class)
+                || resolvedRoute.method().isAnnotationPresent(NoCSRF.class)) {
+                context.getAttributes().put(CSRFFilter.BYPASS_CSRF_VERIFICATION, Boolean.TRUE);
+            }
+
             // Instantiates controller and method filters
             for (final Class<? extends Filter> filterClassType : resolvedRoute.filterClassTypes()) {
                 filterList.add(this.injector.getInstance(filterClassType));

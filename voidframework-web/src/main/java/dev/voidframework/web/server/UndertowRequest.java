@@ -23,6 +23,8 @@ public final class UndertowRequest implements HttpRequest {
     private final HttpServerExchange httpServerExchange;
     private final HttpRequestBodyContent httpRequestBodyContent;
 
+    private Map<String, List<String>> headerMapCache;
+
     /**
      * Build a new instance.
      *
@@ -53,6 +55,23 @@ public final class UndertowRequest implements HttpRequest {
     }
 
     @Override
+    public boolean acceptContentType(final String contentType) {
+
+        final HeaderValues acceptHeaderValues = this.httpServerExchange.getRequestHeaders().get("Accept");
+        if (acceptHeaderValues == null || acceptHeaderValues.isEmpty()) {
+            return false;
+        }
+
+        for (final String value : acceptHeaderValues.get(0).split(",")) {
+            if (value.contains(contentType)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public String getHeader(final String headerName) {
 
         return this.httpServerExchange.getRequestHeaders().getFirst(headerName);
@@ -61,16 +80,18 @@ public final class UndertowRequest implements HttpRequest {
     @Override
     public Map<String, List<String>> getHeaders() {
 
-        final Map<String, List<String>> headerMap = new HashMap<>();
-        final Iterator<HeaderValues> iterator = this.httpServerExchange.getRequestHeaders().iterator();
+        if (this.headerMapCache == null) {
+            this.headerMapCache = new HashMap<>();
+            final Iterator<HeaderValues> iterator = this.httpServerExchange.getRequestHeaders().iterator();
 
-        HeaderValues headerValues;
-        while (iterator.hasNext()) {
-            headerValues = iterator.next();
-            headerMap.put(headerValues.getHeaderName().toString(), headerValues.subList(0, headerValues.size()));
+            HeaderValues headerValues;
+            while (iterator.hasNext()) {
+                headerValues = iterator.next();
+                this.headerMapCache.put(headerValues.getHeaderName().toString(), headerValues.subList(0, headerValues.size()));
+            }
         }
 
-        return headerMap;
+        return this.headerMapCache;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.typesafe.config.Config;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.HttpContentType;
+import dev.voidframework.web.http.NoCSRF;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.param.RequestPath;
 import dev.voidframework.web.http.param.RequestRoute;
@@ -51,6 +52,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      * @return A result containing the requested webjar asset
      * @throws HttpException.NotFound If requested asset does not exist
      */
+    @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/webjars/(?<fileName>.*)")
     public Result webjarAsset(@RequestPath("fileName") final String fileName) {
 
@@ -75,6 +77,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      * @return A result containing the requested static asset
      * @throws HttpException.NotFound If requested asset does not exist
      */
+    @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/(favicon.ico|robots.txt)")
     public Result staticAsset(final Context context) {
 
@@ -88,6 +91,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      * @return A result containing the requested static asset
      * @throws HttpException.NotFound If requested asset does not exist
      */
+    @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/static/(?<fileName>.*)")
     public Result staticAsset(@RequestPath("fileName") final String fileName) {
 
