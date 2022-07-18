@@ -105,22 +105,23 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
         if (this.runInDevMode) {
             // Try to load file directly (don't need application recompilation)
             final Path fileLocation = resolveLocation(fileName);
-            if (fileLocation == null) {
-                throw new HttpException.NotFound();
-            }
-
-            try {
-                inputStream = Files.newInputStream(fileLocation);
-                contentType = detectFileContentType(fileName);
-            } catch (final IOException ignore) {
+            if (fileLocation != null) {
+                try {
+                    inputStream = Files.newInputStream(fileLocation);
+                    contentType = detectFileContentType(fileName);
+                } catch (final IOException ignore) {
+                }
             }
         }
 
         if (inputStream == null) {
             // Try to load file from resources
-            final String requestedFileName = Paths.get(File.separator, this.baseAssetResourcesDirectory, fileName).toString();
+            String requestedFileName = Paths.get(this.baseAssetResourcesDirectory, fileName).toString();
+            if (requestedFileName.charAt(0) != File.separatorChar) {
+                requestedFileName = File.separator + requestedFileName;
+            }
 
-            inputStream = this.getClass().getResourceAsStream(requestedFileName);
+            inputStream = this.getClass().getResourceAsStream(requestedFileName.replace(File.separator, "/"));
             if (inputStream == null) {
                 throw new HttpException.NotFound();
             }
