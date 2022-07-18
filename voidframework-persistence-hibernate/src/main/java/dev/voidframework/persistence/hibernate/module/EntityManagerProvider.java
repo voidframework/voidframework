@@ -16,6 +16,7 @@ import org.hibernate.jpa.HibernatePersistenceProvider;
 
 import javax.sql.DataSource;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -181,7 +182,13 @@ public class EntityManagerProvider implements Provider<EntityManager> {
         public List<URL> getJarFileUrls() {
 
             try {
-                return Collections.list(this.getClass().getClassLoader().getResources(""));
+                final List<URL> javaFileUrlList = Collections.list(this.getClass().getClassLoader().getResources(""));
+                final URL currentJarUrl = resolveCurrentJarFile();
+                if (currentJarUrl != null && !javaFileUrlList.contains(currentJarUrl)) {
+                    javaFileUrlList.add(0, currentJarUrl);
+                }
+
+                return javaFileUrlList;
             } catch (final IOException ignore) {
                 return Collections.emptyList();
             }
@@ -241,6 +248,23 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
         @Override
         public ClassLoader getNewTempClassLoader() {
+
+            return null;
+        }
+
+        /**
+         * Resolves the current Jar file URL.
+         *
+         * @return The current Jar file URL
+         */
+        private URL resolveCurrentJarFile() {
+            try {
+                final URL url = this.getClass().getResource("/application.conf");
+                if (url != null) {
+                    return new URL(url.toString().replace("/application.conf", "/"));
+                }
+            } catch (final MalformedURLException ignore) {
+            }
 
             return null;
         }
