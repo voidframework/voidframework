@@ -3,6 +3,7 @@ package dev.voidframework.web.csrf;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 import dev.voidframework.core.helper.Hex;
 import dev.voidframework.core.lang.TypedMap;
 import dev.voidframework.web.exception.HttpException;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This filter takes care of generating and checking a CSRF
@@ -42,7 +44,7 @@ public class CSRFFilter implements Filter {
     private final String cookieName;
     private final boolean cookieSecure;
     private final boolean cookieHttpOnly;
-    private final String cryptoKey;
+    private final String signatureKey;
     private final long timeToLive;
 
     /**
@@ -57,8 +59,12 @@ public class CSRFFilter implements Filter {
         this.cookieName = configuration.getString("voidframework.web.csrf.cookieName");
         this.cookieSecure = configuration.getBoolean("voidframework.web.csrf.cookieSecure");
         this.cookieHttpOnly = configuration.getBoolean("voidframework.web.csrf.cookieHttpOnly");
-        this.cryptoKey = configuration.getString("voidframework.web.csrf.cryptoKey");
-        this.timeToLive = configuration.getLong("voidframework.web.csrf.timeToLive");
+        this.signatureKey = configuration.getString("voidframework.web.csrf.signatureKey");
+        this.timeToLive = configuration.getDuration("voidframework.web.csrf.timeToLive", TimeUnit.MILLISECONDS);
+
+        if (this.signatureKey.isBlank()) {
+            throw new ConfigException.BadValue("voidframework.web.csrf.signatureKey", "Please configure the CSRF signature Key");
+        }
     }
 
     @Override
@@ -190,7 +196,7 @@ public class CSRFFilter implements Filter {
 
         try {
             final Mac mac = Mac.getInstance(H_MAC_ALGORITHM);
-            mac.init(new SecretKeySpec(this.cryptoKey.getBytes(StandardCharsets.UTF_8), H_MAC_ALGORITHM));
+            mac.init(new SecretKeySpec(this.signatureKey.getBytes(StandardCharsets.UTF_8), H_MAC_ALGORITHM));
             return Hex.toHex(mac.doFinal(value.getBytes(StandardCharsets.UTF_8)));
         } catch (final InvalidKeyException | NoSuchAlgorithmException exception) {
             throw new HttpException.InternalServerError(exception);
@@ -220,7 +226,7 @@ public class CSRFFilter implements Filter {
             ? csrfTokenProvided.value
             : null;
 
-        if (!Objects.equals(expectedValue, providedValue)) {
+        if (expectedValue == null || !Objects.equals(expectedValue, providedValue)) {
             throw new HttpException.BadRequest("CSRF token is invalid");
         }
     }
