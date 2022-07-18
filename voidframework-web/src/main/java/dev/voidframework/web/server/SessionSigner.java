@@ -8,6 +8,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 import dev.voidframework.web.http.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,8 +40,13 @@ public final class SessionSigner {
 
         this.configuration = configuration;
 
+        final String signatureKey = this.configuration.getString("voidframework.web.session.signatureKey");
+        if (signatureKey.equalsIgnoreCase("changeme") || signatureKey.isBlank()) {
+            throw new ConfigException.BadValue("voidframework.web.session.signatureKey", "Please configure the Session signature Key");
+        }
+
         final JWTVerifier.BaseVerification verification = (JWTVerifier.BaseVerification)
-            JWT.require(Algorithm.HMAC256(this.configuration.getString("voidframework.web.session.cryptoKey")))
+            JWT.require(Algorithm.HMAC256(signatureKey))
                 .acceptLeeway(5)
                 .acceptExpiresAt(5);
         this.verifier = verification.build(() -> Date.from(Instant.now()));
@@ -89,7 +95,7 @@ public final class SessionSigner {
                 .withNotBefore(dateNowUtc)
                 .withExpiresAt(dateExpirationUtc)
                 .withPayload(session)
-                .sign(Algorithm.HMAC256(this.configuration.getString("voidframework.web.session.cryptoKey")));
+                .sign(Algorithm.HMAC256(this.configuration.getString("voidframework.web.session.signatureKey")));
         } catch (final IllegalArgumentException | JWTCreationException exception) {
             LOGGER.error("Can't sign session", exception);
             return null;
