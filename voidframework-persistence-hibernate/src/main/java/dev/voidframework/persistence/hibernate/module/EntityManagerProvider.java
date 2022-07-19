@@ -116,12 +116,43 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     private void createEntityManagerFactoryIfNeeded() {
 
         if (this.entityManagerFactory == null) {
+            // Resolves all jar file URLs
+            List<URL> javaFileUrlList;
+            try {
+                javaFileUrlList = Collections.list(this.getClass().getClassLoader().getResources(""));
+                final URL currentJarUrl = resolveCurrentJarFile();
+                if (currentJarUrl != null && !javaFileUrlList.contains(currentJarUrl)) {
+                    javaFileUrlList.add(0, currentJarUrl);
+                }
+            } catch (final IOException ignore) {
+                javaFileUrlList = Collections.emptyList();
+            }
+
+            // Creates entity manager
             this.entityManagerFactory = new HibernatePersistenceProvider().createContainerEntityManagerFactory(
-                new PersistenceUnitInfoIml(dataSourceName),
+                new PersistenceUnitInfoIml(dataSourceName, javaFileUrlList),
                 Map.of(
                     AvailableSettings.DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName),
                     AvailableSettings.HBM2DDL_AUTO, "none"));
         }
+    }
+
+    /**
+     * Resolves the current Jar file URL.
+     *
+     * @return The current Jar file URL
+     */
+    private URL resolveCurrentJarFile() {
+
+        try {
+            final URL url = this.getClass().getResource("/application.conf");
+            if (url != null) {
+                return new URL(url.toString().replace("/application.conf", "/"));
+            }
+        } catch (final MalformedURLException ignore) {
+        }
+
+        return null;
     }
 
     /**
@@ -130,16 +161,20 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     private static class PersistenceUnitInfoIml implements PersistenceUnitInfo {
 
         private final String persistenceUnitName;
+        private final List<URL> jarUrlList;
 
         /**
          * Build a new instance.
          *
          * @param persistenceUnitName Name of the persistence unit
+         * @param jarUrlList          JAR URLs
          */
-        private PersistenceUnitInfoIml(final String persistenceUnitName) {
+        private PersistenceUnitInfoIml(final String persistenceUnitName,
+                                       final List<URL> jarUrlList) {
 
             super();
             this.persistenceUnitName = persistenceUnitName;
+            this.jarUrlList = jarUrlList;
         }
 
         @Override
@@ -181,17 +216,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
         @Override
         public List<URL> getJarFileUrls() {
 
-            try {
-                final List<URL> javaFileUrlList = Collections.list(this.getClass().getClassLoader().getResources(""));
-                final URL currentJarUrl = resolveCurrentJarFile();
-                if (currentJarUrl != null && !javaFileUrlList.contains(currentJarUrl)) {
-                    javaFileUrlList.add(0, currentJarUrl);
-                }
-
-                return javaFileUrlList;
-            } catch (final IOException ignore) {
-                return Collections.emptyList();
-            }
+            return this.jarUrlList;
         }
 
         @Override
@@ -248,23 +273,6 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
         @Override
         public ClassLoader getNewTempClassLoader() {
-
-            return null;
-        }
-
-        /**
-         * Resolves the current Jar file URL.
-         *
-         * @return The current Jar file URL
-         */
-        private URL resolveCurrentJarFile() {
-            try {
-                final URL url = this.getClass().getResource("/application.conf");
-                if (url != null) {
-                    return new URL(url.toString().replace("/application.conf", "/"));
-                }
-            } catch (final MalformedURLException ignore) {
-            }
 
             return null;
         }
