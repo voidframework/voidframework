@@ -49,7 +49,7 @@ public final class SessionSigner {
             JWT.require(Algorithm.HMAC256(signatureKey))
                 .acceptLeeway(5)
                 .acceptExpiresAt(5);
-        this.verifier = verification.build(() -> Date.from(Instant.now()));
+        this.verifier = verification.build();
     }
 
     /**
