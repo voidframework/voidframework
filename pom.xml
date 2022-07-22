@@ -53,12 +53,12 @@
 
         <!-- Dependencies -->
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
-        <dependency.version.classgraph>4.8.147</dependency.version.classgraph>
+        <dependency.version.classgraph>4.8.149</dependency.version.classgraph>
         <dependency.version.commons.lang>3.12.0</dependency.version.commons.lang>
-        <dependency.version.flyway>8.5.12</dependency.version.flyway>
+        <dependency.version.flyway>9.0.1</dependency.version.flyway>
         <dependency.version.freemarker>2.3.31</dependency.version.freemarker>
         <dependency.version.guice>5.1.0</dependency.version.guice>
-        <dependency.version.hibernate.orm>6.1.0.Final</dependency.version.hibernate.orm>
+        <dependency.version.hibernate.orm>6.1.1.Final</dependency.version.hibernate.orm>
         <dependency.version.hibernate.validator>7.0.4.Final</dependency.version.hibernate.validator>
         <dependency.version.hikaricp>5.0.1</dependency.version.hikaricp>
         <dependency.version.jackson.core>2.13.3</dependency.version.jackson.core>
@@ -66,15 +66,15 @@
         <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
         <dependency.version.jakarta.persistenceapi>3.1.0</dependency.version.jakarta.persistenceapi>
         <dependency.version.jedis>4.2.3</dependency.version.jedis>
-        <dependency.version.jwt>3.19.2</dependency.version.jwt>
+        <dependency.version.jwt>4.0.0</dependency.version.jwt>
         <dependency.version.kryo>5.3.0</dependency.version.kryo>
         <dependency.version.logback>1.2.11</dependency.version.logback>
-        <dependency.version.tika>2.4.0</dependency.version.tika>
+        <dependency.version.tika>2.4.1</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
-        <dependency.version.undertow>2.2.17.Final</dependency.version.undertow>
+        <dependency.version.undertow>2.2.18.Final</dependency.version.undertow>
 
         <!-- Unit Tests -->
-        <dependency.version.h2>2.1.212</dependency.version.h2>
+        <dependency.version.h2>2.1.214</dependency.version.h2>
         <dependency.version.junit>5.8.2</dependency.version.junit>
         <dependency.version.mockito>4.6.1</dependency.version.mockito>
     </properties>
@@ -356,7 +356,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-xml</artifactId>
-                <version>2.12.2</version>
+                <version>${dependency.version.jackson}</version>
             </dependency>
             <dependency>
                 <groupId>io.github.classgraph</groupId>
