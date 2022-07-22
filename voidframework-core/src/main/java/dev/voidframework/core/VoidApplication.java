@@ -38,9 +38,9 @@ import java.util.Map;
  * Application launcher are expected to instantiate and run all parts of an
  * application based on Void Framework, wiring everything together.
  */
-public class ApplicationLauncher {
+public class VoidApplication {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationLauncher.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(VoidApplication.class);
 
     private Injector injector;
     private LifeCycleManager lifeCycleManager;
@@ -48,7 +48,7 @@ public class ApplicationLauncher {
     /**
      * Build a new instance.
      */
-    public ApplicationLauncher() {
+    public VoidApplication() {
 
         this.injector = null;
         this.lifeCycleManager = null;
@@ -179,6 +179,21 @@ public class ApplicationLauncher {
         // Ready
         final long endTimeMillis = System.currentTimeMillis();
         LOGGER.info("Application started in {}ms", endTimeMillis - startTimeMillis);
+    }
+
+    /**
+     * Get instance of a specific bind class.
+     *
+     * @param classType The class type
+     * @param <T>       Type of the class
+     * @return The class instance
+     */
+    public <T> T getInstance(final Class<T> classType) {
+        if (this.injector == null) {
+            return null;
+        }
+
+        return this.injector.getInstance(classType);
     }
 
     /**

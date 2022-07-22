@@ -1,4 +1,4 @@
-import dev.voidframework.core.ApplicationLauncher;
+import dev.voidframework.core.VoidApplication;
 
 /**
  * Application entry point.
@@ -11,7 +11,7 @@ public final class MainEntry {
      * @param args Arguments
      */
     public static void main(final String[] args) {
-        final ApplicationLauncher applicationLauncher = new ApplicationLauncher();
-        applicationLauncher.launch();
+        final VoidApplication voidApplication = new VoidApplication();
+        voidApplication.launch();
     }
 }
