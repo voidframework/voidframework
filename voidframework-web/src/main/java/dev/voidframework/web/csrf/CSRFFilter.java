@@ -38,7 +38,7 @@ public class CSRFFilter implements Filter {
     public static final TypedMap.Key<String> CSRF_TOKEN_KEY = TypedMap.Key.of("CSRF_TOKEN");
     public static final TypedMap.Key<Boolean> BYPASS_CSRF_VERIFICATION = TypedMap.Key.of("BYPASS_CSRF_VERIFICATION");
 
-    private static final String H_MAC_ALGORITHM = "HmacSHA1";
+    private static final String H_MAC_ALGORITHM = "HmacSHA256";
 
     private final String csrfTokenName;
     private final String cookieName;
