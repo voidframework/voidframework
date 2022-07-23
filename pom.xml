@@ -42,8 +42,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
-        <voidframework.version>1.1.1-SNAPSHOT</voidframework.version>
-
         <!-- Plugins -->
         <plugin.version.mavengpg>3.0.1</plugin.version.mavengpg>
         <plugin.version.mavenjavadoc>3.4.0</plugin.version.mavenjavadoc>
@@ -214,87 +212,87 @@
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-core</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-cache</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-cache-redis</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-datasource</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-datasource-hikaricp</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-healthcheck</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-i18n</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-migration-flyway</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-persistence-hibernate</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-redis</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-redis-healthcheck</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-scheduler</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-template</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-template-freemarker</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-validation</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-web</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-web-healthcheck</artifactId>
-                <version>${voidframework.version}</version>
+                <version>${project.parent.version}</version>
             </dependency>
 
             <!-- Dependencies -->
