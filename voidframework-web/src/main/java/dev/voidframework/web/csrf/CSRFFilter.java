@@ -16,6 +16,7 @@ import dev.voidframework.web.http.HttpContentType;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.routing.HttpMethod;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -75,33 +76,56 @@ public class CSRFFilter implements Filter {
             return filterChain.applyNext(context);
         }
 
-        final CSRFToken csrfTokenExpected = extractExpectedCSRFTokenHash(context);
         if (context.getRequest().getHttpMethod() == HttpMethod.POST) {
-            final CSRFToken csrfTokenProvided = extractProvidedCSRFToken(context);
-            this.checkCSRFToken(csrfTokenExpected, csrfTokenProvided);
+            final Pair<CSRFToken, String> currentAndNewCSRFTokenPair = extractAndRegenerateCSRFToken(context);
+            final CSRFToken providedCSRFToken = extractProvidedCSRFToken(context);
+            this.checkCSRFToken(currentAndNewCSRFTokenPair.getLeft(), providedCSRFToken);
 
-            return filterChain.applyNext(context).withoutCookie(this.cookieName);
+            final Result result = filterChain.applyNext(context);
+            if (result.getHttpCode() / 100 != 3) {
+                // Result is not a redirection, we have to generate a new CSRF token
+                return result.withCookie(Cookie.of(this.cookieName, currentAndNewCSRFTokenPair.getRight(), this.cookieHttpOnly, this.cookieSecure, null));
+            }
+
+            return result.withoutCookie(this.cookieName);
         } else if (context.getRequest().getHttpMethod() == HttpMethod.GET
             && context.getRequest().acceptContentType(HttpContentType.TEXT_HTML)) {
 
-            final String csrfToken = this.createNewCSRFTokenAsString(csrfTokenExpected);
-            context.getAttributes().put(CSRF_TOKEN_KEY, csrfToken);
+            final Pair<CSRFToken, String> tokens = extractAndRegenerateCSRFToken(context);
 
             return filterChain
                 .applyNext(context)
-                .withCookie(Cookie.of(this.cookieName, csrfToken, this.cookieHttpOnly, this.cookieSecure, null));
+                .withCookie(Cookie.of(this.cookieName, tokens.getRight(), this.cookieHttpOnly, this.cookieSecure, null));
         }
 
         return filterChain.applyNext(context);
     }
 
     /**
-     * Extracts the expected CSRF token.
+     * Extracts current CSRF token and creates a new one.
+     * The newly created token will is automatically add to the context attributes.
      *
      * @param context The current context
-     * @return The provided CSRF, otherwise, {@code null}
+     * @return A {@code Pair} containing the current {@code CSRFToken} and the new one as {@code String}
      */
-    private CSRFToken extractExpectedCSRFTokenHash(final Context context) {
+    private Pair<CSRFToken, String> extractAndRegenerateCSRFToken(final Context context) {
+        // Retrieves current CSRF token
+        final CSRFToken currentCSRFToken = extractCurrentCSRFToken(context);
+
+        // Create a new CSRF token
+        final String newCSRFTokenAsString = this.createNewCSRFTokenAsString(currentCSRFToken);
+        context.getAttributes().put(CSRF_TOKEN_KEY, newCSRFTokenAsString);
+
+        return Pair.of(currentCSRFToken, newCSRFTokenAsString);
+    }
+
+    /**
+     * Extracts the current CSRF token.
+     *
+     * @param context The current context
+     * @return The current CSRF, otherwise, {@code null}
+     */
+    private CSRFToken extractCurrentCSRFToken(final Context context) {
 
         final Cookie csrfTokenCookie = context.getRequest().getCookie(this.cookieName);
         if (csrfTokenCookie == null) {
