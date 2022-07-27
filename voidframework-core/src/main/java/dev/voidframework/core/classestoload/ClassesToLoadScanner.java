@@ -139,6 +139,7 @@ public final class ClassesToLoadScanner {
      * @return Instance of {@code Kryo}
      */
     private static Kryo initializeKryo() {
+
         final Kryo kryo = new Kryo();
         kryo.setRegistrationRequired(false);
         kryo.register(ArrayList.class);

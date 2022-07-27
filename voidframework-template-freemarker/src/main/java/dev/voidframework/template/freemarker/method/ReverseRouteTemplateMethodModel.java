@@ -23,6 +23,7 @@ public class ReverseRouteTemplateMethodModel implements TemplateMethodModelEx {
      * @param router The router
      */
     public ReverseRouteTemplateMethodModel(final Router router) {
+
         this.router = router;
     }
 

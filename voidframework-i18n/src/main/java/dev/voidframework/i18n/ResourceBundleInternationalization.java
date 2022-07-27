@@ -24,6 +24,7 @@ public final class ResourceBundleInternationalization implements Internationaliz
      * Build a new instance.
      */
     public ResourceBundleInternationalization() {
+
         this.bundlePerLocaleCacheMap = new HashMap<>();
     }
 

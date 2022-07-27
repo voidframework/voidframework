@@ -26,6 +26,7 @@ public class HibernateModule extends AbstractModule {
      * @param configuration The application configuration
      */
     public HibernateModule(final Config configuration) {
+
         this.configuration = configuration;
     }
 

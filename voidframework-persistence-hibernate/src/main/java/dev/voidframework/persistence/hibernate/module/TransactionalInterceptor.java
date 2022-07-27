@@ -10,7 +10,6 @@ import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
-
 /**
  * Intercepts method call when annotation {@link Transactional} is used.
  */
@@ -25,6 +24,7 @@ public class TransactionalInterceptor implements MethodInterceptor {
      */
     @Inject
     public void setDataSourceManagerProvider(final EntityManagerProvider entityManagerProvider) {
+
         this.entityManagerProvider = entityManagerProvider;
     }
 

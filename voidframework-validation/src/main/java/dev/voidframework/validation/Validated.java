@@ -35,6 +35,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return Newly created instance
      */
     public static <VALIDATED_OBJ_TYPE> Validated<VALIDATED_OBJ_TYPE> emptyOf() {
+
         return new Validated<>(null, new HashMap<>());
     }
 
@@ -46,6 +47,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @return Newly created instance
      */
     public static <VALIDATED_OBJ_TYPE> Validated<VALIDATED_OBJ_TYPE> emptyOf(final VALIDATED_OBJ_TYPE instance) {
+
         return new Validated<>(instance, new HashMap<>());
     }
 

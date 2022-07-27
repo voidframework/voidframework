@@ -19,6 +19,7 @@ public record ScannedClassesToLoad(List<Class<?>> moduleList,
      * @return The number of scanned classes detected as loadable
      */
     public int count() {
+
         return moduleList.size() + bindableList.size() + converterInformationList.size();
     }
 }

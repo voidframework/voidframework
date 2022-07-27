@@ -109,6 +109,7 @@ public class CSRFFilter implements Filter {
      * @return A {@code Pair} containing the current {@code CSRFToken} and the new one as {@code String}
      */
     private Pair<CSRFToken, String> extractAndRegenerateCSRFToken(final Context context) {
+
         // Retrieves current CSRF token
         final CSRFToken currentCSRFToken = extractCurrentCSRFToken(context);
 
