@@ -21,6 +21,7 @@ import dev.voidframework.core.exception.AppLauncherException;
 import dev.voidframework.core.helper.VoidFrameworkVersion;
 import dev.voidframework.core.lifecycle.LifeCycleAnnotationListener;
 import dev.voidframework.core.lifecycle.LifeCycleManager;
+import dev.voidframework.core.remoteconfiguration.RemoteConfigurationLoader;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +75,9 @@ public class VoidApplication {
         LOGGER.info("Fetching configuration");
         final Config applicationConfiguration = ConfigFactory.defaultApplication(this.getClass().getClassLoader());
         final Config referenceConfiguration = ConfigFactory.defaultReference(this.getClass().getClassLoader()).withOnlyPath("voidframework");
-        final Config configuration = applicationConfiguration.withFallback(referenceConfiguration).resolve();
+        final Config localConfiguration = applicationConfiguration.withFallback(referenceConfiguration).resolve();
+        final Config remoteConfiguration = RemoteConfigurationLoader.processAllProviders(localConfiguration);
+        final Config configuration = remoteConfiguration.withFallback(localConfiguration);
         LOGGER.info("Configuration fetched with success ({} keys)", configuration.entrySet().size());
 
         // Find useful classes to load

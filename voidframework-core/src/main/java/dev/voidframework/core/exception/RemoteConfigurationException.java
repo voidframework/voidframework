@@ -1,0 +1,119 @@
+package dev.voidframework.core.exception;
+
+/**
+ * All exceptions thrown by the remote configuration are subclasses of {@code RemoteConfigurationException}.
+ */
+public class RemoteConfigurationException extends RuntimeException {
+
+    /**
+     * Build a new instance.
+     *
+     * @param message The detail message
+     */
+    protected RemoteConfigurationException(final String message) {
+
+        this(message, null);
+    }
+
+    /**
+     * Build a new instance.
+     *
+     * @param message The detail message
+     * @param cause   The cause
+     */
+    protected RemoteConfigurationException(final String message, final Throwable cause) {
+
+        super(message, cause);
+    }
+
+    /**
+     * This exception indicate that provider does not exist.
+     */
+    public static class ProviderDoesNotExist extends RemoteConfigurationException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param providerClassPath The provider class path
+         */
+        public ProviderDoesNotExist(final String providerClassPath) {
+
+            super("Provider '" + providerClassPath + "' does not exist");
+        }
+    }
+
+    /**
+     * This exception indicate that provider can't be instantiated / used.
+     */
+    public static class BadProvider extends RemoteConfigurationException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param providerClassPath The provider class path
+         * @param cause             The cause
+         */
+        public BadProvider(final String providerClassPath, final Throwable cause) {
+
+            super("Invalid provider '" + providerClassPath + "'", cause);
+        }
+    }
+
+    /**
+     * This exception indicate that a value was not valid.
+     */
+    public static class BadValue extends RemoteConfigurationException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param path    The value path
+         * @param message The error message
+         * @param cause   The cause
+         */
+        public BadValue(String path, String message, Throwable cause) {
+
+            super("Invalid value at '" + path + "': " + message, cause);
+        }
+
+        /**
+         * Build a new instance.
+         *
+         * @param path    The value path
+         * @param message The error message
+         */
+        public BadValue(String path, String message) {
+
+            this(path, message, null);
+        }
+    }
+
+    /**
+     * This exception indicate that file can't be saved.
+     */
+    public static class StorageException extends RemoteConfigurationException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param path    The key path
+         * @param message The detail message
+         */
+        public StorageException(final String path, final String message) {
+
+            this(path, message, null);
+        }
+
+        /**
+         * Build a new instance.
+         *
+         * @param path    The key path
+         * @param message The detail message
+         * @param cause   The cause
+         */
+        public StorageException(final String path, final String message, final Exception cause) {
+
+            super("Can't save the file '" + path + "': " + message, cause);
+        }
+    }
+}
