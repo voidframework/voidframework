@@ -36,6 +36,7 @@ public final class TransactionalTest {
 
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
+            voidframework.persistence.modelsJarUrlPattern = "^.*void.*$"
             voidframework.datasource.default.driver = "org.h2.Driver"
             voidframework.datasource.default.url = "jdbc:h2:mem:unit_tests;MODE=PostgreSQL;DATABASE_TO_UPPER=TRUE;"
             voidframework.datasource.default.username = "sa"

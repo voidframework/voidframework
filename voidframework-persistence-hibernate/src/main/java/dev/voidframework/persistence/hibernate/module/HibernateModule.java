@@ -53,8 +53,13 @@ public class HibernateModule extends AbstractModule {
             throw new DataSourceException.NotConfigured();
         }
 
+        String modelsJarUrlPattern = this.configuration.getString("voidframework.persistence.modelsJarUrlPattern");
+        if (modelsJarUrlPattern != null && modelsJarUrlPattern.equalsIgnoreCase("auto")) {
+            modelsJarUrlPattern = "(.*)";
+        }
+
         for (final String dbConfigurationName : dbConfigurationNameSet) {
-            final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dbConfigurationName);
+            final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dbConfigurationName, modelsJarUrlPattern);
             requestInjection(entityManagerProvider);
             bind(EntityManager.class).annotatedWith(Names.named(dbConfigurationName)).toProvider(entityManagerProvider);
 
