@@ -38,7 +38,7 @@ jobs:
 
             -   name: Move to next SNAPSHOT
                 run: |
-                    mvn versions:set -DnewVersion="${{ env.NEXT_RELEASE_VERSION }}"
+                    mvn versions:set -DnewVersion="${{ env.NEXT_RELEASE_VERSION }}-SNAPSHOT"
                     mvn versions:commit
                     git add .
                     git commit -m "Move to next SNAPSHOT"
