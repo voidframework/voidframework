@@ -19,10 +19,12 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 
 /**
@@ -35,6 +37,7 @@ import java.util.Properties;
 public class EntityManagerProvider implements Provider<EntityManager> {
 
     private final String dataSourceName;
+    private final String modelsJarUrlPattern;
     private final ThreadLocal<Deque<EntityManager>> currentEntityManager;
     private Provider<DataSourceManager> dataSourceManagerProvider;
     private EntityManagerFactory entityManagerFactory;
@@ -42,11 +45,13 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     /**
      * Build a new instance.
      *
-     * @param dataSourceName The data source name
+     * @param dataSourceName      The data source name
+     * @param modelsJarUrlPattern The pattern to identify JAR containing models
      */
-    public EntityManagerProvider(final String dataSourceName) {
+    public EntityManagerProvider(final String dataSourceName, final String modelsJarUrlPattern) {
 
         this.dataSourceName = dataSourceName;
+        this.modelsJarUrlPattern = modelsJarUrlPattern;
         this.currentEntityManager = new ThreadLocal<>();
     }
 
@@ -116,17 +121,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     private void createEntityManagerFactoryIfNeeded() {
 
         if (this.entityManagerFactory == null) {
-            // Resolves all jar file URLs
-            List<URL> javaFileUrlList;
-            try {
-                javaFileUrlList = Collections.list(this.getClass().getClassLoader().getResources(""));
-                final URL currentJarUrl = resolveCurrentJarFile();
-                if (currentJarUrl != null && !javaFileUrlList.contains(currentJarUrl)) {
-                    javaFileUrlList.add(0, currentJarUrl);
-                }
-            } catch (final IOException ignore) {
-                javaFileUrlList = Collections.emptyList();
-            }
+            // Creates a list containing all JARs to use to find "Model" classes
+            final List<URL> javaFileUrlList = createModelsJarFileUrls();
 
             // Creates entity manager
             this.entityManagerFactory = new HibernatePersistenceProvider().createContainerEntityManagerFactory(
@@ -138,17 +134,65 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     }
 
     /**
-     * Resolves the current Jar file URL.
+     * Creates a list of JAR files who can contain models.
      *
-     * @return The current Jar file URL
+     * @return A list of JAR file URLs
      */
-    private URL resolveCurrentJarFile() {
+    private List<URL> createModelsJarFileUrls() {
 
         try {
+            final List<String> javaFilePathList = new ArrayList<>();
+            String urlAsString;
+            int idx;
+
+            if (this.modelsJarUrlPattern != null) {
+                final List<URL> urlList = Collections.list(this.getClass().getClassLoader().getResources(""));
+                urlList.addAll(Collections.list(this.getClass().getClassLoader().getResources("META-INF")));
+
+                for (final URL url : urlList) {
+                    urlAsString = url.toString();
+                    idx = urlAsString.indexOf("/META-INF") + 1;
+                    if (idx > 0) {
+                        urlAsString = urlAsString.substring(0, idx);
+                    }
+
+                    if (urlAsString.matches(this.modelsJarUrlPattern)) {
+                        javaFilePathList.add(urlAsString);
+                    }
+                }
+            }
+
             final URL url = this.getClass().getResource("/application.conf");
             if (url != null) {
-                return new URL(url.toString().replace("/application.conf", "/"));
+                urlAsString = url.toString();
+                idx = urlAsString.indexOf("/application.conf") + 1;
+                if (idx > 0) {
+                    urlAsString = urlAsString.substring(0, idx);
+                }
+
+                javaFilePathList.add(0, urlAsString);
             }
+
+            return javaFilePathList.stream()
+                .distinct()
+                .map(this::createURL)
+                .filter(Objects::nonNull)
+                .toList();
+        } catch (final IOException ignore) {
+        }
+
+        return Collections.emptyList();
+    }
+
+    /**
+     * Create a URL from a String.
+     *
+     * @param urlAsString The URL as String
+     * @return The newly created URL
+     */
+    private URL createURL(final String urlAsString) {
+        try {
+            return new URL(urlAsString);
         } catch (final MalformedURLException ignore) {
         }
 
