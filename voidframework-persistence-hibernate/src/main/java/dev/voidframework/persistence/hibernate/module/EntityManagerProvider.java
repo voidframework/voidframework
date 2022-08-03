@@ -191,6 +191,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * @return The newly created URL
      */
     private URL createURL(final String urlAsString) {
+
         try {
             return new URL(urlAsString);
         } catch (final MalformedURLException ignore) {
