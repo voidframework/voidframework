@@ -2,7 +2,6 @@ package dev.voidframework.migration.flyway;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.core.bindable.BindClass;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
@@ -19,7 +18,6 @@ import java.util.List;
  * Flyway migration.
  */
 @BindClass
-@Singleton
 public final class FlywayMigration {
 
     private final Config configuration;
