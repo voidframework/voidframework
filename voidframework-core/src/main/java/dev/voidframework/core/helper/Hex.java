@@ -15,6 +15,10 @@ public final class Hex {
      */
     public static String toHex(final String str) {
 
+        if (str == null) {
+            return null;
+        }
+
         return toHex(str.getBytes());
     }
 
@@ -25,6 +29,10 @@ public final class Hex {
      * @return Hexadecimal representation
      */
     public static String toHex(final byte[] byteArray) {
+
+        if (byteArray == null) {
+            return null;
+        }
 
         final StringBuilder stringBuilder = new StringBuilder();
 
