@@ -1,4 +1,4 @@
-package filter;
+package dev.voidframework.web.filter.security;
 
 import com.google.inject.Singleton;
 import dev.voidframework.web.filter.Filter;
@@ -14,6 +14,7 @@ public final class SecurityHeaderFilter implements Filter {
 
     @Override
     public Result apply(final Context context, final FilterChain filterChain) {
+
         return filterChain.applyNext(context)
             .withHeader("X-Content-Type-Options", "nosniff")
             .withHeader("X-Frame-Options", "DENY")

@@ -1,4 +1,4 @@
-package dev.voidframework.web.csrf;
+package dev.voidframework.web.filter.csrf;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

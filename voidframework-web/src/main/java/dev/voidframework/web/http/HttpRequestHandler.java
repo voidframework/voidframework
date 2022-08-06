@@ -4,7 +4,7 @@ import com.google.inject.Injector;
 import com.typesafe.config.Config;
 import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.template.TemplateRenderer;
-import dev.voidframework.web.csrf.CSRFFilter;
+import dev.voidframework.web.filter.csrf.CSRFFilter;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.filter.DefaultFilterChain;
 import dev.voidframework.web.filter.Filter;
