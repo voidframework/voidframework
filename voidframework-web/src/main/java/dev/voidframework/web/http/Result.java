@@ -58,6 +58,19 @@ public final class Result {
     /**
      * Bad request (400).
      *
+     * @return A result
+     */
+    public static Result badRequest() {
+
+        return new Result(
+            HttpReturnCode.BAD_REQUEST,
+            NO_CONTENT_RESULT_PROCESSOR,
+            HttpContentType.TEXT_HTML);
+    }
+
+    /**
+     * Bad request (400).
+     *
      * @param content The content
      * @return A result
      */
@@ -109,6 +122,19 @@ public final class Result {
         return new Result(
             HttpReturnCode.BAD_REQUEST,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
+    }
+
+    /**
+     * Created (201).
+     *
+     * @return A result
+     */
+    public static Result created() {
+
+        return new Result(
+            HttpReturnCode.CREATED,
+            NO_CONTENT_RESULT_PROCESSOR,
             HttpContentType.TEXT_HTML);
     }
 
@@ -172,6 +198,19 @@ public final class Result {
     /**
      * Forbidden (403).
      *
+     * @return A result
+     */
+    public static Result forbidden() {
+
+        return new Result(
+            HttpReturnCode.FORBIDDEN,
+            NO_CONTENT_RESULT_PROCESSOR,
+            HttpContentType.TEXT_HTML);
+    }
+
+    /**
+     * Forbidden (403).
+     *
      * @param content The content
      * @return A result
      */
@@ -223,6 +262,19 @@ public final class Result {
         return new Result(
             HttpReturnCode.FORBIDDEN,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
+    }
+
+    /**
+     * Internal Server Error (500).
+     *
+     * @return A result
+     */
+    public static Result internalServerError() {
+
+        return new Result(
+            HttpReturnCode.INTERNAL_SERVER_ERROR,
+            NO_CONTENT_RESULT_PROCESSOR,
             HttpContentType.TEXT_HTML);
     }
 
@@ -299,6 +351,19 @@ public final class Result {
     /**
      * Not Found (404).
      *
+     * @return A result
+     */
+    public static Result notFound() {
+
+        return new Result(
+            HttpReturnCode.NOT_FOUND,
+            NO_CONTENT_RESULT_PROCESSOR,
+            HttpContentType.TEXT_HTML);
+    }
+
+    /**
+     * Not Found (404).
+     *
      * @param content The content
      * @return A result
      */
@@ -356,6 +421,19 @@ public final class Result {
     /**
      * Not Implemented (501).
      *
+     * @return A result
+     */
+    public static Result notImplemented() {
+
+        return new Result(
+            HttpReturnCode.NOT_IMPLEMENTED,
+            NO_CONTENT_RESULT_PROCESSOR,
+            HttpContentType.TEXT_HTML);
+    }
+
+    /**
+     * Not Implemented (501).
+     *
      * @param content The content
      * @return A result
      */
@@ -407,6 +485,19 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_IMPLEMENTED,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
+            HttpContentType.TEXT_HTML);
+    }
+
+    /**
+     * Ok (200).
+     *
+     * @return A result
+     */
+    public static Result ok() {
+
+        return new Result(
+            HttpReturnCode.OK,
+            NO_CONTENT_RESULT_PROCESSOR,
             HttpContentType.TEXT_HTML);
     }
 
