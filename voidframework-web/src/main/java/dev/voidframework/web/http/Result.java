@@ -652,6 +652,18 @@ public final class Result {
     }
 
     /**
+     * Assigns a multiple headers.
+     *
+     * @param headerMap headers to assign
+     * @return The current result
+     */
+    public Result withHeaders(final Map<String, String> headerMap) {
+
+        this.headerMap.putAll(headerMap);
+        return this;
+    }
+
+    /**
      * Removes a header.
      *
      * @param headerName Name of the header to remove
