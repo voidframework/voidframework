@@ -3,7 +3,7 @@ package dev.voidframework.web.http.resultprocessor;
 import com.typesafe.config.Config;
 import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.template.exception.TemplateException;
-import dev.voidframework.web.csrf.CSRFFilter;
+import dev.voidframework.web.filter.csrf.CSRFFilter;
 import dev.voidframework.web.http.Context;
 
 import java.io.ByteArrayInputStream;
