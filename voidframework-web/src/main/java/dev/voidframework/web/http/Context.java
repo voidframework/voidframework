@@ -19,10 +19,10 @@ public final class Context {
     /**
      * Build a new instance.
      *
-     * @param httpRequest  The HTTP request
-     * @param session      The current session
+     * @param httpRequest   The HTTP request
+     * @param session       The current session
      * @param flashMessages The current flash message
-     * @param locale       The current locale
+     * @param locale        The current locale
      */
     public Context(final HttpRequest httpRequest,
                    final Session session,

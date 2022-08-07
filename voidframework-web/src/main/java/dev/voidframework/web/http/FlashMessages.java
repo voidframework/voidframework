@@ -81,6 +81,6 @@ public class FlashMessages extends HashMap<String, String> {
      */
     public boolean isModified() {
 
-       return isModified;
+        return isModified;
     }
 }

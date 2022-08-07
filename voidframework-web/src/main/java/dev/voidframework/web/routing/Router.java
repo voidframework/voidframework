@@ -50,7 +50,7 @@ public interface Router {
     /**
      * Reverses a route to obtains a URL.
      *
-     * @param name          The route name
+     * @param name The route name
      * @return A string containing a URL
      */
     String reverseRoute(final String name);
