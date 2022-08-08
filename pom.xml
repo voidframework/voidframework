@@ -212,87 +212,87 @@
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-core</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-cache</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-cache-redis</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-datasource</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-datasource-hikaricp</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-healthcheck</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-i18n</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-migration-flyway</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-persistence-hibernate</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-redis</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-redis-healthcheck</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-scheduler</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-template</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-template-freemarker</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-validation</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-web</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-web-healthcheck</artifactId>
-                <version>${project.parent.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- Dependencies -->
