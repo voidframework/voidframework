@@ -93,6 +93,7 @@
         <module>voidframework-scheduler</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>
+        <module>voidframework-test</module>
         <module>voidframework-validation</module>
         <module>voidframework-web</module>
         <module>voidframework-web-healthcheck</module>
@@ -451,13 +452,11 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
                 <version>${dependency.version.junit}</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
                 <version>${dependency.version.mockito}</version>
-                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
