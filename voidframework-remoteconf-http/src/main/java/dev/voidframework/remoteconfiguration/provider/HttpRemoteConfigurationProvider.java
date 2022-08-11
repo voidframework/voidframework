@@ -123,7 +123,7 @@ public class HttpRemoteConfigurationProvider extends AbstractRemoteConfiguration
 
                 String responseLine;
                 while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
+                    response.append(responseLine).append(StringUtils.LF);
                 }
 
                 return response.toString();

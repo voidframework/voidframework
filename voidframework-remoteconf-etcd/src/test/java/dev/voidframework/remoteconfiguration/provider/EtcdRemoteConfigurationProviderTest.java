@@ -21,15 +21,27 @@ public class EtcdRemoteConfigurationProviderTest {
     @Test
     public void getName() {
 
+        // Arrange
         final RemoteConfigurationProvider provider = new EtcdRemoteConfigurationProvider();
-        Assertions.assertEquals("etcd", provider.getName());
+
+        // Act
+        final String providerName = provider.getName();
+
+        // Assert
+        Assertions.assertEquals("etcd", providerName);
     }
 
     @Test
     public void getConfigurationObjectName() {
 
+        // Arrange
         final RemoteConfigurationProvider provider = new EtcdRemoteConfigurationProvider();
-        Assertions.assertEquals("etcd", provider.getConfigurationObjectName());
+
+        // Act
+        final String configurationObjectName = provider.getConfigurationObjectName();
+
+        // Assert
+        Assertions.assertEquals("etcd", configurationObjectName);
     }
 
     @Test
