@@ -66,15 +66,18 @@ public class EtcdRemoteConfigurationProviderTest {
             .parseString(stringBuilder.toString())
             .withFallback(localConfiguration);
 
+        final File file = new File("./test");
+        if (file.exists()) {
+            file.deleteOnExit();
+        }
+
         // Assert
         Assertions.assertEquals("Hello World", remoteConfig.getString("string"));
         Assertions.assertEquals(1, remoteConfig.getInt("integer"));
         Assertions.assertEquals(List.of(1, 2, 3, 4, 5), remoteConfig.getIntList("intlist"));
         Assertions.assertTrue(remoteConfig.getBoolean("boolean"));
 
-        final File file = new File("./test");
         Assertions.assertTrue(file.exists());
-
         try (final InputStream initialStream = new FileInputStream(file)) {
             final byte[] buffer = new byte[128];
             final int nbRead = initialStream.read(buffer);

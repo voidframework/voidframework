@@ -80,15 +80,18 @@ public class HttpRemoteConfigurationProviderTest {
             .parseString(stringBuilder.toString())
             .withFallback(LOCAL_CONFIGURATION);
 
+        final File file = new File("./test");
+        if (file.exists()) {
+            file.deleteOnExit();
+        }
+
         // Assert
         Assertions.assertEquals("Hello World", remoteConfig.getString("application.string"));
         Assertions.assertEquals(5, remoteConfig.getInt("application.integer"));
         Assertions.assertEquals(List.of(1, 2, 3, 4, 5), remoteConfig.getIntList("application.intlist"));
         Assertions.assertTrue(remoteConfig.getBoolean("application.boolean"));
 
-        final File file = new File("./test");
         Assertions.assertTrue(file.exists());
-
         try (final InputStream initialStream = new FileInputStream(file)) {
             final byte[] buffer = new byte[128];
             final int nbRead = initialStream.read(buffer);
