@@ -12,51 +12,83 @@ public final class TypedMapTest {
     private static final TypedMap.Key<Integer> INTEGER_KEY = TypedMap.Key.of("INTEGER_KEY");
 
     @Test
-    public void putGet() {
+    public void putGetIntegerKey() {
+
+        // Arrange
         final TypedMap typedMap = new TypedMap();
-        typedMap.put(STRING_KEY, "Hello World!");
         typedMap.put(INTEGER_KEY, 42);
 
-        Assertions.assertEquals("Hello World!", typedMap.get(STRING_KEY));
-        Assertions.assertEquals(Integer.valueOf(42), typedMap.get(INTEGER_KEY));
+        // Act
+        final Integer value = typedMap.get(INTEGER_KEY);
+
+        // Assert
+        Assertions.assertEquals(Integer.valueOf(42), value);
+    }
+
+    @Test
+    public void putGetStringKey() {
+
+        // Arrange
+        final TypedMap typedMap = new TypedMap();
+        typedMap.put(STRING_KEY, "Hello World!");
+
+        // Act
+        final String value = typedMap.get(STRING_KEY);
+
+        // Assert
+        Assertions.assertEquals("Hello World!", value);
     }
 
     @Test
     public void remove() {
+
+        // Arrange
         final TypedMap typedMap = new TypedMap();
-
-        Assertions.assertNull(typedMap.get(STRING_KEY));
-
         typedMap.put(STRING_KEY, "Hello World!");
-        Assertions.assertEquals("Hello World!", typedMap.get(STRING_KEY));
 
+        // Act
         typedMap.remove(STRING_KEY);
+
+        // Assert
         Assertions.assertNull(typedMap.get(STRING_KEY));
     }
 
     @Test
     public void showString() {
+
+        // Arrange
         final TypedMap typedMap = new TypedMap();
+
+        // Act
         typedMap.put(STRING_KEY, "Hello World!");
 
+        // Assert
         Assertions.assertEquals("{STRING_KEY=Hello World!}", typedMap.toString());
     }
 
     @Test
     public void equalsTypeMap() {
-        final TypedMap typedMap1 = new TypedMap();
-        typedMap1.put(STRING_KEY, "Hello World!");
 
+        // Arrange
+        final TypedMap typedMap1 = new TypedMap();
         final TypedMap typedMap2 = new TypedMap();
+
+        // Act
+        typedMap1.put(STRING_KEY, "Hello World!");
         typedMap2.put(STRING_KEY, "Hello World!");
 
+        // Assert
         Assertions.assertEquals(typedMap1, typedMap2);
         Assertions.assertEquals(typedMap1.hashCode(), typedMap2.hashCode());
     }
 
     @Test
     public void equalsKey() {
+
+        // Act
         final TypedMap.Key<String> key = TypedMap.Key.of("STRING_KEY");
+
+        // Assert
         Assertions.assertEquals(STRING_KEY, key);
     }
 }

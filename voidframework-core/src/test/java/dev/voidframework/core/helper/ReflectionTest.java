@@ -17,13 +17,16 @@ public final class ReflectionTest {
     @Test
     public void getAnnotatedField() throws IllegalAccessException {
 
+        // Arrange
         final UUID uuid = UUID.randomUUID();
         final Demo demo = new Demo();
         demo.setId(uuid);
 
+        // Act
         final Field field = Reflection.getAnnotatedField(demo, Validate.class);
-        Assertions.assertNotNull(field);
 
+        // Assert
+        Assertions.assertNotNull(field);
         Assertions.assertEquals("id", field.getName());
         Assertions.assertEquals(uuid, field.get(demo));
     }
@@ -31,19 +34,25 @@ public final class ReflectionTest {
     @Test
     public void getAnnotatedFieldWithNullValue() {
 
+        // Act
         final Field field = Reflection.getAnnotatedField(null, Validate.class);
+
+        // Assert
         Assertions.assertNull(field);
     }
 
     @Test
     public void getFieldValueExplicitClassType() {
 
+        // Arrange
         final UUID uuid = UUID.randomUUID();
         final Demo demo = new Demo();
         demo.setId(uuid);
 
+        // Act
         final UUID value = Reflection.getFieldValue(demo, "id", UUID.class);
 
+        // Assert
         Assertions.assertNotNull(value);
         Assertions.assertEquals(uuid, value);
     }
@@ -51,12 +60,15 @@ public final class ReflectionTest {
     @Test
     public void getFieldValueWrappedClassType() {
 
+        // Arrange
         final UUID uuid = UUID.randomUUID();
         final Demo demo = new Demo();
         demo.setId(uuid);
 
+        // Act
         final UUID value = Reflection.getFieldValue(demo, "id", new Reflection.WrappedClass<>());
 
+        // Assert
         Assertions.assertNotNull(value);
         Assertions.assertEquals(uuid, value);
     }
@@ -64,13 +76,16 @@ public final class ReflectionTest {
     @Test
     public void setFieldValue() {
 
+        // Arrange
         final UUID uuidCurrent = UUID.randomUUID();
         final UUID uuidNew = UUID.randomUUID();
         final Demo demo = new Demo();
         demo.setId(uuidCurrent);
 
+        // Act
         Reflection.setFieldValue(demo, "id", uuidNew);
 
+        // Assert
         Assertions.assertNotEquals(uuidCurrent, uuidNew);
         Assertions.assertEquals(demo.id, uuidNew);
     }
@@ -78,11 +93,15 @@ public final class ReflectionTest {
     @Test
     public void resolveMethod() throws InvocationTargetException, IllegalAccessException {
 
+        // Arrange
         final UUID uuidCurrent = UUID.randomUUID();
         final Demo demo = new Demo();
         demo.setId(uuidCurrent);
 
+        // Act
         final Method method = Reflection.resolveMethod("getId", Demo.class);
+
+        // Assert
         Assertions.assertNotNull(method);
         Assertions.assertEquals("getId", method.getName());
         Assertions.assertEquals(uuidCurrent, method.invoke(demo));
@@ -91,11 +110,15 @@ public final class ReflectionTest {
     @Test
     public void callMethodReturnSomething() {
 
+        // Arrange
         final UUID uuidCurrent = UUID.randomUUID();
         final Demo demo = new Demo();
         demo.setId(uuidCurrent);
 
+        // Act
         final UUID uuid = Reflection.callMethod(demo, "getId", UUID.class, new Class[]{});
+
+        // Assert
         Assertions.assertNotNull(uuid);
         Assertions.assertEquals(uuidCurrent, uuid);
     }
@@ -103,9 +126,13 @@ public final class ReflectionTest {
     @Test
     public void callMethodReturnNothing() {
 
+        // Arrange
         final Demo demo = new Demo();
 
+        // Act
         Reflection.callMethod(demo, "setFirstName", new Class[]{String.class}, "Vanessa");
+
+        // Assert
         Assertions.assertEquals("Vanessa", demo.getFirstName());
     }
 

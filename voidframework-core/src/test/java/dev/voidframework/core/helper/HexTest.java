@@ -13,19 +13,52 @@ public class HexTest {
     @Test
     public void toHexString() {
 
-        Assertions.assertEquals("48656c6c6f20576f726c6421", Hex.toHex("Hello World!"));
+        // Arrange
+        final String helloWorld = "Hello World!";
+
+        // Act
+        final String hex = Hex.toHex(helloWorld);
+
+        // Assert
+        Assertions.assertEquals("48656c6c6f20576f726c6421", hex);
     }
 
     @Test
     public void toHexByteArray() {
 
-        Assertions.assertEquals("48656c6c6f20576f726c6421", Hex.toHex("Hello World!".getBytes(StandardCharsets.UTF_8)));
+        // Arrange
+        final byte[] loremIpsum = "Lorem ipsum dolor sit amet".getBytes(StandardCharsets.UTF_8);
+
+        // Act
+        final String hex = Hex.toHex(loremIpsum);
+
+        // Assert
+        Assertions.assertEquals("4c6f72656d20697073756d20646f6c6f722073697420616d6574", hex);
     }
 
     @Test
-    public void toHexNull() {
+    public void toHexNullString() {
 
-        Assertions.assertNull(Hex.toHex((String) null));
-        Assertions.assertNull(Hex.toHex((byte[]) null));
+        // Arrange
+        final String nullString = null;
+
+        // Act
+        final String hex = Hex.toHex(nullString);
+
+        // Assert
+        Assertions.assertNull(hex);
+    }
+
+    @Test
+    public void toHexNullByteArray() {
+
+        // Arrange
+        final byte[] nullByteArray = null;
+
+        // Act
+        final String hex = Hex.toHex(nullByteArray);
+
+        // Assert
+        Assertions.assertNull(hex);
     }
 }

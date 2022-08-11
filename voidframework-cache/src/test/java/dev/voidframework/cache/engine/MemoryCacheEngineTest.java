@@ -21,36 +21,47 @@ public final class MemoryCacheEngineTest {
     @Test
     public void flushWhenFullMaxItem() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 3");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
+        // Act
+        memoryCacheEngine.set("key", 1337, 60);
+        memoryCacheEngine.set("key2", 1337, 60);
+        memoryCacheEngine.set("key3", 1337, 60);
+        memoryCacheEngine.set("key4", 1337, 60);
+
+        // Assert
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
-        Assertions.assertEquals(0, internalCacheMap.size());
-
-        memoryCacheEngine.set("key", 1337, 60);
-        Assertions.assertEquals(1, internalCacheMap.size());
-
-        memoryCacheEngine.set("key2", 1337, 60);
-        Assertions.assertEquals(2, internalCacheMap.size());
-
-        memoryCacheEngine.set("key3", 1337, 60);
-        Assertions.assertEquals(3, internalCacheMap.size());
-
-        memoryCacheEngine.set("key4", 1337, 60);
         Assertions.assertEquals(1, internalCacheMap.size());
     }
 
     @Test
-    public void getUnknownValue() {
+    public void getUnknownValueKey() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
+        // Act
         Object value = memoryCacheEngine.get("key");
-        Assertions.assertNull(value);
 
-        value = memoryCacheEngine.get("");
+        // Assert
+        Assertions.assertNull(value);
+    }
+
+    @Test
+    public void getUnknownValueEmpty() {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
+
+        // Act
+        Object value = memoryCacheEngine.get("");
+
+        // Assert
         Assertions.assertNull(value);
 
         value = memoryCacheEngine.get(null);
@@ -58,40 +69,51 @@ public final class MemoryCacheEngineTest {
     }
 
     @Test
-    public void setValueAndGetValueKey() {
+    public void getUnknownValueNull() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
-        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
-        Assertions.assertNotNull(internalCacheMap);
-        Assertions.assertEquals(0, internalCacheMap.size());
+        // Act
+        Object value = memoryCacheEngine.get(null);
 
-        final Integer flushWhenFullMaxItem = Reflection.getFieldValue(memoryCacheEngine, "flushWhenFullMaxItem", Integer.class);
-        Assertions.assertNotNull(flushWhenFullMaxItem);
-        Assertions.assertEquals(2, flushWhenFullMaxItem);
+        // Assert
+        Assertions.assertNull(value);
+    }
 
+    @Test
+    public void setValueAndGetValueKey() {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
         memoryCacheEngine.set("key", 1337, 60);
-        Assertions.assertEquals(1, internalCacheMap.size());
 
+        // Act
         final Object value = memoryCacheEngine.get("key");
-        Assertions.assertNotNull(value);
+
+        // Assert
         Assertions.assertEquals(1337, value);
 
+        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(1, internalCacheMap.size());
     }
 
     @Test
     public void timeToLive() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
+        // Act
+        memoryCacheEngine.set("key", 1337, 3600);
+
+        // Assert
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
-        Assertions.assertEquals(0, internalCacheMap.size());
-
-        memoryCacheEngine.set("key", 1337, 3600);
         Assertions.assertEquals(1, internalCacheMap.size());
 
         LocalDateTime expirationDateTime = Reflection.getFieldValue(internalCacheMap.get("key"), "expirationDate", LocalDateTime.class);
@@ -110,28 +132,42 @@ public final class MemoryCacheEngineTest {
     }
 
     @Test
-    public void timeToLiveExpiration() throws InterruptedException {
+    public void timeToLiveInfinite() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
         final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
 
+        // Act
+        memoryCacheEngine.set("key", 1337, -1);
+
+        // Assert
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
-        Assertions.assertEquals(0, internalCacheMap.size());
+        Assertions.assertEquals(1, internalCacheMap.size());
 
-        final Integer flushWhenFullMaxItem = Reflection.getFieldValue(memoryCacheEngine, "flushWhenFullMaxItem", Integer.class);
-        Assertions.assertNotNull(flushWhenFullMaxItem);
-        Assertions.assertEquals(2, flushWhenFullMaxItem);
+        final LocalDateTime expirationDateTime = Reflection.getFieldValue(internalCacheMap.get("key"), "expirationDate", LocalDateTime.class);
+        Assertions.assertNotNull(expirationDateTime);
+        Assertions.assertEquals(LocalDateTime.MAX, expirationDateTime);
+    }
 
+    @Test
+    public void timeToLiveExpiration() throws InterruptedException {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
+
+        // Act
         memoryCacheEngine.set("key", 1337, 1);
-        Assertions.assertEquals(1, internalCacheMap.size());
-
         Thread.sleep(1500);
-        Assertions.assertEquals(1, internalCacheMap.size());
-
         final Object value = memoryCacheEngine.get("key");
+
+        // Assert
         Assertions.assertNull(value);
 
+        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(0, internalCacheMap.size());
     }
 }

@@ -19,13 +19,80 @@ import java.util.List;
 public class LifeCycleTest {
 
     @Test
-    public void lifeCycleHandler() {
+    public void lifeCycleHandlerRegister() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString("""
             voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
             voidframework.cache.inMemory.flushWhenFullMaxItem = 500
             cfg.gracefulStopTimeoutConfigKey = 500
             """);
+
+        final LifeCycleManager lifeCycleManager = new LifeCycleManager(configuration);
+
+        // Act
+        Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+            @Override
+            protected void configure() {
+                bindListener(Matchers.any(), new LifeCycleAnnotationListener(lifeCycleManager));
+                requestInjection(lifeCycleManager);
+
+                bind(Example.class).asEagerSingleton();
+            }
+        });
+
+        // Assert
+        final List<?> startHandlerList = Reflection.getFieldValue(lifeCycleManager, "startHandlerList", List.class);
+        Assertions.assertNotNull(startHandlerList);
+        Assertions.assertEquals(1, startHandlerList.size());
+
+        final List<?> stopHandlerList = Reflection.getFieldValue(lifeCycleManager, "stopHandlerList", List.class);
+        Assertions.assertNotNull(stopHandlerList);
+        Assertions.assertEquals(1, stopHandlerList.size());
+    }
+
+    @Test
+    public void lifeCycleHandlerStartAll() {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("""
+            voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
+            voidframework.cache.inMemory.flushWhenFullMaxItem = 500
+            cfg.gracefulStopTimeoutConfigKey = 500
+            """);
+
+        final LifeCycleManager lifeCycleManager = new LifeCycleManager(configuration);
+
+        final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+            @Override
+            protected void configure() {
+                bindListener(Matchers.any(), new LifeCycleAnnotationListener(lifeCycleManager));
+                requestInjection(lifeCycleManager);
+
+                bind(Example.class).asEagerSingleton();
+            }
+        });
+
+        // Act
+        lifeCycleManager.startAll();
+
+        // Assert
+        final Example exemple = injector.getInstance(Example.class);
+        Assertions.assertNotNull(exemple);
+        Assertions.assertEquals(1, exemple.startCallCount);
+        Assertions.assertEquals(0, exemple.stopCallCount);
+    }
+
+    @Test
+    public void lifeCycleHandlerStopAll() {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("""
+            voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
+            voidframework.cache.inMemory.flushWhenFullMaxItem = 500
+            cfg.gracefulStopTimeoutConfigKey = 500
+            """);
+
         final LifeCycleManager lifeCycleManager = new LifeCycleManager(configuration);
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
@@ -37,29 +104,23 @@ public class LifeCycleTest {
             }
         });
 
-        final List<?> startHandlerList = Reflection.getFieldValue(lifeCycleManager, "startHandlerList", List.class);
-        Assertions.assertNotNull(startHandlerList);
-        Assertions.assertEquals(1, startHandlerList.size());
+        Reflection.setFieldValue(lifeCycleManager, "isRunning", true);
 
-        final List<?> stopHandlerList = Reflection.getFieldValue(lifeCycleManager, "stopHandlerList", List.class);
-        Assertions.assertNotNull(stopHandlerList);
-        Assertions.assertEquals(1, stopHandlerList.size());
-
-        final Example exemple = injector.getInstance(Example.class);
-        Assertions.assertNotNull(exemple);
-
-        lifeCycleManager.startAll();
-        Assertions.assertEquals(1, exemple.startCallCount);
-        Assertions.assertEquals(0, exemple.stopCallCount);
-
+        // Act
         final long startTime = System.currentTimeMillis();
         lifeCycleManager.stopAll();
         final long stopTime = System.currentTimeMillis();
-        Assertions.assertEquals(1, exemple.startCallCount);
+
+        // Assert
+        final Example exemple = injector.getInstance(Example.class);
+        Assertions.assertEquals(0, exemple.startCallCount);
         Assertions.assertEquals(1, exemple.stopCallCount);
         Assertions.assertTrue((stopTime - startTime) < 1000);
     }
 
+    /**
+     * A simple class with life cycle methods.
+     */
     public static class Example {
 
         public int startCallCount = 0;

@@ -13,37 +13,72 @@ import org.junit.jupiter.api.TestMethodOrder;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public final class ProxyDetectorTest {
 
-    private Exemple getProxyInstance() {
-
-        return Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
-            @Override
-            protected void configure() {
-                bind(Exemple.class).asEagerSingleton();
-                bindInterceptor(Matchers.any(), Matchers.any(), Joinpoint::proceed);
-            }
-        }).getInstance(Exemple.class);
-    }
-
     @Test
     public void isProxyClass() {
 
-        final Exemple nonProxyInstance = new Exemple();
-        final Exemple proxyInstance = getProxyInstance();
+        // Arrange
+        final Example proxyInstance = createProxyInstance();
 
-        Assertions.assertFalse(ProxyDetector.isProxy(nonProxyInstance.getClass()));
-        Assertions.assertTrue(ProxyDetector.isProxy(proxyInstance.getClass()));
+        // Act
+        final boolean isProxy = ProxyDetector.isProxy(proxyInstance.getClass());
+
+        // Assert
+        Assertions.assertTrue(isProxy);
+    }
+
+    @Test
+    public void isProxyClassNonProxyClass() {
+
+        // Arrange
+        final Example nonProxyInstance = new Example();
+
+        // Act
+        final boolean isProxy = ProxyDetector.isProxy(nonProxyInstance.getClass());
+
+        // Assert
+        Assertions.assertFalse(isProxy);
     }
 
     @Test
     public void isProxyObject() {
 
-        final Exemple nonProxyInstance = new Exemple();
-        final Exemple proxyInstance = getProxyInstance();
+        // Arrange
+        final Example proxyInstance = createProxyInstance();
 
-        Assertions.assertFalse(ProxyDetector.isProxy(nonProxyInstance));
-        Assertions.assertTrue(ProxyDetector.isProxy(proxyInstance));
+        // Act
+        final boolean isProxy = ProxyDetector.isProxy(proxyInstance);
+
+        // Assert
+        Assertions.assertTrue(isProxy);
     }
 
-    public static class Exemple {
+    @Test
+    public void isProxyObjectNonProxyClass() {
+
+        // Arrange
+        final Example nonProxyInstance = new Example();
+
+        // Act
+        final boolean isProxy = ProxyDetector.isProxy(nonProxyInstance);
+
+        // Assert
+        Assertions.assertFalse(isProxy);
+    }
+
+    private Example createProxyInstance() {
+
+        return Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(Example.class).asEagerSingleton();
+                bindInterceptor(Matchers.any(), Matchers.any(), Joinpoint::proceed);
+            }
+        }).getInstance(Example.class);
+    }
+
+    /**
+     * A simple class.
+     */
+    public static class Example {
     }
 }

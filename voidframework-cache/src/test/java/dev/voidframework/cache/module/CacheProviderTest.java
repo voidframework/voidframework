@@ -22,10 +22,13 @@ public final class CacheProviderTest {
     @Test
     public void injectorExist() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString("""
             voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
             voidframework.cache.inMemory.flushWhenFullMaxItem = 500
             """);
+
+        // Act
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
@@ -36,6 +39,7 @@ public final class CacheProviderTest {
 
         final CacheEngine cacheEngine = injector.getInstance(CacheEngine.class);
 
+        // Assert
         Assertions.assertNotNull(cacheEngine);
         Assertions.assertTrue(cacheEngine instanceof MemoryCacheEngine);
     }
@@ -43,8 +47,11 @@ public final class CacheProviderTest {
     @Test
     public void injectorFallbackToPassThrough() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString(
             "voidframework.cache.engine = dev.voidframework.cache.engine.UnknownImplementationClass");
+
+        // Act
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
@@ -55,6 +62,7 @@ public final class CacheProviderTest {
 
         final CacheEngine cacheEngine = injector.getInstance(CacheEngine.class);
 
+        // Assert
         Assertions.assertNotNull(cacheEngine);
         Assertions.assertTrue(cacheEngine instanceof BlackHoleCacheEngine);
     }

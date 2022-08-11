@@ -50,10 +50,13 @@ public class ConfigTemplateMethodModelTest {
     @Test
     public void configurationFound() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
+        // Act
         final String html = templateRenderer.render("retrieveConfigurationFromTemplate.ftl", Locale.ENGLISH);
+
+        // Assert
         Assertions.assertNotNull(html);
         Assertions.assertEquals("""
             Devel Model = TRUE
@@ -73,12 +76,15 @@ public class ConfigTemplateMethodModelTest {
     @Test
     public void configuratioNotFound() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
+        // Act
         final TemplateException.RenderingFailure exception = Assertions.assertThrows(
             TemplateException.RenderingFailure.class,
             () -> templateRenderer.render("configurationNotFound.ftl", Locale.ENGLISH));
+
+        // Assert
         Assertions.assertEquals("Can't render template", exception.getMessage());
         Assertions.assertEquals("String: 1: No configuration setting found for key 'unknownKey'", exception.getCause().getCause().getMessage());
     }
@@ -86,12 +92,15 @@ public class ConfigTemplateMethodModelTest {
     @Test
     public void wrongArguments() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
+        // Act
         final TemplateException.RenderingFailure exception = Assertions.assertThrows(
             TemplateException.RenderingFailure.class,
             () -> templateRenderer.render("wrongArguments.ftl", Locale.ENGLISH));
+
+        // Assert
         Assertions.assertEquals("Can't render template", exception.getMessage());
         Assertions.assertTrue(exception.getCause().getMessage().contains("Wrong arguments"));
     }

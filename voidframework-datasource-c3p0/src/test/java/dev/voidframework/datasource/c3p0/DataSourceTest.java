@@ -50,70 +50,85 @@ public final class DataSourceTest {
     @Test
     public void defaultConnection() throws SQLException {
 
+        // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
-        Assertions.assertNotNull(dataSourceManager);
 
+        // Act
         final Connection connection = dataSourceManager.getConnection();
+
+        // Assert
         Assertions.assertNotNull(connection);
+
+        // Epilogue
         connection.close();
     }
 
     @Test
     public void specificConnection() throws SQLException {
 
+        // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
-        Assertions.assertNotNull(dataSourceManager);
 
+        // Act
         final Connection connection = dataSourceManager.getConnection("second");
+
+        // Assert
         Assertions.assertNotNull(connection);
+
+        // Epilogue
         connection.close();
     }
 
     @Test
     public void unknownConnection() throws SQLException {
 
+        // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
-        Assertions.assertNotNull(dataSourceManager);
 
+        // Act
         final Connection connection = dataSourceManager.getConnection("unknown");
+
+        // Assert
         Assertions.assertNull(connection);
     }
 
     @Test
-    public void defaultDataSource() throws SQLException {
+    public void defaultDataSource() {
 
+        // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
-        Assertions.assertNotNull(dataSourceManager);
 
+        // Act
         final DataSource dataSource = dataSourceManager.getDataSource();
-        Assertions.assertTrue(dataSource instanceof ComboPooledDataSource);
 
-        final Connection connection = dataSource.getConnection();
-        Assertions.assertNotNull(connection);
-        connection.close();
+        // Assert
+        Assertions.assertTrue(dataSource instanceof ComboPooledDataSource);
     }
 
+
     @Test
-    public void specificDataSource() throws SQLException {
+    public void specificDataSource() {
 
+        // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
-        Assertions.assertNotNull(dataSourceManager);
 
+        // Act
         final DataSource dataSource = dataSourceManager.getDataSource("second");
-        Assertions.assertTrue(dataSource instanceof ComboPooledDataSource);
 
-        final Connection connection = dataSource.getConnection();
-        Assertions.assertNotNull(connection);
-        connection.close();
+        // Assert
+        Assertions.assertTrue(dataSource instanceof ComboPooledDataSource);
     }
 
     @Test
     public void unknownDataSource() {
 
+        // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
-        Assertions.assertNotNull(dataSourceManager);
 
+        // Act
         final DataSource dataSource = dataSourceManager.getDataSource("unknown");
+
+        // Assert
         Assertions.assertNull(dataSource);
     }
 }

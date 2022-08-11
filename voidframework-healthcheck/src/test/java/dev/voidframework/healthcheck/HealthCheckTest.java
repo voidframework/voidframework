@@ -26,6 +26,7 @@ public final class HealthCheckTest {
     @Test
     public void test() {
 
+        // Arrange + Act
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
@@ -37,6 +38,8 @@ public final class HealthCheckTest {
         });
 
         final HealthCheckManager healthCheckManager = injector.getInstance(HealthCheckManager.class);
+
+        // Assert
         Assertions.assertNotNull(healthCheckManager);
 
         final List<Class<? extends HealthChecker>> healthCheckerList = Reflection.getFieldValue(

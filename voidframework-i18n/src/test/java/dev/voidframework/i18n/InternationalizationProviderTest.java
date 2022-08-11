@@ -20,6 +20,7 @@ public final class InternationalizationProviderTest {
     @Test
     public void injectorDoesNotExist() {
 
+        // Arrange + Act
         final Config configuration = ConfigFactory.parseString("voidframework.i18n.engine =dev.voidframework.i18n.UnknownImplementationClass");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
@@ -31,6 +32,7 @@ public final class InternationalizationProviderTest {
 
         final Internationalization internationalization = injector.getInstance(Internationalization.class);
 
+        // Assert
         Assertions.assertNotNull(internationalization);
         Assertions.assertTrue(internationalization instanceof ResourceBundleInternationalization);
     }
@@ -38,6 +40,7 @@ public final class InternationalizationProviderTest {
     @Test
     public void injectorExist() {
 
+        // Arrange + Act
         final Config configuration = ConfigFactory.parseString("voidframework.i18n.engine = dev.voidframework.i18n.ResourceBundleInternationalization");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
@@ -49,6 +52,7 @@ public final class InternationalizationProviderTest {
 
         final Internationalization internationalization = injector.getInstance(Internationalization.class);
 
+        // Assert
         Assertions.assertNotNull(internationalization);
         Assertions.assertTrue(internationalization instanceof dev.voidframework.i18n.ResourceBundleInternationalization);
     }

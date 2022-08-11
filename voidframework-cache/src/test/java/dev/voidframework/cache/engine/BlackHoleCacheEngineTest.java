@@ -13,20 +13,27 @@ public final class BlackHoleCacheEngineTest {
     @Test
     public void getUnknownValue() {
 
+        // Arrange
         final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
 
+        // Act
         final Object value = blackHoleCacheEngine.get("key");
+
+        // Assert
         Assertions.assertNull(value);
     }
 
     @Test
     public void setValueAndGetValueKey() {
 
+        // Arrange
         final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
-
         blackHoleCacheEngine.set("key", 1337, 60);
 
+        // Act
         final Object value = blackHoleCacheEngine.get("key");
+
+        // Assert
         Assertions.assertNull(value);
     }
 }

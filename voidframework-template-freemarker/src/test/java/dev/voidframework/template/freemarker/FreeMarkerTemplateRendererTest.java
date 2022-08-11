@@ -43,57 +43,92 @@ public class FreeMarkerTemplateRendererTest {
     @Test
     public void dataModelNotProvided() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
+        // Act
         final TemplateException.DataModelNotProvided exception = Assertions.assertThrows(
             TemplateException.DataModelNotProvided.class,
             () -> templateRenderer.render("renderWithDataModel.ftl", Locale.ENGLISH, null));
+
+        // Assert
         Assertions.assertEquals("Data model was not provided", exception.getMessage());
     }
 
     @Test
     public void dataModelIsEmptyVariableNotFound() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
+        // Act
         final TemplateException.RenderingFailure exception = Assertions.assertThrows(
             TemplateException.RenderingFailure.class,
             () -> templateRenderer.render("renderWithDataModel.ftl", Locale.ENGLISH, new HashMap<>()));
+
+        // Assert
         Assertions.assertEquals("Can't render template", exception.getMessage());
         Assertions.assertTrue(exception.getCause().getMessage().contains("The following has evaluated to null or missing"));
     }
 
     @Test
-    public void renderWithDataModel() {
+    public void renderWithDataModelEnglish() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
         final Map<String, Object> dataModel = new HashMap<>();
         dataModel.put("price", 4500.99);
 
+        // Act
         final String htmlEnglish = templateRenderer.render("renderWithDataModel.ftl", Locale.ENGLISH, dataModel);
+
+        // Assert
         Assertions.assertNotNull(htmlEnglish);
         Assertions.assertEquals("This product costs 4,500.99 EUR.", htmlEnglish.trim());
+    }
 
+    @Test
+    public void renderWithDataModelFrench() {
+
+        // Arrange
+        final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
+
+        final Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("price", 4500.99);
+
+        // Act
         final String htmlFrench = templateRenderer.render("renderWithDataModel.ftl", Locale.FRENCH, dataModel);
+
+        // Assert
         Assertions.assertNotNull(htmlFrench);
         Assertions.assertEquals("This product costs 4 500,99 EUR.", htmlFrench.trim());
     }
 
     @Test
-    public void renderWithoutDataModel() {
+    public void renderWithoutDataModelEnglish() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
+        // Act
         final String htmlEnglish = templateRenderer.render("renderWithoutDataModel.ftl", Locale.ENGLISH);
+
+        // Assert
         Assertions.assertNotNull(htmlEnglish);
         Assertions.assertEquals("This product costs 4,500.99 EUR.", htmlEnglish.trim());
+    }
 
+    @Test
+    public void renderWithoutDataModelFrench() {
+
+        // Arrange
+        final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
+
+        // Act
         final String htmlFrench = templateRenderer.render("renderWithoutDataModel.ftl", Locale.FRENCH);
+
+        // Assert
         Assertions.assertNotNull(htmlFrench);
         Assertions.assertEquals("This product costs 4 500,99 EUR.", htmlFrench.trim());
     }

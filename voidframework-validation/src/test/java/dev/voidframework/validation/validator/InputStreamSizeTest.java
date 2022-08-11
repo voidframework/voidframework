@@ -20,10 +20,14 @@ public final class InputStreamSizeTest {
     @Test
     public void withError() {
 
+        // Arrange
         final Pojo pojo = new Pojo(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)));
         final Validation validation = new Validation();
+
+        // Act
         final Validated<Pojo> pojoValidated = validation.validate(pojo, Locale.ENGLISH);
 
+        // Assert
         Assertions.assertNotNull(pojoValidated);
         Assertions.assertTrue(pojoValidated.hasError());
         Assertions.assertFalse(pojoValidated.isValid());
@@ -34,10 +38,14 @@ public final class InputStreamSizeTest {
     @Test
     public void withoutError() {
 
+        // Arrange
         final Pojo pojo = new Pojo(new ByteArrayInputStream("123456".getBytes(StandardCharsets.UTF_8)));
         final Validation validation = new Validation();
+
+        // Act
         final Validated<Pojo> pojoValidated = validation.validate(pojo, Locale.ENGLISH);
 
+        // Assert
         Assertions.assertNotNull(pojoValidated);
         Assertions.assertFalse(pojoValidated.hasError());
         Assertions.assertTrue(pojoValidated.isValid());

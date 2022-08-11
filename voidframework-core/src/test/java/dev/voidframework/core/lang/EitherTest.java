@@ -15,8 +15,11 @@ public final class EitherTest {
 
     @Test
     public void ofLeft() {
+
+        // Act
         final Either<String, Integer> either = Either.ofLeft("Hello World!");
 
+        // Assert
         Assertions.assertTrue(either.hasLeft());
         Assertions.assertFalse(either.hasRight());
 
@@ -26,8 +29,11 @@ public final class EitherTest {
 
     @Test
     public void ofRight() {
+
+        // Act
         final Either<String, Integer> either = Either.ofRight(1773);
 
+        // Assert
         Assertions.assertFalse(either.hasLeft());
         Assertions.assertTrue(either.hasRight());
 
@@ -36,42 +42,84 @@ public final class EitherTest {
     }
 
     @Test
-    public void matchLeft() {
+    public void matchLeftWithoutRetValue() {
+
+        // Arrange
         final Either<String, Integer> either = Either.ofLeft("Hello World!");
         final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 
+        // Act
         either.match(left -> atomicBoolean.set(Objects.equals(left, "Hello World!")), right -> {
         });
-        Assertions.assertTrue(atomicBoolean.get());
 
+        // Assert
+        Assertions.assertTrue(atomicBoolean.get());
+    }
+
+    @Test
+    public void matchLeftWithRetValue() {
+
+        // Arrange
+        final Either<String, Integer> either = Either.ofLeft("Hello World!");
+
+        // Act
         final Object object = either.match(left -> left, right -> right);
+
+        // Assert
         Assertions.assertNotNull(object);
         Assertions.assertEquals("Hello World!", object);
     }
 
     @Test
-    public void matchRight() {
+    public void matchRightWithoutRetValue() {
+
+        // Arrange
         final Either<String, Integer> either = Either.ofRight(1773);
         final AtomicBoolean atomicBoolean = new AtomicBoolean(false);
 
+        // Act
         either.match(left -> {
         }, right -> atomicBoolean.set(right == 1773));
-        Assertions.assertTrue(atomicBoolean.get());
 
+        // Assert
+        Assertions.assertTrue(atomicBoolean.get());
+    }
+
+    @Test
+    public void matchRightWithRetValue() {
+
+        // Arrange
+        final Either<String, Integer> either = Either.ofRight(1773);
+
+        // Act
         final Object object = either.match(left -> left, right -> right);
+
+        // Assert
         Assertions.assertNotNull(object);
         Assertions.assertEquals(1773, object);
     }
 
     @Test
-    public void matchNull() {
+    public void matchNullConsumer() {
+
+        // Arrange
         final Either<String, Integer> either = Either.ofRight(1773);
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            either.match(null, (Consumer<Integer>) null);
-        });
-        Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            either.match(null, (Function<Integer, String>) null);
-        });
+        // Act & Assert
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> either.match(null, (Consumer<Integer>) null));
+    }
+
+    @Test
+    public void matchNullFunction() {
+
+        // Arrange
+        final Either<String, Integer> either = Either.ofRight(1773);
+
+        // Act & Assert
+        Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> either.match(null, (Function<Integer, String>) null));
     }
 }

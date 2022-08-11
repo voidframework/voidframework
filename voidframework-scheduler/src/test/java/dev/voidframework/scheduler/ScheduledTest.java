@@ -25,6 +25,7 @@ public final class ScheduledTest {
     @Test
     public void testSchedulerWithCron() {
 
+        // Arrange
         final Config configuration = ConfigFactory.parseString("voidframework.scheduler.threadPoolSize = 5");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
@@ -37,6 +38,7 @@ public final class ScheduledTest {
         });
         final SchedulerManager schedulerManager = injector.getInstance(SchedulerManager.class);
 
+        // Act
         try {
             schedulerManager.startScheduler();
             Thread.sleep(2100);
@@ -45,6 +47,7 @@ public final class ScheduledTest {
             schedulerManager.stopScheduler();
         }
 
+        // Assert
         Assertions.assertTrue(List.of(2, 3).contains(ScheduledTest.counterCron.get()));
         Assertions.assertTrue(List.of(2, 3).contains(ScheduledTest.counterRate.get()));
         Assertions.assertEquals(1, ScheduledTest.counterDelay.get());

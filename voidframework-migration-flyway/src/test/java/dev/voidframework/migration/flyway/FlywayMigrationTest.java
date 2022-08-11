@@ -68,11 +68,13 @@ public class FlywayMigrationTest {
     @Test
     public void migration() throws SQLException {
 
+        // Arrange
         final FlywayMigration flywayMigration = this.injector.getInstance(FlywayMigration.class);
-        Assertions.assertNotNull(flywayMigration);
 
-        Assertions.assertDoesNotThrow(flywayMigration::migrate);
+        // Act
+        flywayMigration.migrate();
 
+        // Assert
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
         Assertions.assertNotNull(dataSourceManager);
 

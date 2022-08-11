@@ -40,10 +40,13 @@ public class InternationalizationTemplateMethodModelTest {
     @Test
     public void translationFound() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
+        // Act
         final String html = templateRenderer.render("internationalizationKeyFound.ftl", Locale.ENGLISH);
+
+        // Assert
         Assertions.assertNotNull(html);
         Assertions.assertEquals("""
             Hello World!
@@ -53,10 +56,13 @@ public class InternationalizationTemplateMethodModelTest {
     @Test
     public void translationNotFound() {
 
+        // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
-        Assertions.assertNotNull(templateRenderer);
 
+        // Act
         final String html = templateRenderer.render("internationalizationKeyNotFound.ftl", Locale.ENGLISH);
+
+        // Assert
         Assertions.assertNotNull(html);
         Assertions.assertEquals("""
             %unknown.key%

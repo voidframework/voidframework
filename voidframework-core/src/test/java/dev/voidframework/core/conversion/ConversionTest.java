@@ -1,10 +1,14 @@
 package dev.voidframework.core.conversion;
 
+import dev.voidframework.core.conversion.impl.ConverterCompositeKey;
 import dev.voidframework.core.conversion.impl.DefaultConverterManager;
+import dev.voidframework.core.helper.Reflection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+
+import java.util.Map;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 public final class ConversionTest {
@@ -12,10 +16,23 @@ public final class ConversionTest {
     @Test
     public void registerConverter() {
 
+        // Arrange
         final ConverterManager converterManager = new DefaultConverterManager();
-        converterManager.registerConverter(String.class, Integer.class, new StringToIntegerConverter());
+        final TypeConverter<String, Integer> stringToIntegerConverter = new StringToIntegerConverter();
 
+        // Act
+        converterManager.registerConverter(String.class, Integer.class, stringToIntegerConverter);
+
+        // Assert
         Assertions.assertEquals(1, converterManager.count());
+        Assertions.assertTrue(converterManager.hasConvertFor(String.class, Integer.class));
+
+        final Map<ConverterCompositeKey, TypeConverter<?, ?>> converterMap = Reflection.getFieldValue(
+            converterManager,
+            "converterMap",
+            new Reflection.WrappedClass<>());
+        Assertions.assertNotNull(converterMap);
+        Assertions.assertEquals(stringToIntegerConverter, converterMap.values().stream().findFirst().orElse(null));
     }
 
     /**

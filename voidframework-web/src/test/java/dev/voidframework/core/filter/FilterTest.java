@@ -25,6 +25,7 @@ public final class FilterTest {
     @Test
     public void filterChain() throws IOException {
 
+        // Arrange
         final List<Filter> filterList = List.of(
             (ctx, filterChain) -> filterChain.applyNext(ctx).withHeader("New-Header-2", "Value2"),
             (ctx, filterChain) -> filterChain.applyNext(ctx).withHeader("New-Header", "Value"),
@@ -32,8 +33,11 @@ public final class FilterTest {
         final FilterChain filterChain = new DefaultFilterChain(filterList);
 
         final Context context = new Context(null, new Session(), new FlashMessages(), Locale.ENGLISH);
+
+        // Act
         final Result result = filterChain.applyNext(context);
 
+        // Assert
         Assertions.assertNotNull(result);
         Assertions.assertEquals(200, result.getHttpCode());
         Assertions.assertEquals(2, result.getHeaders().size());

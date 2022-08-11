@@ -24,10 +24,14 @@ public final class RouterTest {
     @Test
     public void addRoute() {
 
+        // Arrange
         final Router router = new DefaultRouter();
         final Method method = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
+
+        // Act
         router.addRoute(HttpMethod.GET, "/", SampleController.class, method);
 
+        // Assert
         final List<Route> routeList = router.getRoutesAsList();
         Assertions.assertNotNull(routeList);
         Assertions.assertEquals(1, routeList.size());
@@ -43,13 +47,17 @@ public final class RouterTest {
     @Test
     public void resolveRoute() {
 
+        // Arrange
         final Router router = new DefaultRouter();
         final Method methodDisplay = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
         final Method methodRegister = Reflection.resolveMethod("displayRegister", SampleController.class);
         router.addRoute(HttpMethod.GET, "/", SampleController.class, methodDisplay);
         router.addRoute(HttpMethod.GET, "/register", SampleController.class, methodRegister);
 
+        // Act
         final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register");
+
+        // Assert
         Assertions.assertNotNull(resolvedRoute);
         Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClassType());
         Assertions.assertEquals("displayRegister", resolvedRoute.method().getName());
@@ -60,6 +68,7 @@ public final class RouterTest {
     @Test
     public void resolveRouteWithRegularExpression() {
 
+        // Arrange
         final Router router = new DefaultRouter();
         final Method methodDisplay = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
         final Method methodRegister = Reflection.resolveMethod("displayRegister", SampleController.class);
@@ -68,7 +77,10 @@ public final class RouterTest {
         router.addRoute(HttpMethod.GET, "/register", SampleController.class, methodRegister);
         router.addRoute(HttpMethod.GET, "/register/(?<accountId>[a-z]{0,36})", SampleController.class, methodAccount);
 
+        // Act
         final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register/toto");
+
+        // Assert
         Assertions.assertNotNull(resolvedRoute);
         Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClassType());
         Assertions.assertEquals("displayAccount", resolvedRoute.method().getName());
@@ -81,11 +93,15 @@ public final class RouterTest {
     @Test
     public void reverseUrlWithName() {
 
+        // Arrange
         final Router router = new DefaultRouter();
         final Method methodAccount = Reflection.resolveMethod("displayAccount", SampleController.class);
         router.addRoute(HttpMethod.GET, "/account/(?<accountId>[a-z0-9\\-]{36})", SampleController.class, methodAccount, "account");
 
+        // Act
         final String url = router.reverseRoute("account", List.of("33d7ed6b-9034-4305-8f51-950914f9b08f"));
+
+        // Assert
         Assertions.assertNotNull(url);
         Assertions.assertEquals("/account/33d7ed6b-9034-4305-8f51-950914f9b08f", url);
     }
@@ -93,13 +109,15 @@ public final class RouterTest {
     @Test
     public void reverseUrlWithoutName() {
 
+        // Arrange
         final Router router = new DefaultRouter();
         final Method methodAccount = Reflection.resolveMethod("displayAccount", SampleController.class);
         router.addRoute(HttpMethod.GET, "/account/(?<accountId>[a-z0-9\\-]{36})", SampleController.class, methodAccount);
 
-        final String url = router.reverseRoute(
-            "dev.voidframework.core.routing.RouterTest.SampleController.displayAccount",
-            List.of("33d7ed6b-9034-4305-8f51-950914f9b08f"));
+        // Act
+        final String url = router.reverseRoute("dev.voidframework.core.routing.RouterTest.SampleController.displayAccount", List.of("33d7ed6b-9034-4305-8f51-950914f9b08f"));
+
+        // Assert
         Assertions.assertNotNull(url);
         Assertions.assertEquals("/account/33d7ed6b-9034-4305-8f51-950914f9b08f", url);
     }
@@ -107,11 +125,15 @@ public final class RouterTest {
     @Test
     public void reverseUrlBase() {
 
+        // Arrange
         final Router router = new DefaultRouter();
         final Method methodHelloWorld = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
         router.addRoute(HttpMethod.GET, "/", SampleController.class, methodHelloWorld, "helloworld");
 
+        // Act
         final String url = router.reverseRoute("helloworld", List.of());
+
+        // Assert
         Assertions.assertNotNull(url);
         Assertions.assertEquals("/", url);
     }
@@ -119,15 +141,22 @@ public final class RouterTest {
     @Test
     public void reverseUrlNoArguments() {
 
+        // Arrange
         final Router router = new DefaultRouter();
         final Method methodHelloWorld = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
         router.addRoute(HttpMethod.GET, "/test", SampleController.class, methodHelloWorld, "helloworld");
 
+        // Act
         final String url = router.reverseRoute("helloworld", List.of());
+
+        // Assert
         Assertions.assertNotNull(url);
         Assertions.assertEquals("/test", url);
     }
 
+    /**
+     * A simple controller.
+     */
     private static final class SampleController {
 
         public Result displayHelloWorld() {

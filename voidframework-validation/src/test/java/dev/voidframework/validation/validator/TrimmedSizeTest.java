@@ -17,10 +17,14 @@ public final class TrimmedSizeTest {
     @Test
     public void withError() {
 
+        // Arrange
         final Pojo pojo = new Pojo("                                 ");
         final Validation validation = new Validation();
+
+        // Act
         final Validated<Pojo> pojoValidated = validation.validate(pojo, Locale.ENGLISH);
 
+        // Assert
         Assertions.assertNotNull(pojoValidated);
         Assertions.assertTrue(pojoValidated.hasError());
         Assertions.assertFalse(pojoValidated.isValid());
@@ -31,10 +35,14 @@ public final class TrimmedSizeTest {
     @Test
     public void withoutError() {
 
+        // Arrange
         final Pojo pojo = new Pojo("           abc@local             ");
         final Validation validation = new Validation();
+
+        // Act
         final Validated<Pojo> pojoValidated = validation.validate(pojo, Locale.ENGLISH);
 
+        // Assert
         Assertions.assertNotNull(pojoValidated);
         Assertions.assertFalse(pojoValidated.hasError());
         Assertions.assertTrue(pojoValidated.isValid());

@@ -20,47 +20,86 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessage() {
+    public void getMessageEnglish() {
 
+        // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
+        // Act
         final String msgHelloEnglish = internationalization.getMessage(Locale.ENGLISH, "hello.world");
+
+        // Assert
         Assertions.assertNotNull(msgHelloEnglish);
         Assertions.assertEquals("Hello World!", msgHelloEnglish);
+    }
 
+    @Test
+    public void getMessageFrench() {
+
+        // Arrange
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
+
+        // Act
         final String msgHelloFrench = internationalization.getMessage(Locale.FRENCH, "hello.world");
+
+        // Assert
         Assertions.assertNotNull(msgHelloFrench);
         Assertions.assertEquals("Bonjour !", msgHelloFrench);
+    }
 
-        final String msgNotHandledLocale = internationalization.getMessage(Locale.GERMAN, "hello.world");
-        Assertions.assertNotNull(msgNotHandledLocale);
-        Assertions.assertEquals("Hello World!", msgNotHandledLocale);
+    @Test
+    public void getMessageNotHandledLanguage() {
 
+        // Arrange
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
+
+        // Act
         final String msgNotFound = internationalization.getMessage(Locale.FRENCH, "unknown.key");
+
+
+        // Assert
         Assertions.assertNotNull(msgNotFound);
         Assertions.assertEquals("%unknown.key%", msgNotFound);
     }
 
     @Test
-    public void getMessageArgument() {
+    public void getMessageArgumentEnglish() {
 
+        // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
+        // Act
         final String msgHelloEnglish = internationalization.getMessage(Locale.ENGLISH, "hello.name", "Aurelia");
+
+        // Assert
         Assertions.assertNotNull(msgHelloEnglish);
         Assertions.assertEquals("Hello Aurelia!", msgHelloEnglish);
+    }
 
+    @Test
+    public void getMessageArgumentFrench() {
+
+        // Arrange
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
+
+        // Act
         final String msgHelloFrench = internationalization.getMessage(Locale.FRENCH, "hello.name", "Byron");
+
+        // Assert
         Assertions.assertNotNull(msgHelloFrench);
         Assertions.assertEquals("Bonjour Byron !", msgHelloFrench);
     }
 
     @Test
-    public void getMessageComplexFormat() {
+    public void getMessageComplexFormatZero() {
 
+        // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
+        // Act
         final String msgZeroComment = internationalization.getMessage(Locale.ENGLISH, "complex.format", 0);
+
+        // Assert
         Assertions.assertNotNull(msgZeroComment);
         Assertions.assertEquals("This element contains no comments", msgZeroComment);
 
@@ -74,42 +113,90 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageLocalNull() {
+    public void getMessageComplexFormatSingular() {
 
+        // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
+        // Act
+        final String msgOneComment = internationalization.getMessage(Locale.ENGLISH, "complex.format", 1);
+
+        // Assert
+        Assertions.assertNotNull(msgOneComment);
+        Assertions.assertEquals("This element contains one comment", msgOneComment);
+
+        final String msgALotOfComment = internationalization.getMessage(Locale.ENGLISH, "complex.format", 1337);
+        Assertions.assertNotNull(msgALotOfComment);
+        Assertions.assertEquals("This element contains 1337 comments", msgALotOfComment);
+    }
+
+    @Test
+    public void getMessageComplexFormatPlural() {
+
+        // Arrange
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
+
+        // Act
+        final String msgALotOfComment = internationalization.getMessage(Locale.ENGLISH, "complex.format", 1337);
+
+        // Assert
+        Assertions.assertNotNull(msgALotOfComment);
+        Assertions.assertEquals("This element contains 1337 comments", msgALotOfComment);
+    }
+
+    @Test
+    public void getMessageLocalNull() {
+
+        // Arrange
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
+
+        // Act
         final String msg = internationalization.getMessage(null, "hello.world");
+
+        // Assert
         Assertions.assertNotNull(msg);
         Assertions.assertEquals("%hello.world%", msg);
     }
 
     @Test
-    public void getMessagePluraleForm() {
+    public void getMessagePluraleFormZero() {
 
+        // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
 
+        // Act
         final String msgPlural0English = internationalization.getMessage(Locale.ENGLISH, 0, "inbox", "BoxName", 0);
+
+        // Assert
         Assertions.assertNotNull(msgPlural0English);
         Assertions.assertEquals("Inbox \"BoxName\" contains no messages", msgPlural0English);
+    }
 
-        final String msgPlural1English = internationalization.getMessage(Locale.ENGLISH, 1, "inbox", "BoxName", 1);
-        Assertions.assertNotNull(msgPlural1English);
-        Assertions.assertEquals("Inbox \"BoxName\" contains one message", msgPlural1English);
+    @Test
+    public void getMessagePluraleFormSingular() {
 
+        // Arrange
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
+
+        // Act
+        final String msgSingularEnglish = internationalization.getMessage(Locale.ENGLISH, 1, "inbox", "BoxName", 1);
+
+        // Assert
+        Assertions.assertNotNull(msgSingularEnglish);
+        Assertions.assertEquals("Inbox \"BoxName\" contains one message", msgSingularEnglish);
+    }
+
+    @Test
+    public void getMessagePluraleFormPlural() {
+
+        // Arrange
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
+
+        // Act
         final String msgPluralMoreEnglish = internationalization.getMessage(Locale.ENGLISH, 456, "inbox", "BoxName", 456);
+
+        // Assert
         Assertions.assertNotNull(msgPluralMoreEnglish);
         Assertions.assertEquals("Inbox \"BoxName\" contains 456 messages", msgPluralMoreEnglish);
-
-        final String msgPlural0French = internationalization.getMessage(Locale.FRENCH, 0, "inbox", "BoxName", 0);
-        Assertions.assertNotNull(msgPlural0French);
-        Assertions.assertEquals("La boite \"BoxName\" contient aucun message", msgPlural0French);
-
-        final String msgPlural1French = internationalization.getMessage(Locale.FRENCH, 1, "inbox", "BoxName", 1);
-        Assertions.assertNotNull(msgPlural1French);
-        Assertions.assertEquals("La boite \"BoxName\" contient un seul message", msgPlural1French);
-
-        final String msgPluralMoreFrench = internationalization.getMessage(Locale.FRENCH, 456, "inbox", "BoxName", 456);
-        Assertions.assertNotNull(msgPluralMoreFrench);
-        Assertions.assertEquals("La boite \"BoxName\" contient 456 messages", msgPluralMoreFrench);
     }
 }

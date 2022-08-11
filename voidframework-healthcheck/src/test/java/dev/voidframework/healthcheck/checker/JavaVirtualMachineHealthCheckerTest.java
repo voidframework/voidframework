@@ -13,12 +13,28 @@ import org.junit.jupiter.api.TestMethodOrder;
 public final class JavaVirtualMachineHealthCheckerTest {
 
     @Test
+    public void getName() {
+
+        // Arrange
+        final HealthChecker healthChecker = new JavaVirtualMachineHealthChecker();
+
+        // Act
+        final String name = healthChecker.getName();
+
+        // Assert
+        Assertions.assertEquals("JVM", name);
+    }
+
+    @Test
     public void checkHealth() {
 
+        // Arrange
         final HealthChecker healthChecker = new JavaVirtualMachineHealthChecker();
-        Assertions.assertEquals("JVM", healthChecker.getName());
 
+        // Act
         final Health health = healthChecker.checkHealth();
+
+        // Assert
         Assertions.assertNotNull(health);
 
         Assertions.assertEquals(Health.Status.UP, health.status());
