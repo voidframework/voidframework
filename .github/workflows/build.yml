@@ -16,5 +16,20 @@ jobs:
                     java-version: '17'
                     distribution: 'adopt'
 
+            -   name: Set up Etcd
+                run: |
+                    sudo apt -y install etcd
+                    etcdctl set "cfg/string" "Hello World"
+                    etcdctl set "cfg/integer" "1"
+                    etcdctl set "cfg/intlist" "[1,2,3,4,5]"
+                    etcdctl set "cfg/boolean" "true"
+                    etcdctl set "cfg/file.test" "<FILE>./test;SGVsbG8gV29ybGQh"
+                    echo -e "insecurepassword" | etcdctl user add root
+                    etcdctl auth enable
+
+            -   name: Set up Redis
+                run: |
+                    sudo apt -y install redis-server
+
             -   name: Build with Maven
                 run: mvn --batch-mode --update-snapshots -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn test
