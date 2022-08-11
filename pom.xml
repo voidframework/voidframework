@@ -91,6 +91,7 @@
         <module>voidframework-redis</module>
         <module>voidframework-redis-healthcheck</module>
         <module>voidframework-remoteconf-etcd</module>
+        <module>voidframework-remoteconf-http</module>
         <module>voidframework-scheduler</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>

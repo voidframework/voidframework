@@ -1,5 +1,7 @@
 package dev.voidframework.core.exception;
 
+import dev.voidframework.core.remoteconfiguration.RemoteConfigurationProvider;
+
 /**
  * All exceptions thrown by the remote configuration are subclasses of {@code RemoteConfigurationException}.
  */
@@ -39,6 +41,34 @@ public class RemoteConfigurationException extends RuntimeException {
         public ProviderDoesNotExist(final String providerClassPath) {
 
             super("Provider '" + providerClassPath + "' does not exist");
+        }
+    }
+
+    /**
+     * This exception indicate that provider fail to fetch remote configuration.
+     */
+    public static class FetchError extends RemoteConfigurationException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param providerClass The provider class
+         * @param cause         The cause
+         */
+        public FetchError(final Class<? extends RemoteConfigurationProvider> providerClass, final String cause) {
+
+            super("Provider '" + providerClass.getName() + "' can't fetch remote configuration: " + cause);
+        }
+
+        /**
+         * Build a new instance.
+         *
+         * @param providerClass The provider class
+         * @param cause         The cause
+         */
+        public FetchError(final Class<? extends RemoteConfigurationProvider> providerClass, final Throwable cause) {
+
+            super("Provider '" + providerClass.getName() + "' can't fetch remote configuration", cause);
         }
     }
 
