@@ -28,11 +28,22 @@ public final class SecurityHeadersFilter implements Filter {
     public SecurityHeadersFilter(final Config configuration) {
 
         this.headerMap = new HashMap<>();
-        this.headerMap.put("X-Content-Type-Options", configuration.getString("voidframework.web.securityHeaders.contentTypeOptions"));
-        this.headerMap.put("X-Frame-Options", configuration.getString("voidframework.web.securityHeaders.frameOptions"));
-        this.headerMap.put("X-XSS-Protection", configuration.getString("voidframework.web.securityHeaders.xssProtection"));
-        this.headerMap.put("Cross-Origin-Resource-Policy", configuration.getString("voidframework.web.securityHeaders.crossOriginResourcePolicy"));
-        this.headerMap.put("Content-Security-Policy", configuration.getString("voidframework.web.securityHeaders.contentSecurityPolicy"));
+
+        if (configuration.hasPath("voidframework.web.securityHeaders.contentTypeOptions")) {
+            this.headerMap.put("X-Content-Type-Options", configuration.getString("voidframework.web.securityHeaders.contentTypeOptions"));
+        }
+        if (configuration.hasPath("voidframework.web.securityHeaders.frameOptions")) {
+            this.headerMap.put("X-Frame-Options", configuration.getString("voidframework.web.securityHeaders.frameOptions"));
+        }
+        if (configuration.hasPath("voidframework.web.securityHeaders.xssProtection")) {
+            this.headerMap.put("X-XSS-Protection", configuration.getString("voidframework.web.securityHeaders.xssProtection"));
+        }
+        if (configuration.hasPath("voidframework.web.securityHeaders.crossOriginResourcePolicy")) {
+            this.headerMap.put("Cross-Origin-Resource-Policy", configuration.getString("voidframework.web.securityHeaders.crossOriginResourcePolicy"));
+        }
+        if (configuration.hasPath("voidframework.web.securityHeaders.contentSecurityPolicy")) {
+            this.headerMap.put("Content-Security-Policy", configuration.getString("voidframework.web.securityHeaders.contentSecurityPolicy"));
+        }
     }
 
     @Override
