@@ -50,7 +50,7 @@ public final class Yaml {
      * @param obj Object to convert in YAML
      * @return The YAML node
      */
-    public static String toYaml(final Object obj) {
+    public static String toString(final Object obj) {
 
         try {
             return OBJECT_MAPPER.writeValueAsString(obj);

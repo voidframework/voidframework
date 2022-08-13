@@ -15,7 +15,7 @@ import java.util.UUID;
 public final class ReflectionTest {
 
     @Test
-    public void getAnnotatedField() throws IllegalAccessException {
+    public void getAnnotatedFieldFromValue() throws IllegalAccessException {
 
         // Arrange
         final UUID uuid = UUID.randomUUID();
@@ -32,10 +32,42 @@ public final class ReflectionTest {
     }
 
     @Test
+    public void getAnnotatedFieldFromClassType() {
+
+        // Act
+        final Field field = Reflection.getAnnotatedField(Demo.class, Validate.class);
+
+        // Assert
+        Assertions.assertNotNull(field);
+        Assertions.assertEquals("id", field.getName());
+    }
+
+    @Test
+    public void getAnnotatedFieldFromClassTypeWithInheritance() {
+
+        // Act
+        final Field field = Reflection.getAnnotatedField(DemoChild.class, Validate.class);
+
+        // Assert
+        Assertions.assertNotNull(field);
+        Assertions.assertEquals("id", field.getName());
+    }
+
+    @Test
     public void getAnnotatedFieldWithNullValue() {
 
         // Act
-        final Field field = Reflection.getAnnotatedField(null, Validate.class);
+        final Field field = Reflection.getAnnotatedField((Demo) null, Validate.class);
+
+        // Assert
+        Assertions.assertNull(field);
+    }
+
+    @Test
+    public void getAnnotatedFieldWithNullClassType() {
+
+        // Act
+        final Field field = Reflection.getAnnotatedField((Class<?>) null, Validate.class);
 
         // Assert
         Assertions.assertNull(field);
@@ -58,6 +90,22 @@ public final class ReflectionTest {
     }
 
     @Test
+    public void getFieldValueExplicitClassTypeUnknownField() {
+
+        // Arrange
+        final UUID uuid = UUID.randomUUID();
+        final Demo demo = new Demo();
+        demo.setId(uuid);
+        demo.setFirstName("Marie");
+
+        // Act
+        final UUID value = Reflection.getFieldValue(demo, "unknownField", UUID.class);
+
+        // Assert
+        Assertions.assertNull(value);
+    }
+
+    @Test
     public void getFieldValueWrappedClassType() {
 
         // Arrange
@@ -71,6 +119,22 @@ public final class ReflectionTest {
         // Assert
         Assertions.assertNotNull(value);
         Assertions.assertEquals(uuid, value);
+    }
+
+    @Test
+    public void getFieldValueWrappedClassTypeUnknownField() {
+
+        // Arrange
+        final UUID uuid = UUID.randomUUID();
+        final Demo demo = new Demo();
+        demo.setId(uuid);
+        demo.setFirstName("Bob");
+
+        // Act
+        final UUID value = Reflection.getFieldValue(demo, "unknownField", new Reflection.WrappedClass<>());
+
+        // Assert
+        Assertions.assertNull(value);
     }
 
     @Test
@@ -91,6 +155,25 @@ public final class ReflectionTest {
     }
 
     @Test
+    public void setFieldValueUnknownField() {
+
+        // Arrange
+        final UUID uuidCurrent = UUID.randomUUID();
+        final UUID uuidNew = UUID.randomUUID();
+        final Demo demo = new Demo();
+        demo.setId(uuidCurrent);
+        demo.setFirstName("Bob");
+
+        // Act
+        Reflection.setFieldValue(demo, "unknownField", uuidNew);
+
+        // Assert
+        Assertions.assertEquals(demo.id, uuidCurrent);
+        Assertions.assertEquals(demo.firstName, "Bob");
+        Assertions.assertNotEquals(uuidCurrent, uuidNew);
+    }
+
+    @Test
     public void resolveMethod() throws InvocationTargetException, IllegalAccessException {
 
         // Arrange
@@ -105,6 +188,16 @@ public final class ReflectionTest {
         Assertions.assertNotNull(method);
         Assertions.assertEquals("getId", method.getName());
         Assertions.assertEquals(uuidCurrent, method.invoke(demo));
+    }
+
+    @Test
+    public void resolveMethodNotFound() {
+
+        // Act
+        final Method method = Reflection.resolveMethod("unknownMethod", Demo.class);
+
+        // Assert
+        Assertions.assertNull(method);
     }
 
     @Test
@@ -124,6 +217,21 @@ public final class ReflectionTest {
     }
 
     @Test
+    public void callMethodReturnSomethingUnknownMethod() {
+
+        // Arrange
+        final UUID uuidCurrent = UUID.randomUUID();
+        final Demo demo = new Demo();
+        demo.setId(uuidCurrent);
+
+        // Act
+        final UUID uuid = Reflection.callMethod(demo, "unknownMethod", UUID.class, new Class[]{});
+
+        // Assert
+        Assertions.assertNull(uuid);
+    }
+
+    @Test
     public void callMethodReturnNothing() {
 
         // Arrange
@@ -134,6 +242,28 @@ public final class ReflectionTest {
 
         // Assert
         Assertions.assertEquals("Vanessa", demo.getFirstName());
+    }
+
+    @Test
+    public void callMethodReturnNothingUnknownMethod() {
+
+        // Arrange
+        final Demo demo = new Demo();
+        demo.setId(UUID.fromString("bc35ec9f-9a74-4843-8504-e391e3d2fd15"));
+        demo.setFirstName("Mina");
+
+        // Act
+        Reflection.callMethod(demo, "unknownMethod", new Class[]{String.class}, "Vanessa");
+
+        // Assert
+        Assertions.assertEquals(UUID.fromString("bc35ec9f-9a74-4843-8504-e391e3d2fd15"), demo.getId());
+        Assertions.assertEquals("Mina", demo.getFirstName());
+    }
+
+    /**
+     * Demo child class. To test inheritance.
+     */
+    public static class DemoChild extends Demo {
     }
 
     /**

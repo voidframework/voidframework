@@ -1,11 +1,13 @@
 package dev.voidframework.core.classestoload.generator;
 
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.core.classestoload.ClassesToLoadScanner;
 import dev.voidframework.core.classestoload.ScannedClassesToLoad;
 
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * Generates "classpath.bootstrap" file.
@@ -31,11 +33,27 @@ public final class ClasspathBootstrapGenerator {
 
         // Scan classpath
         final ScannedClassesToLoad scannedClassesToLoad = ClassesToLoadScanner.findClassesToLoad(
-            configuration.getStringList("voidframework.core.acceptedScanPaths").toArray(new String[0]),
-            configuration.getStringList("voidframework.core.rejectedScanPaths").toArray(new String[0]),
-            configuration.getStringList("voidframework.core.bindExtraInterfaces"));
+            resolveConfigAsStringList(configuration, "voidframework.core.acceptedScanPaths").toArray(new String[0]),
+            resolveConfigAsStringList(configuration, "voidframework.core.rejectedScanPaths").toArray(new String[0]),
+            resolveConfigAsStringList(configuration, "voidframework.core.bindExtraInterfaces"));
 
         // Create "classpath.bootstrap" file
         ClassesToLoadScanner.persistClassesToLoad(scannedClassesToLoad, Paths.get(args[0]));
+    }
+
+    /**
+     * Resolves a configuration value as a list of String, even if the configuration is a simple String.
+     *
+     * @param configuration The application configuration
+     * @param path          The configuration value path
+     * @return A list of String
+     */
+    private static List<String> resolveConfigAsStringList(final Config configuration, final String path) {
+
+        try {
+            return configuration.getStringList(path);
+        } catch (final ConfigException.WrongType ignore) {
+            return List.of(configuration.getString(path));
+        }
     }
 }

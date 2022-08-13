@@ -92,7 +92,7 @@ public class HelloWorldController implements HttpContentType {
      */
     @RequestRoute(method = HttpMethod.POST, route = "/form")
     public Result postForm(@RequestBody final Pojo pojo) {
-        return Result.ok(Yaml.toYaml(pojo).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
+        return Result.ok(Yaml.toString(pojo).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
     }
 
     /**
@@ -106,10 +106,10 @@ public class HelloWorldController implements HttpContentType {
     public Result postForm2(final Context context, @RequestBody Pojo pojo) {
         final Validated<Pojo> pojoValidated = this.validation.validate(pojo, context.getLocale());
         if (pojoValidated.hasError()) {
-            return Result.badRequest(Yaml.toYaml(pojoValidated.getError()).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
+            return Result.badRequest(Yaml.toString(pojoValidated.getError()).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
         }
 
-        return Result.ok(Yaml.toYaml(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
+        return Result.ok(Yaml.toString(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
     }
 
     /**

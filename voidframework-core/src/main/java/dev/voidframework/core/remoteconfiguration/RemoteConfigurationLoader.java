@@ -8,6 +8,7 @@ import dev.voidframework.core.helper.ClassResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,7 @@ public final class RemoteConfigurationLoader {
                         },
                         fileObj -> {
                             fileObj.apply();
+                            finalizeFileConfigurationObject(fileObj);
                             storedFileCount.incrementAndGet();
                             if (LOGGER.isDebugEnabled()) {
                                 LOGGER.debug("[{}] Store {}", remoteConfigurationProvider.getName(), fileObj);
@@ -115,5 +117,18 @@ public final class RemoteConfigurationLoader {
         }
 
         return ConfigFactory.empty();
+    }
+
+    /**
+     * Finalizes a file configuration object.
+     *
+     * @param fileObj The file configuration object to finalize
+     */
+    private static void finalizeFileConfigurationObject(final FileCfgObject fileObj) {
+
+        try {
+            fileObj.close();
+        } catch (final IOException ignore) {
+        }
     }
 }
