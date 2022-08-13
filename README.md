@@ -1,8 +1,9 @@
 # Void Framework
 
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/voidframework/voidframework/master/LICENSE)
-[![Java CI](https://img.shields.io/github/workflow/status/voidframework/voidframework/Java%20CI)](https://github.com/voidframework/voidframework/actions/workflows/main.yml)
-[![Repository release](https://img.shields.io/github/v/release/voidframework/voidframework)](https://github.com/voidframework/voidframework/releases)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?logo=github)](https://raw.githubusercontent.com/voidframework/voidframework/master/LICENSE)
+[![Java CI](https://img.shields.io/github/workflow/status/voidframework/voidframework/Java%20CI?logo=github)](https://github.com/voidframework/voidframework/actions/workflows/main.yml)
+[![Repository release](https://img.shields.io/github/v/release/voidframework/voidframework?logo=github)](https://github.com/voidframework/voidframework/releases)
+[![Maven](https://img.shields.io/maven-central/v/dev.voidframework/voidframework.svg?logo=apache-maven)](https://search.maven.org/search?q=g:dev.voidframework)
 [![Repository size](https://img.shields.io/github/repo-size/voidframework/voidframework.svg?logo=git)](https://github.com/voidframework/voidframework)
 
 Light and modular Framework for Java
