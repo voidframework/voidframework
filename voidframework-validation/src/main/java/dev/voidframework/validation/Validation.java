@@ -56,11 +56,13 @@ public final class Validation {
      *
      * @param objectToValidate       The object to validate
      * @param locale                 The locale to use for validation error message
+     * @param constraintGroupArray   The constraint groups to apply (OPTIONAL)
      * @param <OBJ_TO_VALIDATE_TYPE> Type of the object to validate
      * @return The validated object
      */
     public <OBJ_TO_VALIDATE_TYPE> Validated<OBJ_TO_VALIDATE_TYPE> validate(final OBJ_TO_VALIDATE_TYPE objectToValidate,
-                                                                           final Locale locale) {
+                                                                           final Locale locale,
+                                                                           final Class<?>... constraintGroupArray) {
 
         final Map<String, List<ValidationError>> validationErrorPerKeyMap = new HashMap<>();
 
@@ -71,7 +73,7 @@ public final class Validation {
 
         // Retrieves the correct validator according to the locale and validates the object provided
         final Validator validator = this.validatorPerLocaleMap.computeIfAbsent(locale, this::createValidator);
-        final Set<ConstraintViolation<OBJ_TO_VALIDATE_TYPE>> constraintViolationSet = validator.validate(objectToValidate);
+        final Set<ConstraintViolation<OBJ_TO_VALIDATE_TYPE>> constraintViolationSet = validator.validate(objectToValidate, constraintGroupArray);
 
         constraintViolationSet.stream().sorted(Comparator.comparing(ConstraintViolation::getMessageTemplate)).forEach(constraintViolation -> {
             final String fieldKey = constraintViolation.getPropertyPath().toString();
