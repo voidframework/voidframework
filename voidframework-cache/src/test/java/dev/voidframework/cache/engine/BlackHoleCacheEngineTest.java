@@ -11,7 +11,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 public final class BlackHoleCacheEngineTest {
 
     @Test
-    public void getUnknownValue() {
+    void getUnknownValue() {
 
         // Arrange
         final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
@@ -24,7 +24,7 @@ public final class BlackHoleCacheEngineTest {
     }
 
     @Test
-    public void setValueAndGetValueKey() {
+    void setValueAndGetValueKey() {
 
         // Arrange
         final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();

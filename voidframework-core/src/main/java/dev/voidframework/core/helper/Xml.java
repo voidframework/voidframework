@@ -39,6 +39,14 @@ public final class Xml {
         .build();
 
     /**
+     * Default constructor.
+     */
+    private Xml() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Converts an XML to string.
      *
      * @param xml The XML to convert.
@@ -62,15 +70,15 @@ public final class Xml {
     /**
      * Converts a XML document into to a Java object.
      *
-     * @param <OUTPUT_TYPE> The type of the Java object
-     * @param xml           XML document to convert
-     * @param clazz         Expected Java object type
+     * @param <T>             The type of the Java object
+     * @param xml             XML document to convert
+     * @param outputClassType Expected Java object type
      * @return The Java object
      */
-    public static <OUTPUT_TYPE> OUTPUT_TYPE fromXml(final Document xml, final Class<OUTPUT_TYPE> clazz) {
+    public static <T> T fromXml(final Document xml, final Class<T> outputClassType) {
 
         try {
-            return OBJECT_MAPPER.readValue(toString(xml), clazz);
+            return OBJECT_MAPPER.readValue(toString(xml), outputClassType);
         } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ignore) {
             return null;
         }
@@ -79,15 +87,15 @@ public final class Xml {
     /**
      * Converts a XML document into to a Java object.
      *
-     * @param <OUTPUT_TYPE> The type of the Java object
-     * @param xmlByteArray  XML document as bytes array to convert
-     * @param clazz         Expected Java object type
+     * @param <T>             The type of the Java object
+     * @param xmlByteArray    XML document as bytes array to convert
+     * @param outputClassType Expected Java object type
      * @return The Java object
      */
-    public static <OUTPUT_TYPE> OUTPUT_TYPE fromXml(final byte[] xmlByteArray, final Class<OUTPUT_TYPE> clazz) {
+    public static <T> T fromXml(final byte[] xmlByteArray, final Class<T> outputClassType) {
 
         try {
-            return OBJECT_MAPPER.readValue(xmlByteArray, clazz);
+            return OBJECT_MAPPER.readValue(xmlByteArray, outputClassType);
         } catch (final NullPointerException | IllegalArgumentException | IOException ignore) {
             return null;
         }

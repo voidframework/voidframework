@@ -13,7 +13,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 public final class JavaVirtualMachineHealthCheckerTest {
 
     @Test
-    public void getName() {
+    void getName() {
 
         // Arrange
         final HealthChecker healthChecker = new JavaVirtualMachineHealthChecker();
@@ -26,7 +26,7 @@ public final class JavaVirtualMachineHealthCheckerTest {
     }
 
     @Test
-    public void checkHealth() {
+    void checkHealth() {
 
         // Arrange
         final HealthChecker healthChecker = new JavaVirtualMachineHealthChecker();

@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 public class YamlTest {
 
     @Test
-    public void fromYamlByteArray() {
+    void fromYamlByteArray() {
 
         // Arrange
         final byte[] yamlAsByteArray = """
@@ -32,7 +32,7 @@ public class YamlTest {
     }
 
     @Test
-    public void fromYamlByteArrayInvalidClassType() {
+    void fromYamlByteArrayInvalidClassType() {
 
         // Arrange
         final byte[] yamlAsByteArray = """
@@ -47,7 +47,7 @@ public class YamlTest {
     }
 
     @Test
-    public void fromYamlJsonNode() {
+    void fromYamlJsonNode() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();
@@ -62,7 +62,7 @@ public class YamlTest {
     }
 
     @Test
-    public void fromYamlJsonNodeInvalidClassType() {
+    void fromYamlJsonNodeInvalidClassType() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();
@@ -76,7 +76,7 @@ public class YamlTest {
     }
 
     @Test
-    public void toYamlFromByteArray() {
+    void toYamlFromByteArray() {
 
         // Arrange
         final byte[] yamlAsByteArray = """
@@ -92,7 +92,7 @@ public class YamlTest {
     }
 
     @Test
-    public void toStringFromObject() {
+    void toStringFromObject() {
 
         // Arrange
         final SimpleDto simpleDto = new SimpleDto("world!");
@@ -109,7 +109,7 @@ public class YamlTest {
     }
 
     @Test
-    public void toStringFromObjectNode() {
+    void toStringFromObjectNode() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();

@@ -29,6 +29,14 @@ public final class Yaml {
         .build();
 
     /**
+     * Default constructor.
+     */
+    private Yaml() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Converts an YAML to string.
      *
      * @param yaml The YAML to convert.
@@ -77,15 +85,15 @@ public final class Yaml {
     /**
      * Converts a YAML document into to a Java object.
      *
-     * @param <OUTPUT_TYPE> The type of the Java object
-     * @param yaml          YAML document to convert
-     * @param clazz         Expected Java object type
+     * @param <T>             The type of the Java object
+     * @param yaml            YAML document to convert
+     * @param outputClassType Expected Java object type
      * @return The Java object
      */
-    public static <OUTPUT_TYPE> OUTPUT_TYPE fromYaml(final JsonNode yaml, final Class<OUTPUT_TYPE> clazz) {
+    public static <T> T fromYaml(final JsonNode yaml, final Class<T> outputClassType) {
 
         try {
-            return OBJECT_MAPPER.treeToValue(yaml, clazz);
+            return OBJECT_MAPPER.treeToValue(yaml, outputClassType);
         } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ignore) {
             return null;
         }
@@ -94,15 +102,15 @@ public final class Yaml {
     /**
      * Converts a YAML document into to a Java object.
      *
-     * @param <OUTPUT_TYPE> The type of the Java object
-     * @param yamlByteArray YAML document as bytes array to convert
-     * @param clazz         Expected Java object type
+     * @param <T>             The type of the Java object
+     * @param yamlByteArray   YAML document as bytes array to convert
+     * @param outputClassType Expected Java object type
      * @return The Java object
      */
-    public static <OUTPUT_TYPE> OUTPUT_TYPE fromYaml(final byte[] yamlByteArray, final Class<OUTPUT_TYPE> clazz) {
+    public static <T> T fromYaml(final byte[] yamlByteArray, final Class<T> outputClassType) {
 
         try {
-            return OBJECT_MAPPER.readValue(yamlByteArray, clazz);
+            return OBJECT_MAPPER.readValue(yamlByteArray, outputClassType);
         } catch (final NullPointerException | IllegalArgumentException | IOException ignore) {
             return null;
         }

@@ -13,7 +13,7 @@ import java.nio.file.Path;
 public class ClasspathBootstrapGeneratorTest {
 
     @Test
-    public void classpathBootstrapGenerator() {
+    void classpathBootstrapGenerator() {
 
         // Arrange
         final Path outputPath = Path.of(System.getProperty("java.io.tmpdir"));
@@ -33,7 +33,7 @@ public class ClasspathBootstrapGeneratorTest {
     }
 
     @Test
-    public void classpathBootstrapGeneratorEmptyArgs() {
+    void classpathBootstrapGeneratorEmptyArgs() {
 
         // Arrange
         final String[] args = new String[]{};

@@ -11,7 +11,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 public final class VoidFrameworkVersionTest {
 
     @Test
-    public void version() {
+    void version() {
 
         // Act
         final String version = VoidFrameworkVersion.getVersion();

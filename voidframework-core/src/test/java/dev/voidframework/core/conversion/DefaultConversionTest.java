@@ -31,7 +31,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void canConvertByClassStringToInteger() {
+    void canConvertByClassStringToInteger() {
 
         // Act
         final boolean canConvert = this.conversion.canConvert(String.class, Integer.class);
@@ -41,7 +41,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void canConvertByClassIntegerToString() {
+    void canConvertByClassIntegerToString() {
 
         // Act
         final boolean canConvert = this.conversion.canConvert(Integer.class, String.class);
@@ -51,7 +51,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void canConvertByClassIntegerToBoolean() {
+    void canConvertByClassIntegerToBoolean() {
 
         // Act
         final boolean canConvert = this.conversion.canConvert(Integer.class, Boolean.class);
@@ -61,7 +61,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void canConvertByInstanceStringToIntegerWithNullValue() {
+    void canConvertByInstanceStringToIntegerWithNullValue() {
 
         // Act
         final boolean canConvert = this.conversion.canConvert((String) null, Integer.class);
@@ -71,7 +71,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void canConvertByInstanceStringToInteger() {
+    void canConvertByInstanceStringToInteger() {
 
         // Arrange
         final String numberAsString = "10";
@@ -84,7 +84,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void canConvertByInstanceIntegerToString() {
+    void canConvertByInstanceIntegerToString() {
 
         // Arrange
         final Integer number = 10;
@@ -97,7 +97,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void canConvertByInstanceIntegerToBoolean() {
+    void canConvertByInstanceIntegerToBoolean() {
 
         // Arrange
         final Integer number = 10;
@@ -110,7 +110,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertExplicitConverterNotFound() {
+    void convertExplicitConverterNotFound() {
 
         // Act
         final ConversionException.ConverterDoesNotExist exception = Assertions.assertThrows(
@@ -125,7 +125,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertExplicitNull() {
+    void convertExplicitNull() {
 
         // Act
         final Integer convertedValue = this.conversion.convert((String) null, String.class, Integer.class);
@@ -135,7 +135,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertExplicit() {
+    void convertExplicit() {
 
         // Arrange
         final String numberAsString = "10";
@@ -148,7 +148,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertImplicitNull() {
+    void convertImplicitNull() {
 
         // Act
         final Integer convertedValue = this.conversion.convert((String) null, Integer.class);
@@ -158,7 +158,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertImplicit() {
+    void convertImplicit() {
 
         // Arrange
         final String numberAsString = "10";
@@ -171,7 +171,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertIterableExplicitNull() {
+    void convertIterableExplicitNull() {
 
         // Act
         final List<Integer> convertedValue = this.conversion.convert((Deque<String>) null, String.class, Integer.class);
@@ -181,7 +181,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertIterableExplicit() {
+    void convertIterableExplicit() {
 
         // Arrange
         final Deque<String> numberAsStringDeque = new ArrayDeque<>(List.of("1", "2", "3"));
@@ -194,7 +194,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertIterableImplicitNull() {
+    void convertIterableImplicitNull() {
 
         // Act
         final List<Integer> convertedValue = this.conversion.convert((Deque<String>) null, Integer.class);
@@ -204,7 +204,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertIterableImplicit() {
+    void convertIterableImplicit() {
 
         // Arrange
         final Deque<String> numberAsStringDeque = new ArrayDeque<>(List.of("1", "2", "3"));
@@ -217,7 +217,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertListExplicitNull() {
+    void convertListExplicitNull() {
 
         // Act
         final List<Integer> convertedValue = this.conversion.convert((List<String>) null, String.class, Integer.class);
@@ -227,7 +227,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertListExplicitEmpty() {
+    void convertListExplicitEmpty() {
 
         // Act
         final List<Integer> convertedValue = this.conversion.convert(List.of(), String.class, Integer.class);
@@ -238,7 +238,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertListExplicit() {
+    void convertListExplicit() {
 
         // Arrange
         final List<String> numberAsStringList = Arrays.asList("1", "2", "3", null);
@@ -251,7 +251,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertListImplicitNull() {
+    void convertListImplicitNull() {
 
         // Act
         final List<Integer> convertedValue = this.conversion.convert((List<String>) null, Integer.class);
@@ -261,7 +261,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertListImplicitEmpty() {
+    void convertListImplicitEmpty() {
 
         // Act
         final List<Integer> convertedValue = this.conversion.convert(List.of(), Integer.class);
@@ -272,7 +272,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertListImplicit() {
+    void convertListImplicit() {
 
         // Arrange
         final List<String> numberAsStringList = Arrays.asList("1", "2", null, "3");
@@ -285,7 +285,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertSetExplicitNull() {
+    void convertSetExplicitNull() {
 
         // Act
         final Set<Integer> convertedValue = this.conversion.convert((Set<String>) null, String.class, Integer.class);
@@ -295,7 +295,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertSetExplicitEmpty() {
+    void convertSetExplicitEmpty() {
 
         // Act
         final Set<Integer> convertedValue = this.conversion.convert(Set.of(), String.class, Integer.class);
@@ -306,7 +306,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertSetExplicit() {
+    void convertSetExplicit() {
 
         // Arrange
         final Set<String> numberAsStringList = Set.of("1", "2", "3");
@@ -319,7 +319,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertSetImplicitNull() {
+    void convertSetImplicitNull() {
 
         // Act
         final Set<Integer> convertedValue = this.conversion.convert((Set<String>) null, Integer.class);
@@ -329,7 +329,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertSetImplicitEmpty() {
+    void convertSetImplicitEmpty() {
 
         // Act
         final Set<Integer> convertedValue = this.conversion.convert(Set.of(), Integer.class);
@@ -340,7 +340,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertSetImplicit() {
+    void convertSetImplicit() {
 
         // Arrange
         final Set<String> numberAsStringList = Set.of("1", "2", "3");
@@ -353,7 +353,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertExplicitCollectionConverterNotFound() {
+    void convertExplicitCollectionConverterNotFound() {
 
         // Arrange
         final List<Boolean> booleanList = List.of(true, false, true);
@@ -371,7 +371,7 @@ public final class DefaultConversionTest {
     }
 
     @Test
-    public void convertImplicitCollectionConverterNotFound() {
+    void convertImplicitCollectionConverterNotFound() {
 
         // Arrange
         final List<Boolean> booleanList = List.of(true, false, true);

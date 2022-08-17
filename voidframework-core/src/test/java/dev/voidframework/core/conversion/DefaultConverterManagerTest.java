@@ -16,7 +16,7 @@ import java.util.Map;
 public class DefaultConverterManagerTest {
 
     @Test
-    public void hasConvertForConverterIsPresent() {
+    void hasConvertForConverterIsPresent() {
 
         // Arrange
         final ConverterManager converterManager = new DefaultConverterManager();
@@ -30,7 +30,7 @@ public class DefaultConverterManagerTest {
     }
 
     @Test
-    public void hasConvertForConverterIsNotPresent() {
+    void hasConvertForConverterIsNotPresent() {
 
         // Arrange
         final ConverterManager converterManager = new DefaultConverterManager();
@@ -43,7 +43,7 @@ public class DefaultConverterManagerTest {
     }
 
     @Test
-    public void registerConverter() {
+    void registerConverter() {
 
         // Arrange
         final ConverterManager converterManager = new DefaultConverterManager();
@@ -65,7 +65,7 @@ public class DefaultConverterManagerTest {
     }
 
     @Test
-    public void registerConverterAlreadyRegistered() {
+    void registerConverterAlreadyRegistered() {
 
         // Arrange
         final ConverterManager converterManager = new DefaultConverterManager();

@@ -48,7 +48,7 @@ public class ConfigTemplateMethodModelTest {
     }
 
     @Test
-    public void configurationFound() {
+    void configurationFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -74,7 +74,7 @@ public class ConfigTemplateMethodModelTest {
     }
 
     @Test
-    public void configuratioNotFound() {
+    void configuratioNotFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -90,7 +90,7 @@ public class ConfigTemplateMethodModelTest {
     }
 
     @Test
-    public void wrongArguments() {
+    void wrongArguments() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);

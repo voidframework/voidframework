@@ -8,11 +8,11 @@ import java.util.Map;
 /**
  * A validation result.
  *
- * @param <VALIDATED_OBJ_TYPE> Type of the validated object
+ * @param <T> Type of the validated object
  */
-public class Validated<VALIDATED_OBJ_TYPE> {
+public class Validated<T> {
 
-    private final VALIDATED_OBJ_TYPE instance;
+    private final T instance;
     private final Map<String, List<ValidationError>> validationErrorPerPathMap;
 
     /**
@@ -21,7 +21,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      * @param instance                  The validated object instance
      * @param validationErrorPerPathMap The validation errors group by path
      */
-    Validated(final VALIDATED_OBJ_TYPE instance,
+    Validated(final T instance,
               final Map<String, List<ValidationError>> validationErrorPerPathMap) {
 
         this.instance = instance;
@@ -31,10 +31,10 @@ public class Validated<VALIDATED_OBJ_TYPE> {
     /**
      * Creates an empty validated object.
      *
-     * @param <VALIDATED_OBJ_TYPE> Type of the validated object
+     * @param <T> Type of the validated object
      * @return Newly created instance
      */
-    public static <VALIDATED_OBJ_TYPE> Validated<VALIDATED_OBJ_TYPE> emptyOf() {
+    public static <T> Validated<T> emptyOf() {
 
         return new Validated<>(null, new HashMap<>());
     }
@@ -42,11 +42,11 @@ public class Validated<VALIDATED_OBJ_TYPE> {
     /**
      * Creates an empty validated object.
      *
-     * @param instance             The validated object instance
-     * @param <VALIDATED_OBJ_TYPE> Type of the validated object
+     * @param instance The validated object instance
+     * @param <T>      Type of the validated object
      * @return Newly created instance
      */
-    public static <VALIDATED_OBJ_TYPE> Validated<VALIDATED_OBJ_TYPE> emptyOf(final VALIDATED_OBJ_TYPE instance) {
+    public static <T> Validated<T> emptyOf(final T instance) {
 
         return new Validated<>(instance, new HashMap<>());
     }
@@ -122,7 +122,7 @@ public class Validated<VALIDATED_OBJ_TYPE> {
      *
      * @return The validated object
      */
-    public VALIDATED_OBJ_TYPE getInstance() {
+    public T getInstance() {
 
         return this.instance;
     }

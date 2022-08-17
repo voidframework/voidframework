@@ -10,6 +10,14 @@ public final class ProxyDetector {
     private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
     /**
+     * Default constructor.
+     */
+    private ProxyDetector() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Checks whether the given object is a proxy.
      *
      * @param object the object to check

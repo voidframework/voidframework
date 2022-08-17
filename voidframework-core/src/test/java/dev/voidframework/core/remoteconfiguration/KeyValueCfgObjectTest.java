@@ -9,7 +9,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 public class KeyValueCfgObjectTest {
 
     @Test
-    public void keyValueSimple() {
+    void keyValueSimple() {
 
         // Arrange
         final KeyValueCfgObject keyValueCfgObject = new KeyValueCfgObject("key", "value");
@@ -22,7 +22,7 @@ public class KeyValueCfgObjectTest {
     }
 
     @Test
-    public void keyValueSimpleDouble() {
+    void keyValueSimpleDouble() {
 
         // Arrange
         final KeyValueCfgObject keyValueCfgObject = new KeyValueCfgObject("key", "12.45");
@@ -35,7 +35,7 @@ public class KeyValueCfgObjectTest {
     }
 
     @Test
-    public void keyValueSimpleLong() {
+    void keyValueSimpleLong() {
 
         // Arrange
         final KeyValueCfgObject keyValueCfgObject = new KeyValueCfgObject("key", "1337");
@@ -48,7 +48,7 @@ public class KeyValueCfgObjectTest {
     }
 
     @Test
-    public void keyValueQuoted() {
+    void keyValueQuoted() {
 
         // Arrange
         final KeyValueCfgObject keyValueCfgObject = new KeyValueCfgObject("key", "\"value\"");
@@ -61,7 +61,7 @@ public class KeyValueCfgObjectTest {
     }
 
     @Test
-    public void keyValueQuotedDouble() {
+    void keyValueQuotedDouble() {
 
         // Arrange
         final KeyValueCfgObject keyValueCfgObject = new KeyValueCfgObject("key", "\"12.45\"");
@@ -74,7 +74,7 @@ public class KeyValueCfgObjectTest {
     }
 
     @Test
-    public void toStringWithAdaptativeMaskNonSensitiveData() {
+    void toStringWithAdaptativeMaskNonSensitiveData() {
 
         // Arrange
         final KeyValueCfgObject keyValueCfgObject = new KeyValueCfgObject("key", "value");
@@ -87,7 +87,7 @@ public class KeyValueCfgObjectTest {
     }
 
     @Test
-    public void toStringWithAdaptativeMaskSensitiveData() {
+    void toStringWithAdaptativeMaskSensitiveData() {
 
         // Arrange
         final KeyValueCfgObject keyValueCfgObject = new KeyValueCfgObject("token", "my-secret-token");
@@ -100,7 +100,7 @@ public class KeyValueCfgObjectTest {
     }
 
     @Test
-    public void apply() {
+    void apply() {
 
         // Arrange
         final StringBuilder stringBuilder = new StringBuilder(64);

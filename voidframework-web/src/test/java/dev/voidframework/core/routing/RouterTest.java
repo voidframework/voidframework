@@ -22,7 +22,7 @@ import java.util.List;
 public final class RouterTest {
 
     @Test
-    public void addRoute() {
+    void addRoute() {
 
         // Arrange
         final Router router = new DefaultRouter();
@@ -45,7 +45,7 @@ public final class RouterTest {
     }
 
     @Test
-    public void resolveRoute() {
+    void resolveRoute() {
 
         // Arrange
         final Router router = new DefaultRouter();
@@ -66,7 +66,7 @@ public final class RouterTest {
     }
 
     @Test
-    public void resolveRouteWithRegularExpression() {
+    void resolveRouteWithRegularExpression() {
 
         // Arrange
         final Router router = new DefaultRouter();
@@ -91,7 +91,7 @@ public final class RouterTest {
     }
 
     @Test
-    public void reverseUrlWithName() {
+    void reverseUrlWithName() {
 
         // Arrange
         final Router router = new DefaultRouter();
@@ -107,7 +107,7 @@ public final class RouterTest {
     }
 
     @Test
-    public void reverseUrlWithoutName() {
+    void reverseUrlWithoutName() {
 
         // Arrange
         final Router router = new DefaultRouter();
@@ -123,7 +123,7 @@ public final class RouterTest {
     }
 
     @Test
-    public void reverseUrlBase() {
+    void reverseUrlBase() {
 
         // Arrange
         final Router router = new DefaultRouter();
@@ -139,7 +139,7 @@ public final class RouterTest {
     }
 
     @Test
-    public void reverseUrlNoArguments() {
+    void reverseUrlNoArguments() {
 
         // Arrange
         final Router router = new DefaultRouter();
@@ -174,7 +174,7 @@ public final class RouterTest {
             return Result.ok("My Account ID is " + accountId);
         }
 
-        public void returnNothing() {
+        void returnNothing() {
         }
     }
 }

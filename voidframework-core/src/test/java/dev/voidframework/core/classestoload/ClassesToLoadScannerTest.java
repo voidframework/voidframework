@@ -21,7 +21,7 @@ import java.util.List;
 public class ClassesToLoadScannerTest {
 
     @Test
-    public void findClassesToLoad() {
+    void findClassesToLoad() {
 
         // Arrange
         final String[] acceptedScanPaths = new String[]{"dev.voidframework.core.classestoload.classes"};
@@ -57,7 +57,7 @@ public class ClassesToLoadScannerTest {
     }
 
     @Test
-    public void persistAndRestoreClassesToLoad() throws IOException {
+    void persistAndRestoreClassesToLoad() throws IOException {
 
         // Arrange
         final Path outputPath = Path.of(System.getProperty("java.io.tmpdir"));

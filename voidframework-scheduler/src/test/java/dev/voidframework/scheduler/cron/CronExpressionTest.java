@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public final class CronExpressionTest {
 
     @Test
-    public void badPartSingleValueTooHigh() {
+    void badPartSingleValueTooHigh() {
 
         // Act
         Assertions.assertThrowsExactly(
@@ -22,7 +22,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void badPartListValueTooHigh() {
+    void badPartListValueTooHigh() {
 
         // Act
         Assertions.assertThrowsExactly(
@@ -31,7 +31,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void badCronExpressionSize() {
+    void badCronExpressionSize() {
 
         // Act
         Assertions.assertThrowsExactly(
@@ -40,7 +40,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void badCronExpressionTooManyWildcard() {
+    void badCronExpressionTooManyWildcard() {
 
         // Act
         Assertions.assertThrowsExactly(
@@ -49,7 +49,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void everySeconds() {
+    void everySeconds() {
 
         // Arrange
         // Given: Monday, June 20, 2022 12:00:00
@@ -66,7 +66,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void everyMinutes() {
+    void everyMinutes() {
 
         // Arrange
         // Given: Monday, June 20, 2022 12:00:00
@@ -83,7 +83,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void everyHours() {
+    void everyHours() {
 
         // Arrange
         // Given: Monday, June 20, 2022 12:00:00
@@ -100,7 +100,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void everyDays() {
+    void everyDays() {
 
         // Arrange
         // Given: Monday, June 20, 2022 12:00:00
@@ -117,7 +117,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void everyDaysMonday() {
+    void everyDaysMonday() {
 
         // Arrange
         // Given: Monday, June 27, 2022 12:00:00
@@ -134,7 +134,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void everyMonths() {
+    void everyMonths() {
 
         // Arrange
         // Given: Monday, June 20, 2022 12:00:00
@@ -151,7 +151,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void everyTwiceADayFromMondayToFridayFirstOccurrence2h30() {
+    void everyTwiceADayFromMondayToFridayFirstOccurrence2h30() {
 
         // Arrange
         // Twice a day (2h30 & 14h30) from Monday to Friday
@@ -170,7 +170,7 @@ public final class CronExpressionTest {
     }
 
     @Test
-    public void everyTwiceADayFromMondayToFridaySecondOccurrence14h30() {
+    void everyTwiceADayFromMondayToFridaySecondOccurrence14h30() {
 
         // Arrange
         // Twice a day (2h30 & 14h30) from Monday to Friday

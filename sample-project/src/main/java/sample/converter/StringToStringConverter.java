@@ -1,4 +1,4 @@
-package converter;
+package sample.converter;
 
 import dev.voidframework.core.conversion.TypeConverter;
 

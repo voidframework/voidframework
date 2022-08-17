@@ -23,7 +23,7 @@ public final class ValidationTest {
     }
 
     @Test
-    public void validateNullValue() {
+    void validateNullValue() {
 
         // Arrange
         final Validation validation = new Validation();
@@ -38,7 +38,7 @@ public final class ValidationTest {
     }
 
     @Test
-    public void validateNullValueWithoutLocale() {
+    void validateNullValueWithoutLocale() {
 
         // Arrange
         final Validation validation = new Validation();
@@ -53,7 +53,7 @@ public final class ValidationTest {
     }
 
     @Test
-    public void validateWithError() {
+    void validateWithError() {
 
         // Arrange
         final SimpleEntityWithConstraintGroups entity = new SimpleEntityWithConstraintGroups("Camille", "aa");
@@ -91,7 +91,7 @@ public final class ValidationTest {
     }
 
     @Test
-    public void validateWithErrorWithoutLocale() {
+    void validateWithErrorWithoutLocale() {
 
         // Arrange
         final SimpleEntityWithConstraintGroups entity = new SimpleEntityWithConstraintGroups("Camille", "aa");
@@ -129,7 +129,7 @@ public final class ValidationTest {
     }
 
     @Test
-    public void validateWithoutError() {
+    void validateWithoutError() {
 
         // Arrange
         final SimpleEntity simpleEntity = new SimpleEntity("abc@local");
@@ -147,7 +147,7 @@ public final class ValidationTest {
     }
 
     @Test
-    public void validateWithconstraintGroupWithGroupOne() {
+    void validateWithconstraintGroupWithGroupOne() {
 
         // Arrange
         final SimpleEntityWithConstraintGroups entity = new SimpleEntityWithConstraintGroups("Bob", "");
@@ -165,7 +165,7 @@ public final class ValidationTest {
     }
 
     @Test
-    public void validateWithconstraintGroupWithGroupTwo() {
+    void validateWithconstraintGroupWithGroupTwo() {
 
         // Arrange
         final SimpleEntityWithConstraintGroups entity = new SimpleEntityWithConstraintGroups("", "abc@domain.local");

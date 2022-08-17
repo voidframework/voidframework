@@ -9,7 +9,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 public final class ClassResolverTest {
 
     @Test
-    public void forNameWithoutExplicitClassLoader() {
+    void forNameWithoutExplicitClassLoader() {
 
         // Act
         final Class<?> classType = ClassResolver.forName("dev.voidframework.core.helper.ClassResolver");
@@ -20,7 +20,7 @@ public final class ClassResolverTest {
     }
 
     @Test
-    public void forNameWithoutExplicitClassLoaderNotFound() {
+    void forNameWithoutExplicitClassLoaderNotFound() {
 
         // Act
         final Class<?> classType = ClassResolver.forName("dev.voidframework.core.helper.Unknown");
@@ -30,7 +30,7 @@ public final class ClassResolverTest {
     }
 
     @Test
-    public void forNameWithoutExplicitClassLoaderNull() {
+    void forNameWithoutExplicitClassLoaderNull() {
 
         // Act
         final Class<?> classType = ClassResolver.forName(null);
@@ -40,7 +40,7 @@ public final class ClassResolverTest {
     }
 
     @Test
-    public void forNameWithExplicitClassLoader() {
+    void forNameWithExplicitClassLoader() {
 
         // Act
         final Class<?> classType = ClassResolver.forName(
@@ -53,7 +53,7 @@ public final class ClassResolverTest {
     }
 
     @Test
-    public void forNameWithExplicitClassLoaderNotFound() {
+    void forNameWithExplicitClassLoaderNotFound() {
 
         // Act
         final Class<?> classType = ClassResolver.forName(
@@ -65,7 +65,7 @@ public final class ClassResolverTest {
     }
 
     @Test
-    public void forNameWithExplicitClassLoaderNull() {
+    void forNameWithExplicitClassLoaderNull() {
 
         // Act
         final Class<?> classType = ClassResolver.forName(

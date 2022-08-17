@@ -18,7 +18,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 public final class InternationalizationProviderTest {
 
     @Test
-    public void injectorDoesNotExist() {
+    void injectorDoesNotExist() {
 
         // Arrange + Act
         final Config configuration = ConfigFactory.parseString("voidframework.i18n.engine =dev.voidframework.i18n.UnknownImplementationClass");
@@ -38,7 +38,7 @@ public final class InternationalizationProviderTest {
     }
 
     @Test
-    public void injectorExist() {
+    void injectorExist() {
 
         // Arrange + Act
         final Config configuration = ConfigFactory.parseString("voidframework.i18n.engine = dev.voidframework.i18n.ResourceBundleInternationalization");

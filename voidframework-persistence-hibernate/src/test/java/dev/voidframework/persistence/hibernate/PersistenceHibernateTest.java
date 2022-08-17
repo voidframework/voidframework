@@ -59,7 +59,7 @@ public final class PersistenceHibernateTest {
     }
 
     @Test
-    public void entityFactory() {
+    void entityFactory() {
 
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);
@@ -75,7 +75,7 @@ public final class PersistenceHibernateTest {
     }
 
     @Test
-    public void transaction() {
+    void transaction() {
 
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);
@@ -110,7 +110,7 @@ public final class PersistenceHibernateTest {
     }
 
     @Test
-    public void managedEntityQuery() {
+    void managedEntityQuery() {
 
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);

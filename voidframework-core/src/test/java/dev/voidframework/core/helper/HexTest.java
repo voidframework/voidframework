@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 public class HexTest {
 
     @Test
-    public void toHexString() {
+    void toHexString() {
 
         // Arrange
         final String helloWorld = "Hello World!";
@@ -24,7 +24,7 @@ public class HexTest {
     }
 
     @Test
-    public void toHexByteArray() {
+    void toHexByteArray() {
 
         // Arrange
         final byte[] loremIpsum = "Lorem ipsum dolor sit amet".getBytes(StandardCharsets.UTF_8);
@@ -37,7 +37,7 @@ public class HexTest {
     }
 
     @Test
-    public void toHexNullString() {
+    void toHexNullString() {
 
         // Arrange
         final String nullString = null;
@@ -50,7 +50,7 @@ public class HexTest {
     }
 
     @Test
-    public void toHexNullByteArray() {
+    void toHexNullByteArray() {
 
         // Arrange
         final byte[] nullByteArray = null;

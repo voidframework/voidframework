@@ -1,14 +1,11 @@
-package controller;
+package sample.controller;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.helper.Yaml;
 import dev.voidframework.validation.Validated;
 import dev.voidframework.validation.Validation;
-import dev.voidframework.validation.validator.TrimmedLength;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.HttpContentType;
@@ -18,12 +15,11 @@ import dev.voidframework.web.http.param.RequestBody;
 import dev.voidframework.web.http.param.RequestPath;
 import dev.voidframework.web.http.param.RequestRoute;
 import dev.voidframework.web.routing.HttpMethod;
-import jakarta.validation.constraints.NotNull;
+import sample.entity.Pojo;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * A simple "Hello World" web controller.
@@ -110,42 +106,5 @@ public class HelloWorldController implements HttpContentType {
         }
 
         return Result.ok(Yaml.toString(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), TEXT_YAML);
-    }
-
-    /**
-     * Simple POJO.
-     */
-    public static class Pojo {
-
-        /**
-         * POJO's unique identifier.
-         */
-        public final String id = UUID.randomUUID().toString();
-
-        /**
-         * POJO's first name.
-         */
-        @TrimmedLength(min = 2)
-        public final String firstName;
-
-        /**
-         * POJO's last name.
-         */
-        @NotNull
-        @TrimmedLength(min = 2)
-        public final String lastName;
-
-        /**
-         * Build a new instance.
-         *
-         * @param firstName The first name
-         * @param lastName  The last name
-         */
-        @JsonCreator
-        public Pojo(@JsonProperty("firstName") final String firstName,
-                    @JsonProperty("lastName") final String lastName) {
-            this.firstName = firstName;
-            this.lastName = lastName;
-        }
     }
 }

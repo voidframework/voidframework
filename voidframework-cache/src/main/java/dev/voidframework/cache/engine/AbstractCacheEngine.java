@@ -20,7 +20,7 @@ public abstract class AbstractCacheEngine implements CacheEngine {
     /**
      * Build a new instance.
      */
-    public AbstractCacheEngine() {
+    protected AbstractCacheEngine() {
 
         this.kryo = new Kryo();
         kryo.setRegistrationRequired(false);

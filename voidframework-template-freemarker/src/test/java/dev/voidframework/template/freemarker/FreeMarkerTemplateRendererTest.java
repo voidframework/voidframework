@@ -41,7 +41,7 @@ public class FreeMarkerTemplateRendererTest {
     }
 
     @Test
-    public void dataModelNotProvided() {
+    void dataModelNotProvided() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -56,7 +56,7 @@ public class FreeMarkerTemplateRendererTest {
     }
 
     @Test
-    public void dataModelIsEmptyVariableNotFound() {
+    void dataModelIsEmptyVariableNotFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -72,7 +72,7 @@ public class FreeMarkerTemplateRendererTest {
     }
 
     @Test
-    public void renderWithDataModelEnglish() {
+    void renderWithDataModelEnglish() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -89,7 +89,7 @@ public class FreeMarkerTemplateRendererTest {
     }
 
     @Test
-    public void renderWithDataModelFrench() {
+    void renderWithDataModelFrench() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -106,7 +106,7 @@ public class FreeMarkerTemplateRendererTest {
     }
 
     @Test
-    public void renderWithoutDataModelEnglish() {
+    void renderWithoutDataModelEnglish() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -120,7 +120,7 @@ public class FreeMarkerTemplateRendererTest {
     }
 
     @Test
-    public void renderWithoutDataModelFrench() {
+    void renderWithoutDataModelFrench() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);

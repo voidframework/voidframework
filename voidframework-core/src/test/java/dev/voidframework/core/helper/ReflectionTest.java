@@ -15,7 +15,7 @@ import java.util.UUID;
 public final class ReflectionTest {
 
     @Test
-    public void getAnnotatedFieldFromValue() throws IllegalAccessException {
+    void getAnnotatedFieldFromValue() throws IllegalAccessException {
 
         // Arrange
         final UUID uuid = UUID.randomUUID();
@@ -32,7 +32,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void getAnnotatedFieldFromClassType() {
+    void getAnnotatedFieldFromClassType() {
 
         // Act
         final Field field = Reflection.getAnnotatedField(Demo.class, Validate.class);
@@ -43,7 +43,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void getAnnotatedFieldFromClassTypeWithInheritance() {
+    void getAnnotatedFieldFromClassTypeWithInheritance() {
 
         // Act
         final Field field = Reflection.getAnnotatedField(DemoChild.class, Validate.class);
@@ -54,7 +54,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void getAnnotatedFieldWithNullValue() {
+    void getAnnotatedFieldWithNullValue() {
 
         // Act
         final Field field = Reflection.getAnnotatedField((Demo) null, Validate.class);
@@ -64,7 +64,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void getAnnotatedFieldWithNullClassType() {
+    void getAnnotatedFieldWithNullClassType() {
 
         // Act
         final Field field = Reflection.getAnnotatedField((Class<?>) null, Validate.class);
@@ -74,7 +74,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void getFieldValueExplicitClassType() {
+    void getFieldValueExplicitClassType() {
 
         // Arrange
         final UUID uuid = UUID.randomUUID();
@@ -90,7 +90,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void getFieldValueExplicitClassTypeUnknownField() {
+    void getFieldValueExplicitClassTypeUnknownField() {
 
         // Arrange
         final UUID uuid = UUID.randomUUID();
@@ -106,7 +106,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void getFieldValueWrappedClassType() {
+    void getFieldValueWrappedClassType() {
 
         // Arrange
         final UUID uuid = UUID.randomUUID();
@@ -122,7 +122,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void getFieldValueWrappedClassTypeUnknownField() {
+    void getFieldValueWrappedClassTypeUnknownField() {
 
         // Arrange
         final UUID uuid = UUID.randomUUID();
@@ -138,7 +138,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void setFieldValue() {
+    void setFieldValue() {
 
         // Arrange
         final UUID uuidCurrent = UUID.randomUUID();
@@ -155,7 +155,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void setFieldValueUnknownField() {
+    void setFieldValueUnknownField() {
 
         // Arrange
         final UUID uuidCurrent = UUID.randomUUID();
@@ -174,7 +174,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void resolveMethod() throws InvocationTargetException, IllegalAccessException {
+    void resolveMethod() throws InvocationTargetException, IllegalAccessException {
 
         // Arrange
         final UUID uuidCurrent = UUID.randomUUID();
@@ -191,7 +191,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void resolveMethodNotFound() {
+    void resolveMethodNotFound() {
 
         // Act
         final Method method = Reflection.resolveMethod("unknownMethod", Demo.class);
@@ -201,7 +201,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void callMethodReturnSomething() {
+    void callMethodReturnSomething() {
 
         // Arrange
         final UUID uuidCurrent = UUID.randomUUID();
@@ -217,7 +217,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void callMethodReturnSomethingUnknownMethod() {
+    void callMethodReturnSomethingUnknownMethod() {
 
         // Arrange
         final UUID uuidCurrent = UUID.randomUUID();
@@ -232,7 +232,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void callMethodReturnNothing() {
+    void callMethodReturnNothing() {
 
         // Arrange
         final Demo demo = new Demo();
@@ -245,7 +245,7 @@ public final class ReflectionTest {
     }
 
     @Test
-    public void callMethodReturnNothingUnknownMethod() {
+    void callMethodReturnNothingUnknownMethod() {
 
         // Arrange
         final Demo demo = new Demo();
@@ -281,7 +281,7 @@ public final class ReflectionTest {
             return firstName;
         }
 
-        public void setFirstName(final String firstName) {
+        void setFirstName(final String firstName) {
 
             this.firstName = firstName;
         }
@@ -291,7 +291,7 @@ public final class ReflectionTest {
             return id;
         }
 
-        public void setId(final UUID id) {
+        void setId(final UUID id) {
 
             this.id = id;
         }

@@ -15,7 +15,7 @@ import java.util.Locale;
 public final class TrimmedSizeTest {
 
     @Test
-    public void withError() {
+    void withError() {
 
         // Arrange
         final Pojo pojo = new Pojo("                                 ");
@@ -33,7 +33,7 @@ public final class TrimmedSizeTest {
     }
 
     @Test
-    public void withoutError() {
+    void withoutError() {
 
         // Arrange
         final Pojo pojo = new Pojo("           abc@local             ");

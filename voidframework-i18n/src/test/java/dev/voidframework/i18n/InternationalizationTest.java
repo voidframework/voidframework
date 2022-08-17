@@ -20,7 +20,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageEnglish() {
+    void getMessageEnglish() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -34,7 +34,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageFrench() {
+    void getMessageFrench() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -48,7 +48,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageNotHandledLanguage() {
+    void getMessageNotHandledLanguage() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -63,7 +63,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageArgumentEnglish() {
+    void getMessageArgumentEnglish() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -77,7 +77,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageArgumentFrench() {
+    void getMessageArgumentFrench() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -91,7 +91,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageComplexFormatZero() {
+    void getMessageComplexFormatZero() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -113,7 +113,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageComplexFormatSingular() {
+    void getMessageComplexFormatSingular() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -131,7 +131,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageComplexFormatPlural() {
+    void getMessageComplexFormatPlural() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -145,7 +145,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessageLocalNull() {
+    void getMessageLocalNull() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -159,7 +159,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessagePluraleFormZero() {
+    void getMessagePluraleFormZero() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -173,7 +173,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessagePluraleFormSingular() {
+    void getMessagePluraleFormSingular() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
@@ -187,7 +187,7 @@ public final class InternationalizationTest {
     }
 
     @Test
-    public void getMessagePluraleFormPlural() {
+    void getMessagePluraleFormPlural() {
 
         // Arrange
         final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();

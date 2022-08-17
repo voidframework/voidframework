@@ -38,7 +38,7 @@ public class HttpRemoteConfigurationProviderTest {
         """);
 
     @Test
-    public void getName() {
+    void getName() {
 
         // Arrange
         final RemoteConfigurationProvider provider = new HttpRemoteConfigurationProvider();
@@ -51,7 +51,7 @@ public class HttpRemoteConfigurationProviderTest {
     }
 
     @Test
-    public void getConfigurationObjectName() {
+    void getConfigurationObjectName() {
 
         // Arrange
         final RemoteConfigurationProvider provider = new HttpRemoteConfigurationProvider();
@@ -64,7 +64,7 @@ public class HttpRemoteConfigurationProviderTest {
     }
 
     @Test
-    public void remoteConfigurationFromHttp() {
+    void remoteConfigurationFromHttp() {
 
         // Arrange
         final StringBuilder stringBuilder = new StringBuilder(512);
@@ -106,7 +106,7 @@ public class HttpRemoteConfigurationProviderTest {
     }
 
     @Test
-    public void remoteConfigurationFromHttpErrorNotFound() {
+    void remoteConfigurationFromHttpErrorNotFound() {
 
         // Arrange
         final StringBuilder stringBuilder = new StringBuilder(512);
@@ -120,7 +120,7 @@ public class HttpRemoteConfigurationProviderTest {
     }
 
     @Test
-    public void remoteConfigurationFromHttpErrorUnknownHost() {
+    void remoteConfigurationFromHttpErrorUnknownHost() {
 
         // Arrange
         final StringBuilder stringBuilder = new StringBuilder(512);

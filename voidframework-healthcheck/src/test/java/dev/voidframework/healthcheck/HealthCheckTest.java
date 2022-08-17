@@ -24,7 +24,7 @@ import java.util.Objects;
 public final class HealthCheckTest {
 
     @Test
-    public void test() {
+    void test() {
 
         // Arrange + Act
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {

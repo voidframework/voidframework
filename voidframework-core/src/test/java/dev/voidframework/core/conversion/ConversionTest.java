@@ -14,7 +14,7 @@ import java.util.Map;
 public final class ConversionTest {
 
     @Test
-    public void registerConverter() {
+    void registerConverter() {
 
         // Arrange
         final ConverterManager converterManager = new DefaultConverterManager();

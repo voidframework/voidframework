@@ -23,7 +23,7 @@ public final class ScheduledTest {
     private static final AtomicInteger counterDelay = new AtomicInteger(0);
 
     @Test
-    public void testSchedulerWithCron() {
+    void testSchedulerWithCron() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("voidframework.scheduler.threadPoolSize = 5");
@@ -56,13 +56,13 @@ public final class ScheduledTest {
     public static class Demo {
 
         @Scheduled(cron = "* * * * * *")
-        public void everySecondsCron() {
+        void everySecondsCron() {
 
             ScheduledTest.counterCron.incrementAndGet();
         }
 
         @Scheduled(fixedRate = 1000)
-        public void everySecondsRate() {
+        void everySecondsRate() {
 
             ScheduledTest.counterRate.incrementAndGet();
             try {
@@ -72,7 +72,7 @@ public final class ScheduledTest {
         }
 
         @Scheduled(fixedDelay = 1000)
-        public void everySecondsDelay() {
+        void everySecondsDelay() {
 
             ScheduledTest.counterDelay.incrementAndGet();
             try {

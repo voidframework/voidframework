@@ -16,7 +16,7 @@ import java.nio.file.Files;
 public class RemoteConfigurationLoaderTest {
 
     @Test
-    public void processAllProvidersWithSingleProvider() throws IOException {
+    void processAllProvidersWithSingleProvider() throws IOException {
 
         // Arrange
         final Config localConfiguration = ConfigFactory.parseString("""
@@ -47,7 +47,7 @@ public class RemoteConfigurationLoaderTest {
     }
 
     @Test
-    public void processAllProvidersWithListOfProviders() throws IOException {
+    void processAllProvidersWithListOfProviders() throws IOException {
 
         // Arrange
         final Config localConfiguration = ConfigFactory.parseString("""

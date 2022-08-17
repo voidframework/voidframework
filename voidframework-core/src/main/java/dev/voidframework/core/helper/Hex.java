@@ -8,6 +8,14 @@ public final class Hex {
     private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
 
     /**
+     * Default constructor.
+     */
+    private Hex() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Convert each byte composing given string into hexadecimal representation.
      *
      * @param str String to convert

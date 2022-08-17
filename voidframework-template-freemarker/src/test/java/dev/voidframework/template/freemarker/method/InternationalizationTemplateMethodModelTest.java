@@ -38,7 +38,7 @@ public class InternationalizationTemplateMethodModelTest {
     }
 
     @Test
-    public void translationFound() {
+    void translationFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -54,7 +54,7 @@ public class InternationalizationTemplateMethodModelTest {
     }
 
     @Test
-    public void translationNotFound() {
+    void translationNotFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);

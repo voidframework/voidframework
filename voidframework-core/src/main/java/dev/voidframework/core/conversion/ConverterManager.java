@@ -10,12 +10,11 @@ public interface ConverterManager {
      *
      * @param sourceClassType The source type class
      * @param targetClassType The target type class
-     * @param <SOURCE_TYPE>   The source generic type
-     * @param <TARGET_TYPE>   The target generic type
+     * @param <S>   The source generic type
+     * @param <T>   The target generic type
      * @return {@code true} if the manager has a matching converter, otherwise {@code false}
      */
-    <SOURCE_TYPE, TARGET_TYPE> boolean hasConvertFor(final Class<SOURCE_TYPE> sourceClassType,
-                                                     final Class<TARGET_TYPE> targetClassType);
+    <S, T> boolean hasConvertFor(final Class<S> sourceClassType, final Class<T> targetClassType);
 
     /**
      * Register converter.
@@ -24,21 +23,18 @@ public interface ConverterManager {
      * @param targetClassType The target type class
      * @param converter       The converter
      */
-    void registerConverter(final Class<?> sourceClassType,
-                           final Class<?> targetClassType,
-                           final TypeConverter<?, ?> converter);
+    void registerConverter(final Class<?> sourceClassType, final Class<?> targetClassType, final TypeConverter<?, ?> converter);
 
     /**
      * Returns whether the Manager have converter for the given input / output type.
      *
      * @param sourceClassType The source type class
      * @param targetClassType The target type class
-     * @param <SOURCE_TYPE>   The source generic type
-     * @param <TARGET_TYPE>   The target generic type
+     * @param <S>   The source generic type
+     * @param <T>   The target generic type
      * @return The requested converter
      */
-    <SOURCE_TYPE, TARGET_TYPE> TypeConverter<SOURCE_TYPE, TARGET_TYPE> getConverter(final Class<SOURCE_TYPE> sourceClassType,
-                                                                                    final Class<TARGET_TYPE> targetClassType);
+    <S, T> TypeConverter<S, T> getConverter(final Class<S> sourceClassType, final Class<T> targetClassType);
 
     /**
      * Returns the number of registered converters.

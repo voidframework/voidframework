@@ -1,3 +1,5 @@
+package sample;
+
 import dev.voidframework.core.VoidApplication;
 
 /**

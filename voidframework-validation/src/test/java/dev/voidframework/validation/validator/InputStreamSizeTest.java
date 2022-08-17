@@ -18,7 +18,7 @@ import java.util.Locale;
 public final class InputStreamSizeTest {
 
     @Test
-    public void withError() {
+    void withError() {
 
         // Arrange
         final Pojo pojo = new Pojo(new ByteArrayInputStream("".getBytes(StandardCharsets.UTF_8)));
@@ -36,7 +36,7 @@ public final class InputStreamSizeTest {
     }
 
     @Test
-    public void withoutError() {
+    void withoutError() {
 
         // Arrange
         final Pojo pojo = new Pojo(new ByteArrayInputStream("123456".getBytes(StandardCharsets.UTF_8)));

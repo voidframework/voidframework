@@ -13,6 +13,8 @@ public class NoContentResultProcessor implements ResultProcessor {
 
     @Override
     public void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer) {
+
+        // Nothing to do
     }
 
     @Override

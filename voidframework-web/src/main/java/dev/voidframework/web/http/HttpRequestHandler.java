@@ -17,7 +17,6 @@ import dev.voidframework.web.routing.Router;
 
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,16 +25,15 @@ import java.util.Map;
  */
 public final class HttpRequestHandler {
 
-    private static final Map<Class<?>, PrimitiveAlternative> PRIMITIVE_ALTERNATIVE_MAP = new HashMap<>() {{
-        put(boolean.class, new PrimitiveAlternative(Boolean.class, false));
-        put(byte.class, new PrimitiveAlternative(Byte.class, 0));
-        put(char.class, new PrimitiveAlternative(Character.class, 0));
-        put(double.class, new PrimitiveAlternative(Double.class, 0d));
-        put(float.class, new PrimitiveAlternative(Float.class, 0f));
-        put(int.class, new PrimitiveAlternative(Integer.class, 0));
-        put(long.class, new PrimitiveAlternative(Long.class, 0));
-        put(short.class, new PrimitiveAlternative(Short.class, 0));
-    }};
+    private static final Map<Class<?>, PrimitiveAlternative> PRIMITIVE_ALTERNATIVE_MAP = Map.ofEntries(
+        Map.entry(boolean.class, new PrimitiveAlternative(Boolean.class, false)),
+        Map.entry(byte.class, new PrimitiveAlternative(Byte.class, 0)),
+        Map.entry(char.class, new PrimitiveAlternative(Character.class, 0)),
+        Map.entry(double.class, new PrimitiveAlternative(Double.class, 0d)),
+        Map.entry(float.class, new PrimitiveAlternative(Float.class, 0f)),
+        Map.entry(int.class, new PrimitiveAlternative(Integer.class, 0)),
+        Map.entry(long.class, new PrimitiveAlternative(Long.class, 0)),
+        Map.entry(short.class, new PrimitiveAlternative(Short.class, 0)));
 
     private final Injector injector;
     private final List<Class<? extends Filter>> globalFilterClassTypes;

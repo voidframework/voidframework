@@ -23,7 +23,7 @@ import java.util.Locale;
 public final class FilterTest {
 
     @Test
-    public void filterChain() throws IOException {
+    void filterChain() throws IOException {
 
         // Arrange
         final List<Filter> filterList = List.of(

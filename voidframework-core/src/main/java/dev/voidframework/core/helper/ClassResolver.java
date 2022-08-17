@@ -8,21 +8,29 @@ import org.apache.commons.lang3.StringUtils;
 public final class ClassResolver {
 
     /**
+     * Default constructor.
+     */
+    private ClassResolver() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Resolves {@code Class<?>} for a class name.
      *
-     * @param className    Name of the class
-     * @param <CLASS_TYPE> The type of the resolved class
+     * @param className Name of the class
+     * @param <T>       The type of the resolved class
      * @return Resolved {@code Class<?>}
      */
     @SuppressWarnings("unchecked")
-    public static <CLASS_TYPE> Class<? extends CLASS_TYPE> forName(final String className) {
+    public static <T> Class<? extends T> forName(final String className) {
 
         if (StringUtils.isBlank(className)) {
             return null;
         }
 
         try {
-            return (Class<? extends CLASS_TYPE>) Class.forName(className);
+            return (Class<? extends T>) Class.forName(className);
         } catch (final ClassNotFoundException ignore) {
             return null;
         }

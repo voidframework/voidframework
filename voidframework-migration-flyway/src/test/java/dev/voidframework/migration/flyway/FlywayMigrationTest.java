@@ -66,7 +66,7 @@ public class FlywayMigrationTest {
     }
 
     @Test
-    public void migration() throws SQLException {
+    void migration() throws SQLException {
 
         // Arrange
         final FlywayMigration flywayMigration = this.injector.getInstance(FlywayMigration.class);

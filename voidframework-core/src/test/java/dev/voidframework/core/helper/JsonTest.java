@@ -18,7 +18,7 @@ import java.util.Map;
 public class JsonTest {
 
     @Test
-    public void objectMapper() {
+    void objectMapper() {
 
         // Act
         final ObjectMapper objectMapper = Json.objectMapper();
@@ -28,7 +28,7 @@ public class JsonTest {
     }
 
     @Test
-    public void toStringFromJsonNode() {
+    void toStringFromJsonNode() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();
@@ -43,7 +43,7 @@ public class JsonTest {
     }
 
     @Test
-    public void toJsonFromObject() {
+    void toJsonFromObject() {
 
         // Arrange
         final Map<String, String> dataMap = new HashMap<>();
@@ -60,7 +60,7 @@ public class JsonTest {
     }
 
     @Test
-    public void toJsonFromByteArray() {
+    void toJsonFromByteArray() {
 
         // Arrange
         final byte[] jsonAsByteArray = "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8);
@@ -76,7 +76,7 @@ public class JsonTest {
     }
 
     @Test
-    public void toMap() {
+    void toMap() {
 
         // Arrange
         final SimpleDto simpleDto = new SimpleDto("world!");
@@ -91,7 +91,7 @@ public class JsonTest {
     }
 
     @Test
-    public void toMapInvalidData() {
+    void toMapInvalidData() {
 
         // Arrange
         final int invalidDataNotObject = -1;
@@ -104,7 +104,7 @@ public class JsonTest {
     }
 
     @Test
-    public void toJsonFromByteArrayInvalidData() {
+    void toJsonFromByteArrayInvalidData() {
 
         // Arrange
         final byte[] jsonAsByteArray = "{\"hello: world\"}".getBytes(StandardCharsets.UTF_8);
@@ -117,7 +117,7 @@ public class JsonTest {
     }
 
     @Test
-    public void fromJsonByteArray() {
+    void fromJsonByteArray() {
 
         // Arrange
         final byte[] jsonAsByteArray = "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8);
@@ -131,7 +131,7 @@ public class JsonTest {
     }
 
     @Test
-    public void fromJsonByteArrayInvalidData() {
+    void fromJsonByteArrayInvalidData() {
 
         // Arrange
         final byte[] jsonAsByteArray = "{\"hello: world\"}".getBytes(StandardCharsets.UTF_8);
@@ -144,7 +144,7 @@ public class JsonTest {
     }
 
     @Test
-    public void fromJsonString() {
+    void fromJsonString() {
 
         // Arrange
         final String jsonAsString = "{\"hello\": \"world\"}";
@@ -158,7 +158,7 @@ public class JsonTest {
     }
 
     @Test
-    public void fromJsonStringInvalidData() {
+    void fromJsonStringInvalidData() {
 
         // Arrange
         final String jsonAsString = "{\"hello: world\"}";
@@ -171,7 +171,7 @@ public class JsonTest {
     }
 
     @Test
-    public void fromJsonJsonNode() {
+    void fromJsonJsonNode() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();
@@ -186,7 +186,7 @@ public class JsonTest {
     }
 
     @Test
-    public void fromJsonJsonNodeInvalidClassType() {
+    void fromJsonJsonNodeInvalidClassType() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();
@@ -200,7 +200,7 @@ public class JsonTest {
     }
 
     @Test
-    public void fromMap() {
+    void fromMap() {
 
         // Arrange
         final Map<String, Object> dataMap = new HashMap<>();
@@ -215,7 +215,7 @@ public class JsonTest {
     }
 
     @Test
-    public void fromMapInvalidClassType() {
+    void fromMapInvalidClassType() {
 
         // Arrange
         final Map<String, Object> dataMap = new HashMap<>();
