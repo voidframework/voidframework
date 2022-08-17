@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "UNIT_TEST")
-public class UnitTest {
+public class UnitTestModel {
 
     @Id
     @Column(name = "ID", nullable = false)

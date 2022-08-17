@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.stream.Stream;
  */
 public class DefaultRouter implements Router, RouterPostInitialization {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Router.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultRouter.class);
     private static final Pattern PATTERN_EXTRACT_REGEXP_GROUP = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z\\d]*)>.*\\)");
     private static final Pattern PATTERN_EXTRACT_REGEXP_GROUP_NAME = Pattern.compile("\\(\\?<([a-zA-Z][a-zA-Z\\d]*)>");
 
@@ -48,7 +49,7 @@ public class DefaultRouter implements Router, RouterPostInitialization {
      */
     public DefaultRouter() {
 
-        this.routeListPerHttpMethodMap = new HashMap<>();
+        this.routeListPerHttpMethodMap = new EnumMap<>(HttpMethod.class);
         this.routeListPerNameMap = new HashMap<>();
     }
 

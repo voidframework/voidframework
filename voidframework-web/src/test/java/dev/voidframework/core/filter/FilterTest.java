@@ -20,10 +20,10 @@ import java.util.Locale;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class FilterTest {
+final class FilterTest {
 
     @Test
-    public void filterChain() throws IOException {
+    void filterChain() throws IOException {
 
         // Arrange
         final List<Filter> filterList = List.of(

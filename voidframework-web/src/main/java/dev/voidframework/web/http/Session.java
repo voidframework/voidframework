@@ -11,7 +11,7 @@ public class Session extends HashMap<String, String> {
     /**
      * Indicate if the session has been modified.
      */
-    transient private boolean isModified;
+    private transient boolean isModified;
 
     /**
      * Build a new instance.

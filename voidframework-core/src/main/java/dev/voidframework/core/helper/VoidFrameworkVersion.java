@@ -13,6 +13,14 @@ public final class VoidFrameworkVersion {
     private static String versionCache = null;
 
     /**
+     * Default constructor.
+     */
+    private VoidFrameworkVersion() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Retrieves the framework version.
      *
      * @return The version number "x.y.z"

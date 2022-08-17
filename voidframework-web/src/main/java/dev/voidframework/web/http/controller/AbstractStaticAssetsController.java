@@ -28,7 +28,7 @@ import java.util.stream.Stream;
  */
 public abstract class AbstractStaticAssetsController implements HttpContentType {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractStaticAssetsController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractStaticAssetsController.class);
 
     private final boolean runInDevMode;
     private final String baseAssetResourcesDirectory;
@@ -39,7 +39,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      * @param configuration The application configuration
      */
     @Inject
-    public AbstractStaticAssetsController(final Config configuration) {
+    protected AbstractStaticAssetsController(final Config configuration) {
 
         this.runInDevMode = configuration.getBoolean("voidframework.core.runInDevMode");
         this.baseAssetResourcesDirectory = configuration.getString("voidframework.web.baseAssetResourcesDirectory");

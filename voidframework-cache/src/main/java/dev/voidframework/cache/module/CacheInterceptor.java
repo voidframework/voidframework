@@ -20,7 +20,7 @@ public abstract class CacheInterceptor implements MethodInterceptor {
     /**
      * Build a new instance.
      */
-    public CacheInterceptor() {
+    protected CacheInterceptor() {
 
         this.cacheEngine = null;
     }

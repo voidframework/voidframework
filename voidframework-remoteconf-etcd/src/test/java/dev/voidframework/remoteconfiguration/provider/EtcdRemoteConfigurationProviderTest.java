@@ -16,10 +16,10 @@ import java.io.InputStream;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class EtcdRemoteConfigurationProviderTest {
+final class EtcdRemoteConfigurationProviderTest {
 
     @Test
-    public void getName() {
+    void getName() {
 
         // Arrange
         final RemoteConfigurationProvider provider = new EtcdRemoteConfigurationProvider();
@@ -32,7 +32,7 @@ public class EtcdRemoteConfigurationProviderTest {
     }
 
     @Test
-    public void getConfigurationObjectName() {
+    void getConfigurationObjectName() {
 
         // Arrange
         final RemoteConfigurationProvider provider = new EtcdRemoteConfigurationProvider();
@@ -45,7 +45,7 @@ public class EtcdRemoteConfigurationProviderTest {
     }
 
     @Test
-    public void remoteConfigurationFromEtcd() {
+    void remoteConfigurationFromEtcd() {
 
         // Arrange
         final StringBuilder stringBuilder = new StringBuilder(512);

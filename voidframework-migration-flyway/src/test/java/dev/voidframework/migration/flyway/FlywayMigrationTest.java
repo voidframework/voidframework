@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class FlywayMigrationTest {
+final class FlywayMigrationTest {
 
     private final Injector injector;
 
@@ -66,7 +66,7 @@ public class FlywayMigrationTest {
     }
 
     @Test
-    public void migration() throws SQLException {
+    void migration() throws SQLException {
 
         // Arrange
         final FlywayMigration flywayMigration = this.injector.getInstance(FlywayMigration.class);

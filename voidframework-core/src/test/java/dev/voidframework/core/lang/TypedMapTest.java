@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class TypedMapTest {
+final class TypedMapTest {
 
-    private static final TypedMap.Key<String> STRING_KEY = TypedMap.Key.of("STRING_KEY");
-    private static final TypedMap.Key<Integer> INTEGER_KEY = TypedMap.Key.of("INTEGER_KEY");
+    private static final TypedMap.Key<String> STRING_KEY = TypedMap.Key.of("STRING_KEY", String.class);
+    private static final TypedMap.Key<Integer> INTEGER_KEY = TypedMap.Key.of("INTEGER_KEY", Integer.class);
 
     @Test
-    public void putGetIntegerKey() {
+    void putGetIntegerKey() {
 
         // Arrange
         final TypedMap typedMap = new TypedMap();
@@ -26,7 +26,7 @@ public final class TypedMapTest {
     }
 
     @Test
-    public void putGetStringKey() {
+    void putGetStringKey() {
 
         // Arrange
         final TypedMap typedMap = new TypedMap();
@@ -40,7 +40,7 @@ public final class TypedMapTest {
     }
 
     @Test
-    public void remove() {
+    void remove() {
 
         // Arrange
         final TypedMap typedMap = new TypedMap();
@@ -54,7 +54,7 @@ public final class TypedMapTest {
     }
 
     @Test
-    public void showString() {
+    void showString() {
 
         // Arrange
         final TypedMap typedMap = new TypedMap();
@@ -67,7 +67,7 @@ public final class TypedMapTest {
     }
 
     @Test
-    public void equalsTypeMap() {
+    void equalsTypeMap() {
 
         // Arrange
         final TypedMap typedMap1 = new TypedMap();
@@ -83,10 +83,20 @@ public final class TypedMapTest {
     }
 
     @Test
-    public void equalsKey() {
+    void equalsKey() {
 
         // Act
-        final TypedMap.Key<String> key = TypedMap.Key.of("STRING_KEY");
+        final TypedMap.Key<String> key = TypedMap.Key.of("STRING_KEY", String.class);
+
+        // Assert
+        Assertions.assertEquals(STRING_KEY, key);
+    }
+
+    @Test
+    void equalsKeyExplicitType() {
+
+        // Act
+        final TypedMap.Key<String> key = TypedMap.Key.of("STRING_KEY", String.class);
 
         // Assert
         Assertions.assertEquals(STRING_KEY, key);

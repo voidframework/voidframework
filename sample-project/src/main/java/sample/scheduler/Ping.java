@@ -1,4 +1,4 @@
-package scheduler;
+package sample.scheduler;
 
 import dev.voidframework.core.bindable.BindClass;
 import dev.voidframework.scheduler.Scheduled;

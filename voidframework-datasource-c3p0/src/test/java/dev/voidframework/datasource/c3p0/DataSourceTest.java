@@ -21,7 +21,7 @@ import java.sql.SQLException;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class DataSourceTest {
+final class DataSourceTest {
 
     private final Injector injector;
 
@@ -48,7 +48,7 @@ public final class DataSourceTest {
     }
 
     @Test
-    public void defaultConnection() throws SQLException {
+    void defaultConnection() throws SQLException {
 
         // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
@@ -64,7 +64,7 @@ public final class DataSourceTest {
     }
 
     @Test
-    public void specificConnection() throws SQLException {
+    void specificConnection() throws SQLException {
 
         // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
@@ -80,7 +80,7 @@ public final class DataSourceTest {
     }
 
     @Test
-    public void unknownConnection() throws SQLException {
+    void unknownConnection() throws SQLException {
 
         // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
@@ -93,7 +93,7 @@ public final class DataSourceTest {
     }
 
     @Test
-    public void defaultDataSource() {
+    void defaultDataSource() {
 
         // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
@@ -107,7 +107,7 @@ public final class DataSourceTest {
 
 
     @Test
-    public void specificDataSource() {
+    void specificDataSource() {
 
         // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);
@@ -120,7 +120,7 @@ public final class DataSourceTest {
     }
 
     @Test
-    public void unknownDataSource() {
+    void unknownDataSource() {
 
         // Arrange
         final DataSourceManager dataSourceManager = this.injector.getInstance(DataSourceManager.class);

@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class VoidFrameworkVersionTest {
+final class VoidFrameworkVersionTest {
 
     @Test
-    public void version() {
+    void version() {
 
         // Act
         final String version = VoidFrameworkVersion.getVersion();

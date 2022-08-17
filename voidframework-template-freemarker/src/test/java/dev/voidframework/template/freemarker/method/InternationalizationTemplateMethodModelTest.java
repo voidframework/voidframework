@@ -19,7 +19,7 @@ import java.util.Locale;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class InternationalizationTemplateMethodModelTest {
+final class InternationalizationTemplateMethodModelTest {
 
     private final Injector injector;
 
@@ -38,7 +38,7 @@ public class InternationalizationTemplateMethodModelTest {
     }
 
     @Test
-    public void translationFound() {
+    void translationFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -54,7 +54,7 @@ public class InternationalizationTemplateMethodModelTest {
     }
 
     @Test
-    public void translationNotFound() {
+    void translationNotFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);

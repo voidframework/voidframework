@@ -78,6 +78,14 @@ public final class DevMode400BadRequest {
         """;
 
     /**
+     * Default constructor.
+     */
+    private DevMode400BadRequest() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Render template.
      *
      * @param errorMessage The error message

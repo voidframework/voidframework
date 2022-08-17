@@ -6,13 +6,13 @@ import java.util.function.Function;
 /**
  * Represents a value of one or two possible types (a disjoint union).
  *
- * @param <LEFT_TYPE>  Type of "Left" value
- * @param <RIGHT_TYPE> Type of "Right" value
+ * @param <L> Type of "Left" value
+ * @param <R> Type of "Right" value
  */
-public class Either<LEFT_TYPE, RIGHT_TYPE> {
+public class Either<L, R> {
 
-    private final LEFT_TYPE left;
-    private final RIGHT_TYPE right;
+    private final L left;
+    private final R right;
 
     /**
      * Build a new instance.
@@ -20,7 +20,7 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
      * @param left  The "Left" value
      * @param right The "Right" value
      */
-    private Either(final LEFT_TYPE left, final RIGHT_TYPE right) {
+    private Either(final L left, final R right) {
 
         this.left = left;
         this.right = right;
@@ -29,12 +29,12 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
     /**
      * Creates a {@code Either} with left value set.
      *
-     * @param left         The "Left" value
-     * @param <LEFT_TYPE>  Type of "Left" value
-     * @param <RIGHT_TYPE> Type of "Right" value
+     * @param left The "Left" value
+     * @param <L>  Type of "Left" value
+     * @param <R>  Type of "Right" value
      * @return The newly created Either
      */
-    public static <LEFT_TYPE, RIGHT_TYPE> Either<LEFT_TYPE, RIGHT_TYPE> ofLeft(final LEFT_TYPE left) {
+    public static <L, R> Either<L, R> ofLeft(final L left) {
 
         return new Either<>(left, null);
     }
@@ -42,12 +42,12 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
     /**
      * Creates a {@code Either} with right value set.
      *
-     * @param right        The "Right" value
-     * @param <LEFT_TYPE>  Type of "Left" value
-     * @param <RIGHT_TYPE> Type of "Right" value
+     * @param right The "Right" value
+     * @param <L>   Type of "Left" value
+     * @param <R>   Type of "Right" value
      * @return The newly created Either
      */
-    public static <LEFT_TYPE, RIGHT_TYPE> Either<LEFT_TYPE, RIGHT_TYPE> ofRight(final RIGHT_TYPE right) {
+    public static <L, R> Either<L, R> ofRight(final R right) {
 
         return new Either<>(null, right);
     }
@@ -57,7 +57,7 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
      *
      * @return The "Left" value
      */
-    public LEFT_TYPE getLeft() {
+    public L getLeft() {
 
         return this.left;
     }
@@ -67,7 +67,7 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
      *
      * @return The "Right" value
      */
-    public RIGHT_TYPE getRight() {
+    public R getRight() {
 
         return this.right;
     }
@@ -98,8 +98,8 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
      * @param leftConsumer  The "Left" consumer
      * @param rightConsumer The "Right" consumer
      */
-    public void match(final Consumer<LEFT_TYPE> leftConsumer,
-                      final Consumer<RIGHT_TYPE> rightConsumer) {
+    public void match(final Consumer<L> leftConsumer,
+                      final Consumer<R> rightConsumer) {
 
         if (this.left != null && leftConsumer != null) {
             leftConsumer.accept(this.left);
@@ -115,11 +115,11 @@ public class Either<LEFT_TYPE, RIGHT_TYPE> {
      *
      * @param leftFunction  The "Left" function
      * @param rightFunction The "Right" function
-     * @param <RETURN_TYPE> The returned value type
+     * @param <U> The returned value type
      * @return The result of the applied function
      */
-    public <RETURN_TYPE> RETURN_TYPE match(final Function<LEFT_TYPE, RETURN_TYPE> leftFunction,
-                                           final Function<RIGHT_TYPE, RETURN_TYPE> rightFunction) {
+    public <U> U match(final Function<L, U> leftFunction,
+                       final Function<R, U> rightFunction) {
 
         if (this.left != null && leftFunction != null) {
             return leftFunction.apply(this.left);

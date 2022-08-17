@@ -9,9 +9,11 @@ import dev.voidframework.web.exception.HttpException;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * An Http request body content
@@ -25,11 +27,11 @@ public record HttpRequestBodyContent(String contentType,
     /**
      * Returns the form data content body as a specific object.
      *
-     * @param outputClass         The requested Java object type
-     * @param <OUTPUT_CLASS_TYPE> The requested Java class type
+     * @param outputClass The requested Java object type
+     * @param <T>         The requested Java class type
      * @return A Java object
      */
-    public <OUTPUT_CLASS_TYPE> OUTPUT_CLASS_TYPE asFormData(final Class<OUTPUT_CLASS_TYPE> outputClass) {
+    public <T> T asFormData(final Class<T> outputClass) {
 
         final Map<String, String> flatValueMap = new HashMap<>();
         final Map<String, InputStream> flatFileMap = new HashMap<>();
@@ -44,7 +46,7 @@ public record HttpRequestBodyContent(String contentType,
             }
         }
 
-        final OUTPUT_CLASS_TYPE output = Json.fromMap(flatValueMap, outputClass);
+        final T output = Json.fromMap(flatValueMap, outputClass);
 
         for (final Map.Entry<String, InputStream> entry : flatFileMap.entrySet()) {
             Reflection.setFieldValue(output, entry.getKey(), entry.getValue());
@@ -66,11 +68,11 @@ public record HttpRequestBodyContent(String contentType,
     /**
      * Returns the body content as a specific object.
      *
-     * @param outputClass         The requested Java object type
-     * @param <OUTPUT_CLASS_TYPE> The requested Java class type
+     * @param outputClass The requested Java object type
+     * @param <T>         The requested Java class type
      * @return A Java object
      */
-    public <OUTPUT_CLASS_TYPE> OUTPUT_CLASS_TYPE as(final Class<OUTPUT_CLASS_TYPE> outputClass) {
+    public <T> T as(final Class<T> outputClass) {
 
         return switch (contentType()) {
             case HttpContentType.APPLICATION_JSON -> Json.fromJson(this.asRaw, outputClass);
@@ -99,5 +101,28 @@ public record HttpRequestBodyContent(String contentType,
     public JsonNode asYaml() {
 
         return Yaml.toYaml(asRaw);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final HttpRequestBodyContent that = (HttpRequestBodyContent) o;
+        return Objects.equals(contentType, that.contentType) && Arrays.equals(asRaw, that.asRaw) && Objects.equals(asFormData, that.asFormData);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = Objects.hash(contentType, asFormData);
+        result = 31 * result + Arrays.hashCode(asRaw);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+
+        return "HttpRequestBodyContent{contentType='" + contentType + "}";
     }
 }

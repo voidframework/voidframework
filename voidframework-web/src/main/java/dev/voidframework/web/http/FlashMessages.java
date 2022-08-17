@@ -11,7 +11,7 @@ public class FlashMessages extends HashMap<String, String> {
     /**
      * Indicate if any flash message has been modified.
      */
-    transient private boolean isModified;
+    private transient boolean isModified;
 
     /**
      * Build a new instance.

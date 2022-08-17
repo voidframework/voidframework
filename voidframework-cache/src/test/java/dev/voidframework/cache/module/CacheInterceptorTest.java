@@ -18,10 +18,10 @@ import java.util.UUID;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class CacheInterceptorTest {
+final class CacheInterceptorTest {
 
     @Test
-    public void interceptorBlackHoleEngine() {
+    void interceptorBlackHoleEngine() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("voidframework.cache.engine = dev.voidframework.cache.engine.BlackHoleCacheEngine");
@@ -49,7 +49,7 @@ public final class CacheInterceptorTest {
     }
 
     @Test
-    public void interceptorMemoryCacheEngine() {
+    void interceptorMemoryCacheEngine() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("""
@@ -92,7 +92,7 @@ public final class CacheInterceptorTest {
     }
 
     @Test
-    public void interceptorTimeToLive() throws InterruptedException {
+    void interceptorTimeToLive() throws InterruptedException {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("""
@@ -126,7 +126,7 @@ public final class CacheInterceptorTest {
     }
 
     @Test
-    public void interceptorKeyWithArgs() {
+    void interceptorKeyWithArgs() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("""
@@ -183,7 +183,7 @@ public final class CacheInterceptorTest {
         }
 
         @CacheRemove(key = "{class}.key.{0}")
-        public void removeCache(final String id) {
+        void removeCache(final String id) {
         }
     }
 }

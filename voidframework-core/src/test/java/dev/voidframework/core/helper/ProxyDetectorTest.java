@@ -11,10 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class ProxyDetectorTest {
+final class ProxyDetectorTest {
 
     @Test
-    public void isProxyClass() {
+    void isProxyClass() {
 
         // Arrange
         final Example proxyInstance = createProxyInstance();
@@ -27,7 +27,7 @@ public final class ProxyDetectorTest {
     }
 
     @Test
-    public void isProxyClassNonProxyClass() {
+    void isProxyClassNonProxyClass() {
 
         // Arrange
         final Example nonProxyInstance = new Example();
@@ -40,7 +40,7 @@ public final class ProxyDetectorTest {
     }
 
     @Test
-    public void isProxyObject() {
+    void isProxyObject() {
 
         // Arrange
         final Example proxyInstance = createProxyInstance();
@@ -53,7 +53,7 @@ public final class ProxyDetectorTest {
     }
 
     @Test
-    public void isProxyObjectNonProxyClass() {
+    void isProxyObjectNonProxyClass() {
 
         // Arrange
         final Example nonProxyInstance = new Example();

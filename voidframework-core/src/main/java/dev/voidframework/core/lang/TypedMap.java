@@ -88,27 +88,31 @@ public final class TypedMap {
     public static final class Key<T> {
 
         private final String keyName;
+        private final Class<T> valueClassType;
 
         /**
          * Build a new instance.
          *
-         * @param keyName The key name
+         * @param keyName        The key name
+         * @param valueClassType The value class type
          */
-        private Key(final String keyName) {
+        private Key(final String keyName, final Class<T> valueClassType) {
 
             this.keyName = keyName;
+            this.valueClassType = valueClassType;
         }
 
         /**
          * Build a new key.
          *
-         * @param keyName The key name
-         * @param <V>     Type of value associated to the key
+         * @param keyName        The key name
+         * @param valueClassType The value class type
+         * @param <V>            Type of value associated to the key
          * @return The created key
          */
-        public static <V> Key<V> of(final String keyName) {
+        public static <V> Key<V> of(final String keyName, final Class<V> valueClassType) {
 
-            return new Key<>(keyName);
+            return new Key<>(keyName, valueClassType);
         }
 
         @Override
@@ -117,13 +121,13 @@ public final class TypedMap {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             final Key<?> key = (Key<?>) o;
-            return Objects.equals(keyName, key.keyName);
+            return keyName.equals(key.keyName) && valueClassType.equals(key.valueClassType);
         }
 
         @Override
         public int hashCode() {
 
-            return Objects.hash(keyName);
+            return Objects.hash(keyName, valueClassType);
         }
 
         @Override

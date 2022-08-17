@@ -17,10 +17,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class CacheProviderTest {
+final class CacheProviderTest {
 
     @Test
-    public void injectorExist() {
+    void injectorExist() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("""
@@ -45,7 +45,7 @@ public final class CacheProviderTest {
     }
 
     @Test
-    public void injectorFallbackToPassThrough() {
+    void injectorFallbackToPassThrough() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString(

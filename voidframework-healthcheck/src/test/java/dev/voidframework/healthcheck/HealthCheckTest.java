@@ -21,10 +21,10 @@ import java.util.Objects;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class HealthCheckTest {
+final class HealthCheckTest {
 
     @Test
-    public void test() {
+    void test() {
 
         // Arrange + Act
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {

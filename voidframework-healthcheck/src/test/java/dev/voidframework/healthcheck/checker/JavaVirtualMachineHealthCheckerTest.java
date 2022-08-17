@@ -10,10 +10,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class JavaVirtualMachineHealthCheckerTest {
+final class JavaVirtualMachineHealthCheckerTest {
 
     @Test
-    public void getName() {
+    void getName() {
 
         // Arrange
         final HealthChecker healthChecker = new JavaVirtualMachineHealthChecker();
@@ -26,7 +26,7 @@ public final class JavaVirtualMachineHealthCheckerTest {
     }
 
     @Test
-    public void checkHealth() {
+    void checkHealth() {
 
         // Arrange
         final HealthChecker healthChecker = new JavaVirtualMachineHealthChecker();

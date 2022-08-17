@@ -20,7 +20,7 @@ import java.util.Locale;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class ConfigTemplateMethodModelTest {
+final class ConfigTemplateMethodModelTest {
 
     private final Injector injector;
 
@@ -48,7 +48,7 @@ public class ConfigTemplateMethodModelTest {
     }
 
     @Test
-    public void configurationFound() {
+    void configurationFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -74,7 +74,7 @@ public class ConfigTemplateMethodModelTest {
     }
 
     @Test
-    public void configuratioNotFound() {
+    void configuratioNotFound() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);
@@ -90,7 +90,7 @@ public class ConfigTemplateMethodModelTest {
     }
 
     @Test
-    public void wrongArguments() {
+    void wrongArguments() {
 
         // Arrange
         final TemplateRenderer templateRenderer = this.injector.getInstance(TemplateRenderer.class);

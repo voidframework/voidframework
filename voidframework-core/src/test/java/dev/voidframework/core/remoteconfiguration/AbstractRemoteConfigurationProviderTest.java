@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class AbstractRemoteConfigurationProviderTest {
+final class AbstractRemoteConfigurationProviderTest {
 
     @Test
-    public void isFile() {
+    void isFile() {
 
         // Arrange
         final AbstractRemoteConfigurationProvider provider = new DummyRemoteConfigurationProvider();
@@ -23,7 +23,7 @@ public class AbstractRemoteConfigurationProviderTest {
     }
 
     @Test
-    public void isFileQuoted() {
+    void isFileQuoted() {
 
         // Arrange
         final AbstractRemoteConfigurationProvider provider = new DummyRemoteConfigurationProvider();
@@ -36,7 +36,7 @@ public class AbstractRemoteConfigurationProviderTest {
     }
 
     @Test
-    public void isFileNotAFile() {
+    void isFileNotAFile() {
 
         // Arrange
         final AbstractRemoteConfigurationProvider provider = new DummyRemoteConfigurationProvider();

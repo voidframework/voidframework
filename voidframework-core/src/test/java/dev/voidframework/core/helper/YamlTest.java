@@ -13,10 +13,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import java.nio.charset.StandardCharsets;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class YamlTest {
+final class YamlTest {
 
     @Test
-    public void fromYamlByteArray() {
+    void fromYamlByteArray() {
 
         // Arrange
         final byte[] yamlAsByteArray = """
@@ -28,11 +28,11 @@ public class YamlTest {
 
         // Assert
         Assertions.assertNotNull(simpleDto);
-        Assertions.assertEquals(simpleDto.hello, "world!");
+        Assertions.assertEquals("world!", simpleDto.hello);
     }
 
     @Test
-    public void fromYamlByteArrayInvalidClassType() {
+    void fromYamlByteArrayInvalidClassType() {
 
         // Arrange
         final byte[] yamlAsByteArray = """
@@ -47,7 +47,7 @@ public class YamlTest {
     }
 
     @Test
-    public void fromYamlJsonNode() {
+    void fromYamlJsonNode() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();
@@ -58,11 +58,11 @@ public class YamlTest {
 
         // Assert
         Assertions.assertNotNull(simpleDto);
-        Assertions.assertEquals(simpleDto.hello, "world!");
+        Assertions.assertEquals("world!", simpleDto.hello);
     }
 
     @Test
-    public void fromYamlJsonNodeInvalidClassType() {
+    void fromYamlJsonNodeInvalidClassType() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();
@@ -76,7 +76,7 @@ public class YamlTest {
     }
 
     @Test
-    public void toYamlFromByteArray() {
+    void toYamlFromByteArray() {
 
         // Arrange
         final byte[] yamlAsByteArray = """
@@ -92,7 +92,7 @@ public class YamlTest {
     }
 
     @Test
-    public void toStringFromObject() {
+    void toStringFromObject() {
 
         // Arrange
         final SimpleDto simpleDto = new SimpleDto("world!");
@@ -109,7 +109,7 @@ public class YamlTest {
     }
 
     @Test
-    public void toStringFromObjectNode() {
+    void toStringFromObjectNode() {
 
         // Arrange
         final ObjectNode objectNode = new ObjectMapper().createObjectNode();

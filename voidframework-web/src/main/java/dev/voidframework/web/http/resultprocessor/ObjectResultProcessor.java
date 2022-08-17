@@ -37,13 +37,15 @@ public class ObjectResultProcessor implements ResultProcessor {
 
     @Override
     public void process(final Context context, final Config configuration, final TemplateRenderer templateRenderer) {
+
+        // Nothing to do
     }
 
     @Override
     public InputStream getInputStream() {
 
         if (object == null) {
-            return ByteArrayInputStream.nullInputStream();
+            return InputStream.nullInputStream();
         } else if (object instanceof byte[]) {
             return new ByteArrayInputStream((byte[]) object);
         } else if (object instanceof InputStream) {

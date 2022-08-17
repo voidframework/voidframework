@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 @BindClass
 public class DefaultErrorHandler implements ErrorHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultErrorHandler.class);
 
     private final Config configuration;
     private final Router router;

@@ -12,10 +12,10 @@ import java.util.List;
 import java.util.Map;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class ValidatedTest {
+final class ValidatedTest {
 
     @Test
-    public void emptyOf() {
+    void emptyOf() {
 
         // Act
         final Validated<Object> validated = Validated.emptyOf();
@@ -35,7 +35,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void emptyOfWithEntity() {
+    void emptyOfWithEntity() {
 
         // Arrange
         final SimpleEntity entity = new SimpleEntity("a@a");
@@ -62,7 +62,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void hasError() {
+    void hasError() {
 
         // Arrange
         final List<ValidationError> validationErrorList = List.of(new ValidationError("message", "messageKey"));
@@ -77,7 +77,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void hasErrorNoErrors() {
+    void hasErrorNoErrors() {
 
         // Arrange
         final Map<String, List<ValidationError>> validationErrorPerPathMap = Map.of();
@@ -91,7 +91,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void hasErrorSpecificPath() {
+    void hasErrorSpecificPath() {
 
         // Arrange
         final List<ValidationError> validationErrorList = List.of(new ValidationError("message", "messageKey"));
@@ -106,7 +106,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void hasErrorSpecificPathNoErrors() {
+    void hasErrorSpecificPathNoErrors() {
 
         // Arrange
         final List<ValidationError> validationErrorList = List.of(new ValidationError("message", "messageKey"));
@@ -121,7 +121,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void isValid() {
+    void isValid() {
 
         // Arrange
         final Map<String, List<ValidationError>> validationErrorPerPathMap = Map.of();
@@ -135,7 +135,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void isValidNotValid() {
+    void isValidNotValid() {
 
         // Arrange
         final List<ValidationError> validationErrorList = List.of(new ValidationError("message", "messageKey"));
@@ -150,7 +150,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void getInstance() {
+    void getInstance() {
 
         // Arrange
         final SimpleEntity entity = new SimpleEntity("name@domain.local");
@@ -166,7 +166,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void getError() {
+    void getError() {
 
         // Arrange
         final List<ValidationError> validationErrorList = List.of(new ValidationError("message", "messageKey"));
@@ -188,7 +188,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void getErrorSpecificPath() {
+    void getErrorSpecificPath() {
 
         // Arrange
         final List<ValidationError> validationErrorList = List.of(new ValidationError("message", "messageKey"));
@@ -205,7 +205,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void getErrorList() {
+    void getErrorList() {
 
         // Arrange
         final List<ValidationError> validationErrorList = List.of(new ValidationError("message", "messageKey"));
@@ -223,7 +223,7 @@ public class ValidatedTest {
     }
 
     @Test
-    public void getErrorListNotFound() {
+    void getErrorListNotFound() {
 
         // Arrange
         final List<ValidationError> validationErrorList = List.of(new ValidationError("message", "messageKey"));

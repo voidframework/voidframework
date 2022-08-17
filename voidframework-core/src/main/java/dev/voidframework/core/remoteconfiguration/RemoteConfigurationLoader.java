@@ -19,7 +19,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public final class RemoteConfigurationLoader {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VoidApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RemoteConfigurationLoader.class);
+
+    /**
+     * Default constructor.
+     */
+    private RemoteConfigurationLoader() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
 
     /**
      * Iterates over all declared providers.

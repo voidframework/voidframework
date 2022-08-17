@@ -16,10 +16,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import java.util.List;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class LifeCycleTest {
+final class LifeCycleTest {
 
     @Test
-    public void lifeCycleHandlerRegister() {
+    void lifeCycleHandlerRegister() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("""
@@ -52,7 +52,7 @@ public class LifeCycleTest {
     }
 
     @Test
-    public void lifeCycleHandlerStartAll() {
+    void lifeCycleHandlerStartAll() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("""
@@ -84,7 +84,7 @@ public class LifeCycleTest {
     }
 
     @Test
-    public void lifeCycleHandlerStopAll() {
+    void lifeCycleHandlerStopAll() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("""

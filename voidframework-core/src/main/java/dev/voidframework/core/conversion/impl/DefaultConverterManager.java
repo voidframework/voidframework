@@ -16,7 +16,7 @@ import java.util.Map;
 @Singleton
 public final class DefaultConverterManager implements ConverterManager {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConverterManager.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultConverterManager.class);
 
     private final Map<ConverterCompositeKey, TypeConverter<?, ?>> converterMap;
 
@@ -28,8 +28,7 @@ public final class DefaultConverterManager implements ConverterManager {
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> boolean hasConvertFor(final Class<SOURCE_TYPE> sourceClassType,
-                                                            final Class<TARGET_TYPE> targetClassType) {
+    public <S, T> boolean hasConvertFor(final Class<S> sourceClassType, final Class<T> targetClassType) {
 
         return this.converterMap.containsKey(new ConverterCompositeKey(sourceClassType, targetClassType));
     }
@@ -47,11 +46,9 @@ public final class DefaultConverterManager implements ConverterManager {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <SOURCE_TYPE, TARGET_TYPE>
-    TypeConverter<SOURCE_TYPE, TARGET_TYPE> getConverter(final Class<SOURCE_TYPE> sourceClassType,
-                                                         final Class<TARGET_TYPE> targetClassType) {
+    public <S, T> TypeConverter<S, T> getConverter(final Class<S> sourceClassType, final Class<T> targetClassType) {
 
-        return (TypeConverter<SOURCE_TYPE, TARGET_TYPE>) this.converterMap.get(
+        return (TypeConverter<S, T>) this.converterMap.get(
             new ConverterCompositeKey(sourceClassType, targetClassType));
     }
 

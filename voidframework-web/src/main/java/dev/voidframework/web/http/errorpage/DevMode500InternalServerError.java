@@ -96,6 +96,14 @@ public final class DevMode500InternalServerError {
         """;
 
     /**
+     * Default constructor.
+     */
+    private DevMode500InternalServerError() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Render template.
      *
      * @param errorMessage    The error message

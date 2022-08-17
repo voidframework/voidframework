@@ -314,6 +314,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
         @Override
         public void addTransformer(final ClassTransformer classTransformer) {
+
+            // Nothing to do
         }
 
         @Override

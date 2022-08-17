@@ -27,7 +27,7 @@ import java.util.concurrent.Callable;
 @Singleton
 public class DefaultRedis implements Redis {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Redis.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultRedis.class);
 
     private final Provider<Jedis> jedisProvider;
     private final int defaultDatabase;

@@ -1,4 +1,4 @@
-package controller;
+package sample.controller;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

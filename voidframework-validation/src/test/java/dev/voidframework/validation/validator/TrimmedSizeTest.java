@@ -12,10 +12,10 @@ import java.util.Locale;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class TrimmedSizeTest {
+final class TrimmedSizeTest {
 
     @Test
-    public void withError() {
+    void withError() {
 
         // Arrange
         final Pojo pojo = new Pojo("                                 ");
@@ -33,7 +33,7 @@ public final class TrimmedSizeTest {
     }
 
     @Test
-    public void withoutError() {
+    void withoutError() {
 
         // Arrange
         final Pojo pojo = new Pojo("           abc@local             ");

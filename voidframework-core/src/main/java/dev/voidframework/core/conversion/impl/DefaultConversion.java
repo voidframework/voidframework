@@ -18,6 +18,7 @@ import java.util.Set;
  * Default implementation of {@link Conversion}.
  */
 @Singleton
+@SuppressWarnings("java:S1168")
 public class DefaultConversion implements Conversion {
 
     private final ConverterManager converterManager;
@@ -34,15 +35,13 @@ public class DefaultConversion implements Conversion {
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> boolean canConvert(final Class<SOURCE_TYPE> sourceTypeClass,
-                                                         final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> boolean canConvert(final Class<S> sourceTypeClass, final Class<T> targetTypeClass) {
 
         return converterManager.hasConvertFor(sourceTypeClass, targetTypeClass);
     }
 
     @Override
-    public <TARGET_TYPE> boolean canConvert(final Object object,
-                                            final Class<TARGET_TYPE> targetTypeClass) {
+    public <T> boolean canConvert(final Object object, final Class<T> targetTypeClass) {
 
         if (object == null) {
             // null value can always be converted
@@ -54,26 +53,23 @@ public class DefaultConversion implements Conversion {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE convert(final SOURCE_TYPE object,
-                                                          final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> T convert(final S object, final Class<T> targetTypeClass) {
 
         if (object == null) {
             return null;
         }
 
-        return convert(object, (Class<SOURCE_TYPE>) object.getClass(), targetTypeClass);
+        return convert(object, (Class<S>) object.getClass(), targetTypeClass);
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> TARGET_TYPE convert(final SOURCE_TYPE object,
-                                                          final Class<SOURCE_TYPE> sourceTypeClass,
-                                                          final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> T convert(final S object, final Class<S> sourceTypeClass, final Class<T> targetTypeClass) {
 
         if (object == null) {
             return null;
         }
 
-        final TypeConverter<SOURCE_TYPE, TARGET_TYPE> converter = converterManager.getConverter(
+        final TypeConverter<S, T> converter = converterManager.getConverter(
             sourceTypeClass,
             targetTypeClass);
 
@@ -85,37 +81,33 @@ public class DefaultConversion implements Conversion {
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final Iterable<SOURCE_TYPE> objectIterable,
-                                                                final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> List<T> convert(final Iterable<S> objectIterable, final Class<T> targetTypeClass) {
 
         if (objectIterable == null) {
             return null;
         }
 
-        final List<TARGET_TYPE> targetList = new ArrayList<>();
+        final List<T> targetList = new ArrayList<>();
         convertIntoCollection(objectIterable, targetList, targetTypeClass);
 
         return targetList;
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final Iterable<SOURCE_TYPE> objectIterable,
-                                                                final Class<SOURCE_TYPE> sourceTypeClass,
-                                                                final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> List<T> convert(final Iterable<S> objectIterable, final Class<S> sourceTypeClass, final Class<T> targetTypeClass) {
 
         if (objectIterable == null) {
             return null;
         }
 
-        final List<TARGET_TYPE> targetList = new ArrayList<>();
+        final List<T> targetList = new ArrayList<>();
         convertIntoCollection(objectIterable, targetList, sourceTypeClass, targetTypeClass);
 
         return targetList;
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final List<SOURCE_TYPE> objectList,
-                                                                final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> List<T> convert(final List<S> objectList, final Class<T> targetTypeClass) {
 
         if (objectList == null) {
             return null;
@@ -123,16 +115,14 @@ public class DefaultConversion implements Conversion {
             return Collections.emptyList();
         }
 
-        final List<TARGET_TYPE> targetList = new ArrayList<>();
+        final List<T> targetList = new ArrayList<>();
         convertIntoCollection(objectList, targetList, targetTypeClass);
 
         return targetList;
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> List<TARGET_TYPE> convert(final List<SOURCE_TYPE> objectList,
-                                                                final Class<SOURCE_TYPE> sourceTypeClass,
-                                                                final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> List<T> convert(final List<S> objectList, final Class<S> sourceTypeClass, final Class<T> targetTypeClass) {
 
         if (objectList == null) {
             return null;
@@ -140,15 +130,14 @@ public class DefaultConversion implements Conversion {
             return Collections.emptyList();
         }
 
-        final List<TARGET_TYPE> targetList = new ArrayList<>();
+        final List<T> targetList = new ArrayList<>();
         convertIntoCollection(objectList, targetList, sourceTypeClass, targetTypeClass);
 
         return targetList;
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> Set<TARGET_TYPE> convert(final Set<SOURCE_TYPE> objectSet,
-                                                               final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> Set<T> convert(final Set<S> objectSet, final Class<T> targetTypeClass) {
 
         if (objectSet == null) {
             return null;
@@ -156,16 +145,14 @@ public class DefaultConversion implements Conversion {
             return Collections.emptySet();
         }
 
-        final Set<TARGET_TYPE> targetSet = new HashSet<>();
+        final Set<T> targetSet = new HashSet<>();
         convertIntoCollection(objectSet, targetSet, targetTypeClass);
 
         return targetSet;
     }
 
     @Override
-    public <SOURCE_TYPE, TARGET_TYPE> Set<TARGET_TYPE> convert(final Set<SOURCE_TYPE> objectSet,
-                                                               final Class<SOURCE_TYPE> sourceTypeClass,
-                                                               final Class<TARGET_TYPE> targetTypeClass) {
+    public <S, T> Set<T> convert(final Set<S> objectSet, final Class<S> sourceTypeClass, final Class<T> targetTypeClass) {
 
         if (objectSet == null) {
             return null;
@@ -173,7 +160,7 @@ public class DefaultConversion implements Conversion {
             return Collections.emptySet();
         }
 
-        final Set<TARGET_TYPE> targetSet = new HashSet<>();
+        final Set<T> targetSet = new HashSet<>();
         convertIntoCollection(objectSet, targetSet, sourceTypeClass, targetTypeClass);
 
         return targetSet;
@@ -185,17 +172,17 @@ public class DefaultConversion implements Conversion {
      * @param objectSourceIterable   The source iterable
      * @param objectTargetCollection The target collection
      * @param targetTypeClass        The target type class
-     * @param <SOURCE_TYPE>          The source generic type
-     * @param <TARGET_TYPE>          The target generic type
+     * @param <S>                    The source generic type
+     * @param <T>                    The target generic type
      */
     @SuppressWarnings("unchecked")
-    private <SOURCE_TYPE, TARGET_TYPE> void convertIntoCollection(final Iterable<SOURCE_TYPE> objectSourceIterable,
-                                                                  final Collection<TARGET_TYPE> objectTargetCollection,
-                                                                  final Class<TARGET_TYPE> targetTypeClass) {
+    private <S, T> void convertIntoCollection(final Iterable<S> objectSourceIterable,
+                                              final Collection<T> objectTargetCollection,
+                                              final Class<T> targetTypeClass) {
 
-        TypeConverter<SOURCE_TYPE, TARGET_TYPE> converter = null;
+        TypeConverter<S, T> converter = null;
 
-        for (final SOURCE_TYPE object : objectSourceIterable) {
+        for (final S object : objectSourceIterable) {
             if (object == null) {
                 // Object is null, no converter needed
                 objectTargetCollection.add(null);
@@ -204,7 +191,7 @@ public class DefaultConversion implements Conversion {
                 objectTargetCollection.add(converter.convert(object));
             } else {
                 // Resolve converter and use it
-                final Class<SOURCE_TYPE> sourceTypeClass = (Class<SOURCE_TYPE>) object.getClass();
+                final Class<S> sourceTypeClass = (Class<S>) object.getClass();
                 converter = converterManager.getConverter(sourceTypeClass, targetTypeClass);
 
                 if (converter == null) {
@@ -223,16 +210,16 @@ public class DefaultConversion implements Conversion {
      * @param objectTargetCollection The target collection
      * @param sourceTypeClass        The source type class
      * @param targetTypeClass        The target type class
-     * @param <SOURCE_TYPE>          The source generic type
-     * @param <TARGET_TYPE>          The target generic type
+     * @param <S>                    The source generic type
+     * @param <T>                    The target generic type
      */
 
-    private <SOURCE_TYPE, TARGET_TYPE> void convertIntoCollection(final Iterable<SOURCE_TYPE> objectSourceIterable,
-                                                                  final Collection<TARGET_TYPE> objectTargetCollection,
-                                                                  final Class<SOURCE_TYPE> sourceTypeClass,
-                                                                  final Class<TARGET_TYPE> targetTypeClass) {
+    private <S, T> void convertIntoCollection(final Iterable<S> objectSourceIterable,
+                                              final Collection<T> objectTargetCollection,
+                                              final Class<S> sourceTypeClass,
+                                              final Class<T> targetTypeClass) {
 
-        final TypeConverter<SOURCE_TYPE, TARGET_TYPE> converter = converterManager.getConverter(
+        final TypeConverter<S, T> converter = converterManager.getConverter(
             sourceTypeClass,
             targetTypeClass);
 
@@ -240,7 +227,7 @@ public class DefaultConversion implements Conversion {
             throw new ConversionException.ConverterDoesNotExist(sourceTypeClass, targetTypeClass);
         }
 
-        for (final SOURCE_TYPE object : objectSourceIterable) {
+        for (final S object : objectSourceIterable) {
             if (object != null) {
                 objectTargetCollection.add(converter.convert(object));
             } else {

@@ -10,6 +10,14 @@ import java.lang.reflect.Method;
 public final class Reflection {
 
     /**
+     * Default constructor.
+     */
+    private Reflection() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Retrieves a specific annotated field.
      *
      * @param classInstance       The instance of the class in which the field is located
@@ -59,12 +67,12 @@ public final class Reflection {
      * @param classInstance  The instance of the class in which the field is located
      * @param fieldName      The field name
      * @param valueTypeClass The value class type
-     * @param <VALUE_TYPE>   The value type
+     * @param <T>            The value type
      * @return The field value, otherwise, null
      */
-    public static <VALUE_TYPE> VALUE_TYPE getFieldValue(final Object classInstance,
-                                                        final String fieldName,
-                                                        final Class<VALUE_TYPE> valueTypeClass) {
+    public static <T> T getFieldValue(final Object classInstance,
+                                      final String fieldName,
+                                      final Class<T> valueTypeClass) {
 
         try {
             final Field field = classInstance.getClass().getDeclaredField(fieldName);
@@ -82,12 +90,12 @@ public final class Reflection {
      * @param classInstance The instance of the class in which the field is located
      * @param fieldName     The field name
      * @param wrappedClass  The value class type (wrapped)
-     * @param <VALUE_TYPE>  The value type
+     * @param <T>           The value type
      * @return The field value, otherwise, null
      */
-    public static <VALUE_TYPE> VALUE_TYPE getFieldValue(final Object classInstance,
-                                                        final String fieldName,
-                                                        final WrappedClass<VALUE_TYPE> wrappedClass) {
+    public static <T> T getFieldValue(final Object classInstance,
+                                      final String fieldName,
+                                      final WrappedClass<T> wrappedClass) {
 
         try {
             final Field field = classInstance.getClass().getDeclaredField(fieldName);
@@ -145,20 +153,20 @@ public final class Reflection {
      * @param returnTypeClass   The returned value type
      * @param argumentTypeArray The method argument types
      * @param argumentArray     The method arguments
-     * @param <RETURN_TYPE>     Type of the return value
+     * @param <T>               Type of the return value
      * @return The method call result
      */
-    public static <RETURN_TYPE> RETURN_TYPE callMethod(final Object classInstance,
-                                                       final String methodeName,
-                                                       final Class<RETURN_TYPE> returnTypeClass,
-                                                       final Class<?>[] argumentTypeArray,
-                                                       final Object... argumentArray) {
+    public static <T> T callMethod(final Object classInstance,
+                                   final String methodeName,
+                                   final Class<T> returnTypeClass,
+                                   final Class<?>[] argumentTypeArray,
+                                   final Object... argumentArray) {
 
         try {
             final Method method = classInstance.getClass().getDeclaredMethod(methodeName, argumentTypeArray);
             method.setAccessible(true);
 
-            final RETURN_TYPE ret = returnTypeClass.cast(method.invoke(classInstance, argumentArray));
+            final T ret = returnTypeClass.cast(method.invoke(classInstance, argumentArray));
             method.setAccessible(false);
 
             return ret;
@@ -192,11 +200,11 @@ public final class Reflection {
     /**
      * Allows to wrap a complex class type (ie: Map{String, Integer})
      *
-     * @param <CLASS_TYPE> The wrapped class type
+     * @param <T> The wrapped class type
      */
-    public static final class WrappedClass<CLASS_TYPE> {
+    public static final class WrappedClass<T> {
 
-        private final Class<CLASS_TYPE> classType;
+        private final Class<T> classType;
 
         /**
          * Build a new instance.
@@ -204,7 +212,7 @@ public final class Reflection {
         @SuppressWarnings("unchecked")
         public WrappedClass() {
 
-            this.classType = (Class<CLASS_TYPE>) this.getClass().getSuperclass();
+            this.classType = (Class<T>) this.getClass().getSuperclass();
         }
 
         /**
@@ -212,7 +220,7 @@ public final class Reflection {
          *
          * @return The wrapped class type
          */
-        public Class<CLASS_TYPE> getWrappedClass() {
+        public Class<T> getWrappedClass() {
 
             return this.classType;
         }

@@ -95,6 +95,14 @@ public final class DevMode404NotFound {
         """;
 
     /**
+     * Default constructor.
+     */
+    private DevMode404NotFound() {
+
+        throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
      * Render template.
      *
      * @param requestMethod The request method (ie: GET)

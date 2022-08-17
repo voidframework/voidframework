@@ -31,14 +31,12 @@ class CronExpressionPartStepValue implements CronExpressionPart {
                                 final int allowedMinValue,
                                 final int allowedMaxValue) {
 
-        if (this.stepValue != -1) {
-            if (!(this.stepValue >= allowedMinStepValue && this.stepValue <= allowedMaxStepValue)) {
-                throw new SchedulerException.InvalidCronExpression(
-                    "Step value '%s' is invalid. It must be between '%s..%s'.",
-                    this.stepValue,
-                    allowedMaxStepValue,
-                    allowedMinStepValue);
-            }
+        if (this.stepValue != -1 && !(this.stepValue >= allowedMinStepValue && this.stepValue <= allowedMaxStepValue)) {
+            throw new SchedulerException.InvalidCronExpression(
+                "Step value '%s' is invalid. It must be between '%s..%s'.",
+                this.stepValue,
+                allowedMaxStepValue,
+                allowedMinStepValue);
         }
     }
 }

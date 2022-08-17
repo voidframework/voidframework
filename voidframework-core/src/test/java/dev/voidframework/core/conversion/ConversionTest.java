@@ -11,10 +11,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 import java.util.Map;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class ConversionTest {
+final class ConversionTest {
 
     @Test
-    public void registerConverter() {
+    void registerConverter() {
 
         // Arrange
         final ConverterManager converterManager = new DefaultConverterManager();

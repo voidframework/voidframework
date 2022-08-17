@@ -16,9 +16,13 @@ public final class BlackHoleCacheEngine implements CacheEngine {
 
     @Override
     public void set(final String cacheKey, final Object value, final int timeToLive) {
+
+        // Nothing to do
     }
 
     @Override
     public void remove(final String cacheKey) {
+
+        // Nothing to do
     }
 }

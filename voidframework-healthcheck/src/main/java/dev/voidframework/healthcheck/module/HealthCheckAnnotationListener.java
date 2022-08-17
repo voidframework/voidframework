@@ -25,7 +25,7 @@ public final class HealthCheckAnnotationListener implements TypeListener {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <CLASS_TYPE> void hear(final TypeLiteral<CLASS_TYPE> type, final TypeEncounter<CLASS_TYPE> encounter) {
+    public <I> void hear(final TypeLiteral<I> type, final TypeEncounter<I> encounter) {
 
         final Class<?> classType = type.getRawType();
 

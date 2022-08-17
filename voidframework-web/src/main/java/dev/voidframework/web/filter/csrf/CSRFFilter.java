@@ -36,8 +36,8 @@ import java.util.concurrent.TimeUnit;
 @Singleton
 public class CSRFFilter implements Filter {
 
-    public static final TypedMap.Key<String> CSRF_TOKEN_KEY = TypedMap.Key.of("CSRF_TOKEN");
-    public static final TypedMap.Key<Boolean> BYPASS_CSRF_VERIFICATION = TypedMap.Key.of("BYPASS_CSRF_VERIFICATION");
+    public static final TypedMap.Key<String> CSRF_TOKEN_KEY = TypedMap.Key.of("CSRF_TOKEN", String.class);
+    public static final TypedMap.Key<Boolean> BYPASS_CSRF_VERIFICATION = TypedMap.Key.of("BYPASS_CSRF_VERIFICATION", Boolean.class);
 
     private static final String H_MAC_ALGORITHM = "HmacSHA256";
 

@@ -13,10 +13,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class RemoteConfigurationLoaderTest {
+final class RemoteConfigurationLoaderTest {
 
     @Test
-    public void processAllProvidersWithSingleProvider() throws IOException {
+    void processAllProvidersWithSingleProvider() throws IOException {
 
         // Arrange
         final Config localConfiguration = ConfigFactory.parseString("""
@@ -47,7 +47,7 @@ public class RemoteConfigurationLoaderTest {
     }
 
     @Test
-    public void processAllProvidersWithListOfProviders() throws IOException {
+    void processAllProvidersWithListOfProviders() throws IOException {
 
         // Arrange
         final Config localConfiguration = ConfigFactory.parseString("""

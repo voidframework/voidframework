@@ -6,8 +6,10 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 
 /**
  * This abstract implementation provides the necessary tools for the
@@ -20,7 +22,7 @@ public abstract class AbstractCacheEngine implements CacheEngine {
     /**
      * Build a new instance.
      */
-    public AbstractCacheEngine() {
+    protected AbstractCacheEngine() {
 
         this.kryo = new Kryo();
         kryo.setRegistrationRequired(false);
@@ -68,5 +70,28 @@ public abstract class AbstractCacheEngine implements CacheEngine {
      * @param content   The value serialized
      */
     protected record CachedElement(Class<?> classType, byte[] content) {
+
+        @Override
+        public boolean equals(final Object o) {
+
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            final CachedElement that = (CachedElement) o;
+            return classType.equals(that.classType) && Arrays.equals(content, that.content);
+        }
+
+        @Override
+        public int hashCode() {
+
+            int result = Objects.hash(classType);
+            result = 31 * result + Arrays.hashCode(content);
+            return result;
+        }
+
+        @Override
+        public String toString() {
+
+            return "CachedElement{classType='" + classType + "', content='<binaryOfLength=" + content.length + ">'}";
+        }
     }
 }

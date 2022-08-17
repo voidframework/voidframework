@@ -8,10 +8,10 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class BlackHoleCacheEngineTest {
+final class BlackHoleCacheEngineTest {
 
     @Test
-    public void getUnknownValue() {
+    void getUnknownValue() {
 
         // Arrange
         final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
@@ -24,7 +24,7 @@ public final class BlackHoleCacheEngineTest {
     }
 
     @Test
-    public void setValueAndGetValueKey() {
+    void setValueAndGetValueKey() {
 
         // Arrange
         final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();

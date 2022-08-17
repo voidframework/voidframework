@@ -13,10 +13,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public class FileCfgObjectTest {
+final class FileCfgObjectTest {
 
     @Test
-    public void simpleFileContent() throws IOException {
+    void simpleFileContent() throws IOException {
 
         // Arrange
         final FileCfgObject fileCfgObject = new FileCfgObject("key", "<FILE>./test;SGVsbG8gV29ybGQh");
@@ -35,7 +35,7 @@ public class FileCfgObjectTest {
     }
 
     @Test
-    public void quotedFileContent() throws IOException {
+    void quotedFileContent() throws IOException {
 
         // Arrange
         final FileCfgObject fileCfgObject = new FileCfgObject("key", "\"<FILE>./test;SGVsbG8gV29ybGQh\"");
@@ -54,7 +54,7 @@ public class FileCfgObjectTest {
     }
 
     @Test
-    public void missingMagic() throws IOException {
+    void missingMagic() throws IOException {
 
         // Arrange
         final FileCfgObject fileCfgObject = new FileCfgObject("key", "./test;SGVsbG8gV29ybGQh");
@@ -73,7 +73,7 @@ public class FileCfgObjectTest {
     }
 
     @Test
-    public void byteArrayFileContent() throws IOException {
+    void byteArrayFileContent() throws IOException {
 
         // Arrange
         final byte[] contentAsByteArray = "Hello World!".getBytes(StandardCharsets.UTF_8);
@@ -93,7 +93,7 @@ public class FileCfgObjectTest {
     }
 
     @Test
-    public void apply() throws IOException {
+    void apply() throws IOException {
 
         // Arrange
         final FileCfgObject fileCfgObject = new FileCfgObject("key", "./test;SGVsbG8gV29ybGQh");

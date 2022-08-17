@@ -9,7 +9,6 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -27,7 +26,7 @@ public class CronExpression {
     private static final Pattern REGEXP_PATTERN_LIST = Pattern.compile("^([^-/]+)(/(\\d+))?$");
     private static final Pattern REGEXP_PATTERN_SINGLE = Pattern.compile("^(\\d+)(/(\\d+))?$");
 
-    private static final List<String> WILDCARD_REPLACEMENT = Arrays.asList(
+    private static final List<String> WILDCARD_REPLACEMENT = List.of(
         "0-59",  // Second
         "0-59",  // Minute
         "0-23",  // Hour
@@ -35,7 +34,7 @@ public class CronExpression {
         "1-12",  // Month
         "0-6");  // Day of Week
 
-    private static final List<Consumer<CronExpressionPart>> CRON_EXPRESSION_PART_VALIDATOR = Arrays.asList(
+    private static final List<Consumer<CronExpressionPart>> CRON_EXPRESSION_PART_VALIDATOR = List.of(
         (c) -> c.assertViolation(1, 60, 0, 59),  // Second
         (c) -> c.assertViolation(1, 60, 0, 59),  // Minute
         (c) -> c.assertViolation(1, 24, 0, 23),  // Hour
@@ -50,40 +49,37 @@ public class CronExpression {
     private static final int IDX_MONTH = 4;
     private static final int IDX_DAY_OF_WEEK = 5;
 
-    final Map<String, String> MONTH_NAME_TO_VALUE = new HashMap<>() {{
-        put("JAN", "1");
-        put("FEB", "2");
-        put("MAR", "3");
-        put("APR", "4");
-        put("MAY", "5");
-        put("JUN", "6");
-        put("JUL", "7");
-        put("AUG", "8");
-        put("SEP", "9");
-        put("OCT", "10");
-        put("NOV", "11");
-        put("DEV", "12");
-    }};
+    private static final Map<String, String> MONTH_NAME_TO_VALUE = Map.ofEntries(
+        Map.entry("JAN", "1"),
+        Map.entry("FEB", "2"),
+        Map.entry("MAR", "3"),
+        Map.entry("APR", "4"),
+        Map.entry("MAY", "5"),
+        Map.entry("JUN", "6"),
+        Map.entry("JUL", "7"),
+        Map.entry("AUG", "8"),
+        Map.entry("SEP", "9"),
+        Map.entry("OCT", "10"),
+        Map.entry("NOV", "11"),
+        Map.entry("DEV", "12"));
 
-    final Map<String, String> DAY_OF_WEEK_NAME_TO_VALUE = new HashMap<>() {{
-        put("SUN", "0");
-        put("MON", "1");
-        put("TUE", "2");
-        put("WED", "3");
-        put("THU", "4");
-        put("FRI", "5");
-        put("SAT", "6");
-    }};
+    private static final Map<String, String> DAY_OF_WEEK_NAME_TO_VALUE = Map.ofEntries(
+        Map.entry("SUN", "0"),
+        Map.entry("MON", "1"),
+        Map.entry("TUE", "2"),
+        Map.entry("WED", "3"),
+        Map.entry("THU", "4"),
+        Map.entry("FRI", "5"),
+        Map.entry("SAT", "6"));
 
-    final Map<DayOfWeek, Integer> DAY_OF_WEEK_CRON_VALUE = new HashMap<>() {{
-        put(DayOfWeek.SUNDAY, 0);
-        put(DayOfWeek.MONDAY, 1);
-        put(DayOfWeek.TUESDAY, 2);
-        put(DayOfWeek.WEDNESDAY, 3);
-        put(DayOfWeek.THURSDAY, 4);
-        put(DayOfWeek.FRIDAY, 5);
-        put(DayOfWeek.SATURDAY, 6);
-    }};
+    private static final Map<DayOfWeek, Integer> DAY_OF_WEEK_CRON_VALUE = Map.ofEntries(
+        Map.entry(DayOfWeek.SUNDAY, 0),
+        Map.entry(DayOfWeek.MONDAY, 1),
+        Map.entry(DayOfWeek.TUESDAY, 2),
+        Map.entry(DayOfWeek.WEDNESDAY, 3),
+        Map.entry(DayOfWeek.THURSDAY, 4),
+        Map.entry(DayOfWeek.FRIDAY, 5),
+        Map.entry(DayOfWeek.SATURDAY, 6));
 
     private final CronExpressionPart[] cronExpressionPartArray;
 

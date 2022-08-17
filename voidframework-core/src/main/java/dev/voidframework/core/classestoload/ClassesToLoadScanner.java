@@ -29,6 +29,12 @@ import java.util.List;
 public final class ClassesToLoadScanner {
 
     /**
+     * Default constructor.
+     */
+    private ClassesToLoadScanner() {
+    }
+
+    /**
      * Scan given paths to find classes to bind.
      *
      * @param acceptedScanPaths The locations to scan for classes to bind

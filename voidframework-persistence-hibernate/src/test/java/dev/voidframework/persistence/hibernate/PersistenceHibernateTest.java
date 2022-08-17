@@ -8,7 +8,7 @@ import com.google.inject.Stage;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.datasource.hikaricp.module.HikariCpDataSourceModule;
-import dev.voidframework.persistence.hibernate.model.UnitTest;
+import dev.voidframework.persistence.hibernate.model.UnitTestModel;
 import dev.voidframework.persistence.hibernate.module.HibernateModule;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -21,7 +21,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class PersistenceHibernateTest {
+final class PersistenceHibernateTest {
 
     private final Injector injector;
 
@@ -59,7 +59,7 @@ public final class PersistenceHibernateTest {
     }
 
     @Test
-    public void entityFactory() {
+    void entityFactory() {
 
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);
@@ -75,7 +75,7 @@ public final class PersistenceHibernateTest {
     }
 
     @Test
-    public void transaction() {
+    void transaction() {
 
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);
@@ -110,7 +110,7 @@ public final class PersistenceHibernateTest {
     }
 
     @Test
-    public void managedEntityQuery() {
+    void managedEntityQuery() {
 
         final Provider<EntityManager> entityManagerProvider = this.injector.getProvider(EntityManager.class);
         Assertions.assertNotNull(entityManagerProvider);
@@ -137,7 +137,7 @@ public final class PersistenceHibernateTest {
         entityTransaction.commit();
         Assertions.assertFalse(entityTransaction.isActive());
 
-        final UnitTest result = entityManager.createQuery("SELECT x FROM UnitTest x", UnitTest.class).getSingleResult();
+        final UnitTestModel result = entityManager.createQuery("SELECT x FROM UnitTestModel x", UnitTestModel.class).getSingleResult();
         Assertions.assertNotNull(result);
         Assertions.assertEquals("494f6610-116f-48c9-bd23-764fcd0e0bfc", result.id);
 

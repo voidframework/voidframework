@@ -11,10 +11,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-public final class EitherTest {
+final class EitherTest {
 
     @Test
-    public void ofLeft() {
+    void ofLeft() {
 
         // Act
         final Either<String, Integer> either = Either.ofLeft("Hello World!");
@@ -28,7 +28,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void ofRight() {
+    void ofRight() {
 
         // Act
         final Either<String, Integer> either = Either.ofRight(1773);
@@ -42,7 +42,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void matchLeftWithoutRetValue() {
+    void matchLeftWithoutRetValue() {
 
         // Arrange
         final Either<String, Integer> either = Either.ofLeft("Hello World!");
@@ -57,7 +57,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void matchLeftWithRetValue() {
+    void matchLeftWithRetValue() {
 
         // Arrange
         final Either<String, Integer> either = Either.ofLeft("Hello World!");
@@ -71,7 +71,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void matchRightWithoutRetValue() {
+    void matchRightWithoutRetValue() {
 
         // Arrange
         final Either<String, Integer> either = Either.ofRight(1773);
@@ -86,7 +86,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void matchRightWithRetValue() {
+    void matchRightWithRetValue() {
 
         // Arrange
         final Either<String, Integer> either = Either.ofRight(1773);
@@ -100,7 +100,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void matchNullConsumer() {
+    void matchNullConsumer() {
 
         // Arrange
         final Either<String, Integer> either = Either.ofRight(1773);
@@ -112,7 +112,7 @@ public final class EitherTest {
     }
 
     @Test
-    public void matchNullFunction() {
+    void matchNullFunction() {
 
         // Arrange
         final Either<String, Integer> either = Either.ofRight(1773);

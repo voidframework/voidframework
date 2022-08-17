@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
-import dev.voidframework.redis.Redis;
 import dev.voidframework.redis.exception.RedisException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,7 +20,7 @@ import java.time.Duration;
 @Singleton
 public class JedisResourceProvider implements Provider<Jedis> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Redis.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(JedisResourceProvider.class);
 
     private final Config configuration;
 
