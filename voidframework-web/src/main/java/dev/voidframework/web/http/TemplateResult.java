@@ -67,6 +67,7 @@ public final class TemplateResult {
     public static TemplateResult of(final String templateName,
                                     final Object dataModel) {
 
-        return new TemplateResult(templateName, Json.toMap(dataModel));
+        final Map<String, Object> map = Json.toMap(dataModel);
+        return new TemplateResult(templateName, map != null ? map : new HashMap<>());
     }
 }

@@ -109,7 +109,7 @@ public final class SchedulerManager {
                     scheduledHandler.method().invoke(classInstance);
                 } catch (final Exception exception) {
                     LOGGER.error(
-                        "An error occurred during the execution of scheduled method {}::{}",
+                        "An error occurred during the execution of scheduled (CRON) method {}::{}",
                         scheduledHandler.getClass().getName(),
                         scheduledHandler.method().getName(),
                         exception);
@@ -172,7 +172,7 @@ public final class SchedulerManager {
                         scheduledHandler.method().invoke(classInstance);
                     } catch (final Exception exception) {
                         LOGGER.error(
-                            "An error occurred during the execution of scheduled method {}::{}",
+                            "An error occurred during the execution of scheduled (delay) method {}::{}",
                             scheduledHandler.getClass().getName(),
                             scheduledHandler.method().getName(),
                             exception);
@@ -195,7 +195,7 @@ public final class SchedulerManager {
                         scheduledHandler.method().invoke(classInstance);
                     } catch (final Exception exception) {
                         LOGGER.error(
-                            "An error occurred during the execution of scheduled method {}::{}",
+                            "An error occurred during the execution of scheduled (fixed) method {}::{}",
                             scheduledHandler.getClass().getName(),
                             scheduledHandler.method().getName(),
                             exception);

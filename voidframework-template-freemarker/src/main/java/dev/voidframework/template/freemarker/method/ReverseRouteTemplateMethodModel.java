@@ -30,7 +30,7 @@ public class ReverseRouteTemplateMethodModel implements TemplateMethodModelEx {
     @Override
     public Object exec(final List argumentList) throws TemplateModelException {
 
-        if (argumentList.size() < 1) {
+        if (argumentList.isEmpty()) {
             throw new TemplateModelException("Wrong arguments");
         }
 

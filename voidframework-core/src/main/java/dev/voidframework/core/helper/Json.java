@@ -153,6 +153,7 @@ public final class Json {
      * @param obj Object to convert
      * @return The data map
      */
+    @SuppressWarnings("java:S1168")
     public static Map<String, Object> toMap(final Object obj) {
 
         try {

@@ -74,7 +74,7 @@ public final class KeyValueCfgObject {
             + "["
             + this.key
             + " <- "
-            + (this.value == null ? "null" : this.value)
+            + this.value
             + "]";
     }
 
@@ -90,7 +90,7 @@ public final class KeyValueCfgObject {
             + "["
             + this.key
             + " <- "
-            + (this.value == null ? "null" : maskValueOnToString ? "**********" : this.value)
+            + (maskValueOnToString ? "**********" : this.value)
             + "]";
     }
 

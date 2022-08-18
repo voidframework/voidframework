@@ -35,7 +35,7 @@ public class InternationalizationTemplateMethodModel implements TemplateMethodMo
     @Override
     public TemplateModel exec(final List argumentList) throws TemplateModelException {
 
-        if (argumentList.size() < 1) {
+        if (argumentList.isEmpty()) {
             throw new TemplateModelException("Wrong arguments");
         }
 

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor {
 
-    private final static ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create("dev", "voidframework", "junit5");
+    private static final ExtensionContext.Namespace NAMESPACE = ExtensionContext.Namespace.create("dev", "voidframework", "junit5");
 
     @Override
     public void postProcessTestInstance(final Object testInstance,
