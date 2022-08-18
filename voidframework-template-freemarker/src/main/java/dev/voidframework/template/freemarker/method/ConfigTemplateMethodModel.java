@@ -42,7 +42,7 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
         } else if (value instanceof Number) {
             return new SimpleNumber((Number) value);
         } else if (value instanceof Boolean) {
-            return (Boolean) value ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+            return value == Boolean.TRUE ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         } else if (value instanceof Collection<?>) {
             return new TemplateSequenceModel() {
 
@@ -50,6 +50,7 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
 
                 @Override
                 public TemplateModel get(final int index) {
+
                     final Object obj = valueList.get(index);
 
                     if (obj instanceof String) {
@@ -57,7 +58,7 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
                     } else if (obj instanceof Number) {
                         return new SimpleNumber((Number) obj);
                     } else if (obj instanceof Boolean) {
-                        return (Boolean) obj ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
+                        return obj == Boolean.TRUE ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
                     } else {
                         return obj == null ? null : new SimpleScalar(obj.toString());
                     }
@@ -65,6 +66,7 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
 
                 @Override
                 public int size() {
+
                     return valueList.size();
                 }
             };
