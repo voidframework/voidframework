@@ -57,6 +57,8 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
             return this.freeMarkerConfiguration;
         }
 
+        final String basePackagePath = this.configuration.getString("voidframework.template.basePackagePath");
+
         final DefaultObjectWrapperBuilder defaultObjectWrapperBuilder = new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_31);
         defaultObjectWrapperBuilder.setExposeFields(true);
 
@@ -80,17 +82,17 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
                     templateLoaderArray[idx] = new FileTemplateLoader(viewsDirectoryPath.toFile());
                     idx += 1;
                 }
-                templateLoaderArray[idx] = new ClassTemplateLoader(this.getClass(), "/views/");
+                templateLoaderArray[idx] = new ClassTemplateLoader(this.getClass(), basePackagePath);
 
                 this.freeMarkerConfiguration.setCacheStorage(new freemarker.cache.MruCacheStorage(0, 0));
-                this.freeMarkerConfiguration.setClassForTemplateLoading(this.getClass(), "/views/");
+                this.freeMarkerConfiguration.setClassForTemplateLoading(this.getClass(), basePackagePath);
                 this.freeMarkerConfiguration.setTemplateLoader(new MultiTemplateLoader(templateLoaderArray));
             } catch (final IOException e) {
                 throw new TemplateException.TemplateEngineInitFailure(e);
             }
         } else {
             this.freeMarkerConfiguration.setCacheStorage(new freemarker.cache.MruCacheStorage(20, Integer.MAX_VALUE));
-            this.freeMarkerConfiguration.setClassForTemplateLoading(this.getClass(), "/views/");
+            this.freeMarkerConfiguration.setClassForTemplateLoading(this.getClass(), basePackagePath);
             this.freeMarkerConfiguration.setTemplateUpdateDelayMilliseconds(Integer.MAX_VALUE);
         }
 

@@ -28,7 +28,10 @@ final class FreeMarkerTemplateRendererTest {
 
     public FreeMarkerTemplateRendererTest() {
 
-        final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = false");
+        final Config configuration = ConfigFactory.parseString("""
+            voidframework.core.runInDevMode = false
+            voidframework.template.basePackagePath = "/views/"
+            """);
 
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override

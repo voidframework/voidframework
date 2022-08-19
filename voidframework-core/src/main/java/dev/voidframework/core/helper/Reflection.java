@@ -1,5 +1,8 @@
 package dev.voidframework.core.helper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -8,6 +11,8 @@ import java.lang.reflect.Method;
  * Reflection-based utility methods.
  */
 public final class Reflection {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Reflection.class);
 
     /**
      * Default constructor.
@@ -55,7 +60,8 @@ public final class Reflection {
 
                 currentClassType = currentClassType.getSuperclass();
             }
-        } catch (final Exception ignore) {
+        } catch (final Exception ex) {
+            LOGGER.error("Can't get annotated field", ex);
         }
 
         return null;
@@ -79,7 +85,8 @@ public final class Reflection {
             field.setAccessible(true);
 
             return valueTypeClass.cast(field.get(classInstance));
-        } catch (final Exception ignore) {
+        } catch (final Exception ex) {
+            LOGGER.error("Can't get field value", ex);
             return null;
         }
     }
@@ -102,7 +109,8 @@ public final class Reflection {
             field.setAccessible(true);
 
             return wrappedClass.getWrappedClass().cast(field.get(classInstance));
-        } catch (final Exception ignore) {
+        } catch (final Exception ex) {
+            LOGGER.error("Can't get field value", ex);
             return null;
         }
     }
@@ -123,7 +131,8 @@ public final class Reflection {
             field.setAccessible(true);
             field.set(classInstance, value);
             field.setAccessible(false);
-        } catch (final Exception ignore) {
+        } catch (final Exception ex) {
+            LOGGER.error("Can't set field value", ex);
         }
     }
 
@@ -170,7 +179,8 @@ public final class Reflection {
             method.setAccessible(false);
 
             return ret;
-        } catch (final Exception ignore) {
+        } catch (final Exception ex) {
+            LOGGER.error("Can't call method", ex);
             return null;
         }
     }
@@ -193,7 +203,8 @@ public final class Reflection {
             method.setAccessible(true);
             method.invoke(classInstance, argumentArray);
             method.setAccessible(false);
-        } catch (final Exception ignore) {
+        } catch (final Exception ex) {
+            LOGGER.error("Can't call method", ex);
         }
     }
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import dev.voidframework.core.exception.RemoteConfigurationException;
+import dev.voidframework.core.helper.IO;
 import dev.voidframework.core.remoteconfiguration.AbstractRemoteConfigurationProvider;
 import dev.voidframework.core.remoteconfiguration.FileCfgObject;
 import dev.voidframework.core.remoteconfiguration.KeyValueCfgObject;
@@ -105,12 +106,7 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
         } catch (final IOException ex) {
             throw new ProviderException("Can't connect to the provider", ex);
         } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (final IOException ignore) {
-                }
-            }
+            IO.closeWithoutException(is);
         }
     }
 

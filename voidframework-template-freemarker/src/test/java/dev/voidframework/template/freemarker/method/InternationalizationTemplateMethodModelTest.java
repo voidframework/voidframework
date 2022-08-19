@@ -25,7 +25,10 @@ final class InternationalizationTemplateMethodModelTest {
 
     public InternationalizationTemplateMethodModelTest() {
 
-        final Config configuration = ConfigFactory.parseString("voidframework.core.runInDevMode = true");
+        final Config configuration = ConfigFactory.parseString("""
+            voidframework.core.runInDevMode = false
+            voidframework.template.basePackagePath = "/views/"
+            """);
 
         this.injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override

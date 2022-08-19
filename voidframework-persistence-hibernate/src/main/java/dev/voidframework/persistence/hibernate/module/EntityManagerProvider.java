@@ -13,6 +13,8 @@ import jakarta.persistence.spi.PersistenceUnitInfo;
 import jakarta.persistence.spi.PersistenceUnitTransactionType;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -35,6 +37,8 @@ import java.util.Properties;
  */
 @Singleton
 public class EntityManagerProvider implements Provider<EntityManager> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(EntityManagerProvider.class);
 
     private final String dataSourceName;
     private final String modelsJarUrlPattern;
@@ -178,7 +182,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
                 .map(this::createURL)
                 .filter(Objects::nonNull)
                 .toList();
-        } catch (final IOException ignore) {
+        } catch (final IOException ex) {
+            LOGGER.error("Can't create list of models Jar file URLs", ex);
         }
 
         return Collections.emptyList();
@@ -194,7 +199,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
         try {
             return new URL(urlAsString);
-        } catch (final MalformedURLException ignore) {
+        } catch (final MalformedURLException ex) {
+            LOGGER.error("Can't create URL", ex);
         }
 
         return null;

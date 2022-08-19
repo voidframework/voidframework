@@ -28,6 +28,7 @@ final class ConfigTemplateMethodModelTest {
 
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
+            voidframework.template.basePackagePath = "/views/"
             test.number = 42
             test.string = "Hello World!"
             test.object = {a:1337}

@@ -110,6 +110,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
                     inputStream = Files.newInputStream(fileLocation);
                     contentType = detectFileContentType(fileName);
                 } catch (final IOException ignore) {
+                    // This exception is not important, we continue the process as if nothing had happened
                 }
             }
         }

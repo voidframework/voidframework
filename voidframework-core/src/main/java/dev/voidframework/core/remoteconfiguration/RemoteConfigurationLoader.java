@@ -2,13 +2,12 @@ package dev.voidframework.core.remoteconfiguration;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import dev.voidframework.core.VoidApplication;
 import dev.voidframework.core.exception.RemoteConfigurationException;
 import dev.voidframework.core.helper.ClassResolver;
+import dev.voidframework.core.helper.IO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +99,7 @@ public final class RemoteConfigurationLoader {
                         },
                         fileObj -> {
                             fileObj.apply();
-                            finalizeFileConfigurationObject(fileObj);
+                            IO.closeWithoutException(fileObj);
                             storedFileCount.incrementAndGet();
                             if (LOGGER.isDebugEnabled()) {
                                 LOGGER.debug("[{}] Store {}", remoteConfigurationProvider.getName(), fileObj);
@@ -125,18 +124,5 @@ public final class RemoteConfigurationLoader {
         }
 
         return ConfigFactory.empty();
-    }
-
-    /**
-     * Finalizes a file configuration object.
-     *
-     * @param fileObj The file configuration object to finalize
-     */
-    private static void finalizeFileConfigurationObject(final FileCfgObject fileObj) {
-
-        try {
-            fileObj.close();
-        } catch (final IOException ignore) {
-        }
     }
 }

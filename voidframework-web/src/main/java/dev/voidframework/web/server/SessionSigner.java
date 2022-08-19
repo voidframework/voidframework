@@ -72,6 +72,7 @@ public final class SessionSigner {
 
             return new Session(sessionContent);
         } catch (final JWTVerificationException ignore) {
+            // This exception is not important, it simply means that the session has expired
         }
 
         return new Session();

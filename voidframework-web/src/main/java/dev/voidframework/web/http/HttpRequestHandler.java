@@ -169,7 +169,6 @@ public final class HttpRequestHandler {
             final FilterChain filterChain = new DefaultFilterChain(filterList);
             return filterChain.applyNext(context);
         } catch (final Throwable throwable) {
-            //final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
             final Result result = errorHandler.onServerError(context, throwable);
             result.getResultProcessor().process(context, configuration, templateRenderer);
             return result;

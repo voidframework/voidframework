@@ -1,6 +1,7 @@
 package dev.voidframework.web.server;
 
 import com.typesafe.config.Config;
+import dev.voidframework.core.helper.IO;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.lang.Either;
 import dev.voidframework.web.exception.HttpException;
@@ -23,7 +24,6 @@ import io.undertow.server.handlers.form.FormParserFactory;
 import io.undertow.server.handlers.form.MultiPartParserDefinition;
 import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
-import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -206,9 +206,10 @@ public class UndertowHttpHandler implements HttpHandler {
                     outputStream.flush();
                 }
             } catch (final Exception ignore) {
+                // This exception is not important
             } finally {
-                IOUtils.closeQuietly(outputStream);
-                IOUtils.closeQuietly(inputStream);
+                IO.closeWithoutException(outputStream);
+                IO.closeWithoutException(inputStream);
             }
         }
     }

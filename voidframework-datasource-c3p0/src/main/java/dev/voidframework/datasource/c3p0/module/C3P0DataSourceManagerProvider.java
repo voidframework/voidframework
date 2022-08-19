@@ -7,6 +7,8 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.typesafe.config.Config;
 import dev.voidframework.datasource.DataSourceManager;
 import dev.voidframework.exception.DataSourceException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
@@ -22,6 +24,8 @@ import java.util.stream.Collectors;
  */
 @Singleton
 public class C3P0DataSourceManagerProvider implements Provider<DataSourceManager> {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(C3P0DataSourceManagerProvider.class);
 
     private final Config configuration;
     private DataSourceManager dataSourceManager;
@@ -50,7 +54,8 @@ public class C3P0DataSourceManagerProvider implements Provider<DataSourceManager
         optionalHikariConfigToApplyMap.put("connectionTimeout", (c3p0Cfg, appCfg) -> {
             try {
                 c3p0Cfg.setLoginTimeout(appCfg.getInt("connectionTimeout") / 1000);
-            } catch (final SQLException ignore) {
+            } catch (final SQLException ex) {
+                LOGGER.warn("Can't set login timeout", ex);
             }
         });
         optionalHikariConfigToApplyMap.put("prepStmtCacheSize", (c3p0Cfg, appCfg) ->

@@ -14,6 +14,8 @@ import io.github.classgraph.MethodInfo;
 import io.github.classgraph.MethodInfoList;
 import io.github.classgraph.ScanResult;
 import io.github.classgraph.TypeArgument;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,6 +29,8 @@ import java.util.List;
  * Classpath scanner to fin classes to load.
  */
 public final class ClassesToLoadScanner {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClassesToLoadScanner.class);
 
     /**
      * Default constructor.
@@ -135,7 +139,8 @@ public final class ClassesToLoadScanner {
             final Output output = new Output(new FileOutputStream(outputFile));
             kryo.writeObject(output, scannedClassesToLoad);
             output.close();
-        } catch (final IOException ignore) {
+        } catch (final IOException ex) {
+            LOGGER.error("Can't save '" + outputDirectoryPath + "'", ex);
         }
     }
 

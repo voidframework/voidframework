@@ -253,6 +253,7 @@ public class VoidApplication {
                 return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8).trim();
             }
         } catch (final IOException ignore) {
+            // This exception is not important
         }
 
         return null;
