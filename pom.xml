@@ -69,7 +69,7 @@
         <dependency.version.logback>1.2.11</dependency.version.logback>
         <dependency.version.tika>2.4.1</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
-        <dependency.version.undertow>2.2.18.Final</dependency.version.undertow>
+        <dependency.version.undertow>2.2.19.Final</dependency.version.undertow>
 
         <!-- Unit Tests -->
         <dependency.version.h2>2.1.214</dependency.version.h2>
