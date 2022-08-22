@@ -202,6 +202,7 @@ public class DefaultErrorHandler implements ErrorHandler {
                 fileLineList.add(new FileLine(idx, readlineList.get(idx)));
             }
         } catch (final IOException ignore) {
+            // This exception is not important
         }
 
         return fileLineList;

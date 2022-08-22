@@ -3,6 +3,7 @@ package dev.voidframework.core;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.Stage;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.multibindings.Multibinder;
@@ -141,7 +142,7 @@ public class VoidApplication {
         };
 
         // Configure app components
-        final List<AbstractModule> appModuleList = new ArrayList<>();
+        final List<Module> appModuleList = new ArrayList<>();
         final List<String> disabledModuleList = configuration.getStringList("voidframework.core.disabledModules");
         for (final Class<?> moduleClass : scannedClassesToLoad.moduleList()) {
             if (disabledModuleList.contains(moduleClass.getName())) {
@@ -150,14 +151,8 @@ public class VoidApplication {
             }
 
             try {
-                AbstractModule appModule;
-                try {
-                    appModule = (AbstractModule) moduleClass.getDeclaredConstructor().newInstance();
-                } catch (final IllegalArgumentException | NoSuchMethodException ignore) {
-                    appModule = (AbstractModule) moduleClass.getDeclaredConstructor(Config.class).newInstance(configuration);
-                }
-
-                appModuleList.add(appModule);
+                final Module module = this.instantiateModule(configuration, moduleClass);
+                appModuleList.add(module);
             } catch (final InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
                 throw new AppLauncherException.ModuleInitFailure(moduleClass, ex);
             }
@@ -221,6 +216,30 @@ public class VoidApplication {
         if (this.lifeCycleManager != null) {
             this.lifeCycleManager.stopAll();
         }
+    }
+
+    /**
+     * Instantiates a specific Guice module.
+     *
+     * @param configuration   The application configuration
+     * @param moduleClassType The Guice module class type
+     * @return The instantiated Guice module
+     * @throws NoSuchMethodException     If a matching method is not found
+     * @throws InvocationTargetException If the underlying constructor throws an exception
+     * @throws InstantiationException    If the class that declares the underlying constructor represents an abstract class
+     * @throws IllegalAccessException    If this Constructor object is enforcing Java language access control and the underlying constructor is inaccessible
+     */
+    private Module instantiateModule(final Config configuration, final Class<?> moduleClassType)
+        throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+
+        Module module;
+        try {
+            module = (Module) moduleClassType.getDeclaredConstructor().newInstance();
+        } catch (final IllegalArgumentException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ignore) {
+            module = (Module) moduleClassType.getDeclaredConstructor(Config.class).newInstance(configuration);
+        }
+
+        return module;
     }
 
     /**

@@ -10,6 +10,7 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.redis.Redis;
+import dev.voidframework.redis.exception.RedisException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import redis.clients.jedis.Jedis;
@@ -501,7 +502,7 @@ public class DefaultRedis implements Redis {
             try {
                 data = block.call();
             } catch (final Exception ex) {
-                throw new RuntimeException(ex);
+                throw new RedisException.CallableFailure(ex);
             }
             this.set(key, writer, data, expiration);
         }

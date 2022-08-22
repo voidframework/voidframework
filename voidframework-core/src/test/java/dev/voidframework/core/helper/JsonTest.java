@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import dev.voidframework.core.exception.JsonException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -110,10 +111,13 @@ final class JsonTest {
         final byte[] jsonAsByteArray = "{\"hello: world\"}".getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final JsonNode jsonNode = Json.toJson(jsonAsByteArray);
+        final JsonException.ToJsonConversionFailure exception = Assertions.assertThrows(
+            JsonException.ToJsonConversionFailure.class,
+            () -> Json.toJson(jsonAsByteArray));
 
         // Assert
-        Assertions.assertNull(jsonNode);
+        Assertions.assertNotNull(exception);
+        Assertions.assertEquals("To JSON conversion failure", exception.getMessage());
     }
 
     @Test
@@ -137,10 +141,13 @@ final class JsonTest {
         final byte[] jsonAsByteArray = "{\"hello: world\"}".getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final SimpleDto simpleDto = Json.fromJson(jsonAsByteArray, SimpleDto.class);
+        final JsonException.FromJsonConversionFailure exception = Assertions.assertThrows(
+            JsonException.FromJsonConversionFailure.class,
+            () -> Json.fromJson(jsonAsByteArray, SimpleDto.class));
 
         // Assert
-        Assertions.assertNull(simpleDto);
+        Assertions.assertNotNull(exception);
+        Assertions.assertEquals("From JSON conversion failure", exception.getMessage());
     }
 
     @Test
@@ -164,10 +171,13 @@ final class JsonTest {
         final String jsonAsString = "{\"hello: world\"}";
 
         // Act
-        final SimpleDto simpleDto = Json.fromJson(jsonAsString, SimpleDto.class);
+        final JsonException.FromJsonConversionFailure exception = Assertions.assertThrows(
+            JsonException.FromJsonConversionFailure.class,
+            () -> Json.fromJson(jsonAsString, SimpleDto.class));
 
         // Assert
-        Assertions.assertNull(simpleDto);
+        Assertions.assertNotNull(exception);
+        Assertions.assertEquals("From JSON conversion failure", exception.getMessage());
     }
 
     @Test
@@ -193,10 +203,13 @@ final class JsonTest {
         objectNode.put("hello", "world");
 
         // Act
-        final SimpleDto simpleDto = Json.fromJson(objectNode, (Class<? extends SimpleDto>) null);
+        final JsonException.FromJsonConversionFailure exception = Assertions.assertThrows(
+            JsonException.FromJsonConversionFailure.class,
+            () -> Json.fromJson(objectNode, (Class<? extends SimpleDto>) null));
 
         // Assert
-        Assertions.assertNull(simpleDto);
+        Assertions.assertNotNull(exception);
+        Assertions.assertEquals("From JSON conversion failure", exception.getMessage());
     }
 
     @Test

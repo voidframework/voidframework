@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import dev.voidframework.core.exception.YamlException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -40,10 +41,13 @@ final class YamlTest {
             """.getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final SimpleDto simpleDto = Yaml.fromYaml(yamlAsByteArray, null);
+        final YamlException.FromYamlConversionFailure exception = Assertions.assertThrows(
+            YamlException.FromYamlConversionFailure.class,
+            () -> Yaml.fromYaml(yamlAsByteArray, null));
 
         // Assert
-        Assertions.assertNull(simpleDto);
+        Assertions.assertNotNull(exception);
+        Assertions.assertEquals("From YAML conversion failure", exception.getMessage());
     }
 
     @Test
@@ -69,10 +73,13 @@ final class YamlTest {
         objectNode.put("hello", "world!");
 
         // Act
-        final SimpleDto simpleDto = Yaml.fromYaml(objectNode, null);
+        final YamlException.FromYamlConversionFailure exception = Assertions.assertThrows(
+            YamlException.FromYamlConversionFailure.class,
+            () -> Yaml.fromYaml(objectNode, null));
 
         // Assert
-        Assertions.assertNull(simpleDto);
+        Assertions.assertNotNull(exception);
+        Assertions.assertEquals("From YAML conversion failure", exception.getMessage());
     }
 
     @Test

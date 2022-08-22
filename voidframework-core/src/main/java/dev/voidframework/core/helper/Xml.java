@@ -7,6 +7,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import dev.voidframework.core.exception.XmlException;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -60,11 +61,26 @@ public final class Xml {
                 .newTransformer()
                 .transform(new DOMSource(xml), new StreamResult(writer));
             writer.flush();
-        } catch (final TransformerException | IOException e) {
-            throw new RuntimeException(e);
+        } catch (final TransformerException | IOException ex) {
+            throw new XmlException.ToStringConversionFailure(ex);
         }
 
         return writer.toString();
+    }
+
+    /**
+     * Converts an object to XML document.
+     *
+     * @param obj Object to convert in YAML
+     * @return The string representation
+     */
+    public static String toString(final Object obj) {
+
+        try {
+            return OBJECT_MAPPER.writeValueAsString(obj);
+        } catch (final IllegalArgumentException | JsonProcessingException ex) {
+            throw new XmlException.ToStringConversionFailure(ex);
+        }
     }
 
     /**
@@ -79,8 +95,8 @@ public final class Xml {
 
         try {
             return OBJECT_MAPPER.readValue(toString(xml), outputClassType);
-        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ignore) {
-            return null;
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ex) {
+            throw new XmlException.FromXmlConversionFailure(ex);
         }
     }
 
@@ -94,10 +110,14 @@ public final class Xml {
      */
     public static <T> T fromXml(final byte[] xmlByteArray, final Class<T> outputClassType) {
 
+        if (xmlByteArray == null || xmlByteArray.length == 0) {
+            return null;
+        }
+
         try {
             return OBJECT_MAPPER.readValue(xmlByteArray, outputClassType);
-        } catch (final NullPointerException | IllegalArgumentException | IOException ignore) {
-            return null;
+        } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
+            throw new XmlException.FromXmlConversionFailure(ex);
         }
     }
 
@@ -120,8 +140,8 @@ public final class Xml {
 
             final InputStream inputStream = new ByteArrayInputStream(data);
             return builder.parse(inputStream);
-        } catch (final ParserConfigurationException | SAXException | IOException ignore) {
-            return null;
+        } catch (final ParserConfigurationException | SAXException | IOException ex) {
+            throw new XmlException.ToXmlConversionFailure(ex);
         }
     }
 }

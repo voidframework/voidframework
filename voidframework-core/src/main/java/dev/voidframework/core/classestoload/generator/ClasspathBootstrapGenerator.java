@@ -5,6 +5,7 @@ import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.core.classestoload.ClassesToLoadScanner;
 import dev.voidframework.core.classestoload.ScannedClassesToLoad;
+import dev.voidframework.core.exception.ClasspathBootstrapGeneratorException;
 
 import java.nio.file.Paths;
 import java.util.List;
@@ -22,7 +23,7 @@ public final class ClasspathBootstrapGenerator {
     public static void main(final String[] args) {
 
         if (args.length == 0) {
-            throw new RuntimeException("Output directory must be provided!");
+            throw new ClasspathBootstrapGeneratorException.MissingProgramArgument("Output directory must be provided!");
         }
 
         // Configuration

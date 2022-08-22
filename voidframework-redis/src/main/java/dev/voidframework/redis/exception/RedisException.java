@@ -41,4 +41,20 @@ public class RedisException extends RuntimeException {
             super("Redis configuration '" + configurationKey + "' is invalid");
         }
     }
+
+    /**
+     * Exception indicates that something goes wrong during callable call.
+     */
+    public static class CallableFailure extends RedisException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param cause The cause
+         */
+        public CallableFailure(final Throwable cause) {
+
+            super("CallableFailure: " + cause.getMessage(), cause);
+        }
+    }
 }

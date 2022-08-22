@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import dev.voidframework.core.exception.JsonException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -44,8 +45,23 @@ public final class Json {
         try {
             final ObjectWriter writer = OBJECT_MAPPER.writer();
             return writer.writeValueAsString(json);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
+        } catch (final IOException ex) {
+            throw new JsonException.ToStringConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a JSON to string.
+     *
+     * @param obj Object to convert in JSON.
+     * @return The string representation.
+     */
+    public static String toString(final Object obj) {
+
+        try {
+            return OBJECT_MAPPER.writeValueAsString(obj);
+        } catch (final IOException ex) {
+            throw new JsonException.ToStringConversionFailure(ex);
         }
     }
 
@@ -59,8 +75,8 @@ public final class Json {
 
         try {
             return OBJECT_MAPPER.valueToTree(obj);
-        } catch (final IllegalArgumentException e) {
-            throw new RuntimeException(e);
+        } catch (final Exception ex) {
+            throw new JsonException.ToJsonConversionFailure(ex);
         }
     }
 
@@ -74,8 +90,8 @@ public final class Json {
 
         try {
             return OBJECT_MAPPER.readTree(data);
-        } catch (final IllegalArgumentException | IOException ignore) {
-            return null;
+        } catch (final Exception ex) {
+            throw new JsonException.ToJsonConversionFailure(ex);
         }
     }
 
@@ -91,8 +107,8 @@ public final class Json {
 
         try {
             return OBJECT_MAPPER.treeToValue(json, outputClassType);
-        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ignore) {
-            return null;
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ex) {
+            throw new JsonException.FromJsonConversionFailure(ex);
         }
     }
 
@@ -106,10 +122,14 @@ public final class Json {
      */
     public static <T> T fromJson(final byte[] jsonByteArray, final Class<T> outputClassType) {
 
+        if (jsonByteArray == null || jsonByteArray.length == 0) {
+            return null;
+        }
+
         try {
             return OBJECT_MAPPER.readValue(jsonByteArray, outputClassType);
-        } catch (final NullPointerException | IOException | IllegalArgumentException ignore) {
-            return null;
+        } catch (final NullPointerException | IOException | IllegalArgumentException ex) {
+            throw new JsonException.FromJsonConversionFailure(ex);
         }
     }
 
@@ -125,8 +145,8 @@ public final class Json {
 
         try {
             return OBJECT_MAPPER.readValue(json, outputClassType);
-        } catch (final NullPointerException | IOException | IllegalArgumentException ignore) {
-            return null;
+        } catch (final NullPointerException | IOException | IllegalArgumentException ex) {
+            throw new JsonException.FromJsonConversionFailure(ex);
         }
     }
 

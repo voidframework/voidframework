@@ -11,6 +11,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import dev.voidframework.core.exception.YamlException;
 
 import java.io.IOException;
 
@@ -47,8 +48,8 @@ public final class Yaml {
         try {
             final ObjectWriter writer = OBJECT_MAPPER.writer();
             return writer.writeValueAsString(yaml);
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
+        } catch (final IOException ex) {
+            throw new YamlException.ToStringConversionFailure(ex);
         }
     }
 
@@ -56,14 +57,14 @@ public final class Yaml {
      * Converts an object to YAML document.
      *
      * @param obj Object to convert in YAML
-     * @return The YAML node
+     * @return The string representation
      */
     public static String toString(final Object obj) {
 
         try {
             return OBJECT_MAPPER.writeValueAsString(obj);
-        } catch (final IllegalArgumentException | JsonProcessingException e) {
-            throw new RuntimeException(e);
+        } catch (final IllegalArgumentException | JsonProcessingException ex) {
+            throw new YamlException.ToStringConversionFailure(ex);
         }
     }
 
@@ -77,8 +78,8 @@ public final class Yaml {
 
         try {
             return OBJECT_MAPPER.readTree(data);
-        } catch (final IllegalArgumentException | IOException ignore) {
-            return null;
+        } catch (final IllegalArgumentException | IOException ex) {
+            throw new YamlException.ToYamlConversionFailure(ex);
         }
     }
 
@@ -94,8 +95,8 @@ public final class Yaml {
 
         try {
             return OBJECT_MAPPER.treeToValue(yaml, outputClassType);
-        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ignore) {
-            return null;
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ex) {
+            throw new YamlException.FromYamlConversionFailure(ex);
         }
     }
 
@@ -109,10 +110,14 @@ public final class Yaml {
      */
     public static <T> T fromYaml(final byte[] yamlByteArray, final Class<T> outputClassType) {
 
+        if (yamlByteArray == null || yamlByteArray.length == 0) {
+            return null;
+        }
+
         try {
             return OBJECT_MAPPER.readValue(yamlByteArray, outputClassType);
-        } catch (final NullPointerException | IllegalArgumentException | IOException ignore) {
-            return null;
+        } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
+            throw new YamlException.FromYamlConversionFailure(ex);
         }
     }
 }

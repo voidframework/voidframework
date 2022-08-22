@@ -1,6 +1,7 @@
 package dev.voidframework.core.classestoload;
 
 import dev.voidframework.core.classestoload.generator.ClasspathBootstrapGenerator;
+import dev.voidframework.core.exception.ClasspathBootstrapGeneratorException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -39,12 +40,12 @@ final class ClasspathBootstrapGeneratorTest {
         final String[] args = new String[]{};
 
         // Act
-        final RuntimeException exception = Assertions.assertThrows(
-            RuntimeException.class,
+        final ClasspathBootstrapGeneratorException.MissingProgramArgument exception = Assertions.assertThrows(
+            ClasspathBootstrapGeneratorException.MissingProgramArgument.class,
             () -> ClasspathBootstrapGenerator.main(args));
 
         // Assert
         Assertions.assertNotNull(exception);
-        Assertions.assertEquals("Output directory must be provided!", exception.getMessage());
+        Assertions.assertEquals("Missing argument: Output directory must be provided!", exception.getMessage());
     }
 }
