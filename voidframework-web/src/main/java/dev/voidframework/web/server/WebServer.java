@@ -47,6 +47,16 @@ public class WebServer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServer.class);
 
+    private static final String CONFIGURATION_KEY_ERROR_HANDLER = "voidframework.web.errorHandler";
+    private static final String CONFIGURATION_KEY_GLOBAL_FILTERS = "voidframework.web.globalFilters";
+    private static final String CONFIGURATION_KEY_ROUTES = "voidframework.web.routes";
+    private static final String CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT = "voidframework.web.gracefulStopTimeout";
+    private static final String CONFIGURATION_KEY_MAX_REQUEST_BODY_SIZE = "voidframework.web.server.maxBodySize";
+    private static final String CONFIGURATION_KEY_LISTEN_PORT = "voidframework.web.server.listenPort";
+    private static final String CONFIGURATION_KEY_LISTEN_HOST = "voidframework.web.server.listenHost";
+    private static final String CONFIGURATION_KEY_NUMBER_IO_THREADS = "voidframework.web.server.ioThreads";
+    private static final String CONFIGURATION_KEY_NUMBER_WORKER_THREADS = "voidframework.web.server.workerThreads";
+
     private final Config configuration;
     private final Injector injector;
 
@@ -82,7 +92,7 @@ public class WebServer {
         }
 
         // Instantiate the error handler
-        final String errorHandlerClassName = configuration.getString("voidframework.web.errorHandler");
+        final String errorHandlerClassName = configuration.getString(CONFIGURATION_KEY_ERROR_HANDLER);
         final Class<?> errorHandlerClass = ClassResolver.forName(errorHandlerClassName);
         if (errorHandlerClass == null) {
             throw new ErrorHandlerException.ClassNotFound(errorHandlerClassName);
@@ -102,8 +112,8 @@ public class WebServer {
 
         // Retrieves global filters
         final List<Class<? extends Filter>> globalFilterList = new ArrayList<>();
-        if (this.configuration.hasPath("voidframework.web.globalFilters")) {
-            for (final String filterName : this.configuration.getStringList("voidframework.web.globalFilters")) {
+        if (this.configuration.hasPath(CONFIGURATION_KEY_GLOBAL_FILTERS)) {
+            for (final String filterName : this.configuration.getStringList(CONFIGURATION_KEY_GLOBAL_FILTERS)) {
                 final Class<? extends Filter> filterClass = ClassResolver.forName(filterName);
                 if (filterClass == null) {
                     throw new FilterException.LoadFailure(filterName);
@@ -130,8 +140,8 @@ public class WebServer {
 
         // Load custom routes
         final Router router = this.injector.getInstance(Router.class);
-        if (this.configuration.hasPath("voidframework.web.routes")) {
-            this.configuration.getStringList("voidframework.web.routes")
+        if (this.configuration.hasPath(CONFIGURATION_KEY_ROUTES)) {
+            this.configuration.getStringList(CONFIGURATION_KEY_ROUTES)
                 .stream()
                 .filter(StringUtils::isNotEmpty)
                 .forEach(appRoutesDefinitionClassName -> {
@@ -158,22 +168,28 @@ public class WebServer {
 
         // Configure Undertow
         final Undertow.Builder undertowBuilder = Undertow.builder()
-            .setServerOption(UndertowOptions.SHUTDOWN_TIMEOUT, this.configuration.getInt("voidframework.web.gracefulStopTimeout"))
-            .setServerOption(UndertowOptions.MULTIPART_MAX_ENTITY_SIZE, this.configuration.getMemorySize("voidframework.web.server.maxBodySize").toBytes())
-            .setServerOption(UndertowOptions.MAX_ENTITY_SIZE, this.configuration.getMemorySize("voidframework.web.server.maxBodySize").toBytes())
+            .setServerOption(
+                UndertowOptions.SHUTDOWN_TIMEOUT,
+                this.configuration.getInt(CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT))
+            .setServerOption(
+                UndertowOptions.MULTIPART_MAX_ENTITY_SIZE,
+                this.configuration.getMemorySize(CONFIGURATION_KEY_MAX_REQUEST_BODY_SIZE).toBytes())
+            .setServerOption(
+                UndertowOptions.MAX_ENTITY_SIZE,
+                this.configuration.getMemorySize(CONFIGURATION_KEY_MAX_REQUEST_BODY_SIZE).toBytes())
             .addHttpListener(
-                configuration.getInt("voidframework.web.server.listenPort"),
-                configuration.getString("voidframework.web.server.listenHost"))
+                configuration.getInt(CONFIGURATION_KEY_LISTEN_PORT),
+                configuration.getString(CONFIGURATION_KEY_LISTEN_HOST))
             .setHandler(httpServerExchange -> httpServerExchange.dispatch(httpHandler));
 
-        if (this.configuration.hasPath("voidframework.web.server.ioThreads")
-            && this.configuration.getInt("voidframework.web.server.ioThreads") > 0) {
-            undertowBuilder.setIoThreads(this.configuration.getInt("voidframework.web.server.ioThreads"));
+        if (this.configuration.hasPath(CONFIGURATION_KEY_NUMBER_IO_THREADS)
+            && this.configuration.getInt(CONFIGURATION_KEY_NUMBER_IO_THREADS) > 0) {
+            undertowBuilder.setIoThreads(this.configuration.getInt(CONFIGURATION_KEY_NUMBER_IO_THREADS));
         }
 
-        if (this.configuration.hasPath("voidframework.web.server.workerThreads")
-            && this.configuration.getInt("voidframework.web.server.workerThreads") > 0) {
-            undertowBuilder.setWorkerThreads(this.configuration.getInt("voidframework.web.server.workerThreads"));
+        if (this.configuration.hasPath(CONFIGURATION_KEY_NUMBER_WORKER_THREADS)
+            && this.configuration.getInt(CONFIGURATION_KEY_NUMBER_WORKER_THREADS) > 0) {
+            undertowBuilder.setWorkerThreads(this.configuration.getInt(CONFIGURATION_KEY_NUMBER_WORKER_THREADS));
         }
 
         this.undertowServer = undertowBuilder.build();
@@ -192,7 +208,7 @@ public class WebServer {
     /**
      * Stop the web server.
      */
-    @LifeCycleStop(gracefulStopTimeoutConfigKey = "voidframework.web.gracefulStopTimeout")
+    @LifeCycleStop(gracefulStopTimeoutConfigKey = CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT)
     @SuppressWarnings("unused")
     public void stopWebServer() {
 

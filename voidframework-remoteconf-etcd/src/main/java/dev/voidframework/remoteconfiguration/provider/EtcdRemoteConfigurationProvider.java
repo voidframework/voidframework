@@ -25,6 +25,17 @@ import java.util.function.Consumer;
  */
 public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfigurationProvider {
 
+    private static final String CONFIGURATION_KEY_ENDPOINT = "endpoint";
+    private static final String CONFIGURATION_KEY_PREFIX = "prefix";
+    private static final String CONFIGURATION_KEY_USERNAME = "username";
+    private static final String CONFIGURATION_KEY_PASSWORD = "password";
+
+    private static final String JSON_FIELD_NODE = "node";
+    private static final String JSON_FIELD_NODES = "nodes";
+    private static final String JSON_FIELD_IS_DIRECTORY = "dir";
+    private static final String JSON_FIELD_DATA_KEY = "key";
+    private static final String JSON_FIELD_DATA_VALUE = "value";
+
     @Override
     public String getName() {
 
@@ -42,16 +53,16 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
                                   final Consumer<KeyValueCfgObject> keyValueObjConsumer,
                                   final Consumer<FileCfgObject> fileObjConsumer) throws RemoteConfigurationException {
 
-        String etcdEndpoint = configuration.getString("endpoint");
-        String etcdPrefix = configuration.getString("prefix");
+        String etcdEndpoint = configuration.getString(CONFIGURATION_KEY_ENDPOINT);
+        String etcdPrefix = configuration.getString(CONFIGURATION_KEY_PREFIX);
 
         // Quick check of vital configuration keys
         if (etcdEndpoint == null) {
-            throw new ConfigException.BadValue(configuration.origin(), "endpoint", "Could not be null");
+            throw new ConfigException.BadValue(configuration.origin(), CONFIGURATION_KEY_ENDPOINT, "Could not be null");
         } else if (!etcdEndpoint.startsWith("http")) {
-            throw new ConfigException.BadValue(configuration.origin(), "endpoint", "Must start with http:// or https://");
+            throw new ConfigException.BadValue(configuration.origin(), CONFIGURATION_KEY_ENDPOINT, "Must start with http:// or https://");
         } else if (etcdPrefix == null) {
-            throw new ConfigException.BadValue(configuration.origin(), "prefix", "Could not be null");
+            throw new ConfigException.BadValue(configuration.origin(), CONFIGURATION_KEY_PREFIX, "Could not be null");
         }
 
         // Normalize configuration values
@@ -74,10 +85,10 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
             conn.setConnectTimeout(5000);
             conn.setReadTimeout(5000);
 
-            if (configuration.hasPath("username")
-                && configuration.hasPath("password")) {
-                final String username = configuration.getString("username");
-                final String password = configuration.getString("password");
+            if (configuration.hasPath(CONFIGURATION_KEY_USERNAME)
+                && configuration.hasPath(CONFIGURATION_KEY_PASSWORD)) {
+                final String username = configuration.getString(CONFIGURATION_KEY_USERNAME);
+                final String password = configuration.getString(CONFIGURATION_KEY_PASSWORD);
                 if (!username.isEmpty()) {
                     final String basicAuth = "Basic " + Base64.getEncoder().encodeToString(
                         (username + ":" + password).getBytes()
@@ -89,20 +100,20 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
             if (conn.getResponseCode() / 100 == 2) {
                 is = conn.getInputStream();
                 final ObjectMapper mapper = new ObjectMapper();
-                JsonNode jsonNode = mapper.readTree(is).get("node");
-                if (jsonNode.get("dir").asBoolean()) {
-                    jsonNode = jsonNode.get("nodes");
+                JsonNode jsonNode = mapper.readTree(is).get(JSON_FIELD_NODE);
+                if (jsonNode.get(JSON_FIELD_IS_DIRECTORY).asBoolean()) {
+                    jsonNode = jsonNode.get(JSON_FIELD_NODES);
 
                     // Explore Json
                     this.exploreJsonNode(etcdPrefix, jsonNode, keyValueObjConsumer, fileObjConsumer);
                 } else {
-                    throw new ConfigException.BadValue("prefix", "Must reference a directory");
+                    throw new ConfigException.BadValue(CONFIGURATION_KEY_PREFIX, "Must reference a directory");
                 }
             } else {
                 throw new ProviderException("Return non 200 status: " + conn.getResponseCode());
             }
         } catch (final MalformedURLException ex) {
-            throw new ConfigException.BadValue("endpoint", ex.getMessage());
+            throw new ConfigException.BadValue(CONFIGURATION_KEY_ENDPOINT, ex.getMessage());
         } catch (final IOException ex) {
             throw new ProviderException("Can't connect to the provider", ex);
         } finally {
@@ -126,33 +137,33 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
         for (final JsonNode entry : jsonNode) {
 
             // Check if current node is a directory
-            if (entry.hasNonNull("dir") && entry.get("dir").asBoolean()) {
-                this.exploreJsonNode(prefix, entry.get("nodes"), keyValueObjConsumer, fileObjConsumer);
-            } else if (entry.hasNonNull("value")) {
+            if (entry.hasNonNull(JSON_FIELD_IS_DIRECTORY) && entry.get(JSON_FIELD_IS_DIRECTORY).asBoolean()) {
+                this.exploreJsonNode(prefix, entry.get(JSON_FIELD_NODES), keyValueObjConsumer, fileObjConsumer);
+            } else if (entry.hasNonNull(JSON_FIELD_DATA_VALUE)) {
 
                 // Process current configuration object
                 final String cfgKey;
                 if (prefix.isEmpty()) {
                     cfgKey = RegExUtils.removeFirst(
-                            entry.get("key").asText(),
+                            entry.get(JSON_FIELD_DATA_KEY).asText(),
                             "/")
                         .replace("/", ".");
                 } else {
-                    cfgKey = entry.get("key")
+                    cfgKey = entry.get(JSON_FIELD_DATA_KEY)
                         .asText()
                         .replace("/" + prefix + "/", "")
                         .replace("/", ".");
                 }
 
                 // Check if current configuration object is a file
-                if (isFile(entry.get("value").asText())) {
+                if (isFile(entry.get(JSON_FIELD_DATA_VALUE).asText())) {
                     fileObjConsumer.accept(
-                        new FileCfgObject(cfgKey, entry.get("value").asText()));
+                        new FileCfgObject(cfgKey, entry.get(JSON_FIELD_DATA_VALUE).asText()));
                 } else {
 
                     // Standard configuration value
                     keyValueObjConsumer.accept(
-                        new KeyValueCfgObject(cfgKey, entry.get("value").asText()));
+                        new KeyValueCfgObject(cfgKey, entry.get(JSON_FIELD_DATA_VALUE).asText()));
                 }
             }
         }

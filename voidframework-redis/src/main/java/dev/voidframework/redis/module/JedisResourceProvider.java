@@ -22,6 +22,15 @@ public class JedisResourceProvider implements Provider<Jedis> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JedisResourceProvider.class);
 
+    private static final String CONFIGURATION_KEY_CONNECTION_POOL_MINIMUM_IDLE = "voidframework.redis.connPool.minimumIdle";
+    private static final String CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_IDLE = "voidframework.redis.connPool.maximumIdle";
+    private static final String CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_SIZE = "voidframework.redis.connPool.maximumPoolSize";
+    private static final String CONFIGURATION_KEY_CONNECTION_POOL_CONNECTION_TIMEOUT = "voidframework.redis.connPool.connectionTimeout";
+    private static final String CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_WAIT = "voidframework.redis.connPool.maximumWait";
+    private static final String CONFIGURATION_KEY_HOST = "voidframework.redis.host";
+    private static final String CONFIGURATION_KEY_PORT = "voidframework.redis.port";
+    private static final String CONFIGURATION_KEY_PASSWORD = "voidframework.redis.password";
+
     private final Config configuration;
 
     private JedisPool jedisPool;
@@ -42,32 +51,32 @@ public class JedisResourceProvider implements Provider<Jedis> {
 
         if (this.jedisPool == null) {
             // Retrieve configuration
-            final int poolMinIdle = this.configuration.getInt("voidframework.redis.connPool.minimumIdle");
-            final int poolMaxIdle = this.configuration.getInt("voidframework.redis.connPool.maximumIdle");
-            final int poolMaxTotal = this.configuration.getInt("voidframework.redis.connPool.maximumPoolSize");
-            final int connectionTimeout = this.configuration.getInt("voidframework.redis.connPool.connectionTimeout");
-            final Duration maximumWait = this.configuration.getDuration("voidframework.redis.connPool.maximumWait");
-            final String host = this.configuration.getString("voidframework.redis.host");
-            final int port = this.configuration.getInt("voidframework.redis.port");
-            final String password = this.configuration.getString("voidframework.redis.password");
+            final int poolMinIdle = this.configuration.getInt(CONFIGURATION_KEY_CONNECTION_POOL_MINIMUM_IDLE);
+            final int poolMaxIdle = this.configuration.getInt(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_IDLE);
+            final int poolMaxTotal = this.configuration.getInt(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_SIZE);
+            final int connectionTimeout = this.configuration.getInt(CONFIGURATION_KEY_CONNECTION_POOL_CONNECTION_TIMEOUT);
+            final Duration maximumWait = this.configuration.getDuration(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_WAIT);
+            final String host = this.configuration.getString(CONFIGURATION_KEY_HOST);
+            final int port = this.configuration.getInt(CONFIGURATION_KEY_PORT);
+            final String password = this.configuration.getString(CONFIGURATION_KEY_PASSWORD);
 
             // Check configuration
             if (poolMinIdle < 0) {
-                throw new RedisException.InvalidConfiguration("voidframework.redis.connPool.minimumIdle");
+                throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_CONNECTION_POOL_MINIMUM_IDLE);
             } else if (poolMaxIdle < 0) {
-                throw new RedisException.InvalidConfiguration("voidframework.redis.connPool.maximumIdle");
+                throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_IDLE);
             } else if (poolMaxTotal < 0) {
-                throw new RedisException.InvalidConfiguration("voidframework.redis.connPool.maximumPoolSize");
+                throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_SIZE);
             } else if (poolMinIdle > poolMaxIdle) {
-                throw new RedisException.InvalidConfiguration("voidframework.redis.connPool.minimumIdle");
+                throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_CONNECTION_POOL_MINIMUM_IDLE);
             } else if (poolMaxIdle > poolMaxTotal) {
-                throw new RedisException.InvalidConfiguration("voidframework.redis.connPool.maximumIdle");
-            } else if (host.isBlank()) {
-                throw new RedisException.InvalidConfiguration("voidframework.redis.host");
-            } else if (port <= 0) {
-                throw new RedisException.InvalidConfiguration("voidframework.redis.port");
+                throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_IDLE);
+            } else if (StringUtils.isBlank(host)) {
+                throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_HOST);
+            } else if (port <= 0 || port > 65535) {
+                throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_PORT);
             } else if (connectionTimeout <= 0) {
-                throw new RedisException.InvalidConfiguration("voidframework.redis.connPool.connectionTimeout");
+                throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_CONNECTION_POOL_CONNECTION_TIMEOUT);
             }
 
             // Configure Jedis
@@ -84,10 +93,7 @@ public class JedisResourceProvider implements Provider<Jedis> {
             }
 
             // Ready!
-            LOGGER.info(
-                "Redis connected to redis://{}:{}",
-                this.configuration.getString("voidframework.redis.host"),
-                this.configuration.getInt("voidframework.redis.port"));
+            LOGGER.info("Redis connected to redis://{}:{}", host, port);
         }
 
         return this.jedisPool.getResource();

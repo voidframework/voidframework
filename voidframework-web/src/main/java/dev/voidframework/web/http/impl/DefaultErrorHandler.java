@@ -33,6 +33,8 @@ public class DefaultErrorHandler implements ErrorHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultErrorHandler.class);
 
+    private static final String CONFIGURATION_KEY_RUN_IN_DEVELOPMENT_MODE = "voidframework.core.runInDevMode";
+
     private final Config configuration;
     private final Router router;
 
@@ -52,7 +54,7 @@ public class DefaultErrorHandler implements ErrorHandler {
     @Override
     public Result onBadRequest(final Context context, final HttpException.BadRequest badRequestException) {
 
-        if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
+        if (this.configuration.getBoolean(CONFIGURATION_KEY_RUN_IN_DEVELOPMENT_MODE)) {
             final Throwable cause = (badRequestException == null || badRequestException.getCause() == null)
                 ? badRequestException
                 : badRequestException.getCause();
@@ -70,7 +72,7 @@ public class DefaultErrorHandler implements ErrorHandler {
     @Override
     public Result onNotFound(final Context context, final HttpException.NotFound notFoundException) {
 
-        if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
+        if (this.configuration.getBoolean(CONFIGURATION_KEY_RUN_IN_DEVELOPMENT_MODE)) {
             return Result.notFound(
                 DevMode404NotFound.render(
                     context.getRequest().getHttpMethod(),
@@ -86,7 +88,7 @@ public class DefaultErrorHandler implements ErrorHandler {
 
         LOGGER.error("Something goes wrong", throwable);
 
-        if (this.configuration.getBoolean("voidframework.core.runInDevMode")) {
+        if (this.configuration.getBoolean(CONFIGURATION_KEY_RUN_IN_DEVELOPMENT_MODE)) {
             Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
 
             final String subHeaderError;

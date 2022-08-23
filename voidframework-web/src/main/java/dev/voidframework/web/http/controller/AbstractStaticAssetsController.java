@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 /**
  * Abstraction to facilitate the use of static and webjar assets.
  */
-public abstract class AbstractStaticAssetsController implements HttpContentType {
+public abstract class AbstractStaticAssetsController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractStaticAssetsController.class);
 
@@ -54,6 +54,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      */
     @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/webjars/(?<fileName>.*)")
+    @SuppressWarnings("unused")
     public Result webjarAsset(@RequestPath("fileName") final String fileName) {
 
         if (StringUtils.isBlank(fileName) || fileName.contains("..")) {
@@ -79,6 +80,7 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
      */
     @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/(favicon.ico|robots.txt)")
+    @SuppressWarnings("unused")
     public Result staticAsset(final Context context) {
 
         return staticAsset(context.getRequest().getRequestURI());
@@ -146,8 +148,8 @@ public abstract class AbstractStaticAssetsController implements HttpContentType 
         String contentType = tika.detect(fileName);
 
         if (contentType == null) {
-            LOGGER.warn("Can't determine Content-Type for '{}', defaulting to '{}'", fileName, APPLICATION_OCTET_STREAM);
-            contentType = APPLICATION_OCTET_STREAM;
+            LOGGER.warn("Can't determine Content-Type for '{}', defaulting to '{}'", fileName, HttpContentType.APPLICATION_OCTET_STREAM);
+            contentType = HttpContentType.APPLICATION_OCTET_STREAM;
         }
 
         return contentType;

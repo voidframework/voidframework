@@ -10,9 +10,11 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import dev.voidframework.web.http.Session;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Date;
@@ -28,7 +30,7 @@ public final class SessionSigner {
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionSigner.class);
     private static final List<String> SESSION_INTERNAL_KEY_LIST = Arrays.asList("exp", "iat", "nbf");
 
-    private final Config configuration;
+    private final SessionSignerConfiguration sessionSignerConfiguration;
     private final JWTVerifier verifier;
 
     /**
@@ -38,15 +40,17 @@ public final class SessionSigner {
      */
     public SessionSigner(final Config configuration) {
 
-        this.configuration = configuration;
+        this.sessionSignerConfiguration = new SessionSignerConfiguration(
+            configuration.getString("voidframework.web.session.signatureKey"),
+            configuration.getDuration("voidframework.web.session.timeToLive"));
 
-        final String signatureKey = this.configuration.getString("voidframework.web.session.signatureKey");
-        if (signatureKey.equalsIgnoreCase("changeme") || signatureKey.isBlank()) {
+        if (this.sessionSignerConfiguration.signatureKey.equalsIgnoreCase("changeme")
+            || StringUtils.isBlank(this.sessionSignerConfiguration.signatureKey)) {
             throw new ConfigException.BadValue("voidframework.web.session.signatureKey", "Please configure the Session signature Key");
         }
 
         final JWTVerifier.BaseVerification verification = (JWTVerifier.BaseVerification)
-            JWT.require(Algorithm.HMAC256(signatureKey))
+            JWT.require(Algorithm.HMAC256(this.sessionSignerConfiguration.signatureKey))
                 .acceptLeeway(5)
                 .acceptExpiresAt(5);
         this.verifier = verification.build();
@@ -89,17 +93,27 @@ public final class SessionSigner {
         try {
             final Instant instantUtc = Instant.now();
             final Date dateNowUtc = Date.from(instantUtc);
-            final Date dateExpirationUtc = Date.from(instantUtc.plus(this.configuration.getDuration("voidframework.web.session.timeToLive")));
+            final Date dateExpirationUtc = Date.from(instantUtc.plus(this.sessionSignerConfiguration.timeToLive));
 
             return JWT.create()
                 .withIssuedAt(dateNowUtc)
                 .withNotBefore(dateNowUtc)
                 .withExpiresAt(dateExpirationUtc)
                 .withPayload(session)
-                .sign(Algorithm.HMAC256(this.configuration.getString("voidframework.web.session.signatureKey")));
+                .sign(Algorithm.HMAC256(this.sessionSignerConfiguration.signatureKey));
         } catch (final IllegalArgumentException | JWTCreationException exception) {
             LOGGER.error("Can't sign session", exception);
             return null;
         }
+    }
+
+    /**
+     * Session signer configuration.
+     *
+     * @param signatureKey The key to be used to sign the session data
+     * @param timeToLive   The maximum lifetime allowed for a session
+     */
+    private record SessionSignerConfiguration(String signatureKey,
+                                              Duration timeToLive) {
     }
 }

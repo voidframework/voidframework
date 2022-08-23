@@ -20,6 +20,9 @@ public final class RemoteConfigurationLoader {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RemoteConfigurationLoader.class);
 
+    private static final String CONFIGURATION_KEY_REGISTERED_PROVIDERS = "voidframework.core.remoteConfiguration.providers";
+    private static final String PREFIX_CONFIGURATION_KEY_SINGLE_PROVIDER_CFG = "voidframework.core.remoteConfiguration.";
+
     /**
      * Default constructor.
      */
@@ -37,19 +40,18 @@ public final class RemoteConfigurationLoader {
     public static Config processAllProviders(final Config localConfiguration) {
 
         final List<String> providerClassPathList = new ArrayList<>();
-        if (localConfiguration.hasPath("voidframework.core.remoteConfiguration.providers")) {
-            switch (localConfiguration.getValue("voidframework.core.remoteConfiguration.providers").valueType()) {
+        if (localConfiguration.hasPath(CONFIGURATION_KEY_REGISTERED_PROVIDERS)) {
+            switch (localConfiguration.getValue(CONFIGURATION_KEY_REGISTERED_PROVIDERS).valueType()) {
                 case LIST -> providerClassPathList.addAll(
                     localConfiguration
-                        .getStringList("voidframework.core.remoteConfiguration.providers")
+                        .getStringList(CONFIGURATION_KEY_REGISTERED_PROVIDERS)
                         .stream()
                         .map(String::trim)
                         .filter(classpath -> !classpath.isEmpty())
                         .toList()
                 );
                 case STRING -> {
-                    String cleanedClassPath = localConfiguration
-                        .getString("voidframework.core.remoteConfiguration.providers");
+                    String cleanedClassPath = localConfiguration.getString(CONFIGURATION_KEY_REGISTERED_PROVIDERS);
                     cleanedClassPath = cleanedClassPath.replaceAll("[\\[\\]\"' ]", "");
 
                     if (!cleanedClassPath.isEmpty()) {
@@ -82,7 +84,7 @@ public final class RemoteConfigurationLoader {
                         .newInstance();
 
                     final Config providerConfiguration = localConfiguration.getConfig(
-                        "voidframework.core.remoteConfiguration." + remoteConfigurationProvider.getConfigurationObjectName());
+                        PREFIX_CONFIGURATION_KEY_SINGLE_PROVIDER_CFG + remoteConfigurationProvider.getConfigurationObjectName());
                     if (providerConfiguration == null) {
                         // The current provider is not configured, continue to the next one
                         continue;

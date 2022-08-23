@@ -27,6 +27,15 @@ import java.util.function.Consumer;
  */
 public class HttpRemoteConfigurationProvider extends AbstractRemoteConfigurationProvider {
 
+    private static final String CONFIGURATION_KEY_ENDPOINT = "endpoint";
+    private static final String CONFIGURATION_KEY_METHOD = "method";
+    private static final String CONFIGURATION_KEY_USERNAME = "username";
+    private static final String CONFIGURATION_KEY_PASSWORD = "password";
+
+    private static final String USER_AGENT = "VoidFramework-RemoteConf-Provider";
+    private static final int CONNECTION_TIMEOUT = 5000;
+    private static final int READ_TIMEOUT = 5000;
+
     @Override
     public String getName() {
 
@@ -65,21 +74,21 @@ public class HttpRemoteConfigurationProvider extends AbstractRemoteConfiguration
         } catch (final ConfigException ex2) {
             if (ex2.getCause() != null) {
                 throw new ConfigException.BadPath(
-                    configuration.getString("endpoint"),
+                    configuration.getString(CONFIGURATION_KEY_ENDPOINT),
                     ex2.getCause().getClass().getName(),
                     ex2.getCause());
             } else {
                 throw new ConfigException.ValidationFailed(
                     Collections.singletonList(
                         new ConfigException.ValidationProblem(
-                            configuration.getString("endpoint"),
+                            configuration.getString(CONFIGURATION_KEY_ENDPOINT),
                             ex2.origin(),
                             ex2.getMessage())
                     )
                 );
             }
         } catch (final MalformedURLException | UnknownHostException ex) {
-            throw new ConfigException.BadValue("endpoint", ex.getMessage());
+            throw new ConfigException.BadValue(CONFIGURATION_KEY_ENDPOINT, ex.getMessage());
         } catch (final IOException ex) {
             throw new ConfigException.IO(configuration.origin(), ex.getMessage());
         }
@@ -95,24 +104,24 @@ public class HttpRemoteConfigurationProvider extends AbstractRemoteConfiguration
      */
     private String fetchRemoteConfiguration(final Config configuration) throws IOException {
 
-        final URL url = new URL(configuration.getString("endpoint"));
+        final URL url = new URL(configuration.getString(CONFIGURATION_KEY_ENDPOINT));
         final HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
 
-        if (configuration.hasPath("username")) {
-            final String auth = configuration.getString("username") + ":" + configuration.getString("password");
+        if (configuration.hasPath(CONFIGURATION_KEY_USERNAME)) {
+            final String auth = configuration.getString(CONFIGURATION_KEY_USERNAME) + ":" + configuration.getString(CONFIGURATION_KEY_PASSWORD);
             final byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
             httpConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuth));
         }
 
-        final String httpMethod = configuration.getString("method").trim().toUpperCase(Locale.ENGLISH);
+        final String httpMethod = configuration.getString(CONFIGURATION_KEY_METHOD).trim().toUpperCase(Locale.ENGLISH);
         httpConnection.setRequestMethod(httpMethod);
         if (httpMethod.equals("POST")) {
             httpConnection.setDoOutput(false);
         }
 
-        httpConnection.setRequestProperty("User-Agent", "VoidFramework-RemoteConf-Provider");
-        httpConnection.setConnectTimeout(5000);
-        httpConnection.setReadTimeout(5000);
+        httpConnection.setRequestProperty("User-Agent", USER_AGENT);
+        httpConnection.setConnectTimeout(CONNECTION_TIMEOUT);
+        httpConnection.setReadTimeout(READ_TIMEOUT);
         httpConnection.connect();
 
         if (httpConnection.getResponseCode() / 100 == 2) {
