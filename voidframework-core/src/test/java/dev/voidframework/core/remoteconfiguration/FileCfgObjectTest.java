@@ -3,61 +3,36 @@ package dev.voidframework.core.remoteconfiguration;
 import dev.voidframework.core.helper.Reflection;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.stream.Stream;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class FileCfgObjectTest {
 
-    @Test
-    void simpleFileContent() throws IOException {
-
-        // Arrange
-        final FileCfgObject fileCfgObject = new FileCfgObject("key", "<FILE>./test;SGVsbG8gV29ybGQh");
-
-        // Act
-        final String toString = fileCfgObject.toString();
-
-        // Assert
-        final InputStream contentInputStream = Reflection.getFieldValue(fileCfgObject, "is", InputStream.class);
-        Assertions.assertNotNull(contentInputStream);
-
-        final String content = new String(contentInputStream.readAllBytes(), StandardCharsets.UTF_8);
-        Assertions.assertEquals("Hello World!", content);
-
-        Assertions.assertEquals("FileCfgObject[size <- 12 ; target <- ./test]", toString);
+    static Stream<Arguments> namedFileContentArguments() {
+        return Stream.of(
+            Arguments.of(Named.of("simpleFileContent", "<FILE>./test;SGVsbG8gV29ybGQh")),
+            Arguments.of(Named.of("quotedFileContent", "\"<FILE>./test;SGVsbG8gV29ybGQh\"")),
+            Arguments.of(Named.of("missingMagic", "./test;SGVsbG8gV29ybGQh")));
     }
 
-    @Test
-    void quotedFileContent() throws IOException {
+    @ParameterizedTest
+    @MethodSource("namedFileContentArguments")
+    void fileContent(final String fileInformationCfgObject) throws IOException {
 
         // Arrange
-        final FileCfgObject fileCfgObject = new FileCfgObject("key", "\"<FILE>./test;SGVsbG8gV29ybGQh\"");
-
-        // Act
-        final String toString = fileCfgObject.toString();
-
-        // Assert
-        final InputStream contentInputStream = Reflection.getFieldValue(fileCfgObject, "is", InputStream.class);
-        Assertions.assertNotNull(contentInputStream);
-
-        final String content = new String(contentInputStream.readAllBytes(), StandardCharsets.UTF_8);
-        Assertions.assertEquals("Hello World!", content);
-
-        Assertions.assertEquals("FileCfgObject[size <- 12 ; target <- ./test]", toString);
-    }
-
-    @Test
-    void missingMagic() throws IOException {
-
-        // Arrange
-        final FileCfgObject fileCfgObject = new FileCfgObject("key", "./test;SGVsbG8gV29ybGQh");
+        final FileCfgObject fileCfgObject = new FileCfgObject("key", fileInformationCfgObject);
 
         // Act
         final String toString = fileCfgObject.toString();
