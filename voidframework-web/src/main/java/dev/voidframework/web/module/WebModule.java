@@ -2,8 +2,8 @@ package dev.voidframework.web.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
-import dev.voidframework.web.routing.Router;
-import dev.voidframework.web.routing.impl.DefaultRouter;
+import dev.voidframework.web.http.routing.Router;
+import dev.voidframework.web.http.routing.impl.DefaultRouter;
 
 /**
  * The web module.

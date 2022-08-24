@@ -1,6 +1,6 @@
 package dev.voidframework.template.freemarker.method;
 
-import dev.voidframework.web.routing.Router;
+import dev.voidframework.web.http.routing.Router;
 import freemarker.template.SimpleDate;
 import freemarker.template.SimpleNumber;
 import freemarker.template.SimpleScalar;

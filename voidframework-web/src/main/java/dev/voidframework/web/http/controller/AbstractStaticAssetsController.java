@@ -5,11 +5,11 @@ import com.typesafe.config.Config;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.HttpContentType;
-import dev.voidframework.web.http.NoCSRF;
+import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
-import dev.voidframework.web.http.param.RequestPath;
-import dev.voidframework.web.http.param.RequestRoute;
-import dev.voidframework.web.routing.HttpMethod;
+import dev.voidframework.web.http.annotation.NoCSRF;
+import dev.voidframework.web.http.annotation.RequestPath;
+import dev.voidframework.web.http.annotation.RequestRoute;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tika.Tika;
 import org.slf4j.Logger;
@@ -32,6 +32,8 @@ public abstract class AbstractStaticAssetsController {
 
     private final boolean runInDevMode;
     private final String baseAssetResourcesDirectory;
+    private final Tika tika;
+
 
     /**
      * Build a new instance;
@@ -43,6 +45,8 @@ public abstract class AbstractStaticAssetsController {
 
         this.runInDevMode = configuration.getBoolean("voidframework.core.runInDevMode");
         this.baseAssetResourcesDirectory = configuration.getString("voidframework.web.baseAssetResourcesDirectory");
+
+        this.tika = new Tika();
     }
 
     /**
@@ -144,7 +148,6 @@ public abstract class AbstractStaticAssetsController {
      */
     private String detectFileContentType(final String fileName) {
 
-        final Tika tika = new Tika();
         String contentType = tika.detect(fileName);
 
         if (contentType == null) {

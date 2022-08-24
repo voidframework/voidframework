@@ -8,7 +8,7 @@ import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.template.freemarker.method.InternationalizationTemplateMethodModel;
 import dev.voidframework.template.freemarker.method.ReverseRouteTemplateMethodModel;
-import dev.voidframework.web.routing.Router;
+import dev.voidframework.web.http.routing.Router;
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

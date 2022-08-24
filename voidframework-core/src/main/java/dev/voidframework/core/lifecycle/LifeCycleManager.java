@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Life cycle manager takes care of executing the various hooks defined by the use of
- * the {@link dev.voidframework.core.lifecycle.LifeCycleStart} and {@link dev.voidframework.core.lifecycle.LifeCycleStop}
+ * the {@link LifeCycleStart} and {@link LifeCycleStop}
  * annotations.
  */
 public final class LifeCycleManager {

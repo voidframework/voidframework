@@ -5,10 +5,10 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
+import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
-import dev.voidframework.web.http.param.RequestPath;
-import dev.voidframework.web.http.param.RequestRoute;
-import dev.voidframework.web.routing.HttpMethod;
+import dev.voidframework.web.http.annotation.RequestPath;
+import dev.voidframework.web.http.annotation.RequestRoute;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Locale;
