@@ -130,8 +130,8 @@ public final class LifeCycleManager {
             final long end = System.currentTimeMillis();
 
             LOGGER.info("{}::{} executed in {}ms", classInstance.getClass().getName(), startHandler.method.getName(), end - start);
-        } catch (final Throwable t) {
-            throw new LifeCycleException.InvocationFailure(classInstance.getClass().getName(), startHandler.method.getName(), t);
+        } catch (final Exception ex) {
+            throw new LifeCycleException.InvocationFailure(classInstance.getClass().getName(), startHandler.method.getName(), ex);
         }
     }
 
@@ -148,8 +148,8 @@ public final class LifeCycleManager {
             final Thread thread = new Thread(() -> {
                 try {
                     stopHandler.method.invoke(classInstance);
-                } catch (final Throwable t) {
-                    LOGGER.error("Can't invoke {}::{}", classInstance.getClass().getName(), stopHandler.method.getName(), t);
+                } catch (final Exception ex) {
+                    LOGGER.error("Can't invoke {}::{}", classInstance.getClass().getName(), stopHandler.method.getName(), ex);
                 }
             });
 
