@@ -1,10 +1,13 @@
 # Void Framework
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?logo=github)](https://raw.githubusercontent.com/voidframework/voidframework/master/LICENSE)
-[![Java CI](https://img.shields.io/github/workflow/status/voidframework/voidframework/Java%20CI?logo=github)](https://github.com/voidframework/voidframework/actions/workflows/main.yml)
 [![Repository release](https://img.shields.io/github/v/release/voidframework/voidframework?logo=github)](https://github.com/voidframework/voidframework/releases)
 [![Maven](https://img.shields.io/maven-central/v/dev.voidframework/voidframework.svg?logo=apache-maven)](https://search.maven.org/search?q=g:dev.voidframework)
 [![Repository size](https://img.shields.io/github/repo-size/voidframework/voidframework.svg?logo=git)](https://github.com/voidframework/voidframework)
+
+[![Java CI](https://img.shields.io/github/workflow/status/voidframework/voidframework/Java%20CI?logo=github&color=%231da868)](https://github.com/voidframework/voidframework/actions/workflows/build.yml)
+[![CodeQL](https://img.shields.io/github/workflow/status/voidframework/voidframework/CodeQL?label=codeql&logo=github&color=%231da868)](https://github.com/voidframework/voidframework/actions/workflows/codeql-analysis.yml)
+[![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/voidframework_voidframework?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&color=%231da868)](https://github.com/voidframework/voidframework)
 
 Light and modular Framework for Java
 *****
