@@ -4,8 +4,8 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
 import dev.voidframework.web.bindable.WebController;
-import dev.voidframework.web.http.param.RequestRoute;
-import dev.voidframework.web.routing.Router;
+import dev.voidframework.web.http.annotation.RequestRoute;
+import dev.voidframework.web.http.routing.Router;
 
 import java.lang.reflect.Method;
 

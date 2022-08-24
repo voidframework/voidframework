@@ -24,6 +24,7 @@ public final class DefaultConverterManager implements ConverterManager {
      * Build a new instance.
      */
     public DefaultConverterManager() {
+
         this.converterMap = new HashMap<>();
     }
 

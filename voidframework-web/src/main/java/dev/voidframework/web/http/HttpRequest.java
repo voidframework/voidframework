@@ -1,7 +1,5 @@
 package dev.voidframework.web.http;
 
-import dev.voidframework.web.routing.HttpMethod;
-
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;

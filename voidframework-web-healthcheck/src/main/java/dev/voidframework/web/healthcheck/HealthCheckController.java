@@ -5,10 +5,10 @@ import dev.voidframework.core.helper.Json;
 import dev.voidframework.healthcheck.Health;
 import dev.voidframework.healthcheck.HealthCheckManager;
 import dev.voidframework.web.bindable.WebController;
-import dev.voidframework.web.http.NoCSRF;
+import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
-import dev.voidframework.web.http.param.RequestRoute;
-import dev.voidframework.web.routing.HttpMethod;
+import dev.voidframework.web.http.annotation.NoCSRF;
+import dev.voidframework.web.http.annotation.RequestRoute;
 
 import java.util.Map;
 
