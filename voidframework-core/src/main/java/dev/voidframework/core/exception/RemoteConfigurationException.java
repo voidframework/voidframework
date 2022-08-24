@@ -10,11 +10,34 @@ public class RemoteConfigurationException extends RuntimeException {
     /**
      * Build a new instance.
      *
+     * @param providerClassName The provider class name
+     * @param message           The detail message
+     */
+    protected RemoteConfigurationException(final String providerClassName, final String message) {
+
+        this("Provider '" + providerClassName + "' " + message, (Throwable) null);
+    }
+
+    /**
+     * Build a new instance.
+     *
+     * @param providerClassName The provider class name
+     * @param message           The detail message
+     * @param cause             The cause
+     */
+    protected RemoteConfigurationException(final String providerClassName, final String message, final Throwable cause) {
+
+        this("Provider '" + providerClassName + "' " + message, cause);
+    }
+
+    /**
+     * Build a new instance.
+     *
      * @param message The detail message
      */
     protected RemoteConfigurationException(final String message) {
 
-        this(message, null);
+        this(message, (Throwable) null);
     }
 
     /**
@@ -40,7 +63,7 @@ public class RemoteConfigurationException extends RuntimeException {
          */
         public ProviderDoesNotExist(final String providerClassPath) {
 
-            super("Provider '" + providerClassPath + "' does not exist");
+            super(providerClassPath, "does not exist");
         }
     }
 
@@ -57,7 +80,7 @@ public class RemoteConfigurationException extends RuntimeException {
          */
         public FetchError(final Class<? extends RemoteConfigurationProvider> providerClass, final String cause) {
 
-            super("Provider '" + providerClass.getName() + "' can't fetch remote configuration: " + cause);
+            super(providerClass.getName(), "can't fetch remote configuration: " + cause);
         }
 
         /**
@@ -68,7 +91,7 @@ public class RemoteConfigurationException extends RuntimeException {
          */
         public FetchError(final Class<? extends RemoteConfigurationProvider> providerClass, final Throwable cause) {
 
-            super("Provider '" + providerClass.getName() + "' can't fetch remote configuration", cause);
+            super(providerClass.getName(), "can't fetch remote configuration", cause);
         }
     }
 
@@ -85,7 +108,7 @@ public class RemoteConfigurationException extends RuntimeException {
          */
         public BadProvider(final String providerClassPath, final Throwable cause) {
 
-            super("Invalid provider '" + providerClassPath + "'", cause);
+            super(providerClassPath, "is invalid", cause);
         }
     }
 
