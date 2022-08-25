@@ -1,6 +1,7 @@
-package dev.voidframework.web.http.filter;
+package dev.voidframework.web.http.annotation;
 
 import dev.voidframework.core.bindable.Controller;
+import dev.voidframework.web.http.filter.Filter;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
