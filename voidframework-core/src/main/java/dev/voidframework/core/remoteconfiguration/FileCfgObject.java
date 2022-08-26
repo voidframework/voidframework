@@ -1,5 +1,7 @@
 package dev.voidframework.core.remoteconfiguration;
 
+import dev.voidframework.core.constant.CharConstants;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.exception.RemoteConfigurationException;
 
 import java.io.ByteArrayInputStream;
@@ -31,17 +33,17 @@ public final class FileCfgObject implements Closeable {
     public FileCfgObject(final String key, final String rawContent) {
 
         final String[] data;
-        if (rawContent.charAt(0) == '"' && rawContent.charAt(rawContent.length() - 1) == '"') {
+        if (rawContent.charAt(0) == CharConstants.DOUBLE_QUOTE && rawContent.charAt(rawContent.length() - 1) == CharConstants.DOUBLE_QUOTE) {
             data = rawContent
                 .substring(1, rawContent.length() - 1)
                 .substring(FileCfgObject.FILE_MAGIC_ID.length())
-                .split(";");
+                .split(StringConstants.SEMICOLON);
         } else if (rawContent.startsWith(FileCfgObject.FILE_MAGIC_ID)) {
             data = rawContent
                 .substring(FileCfgObject.FILE_MAGIC_ID.length())
-                .split(";");
+                .split(StringConstants.SEMICOLON);
         } else {
-            data = rawContent.split(";");
+            data = rawContent.split(StringConstants.SEMICOLON);
         }
 
         try {
@@ -87,9 +89,9 @@ public final class FileCfgObject implements Closeable {
      */
     public void apply() {
 
-        final File ofile = new File(this.target);
+        final File outputFile = new File(this.target);
         try {
-            final FileOutputStream fos = new FileOutputStream(ofile);
+            final FileOutputStream fos = new FileOutputStream(outputFile);
             final byte[] buffer = new byte[128];
             int bytesRead;
             while ((bytesRead = this.is.read(buffer)) != -1) {
@@ -117,6 +119,6 @@ public final class FileCfgObject implements Closeable {
             + "[size <- "
             + this.size
             + " ; target <- "
-            + this.target + "]";
+            + this.target + StringConstants.SQUARE_BRACKET_CLOSE;
     }
 }

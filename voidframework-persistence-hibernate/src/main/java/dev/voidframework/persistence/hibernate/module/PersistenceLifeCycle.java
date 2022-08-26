@@ -7,6 +7,7 @@ import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import com.typesafe.config.Config;
 import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.exception.DataSourceException;
 import jakarta.persistence.EntityManager;
@@ -53,8 +54,8 @@ public final class PersistenceLifeCycle {
             .stream()
             .map(Map.Entry::getKey)
             .map(key -> {
-                if (key.contains(".")) {
-                    return key.substring(0, key.indexOf("."));
+                if (key.contains(StringConstants.DOT)) {
+                    return key.substring(0, key.indexOf(StringConstants.DOT));
                 } else {
                     return key;
                 }

@@ -1,6 +1,7 @@
 package dev.voidframework.web.server.http;
 
 import com.typesafe.config.Config;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.helper.IO;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.lang.Either;
@@ -225,7 +226,7 @@ public class UndertowHttpHandler implements HttpHandler {
 
         String contentType = httpServerExchange.getRequestHeaders().getLast("Content-Type");
         if (contentType != null) {
-            contentType = contentType.split(";")[0];
+            contentType = contentType.split(StringConstants.SEMICOLON)[0];
         }
 
         if (contentType != null) {

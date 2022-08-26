@@ -2,6 +2,7 @@ package dev.voidframework.core.remoteconfiguration;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.exception.RemoteConfigurationException;
 import dev.voidframework.core.helper.ClassResolver;
 import dev.voidframework.core.helper.IO;
@@ -52,12 +53,12 @@ public final class RemoteConfigurationLoader {
                 );
                 case STRING -> {
                     String cleanedClassPath = localConfiguration.getString(CONFIGURATION_KEY_REGISTERED_PROVIDERS);
-                    cleanedClassPath = cleanedClassPath.replaceAll("[\\[\\]\"' ]", "");
+                    cleanedClassPath = cleanedClassPath.replaceAll("[\\[\\]\"' ]", StringConstants.EMPTY);
 
                     if (!cleanedClassPath.isEmpty()) {
 
-                        if (cleanedClassPath.contains(",")) {
-                            providerClassPathList.addAll(List.of(cleanedClassPath.split(",")));
+                        if (cleanedClassPath.contains(StringConstants.COMMA)) {
+                            providerClassPathList.addAll(List.of(cleanedClassPath.split(StringConstants.COMMA)));
                         } else {
                             providerClassPathList.add(cleanedClassPath);
                         }

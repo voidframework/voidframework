@@ -1,5 +1,7 @@
 package dev.voidframework.core.remoteconfiguration;
 
+import dev.voidframework.core.constant.StringConstants;
+
 import java.util.Locale;
 
 /**
@@ -23,9 +25,9 @@ public final class KeyValueCfgObject {
         this.key = key.trim();
         final String cleanedValue = value.trim();
 
-        if (!cleanedValue.startsWith("\"")
-            && !cleanedValue.startsWith("[")
-            && !cleanedValue.startsWith("{")
+        if (!cleanedValue.startsWith(StringConstants.DOUBLE_QUOTE)
+            && !cleanedValue.startsWith(StringConstants.SQUARE_BRACKET_OPEN)
+            && !cleanedValue.startsWith(StringConstants.CURLY_BRACKET_OPEN)
             && cleanedValue.compareToIgnoreCase("null") != 0) {
 
             // Check if value is a boolean
@@ -43,7 +45,7 @@ public final class KeyValueCfgObject {
                     } catch (final NumberFormatException ignore2) {
 
                         // Fallback to a quoted value
-                        this.value = "\"" + cleanedValue + "\"";
+                        this.value = StringConstants.DOUBLE_QUOTE + cleanedValue + StringConstants.DOUBLE_QUOTE;
                     }
                 }
             }
@@ -64,18 +66,18 @@ public final class KeyValueCfgObject {
             .append(this.key)
             .append(" = ")
             .append(this.value == null ? "null" : this.value)
-            .append("\n");
+            .append(StringConstants.LINE_FEED);
     }
 
     @Override
     public String toString() {
 
         return KeyValueCfgObject.class.getSimpleName()
-            + "["
+            + StringConstants.SQUARE_BRACKET_OPEN
             + this.key
             + " <- "
             + this.value
-            + "]";
+            + StringConstants.SQUARE_BRACKET_CLOSE;
     }
 
     /**
@@ -87,11 +89,11 @@ public final class KeyValueCfgObject {
 
         final boolean maskValueOnToString = isSensitiveValue();
         return KeyValueCfgObject.class.getSimpleName()
-            + "["
+            + StringConstants.SQUARE_BRACKET_OPEN
             + this.key
             + " <- "
             + (maskValueOnToString ? "**********" : this.value)
-            + "]";
+            + StringConstants.SQUARE_BRACKET_CLOSE;
     }
 
     /**

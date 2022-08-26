@@ -3,6 +3,7 @@ package dev.voidframework.web.http.errorhandler;
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
 import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
@@ -99,7 +100,9 @@ public class DefaultErrorHandler implements ErrorHandler {
                 final Optional<Path> javaFilepathOptional = resolvePossibleTemplateFileLocation(renderingFailure.getTemplateName());
 
                 lineNumberFromZero = renderingFailure.getLineNumber();
-                subHeaderError = javaFilepathOptional.map(Path::toString).orElse(renderingFailure.getTemplateName()) + ":" + lineNumberFromZero;
+                subHeaderError = javaFilepathOptional.map(Path::toString).orElse(renderingFailure.getTemplateName())
+                    + StringConstants.COLON
+                    + lineNumberFromZero;
                 fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero)).orElseGet(ArrayList::new);
 
                 if (cause.getCause() != null) {
@@ -111,7 +114,7 @@ public class DefaultErrorHandler implements ErrorHandler {
                 subHeaderError = stackTraceElement.toString();
                 lineNumberFromZero = stackTraceElement.getLineNumber() - 1;
 
-                final String javaFileName = stackTraceElement.getClassName().replace(".", File.separator).split("\\$", 2)[0] + ".java";
+                final String javaFileName = stackTraceElement.getClassName().replace(StringConstants.DOT, File.separator).split("\\$", 2)[0] + ".java";
                 final Optional<Path> javaFilepathOptional = resolvePossibleJavaFileLocation(javaFileName);
                 fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero)).orElseGet(ArrayList::new);
             }

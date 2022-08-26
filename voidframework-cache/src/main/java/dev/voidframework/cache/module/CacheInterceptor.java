@@ -3,6 +3,7 @@ package dev.voidframework.cache.module;
 import com.google.inject.Inject;
 import dev.voidframework.cache.engine.BlackHoleCacheEngine;
 import dev.voidframework.cache.engine.CacheEngine;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.helper.ProxyDetector;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
@@ -53,7 +54,7 @@ public abstract class CacheInterceptor implements MethodInterceptor {
             cacheKey = "{class}.{method}";
         }
 
-        if (cacheKey.contains("{")) {
+        if (cacheKey.contains(StringConstants.CURLY_BRACKET_OPEN)) {
             final String className = ProxyDetector.isProxy(methodInvocation.getThis())
                 ? methodInvocation.getThis().getClass().getSuperclass().getName()
                 : methodInvocation.getThis().getClass().getName();
@@ -66,9 +67,9 @@ public abstract class CacheInterceptor implements MethodInterceptor {
             final Object[] argumentArray = methodInvocation.getArguments();
             for (int idx = 0; idx < argumentArray.length; idx += 1) {
                 if (argumentArray[idx] == null) {
-                    cacheKey = cacheKey.replace("{" + idx + "}", "null");
+                    cacheKey = cacheKey.replace(StringConstants.CURLY_BRACKET_OPEN + idx + StringConstants.CURLY_BRACKET_CLOSE, "null");
                 } else {
-                    cacheKey = cacheKey.replace("{" + idx + "}", argumentArray[idx].toString());
+                    cacheKey = cacheKey.replace(StringConstants.CURLY_BRACKET_OPEN + idx + StringConstants.CURLY_BRACKET_CLOSE, argumentArray[idx].toString());
                 }
             }
         }

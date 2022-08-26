@@ -2,6 +2,7 @@ package dev.voidframework.datasource;
 
 import com.google.inject.Provider;
 import com.typesafe.config.Config;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.exception.DataSourceException;
 
 import java.util.Map;
@@ -28,8 +29,8 @@ public abstract class AbstractDataSourceProvider implements Provider<DataSourceM
             .stream()
             .map(Map.Entry::getKey)
             .map(key -> {
-                if (key.contains(".")) {
-                    return key.substring(0, key.indexOf("."));
+                if (key.contains(StringConstants.DOT)) {
+                    return key.substring(0, key.indexOf(StringConstants.DOT));
                 } else {
                     return key;
                 }

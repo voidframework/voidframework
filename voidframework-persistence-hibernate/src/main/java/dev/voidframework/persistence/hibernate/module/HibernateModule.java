@@ -4,6 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.typesafe.config.Config;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.exception.DataSourceException;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -41,8 +42,8 @@ public class HibernateModule extends AbstractModule {
             .stream()
             .map(Map.Entry::getKey)
             .map(key -> {
-                if (key.contains(".")) {
-                    return key.substring(0, key.indexOf("."));
+                if (key.contains(StringConstants.DOT)) {
+                    return key.substring(0, key.indexOf(StringConstants.DOT));
                 } else {
                     return key;
                 }

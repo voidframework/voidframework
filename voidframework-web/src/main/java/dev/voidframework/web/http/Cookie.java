@@ -23,6 +23,9 @@ public record Cookie(String name,
                      String sameSiteMode,
                      Duration timeToLive) {
 
+    private static final String DEFAULT_PATH = "/";
+    private static final String DEFAULT_SAME_SITE_POLICY = "Lax";
+
     /**
      * Build an expired Cookie.
      *
@@ -31,7 +34,7 @@ public record Cookie(String name,
      */
     static Cookie expired(final String name) {
 
-        return new Cookie(name, null, null, "/", false, false, "Lax", Duration.ZERO);
+        return new Cookie(name, null, null, DEFAULT_PATH, false, false, DEFAULT_SAME_SITE_POLICY, Duration.ZERO);
     }
 
     /**
@@ -43,7 +46,7 @@ public record Cookie(String name,
      */
     public static Cookie of(final String name, final String value) {
 
-        return new Cookie(name, value, null, "/", false, false, "Lax", null);
+        return new Cookie(name, value, null, DEFAULT_PATH, false, false, DEFAULT_SAME_SITE_POLICY, null);
     }
 
     /**
@@ -58,7 +61,7 @@ public record Cookie(String name,
      */
     public static Cookie of(final String name, final String value, final boolean isHttpOnly, final boolean isSecure, final Duration timeToLive) {
 
-        return new Cookie(name, value, null, "/", isHttpOnly, isSecure, "Lax", timeToLive);
+        return new Cookie(name, value, null, DEFAULT_PATH, isHttpOnly, isSecure, DEFAULT_SAME_SITE_POLICY, timeToLive);
     }
 
     /**
@@ -79,7 +82,7 @@ public record Cookie(String name,
                             final String sameSiteMode,
                             final Duration timeToLive) {
 
-        return new Cookie(name, value, null, "/", isHttpOnly, isSecure, sameSiteMode, timeToLive);
+        return new Cookie(name, value, null, DEFAULT_PATH, isHttpOnly, isSecure, sameSiteMode, timeToLive);
     }
 
     /**
@@ -92,6 +95,6 @@ public record Cookie(String name,
      */
     public static Cookie of(final String name, final String value, final Duration timeToLive) {
 
-        return new Cookie(name, value, null, "/", false, false, "Lax", timeToLive);
+        return new Cookie(name, value, null, DEFAULT_PATH, false, false, DEFAULT_SAME_SITE_POLICY, timeToLive);
     }
 }

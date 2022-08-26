@@ -4,6 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.helper.Hex;
 import dev.voidframework.core.lang.TypedMap;
 import dev.voidframework.web.exception.HttpException;
@@ -63,7 +64,7 @@ public class CSRFFilter implements Filter {
         this.signatureKey = configuration.getString("voidframework.web.csrf.signatureKey");
         this.timeToLive = configuration.getDuration("voidframework.web.csrf.timeToLive", TimeUnit.MILLISECONDS);
 
-        if (this.signatureKey.isBlank()) {
+        if (StringUtils.isBlank(this.signatureKey)) {
             throw new ConfigException.BadValue("voidframework.web.csrf.signatureKey", "Please configure the CSRF signature Key");
         }
     }
@@ -133,7 +134,7 @@ public class CSRFFilter implements Filter {
             return null;
         }
 
-        final String[] csrfTokenPartArray = csrfTokenCookie.value().split("-");
+        final String[] csrfTokenPartArray = csrfTokenCookie.value().split(StringConstants.HYPHEN);
         if (csrfTokenPartArray.length != 3) {
             return null;
         }
@@ -152,7 +153,7 @@ public class CSRFFilter implements Filter {
         // Query String
         String csrfTokenProvided = context.getRequest().getQueryStringParameter(this.csrfTokenName);
         if (StringUtils.isNotBlank(csrfTokenProvided)) {
-            final String[] csrfTokenPartArray = csrfTokenProvided.split("-");
+            final String[] csrfTokenPartArray = csrfTokenProvided.split(StringConstants.HYPHEN);
             if (csrfTokenPartArray.length != 3) {
                 return null;
             }
@@ -168,7 +169,7 @@ public class CSRFFilter implements Filter {
                 csrfTokenProvided = csrfFormItem.get(0).value();
 
                 if (StringUtils.isNotBlank(csrfTokenProvided)) {
-                    final String[] csrfTokenPartArray = csrfTokenProvided.split("-");
+                    final String[] csrfTokenPartArray = csrfTokenProvided.split(StringConstants.HYPHEN);
                     if (csrfTokenPartArray.length != 3) {
                         return null;
                     }
@@ -181,7 +182,7 @@ public class CSRFFilter implements Filter {
         // Header
         csrfTokenProvided = context.getRequest().getHeader("X-CSRF-TOKEN");
         if (StringUtils.isNotBlank(csrfTokenProvided)) {
-            final String[] csrfTokenPartArray = csrfTokenProvided.split("-");
+            final String[] csrfTokenPartArray = csrfTokenProvided.split(StringConstants.HYPHEN);
             if (csrfTokenPartArray.length != 3) {
                 return null;
             }
@@ -203,7 +204,7 @@ public class CSRFFilter implements Filter {
         final long currentTimeMillis = System.currentTimeMillis();
         final String value = existingCSRFToken != null
             ? existingCSRFToken.value
-            : UUID.randomUUID().toString().replace("-", "");
+            : UUID.randomUUID().toString().replace(StringConstants.HYPHEN, StringConstants.EMPTY);
 
         return new CSRFToken(
             value,
@@ -270,7 +271,7 @@ public class CSRFFilter implements Filter {
         @Override
         public String toString() {
 
-            return value + "-" + nonce + "-" + signature;
+            return value + StringConstants.HYPHEN + nonce + StringConstants.HYPHEN + signature;
         }
     }
 }

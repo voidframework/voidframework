@@ -5,6 +5,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.google.inject.AbstractModule;
 import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.conversion.TypeConverter;
 import dev.voidframework.core.exception.ConversionException;
 import dev.voidframework.core.helper.ClassResolver;
@@ -79,14 +80,14 @@ public final class ClassesToLoadScanner {
                     final Class<?> sourceClassType = ClassResolver.forName(sourceClassName);
                     if (sourceClassType == null) {
                         throw new ConversionException.InvalidConverter(
-                            classInfo.getName(), "Can't retrieve Class<?> from '" + sourceClassName + "'");
+                            classInfo.getName(), "Can't retrieve Class<?> from '" + sourceClassName + StringConstants.SIMPLE_QUOTE);
                     }
 
                     final String targetClassName = typeArgumentList.get(1).getTypeSignature().toString();
                     final Class<?> targetClassType = ClassResolver.forName(targetClassName);
                     if (targetClassType == null) {
                         throw new ConversionException.InvalidConverter(
-                            classInfo.getName(), "Can't retrieve Class<?> from '" + targetClassName + "'");
+                            classInfo.getName(), "Can't retrieve Class<?> from '" + targetClassName + StringConstants.SIMPLE_QUOTE);
                     }
 
                     // Retrieves constructor
@@ -140,7 +141,7 @@ public final class ClassesToLoadScanner {
             kryo.writeObject(output, scannedClassesToLoad);
             output.close();
         } catch (final IOException ex) {
-            LOGGER.error("Can't save '" + outputDirectoryPath + "'", ex);
+            LOGGER.error("Can't save '" + outputDirectoryPath + StringConstants.SIMPLE_QUOTE, ex);
         }
     }
 

@@ -2,6 +2,7 @@ package dev.voidframework.validation;
 
 import com.google.inject.Singleton;
 import dev.voidframework.core.bindable.Service;
+import dev.voidframework.core.constant.StringConstants;
 import jakarta.validation.Configuration;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.MessageInterpolator;
@@ -84,7 +85,7 @@ public final class Validation {
             validationErrorList.add(
                 new ValidationError(
                     constraintViolation.getMessage(),
-                    constraintViolation.getMessageTemplate().replaceAll("[{}]", ""),
+                    constraintViolation.getMessageTemplate().replaceAll("[{}]", StringConstants.EMPTY),
                     createMessageArgumentArray(constraintViolation)));
         });
 

@@ -55,7 +55,8 @@ public class FilterException extends RuntimeException {
          */
         public Overflow(final int currentIndex, final int filterListSize) {
 
-            super("Filter chain overflow detected! Current index ("
+            super(
+                "Filter chain overflow detected! Current index ("
                 + currentIndex
                 + ") is greater or equal to filter list size ("
                 + filterListSize + ")");

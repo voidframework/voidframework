@@ -3,6 +3,7 @@ package dev.voidframework.remoteconfiguration.provider;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.exception.RemoteConfigurationException;
 import dev.voidframework.core.remoteconfiguration.AbstractRemoteConfigurationProvider;
 import dev.voidframework.core.remoteconfiguration.FileCfgObject;
@@ -108,7 +109,9 @@ public class HttpRemoteConfigurationProvider extends AbstractRemoteConfiguration
         final HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
 
         if (configuration.hasPath(CONFIGURATION_KEY_USERNAME)) {
-            final String auth = configuration.getString(CONFIGURATION_KEY_USERNAME) + ":" + configuration.getString(CONFIGURATION_KEY_PASSWORD);
+            final String auth = configuration.getString(CONFIGURATION_KEY_USERNAME)
+                + StringConstants.COLON
+                + configuration.getString(CONFIGURATION_KEY_PASSWORD);
             final byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
             httpConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuth));
         }
@@ -132,7 +135,7 @@ public class HttpRemoteConfigurationProvider extends AbstractRemoteConfiguration
 
                 String responseLine;
                 while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine).append(StringUtils.LF);
+                    response.append(responseLine).append(StringConstants.LINE_FEED);
                 }
 
                 return response.toString();

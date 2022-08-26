@@ -3,6 +3,7 @@ package dev.voidframework.persistence.hibernate.module;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.datasource.DataSourceManager;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -150,7 +151,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
             int idx;
 
             if (this.modelsJarUrlPattern != null) {
-                final List<URL> urlList = Collections.list(this.getClass().getClassLoader().getResources(""));
+                final List<URL> urlList = Collections.list(this.getClass().getClassLoader().getResources(StringConstants.EMPTY));
                 urlList.addAll(Collections.list(this.getClass().getClassLoader().getResources("META-INF")));
 
                 for (final URL url : urlList) {

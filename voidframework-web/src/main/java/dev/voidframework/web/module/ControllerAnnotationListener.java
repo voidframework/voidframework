@@ -3,6 +3,8 @@ package dev.voidframework.web.module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
+import dev.voidframework.core.constant.CharConstants;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.annotation.RequestRoute;
 import dev.voidframework.web.http.routing.Router;
@@ -56,7 +58,7 @@ public class ControllerAnnotationListener implements TypeListener {
         final String cleanedPrefix = this.cleanRoutePath(prefix);
         final String cleanedRoute = this.cleanRoutePath(route);
 
-        if (cleanedPrefix.endsWith("/") && cleanedRoute.charAt(0) == '/') {
+        if (cleanedPrefix.endsWith(StringConstants.SLASH) && cleanedRoute.charAt(0) == CharConstants.SLASH) {
             return cleanedPrefix + cleanedRoute.substring(1);
         }
 
@@ -73,14 +75,14 @@ public class ControllerAnnotationListener implements TypeListener {
 
         String cleanedRoutePath = routePath.trim();
 
-        if (cleanedRoutePath.isEmpty() || cleanedRoutePath.equals("/")) {
-            return "/";
+        if (cleanedRoutePath.isEmpty() || cleanedRoutePath.equals(StringConstants.SLASH)) {
+            return StringConstants.SLASH;
         }
 
-        if (cleanedRoutePath.charAt(0) != '/') {
-            cleanedRoutePath = '/' + cleanedRoutePath;
+        if (cleanedRoutePath.charAt(0) != CharConstants.SLASH) {
+            cleanedRoutePath = StringConstants.SLASH + cleanedRoutePath;
         }
-        if (cleanedRoutePath.endsWith("/")) {
+        if (cleanedRoutePath.endsWith(StringConstants.SLASH)) {
             cleanedRoutePath = cleanedRoutePath.substring(0, cleanedRoutePath.length() - 1);
         }
 

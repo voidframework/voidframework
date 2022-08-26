@@ -1,5 +1,6 @@
 package dev.voidframework.scheduler.cron;
 
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.scheduler.exception.SchedulerException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -119,8 +120,8 @@ public class CronExpression {
         for (int idx = 0; idx < cronExpressionPartArray.length; ++idx) {
             // Standardize CRON expression
             final String standardizedPart = cronArray[idx]
-                .replace("?", "*")
-                .replace("*", WILDCARD_REPLACEMENT.get(idx));
+                .replace(StringConstants.QUESTION_MARK, StringConstants.WILDCARD)
+                .replace(StringConstants.WILDCARD, WILDCARD_REPLACEMENT.get(idx));
 
             // Parse and validate each part
             try {
@@ -198,7 +199,7 @@ public class CronExpression {
 
         CronExpressionPart cronExpressionPart = null;
 
-        if (str.contains("-")) {
+        if (str.contains(StringConstants.HYPHEN)) {
             final Matcher matcher = REGEXP_PATTERN_RANGE.matcher(str);
             if (matcher.find()) {
                 final int minRange = matcher.group(1) != null ? Integer.parseInt(matcher.group(1)) : 0;
@@ -207,7 +208,7 @@ public class CronExpression {
 
                 cronExpressionPart = new CronExpressionPartRange(stepValue, minRange, maxRange);
             }
-        } else if (str.contains(",")) {
+        } else if (str.contains(StringConstants.COMMA)) {
             final Matcher matcher = REGEXP_PATTERN_LIST.matcher(str);
             if (matcher.find()) {
                 final String listValue = matcher.group(1);
@@ -215,7 +216,7 @@ public class CronExpression {
 
                 cronExpressionPart = new CronExpressionPartList(
                     stepValue,
-                    Arrays.stream(listValue.split(",")).map(Integer::parseInt).collect(Collectors.toList()));
+                    Arrays.stream(listValue.split(StringConstants.COMMA)).map(Integer::parseInt).collect(Collectors.toList()));
             }
         } else {
             final Matcher matcher = REGEXP_PATTERN_SINGLE.matcher(str);

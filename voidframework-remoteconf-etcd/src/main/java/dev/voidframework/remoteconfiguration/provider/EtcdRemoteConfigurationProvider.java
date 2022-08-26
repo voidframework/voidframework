@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.exception.RemoteConfigurationException;
 import dev.voidframework.core.helper.IO;
 import dev.voidframework.core.remoteconfiguration.AbstractRemoteConfigurationProvider;
@@ -66,13 +67,13 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
         }
 
         // Normalize configuration values
-        if (!etcdEndpoint.endsWith("/")) {
-            etcdEndpoint += "/";
+        if (!etcdEndpoint.endsWith(StringConstants.SLASH)) {
+            etcdEndpoint += StringConstants.SLASH;
         }
-        if (etcdPrefix.endsWith("/")) {
+        if (etcdPrefix.endsWith(StringConstants.SLASH)) {
             etcdPrefix = etcdPrefix.substring(0, etcdPrefix.length() - 1);
         }
-        if (etcdPrefix.startsWith("/")) {
+        if (etcdPrefix.startsWith(StringConstants.SLASH)) {
             etcdPrefix = etcdPrefix.substring(1);
         }
 
@@ -91,8 +92,7 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
                 final String password = configuration.getString(CONFIGURATION_KEY_PASSWORD);
                 if (!username.isEmpty()) {
                     final String basicAuth = "Basic " + Base64.getEncoder().encodeToString(
-                        (username + ":" + password).getBytes()
-                    );
+                        (username + StringConstants.COLON + password).getBytes());
                     conn.setRequestProperty("Authorization", basicAuth);
                 }
             }
@@ -146,13 +146,13 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
                 if (prefix.isEmpty()) {
                     cfgKey = RegExUtils.removeFirst(
                             entry.get(JSON_FIELD_DATA_KEY).asText(),
-                            "/")
-                        .replace("/", ".");
+                            StringConstants.SLASH)
+                        .replace(StringConstants.SLASH, StringConstants.DOT);
                 } else {
                     cfgKey = entry.get(JSON_FIELD_DATA_KEY)
                         .asText()
-                        .replace("/" + prefix + "/", "")
-                        .replace("/", ".");
+                        .replace(StringConstants.SLASH + prefix + StringConstants.SLASH, StringConstants.EMPTY)
+                        .replace(StringConstants.SLASH, StringConstants.DOT);
                 }
 
                 // Check if current configuration object is a file

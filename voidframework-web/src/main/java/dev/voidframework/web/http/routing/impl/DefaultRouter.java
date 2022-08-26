@@ -2,6 +2,7 @@ package dev.voidframework.web.http.routing.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.helper.ProxyDetector;
 import dev.voidframework.web.exception.RoutingException;
 import dev.voidframework.web.http.HttpMethod;
@@ -103,7 +104,7 @@ public class DefaultRouter implements Router, RouterPostInitialization {
         this.routeListPerHttpMethodMap.computeIfAbsent(httpMethod, (key) -> new ArrayList<>()).add(route);
 
         final String nameKey = StringUtils.isBlank(name)
-            ? (controllerClass.getName() + "." + method.getName()).replace("$", ".")
+            ? (controllerClass.getName() + StringConstants.DOT + method.getName()).replace("$", StringConstants.DOT)
             : name;
         this.routeListPerNameMap.computeIfAbsent(nameKey, (key) -> new ArrayList<>()).add(route);
     }

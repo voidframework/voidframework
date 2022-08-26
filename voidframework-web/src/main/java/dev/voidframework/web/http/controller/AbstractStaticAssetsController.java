@@ -2,6 +2,7 @@ package dev.voidframework.web.http.controller;
 
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.HttpContentType;
@@ -61,7 +62,7 @@ public abstract class AbstractStaticAssetsController {
     @SuppressWarnings("unused")
     public Result webjarAsset(@RequestPath("fileName") final String fileName) {
 
-        if (StringUtils.isBlank(fileName) || fileName.contains("..")) {
+        if (StringUtils.isBlank(fileName) || fileName.contains(StringConstants.DOUBLE_DOT)) {
             throw new HttpException.NotFound();
         }
 
@@ -101,7 +102,7 @@ public abstract class AbstractStaticAssetsController {
     @RequestRoute(method = HttpMethod.GET, route = "/static/(?<fileName>.*)")
     public Result staticAsset(@RequestPath("fileName") final String fileName) {
 
-        if (StringUtils.isBlank(fileName) || fileName.contains("..")) {
+        if (StringUtils.isBlank(fileName) || fileName.contains(StringConstants.DOUBLE_DOT)) {
             throw new HttpException.NotFound();
         }
 
@@ -128,7 +129,7 @@ public abstract class AbstractStaticAssetsController {
                 requestedFileName = File.separator + requestedFileName;
             }
 
-            inputStream = this.getClass().getResourceAsStream(requestedFileName.replace(File.separator, "/"));
+            inputStream = this.getClass().getResourceAsStream(requestedFileName.replace(File.separator, StringConstants.SLASH));
             if (inputStream == null) {
                 throw new HttpException.NotFound();
             }

@@ -1,6 +1,7 @@
 package dev.voidframework.web.server.http;
 
 import com.google.common.collect.ImmutableList;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.http.Cookie;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.HttpRequest;
@@ -62,7 +63,7 @@ public final class UndertowRequest implements HttpRequest {
             return false;
         }
 
-        for (final String value : acceptHeaderValues.get(0).split(",")) {
+        for (final String value : acceptHeaderValues.get(0).split(StringConstants.COMMA)) {
             if (value.contains(contentType)) {
                 return true;
             }

@@ -1,6 +1,7 @@
 package dev.voidframework.web.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.helper.Reflection;
 import dev.voidframework.core.helper.Xml;
@@ -123,6 +124,6 @@ public record HttpRequestBodyContent(String contentType,
     @Override
     public String toString() {
 
-        return "HttpRequestBodyContent{contentType='" + contentType + "}";
+        return "HttpRequestBodyContent{contentType='" + contentType + StringConstants.CURLY_BRACKET_CLOSE;
     }
 }
