@@ -35,5 +35,5 @@ This project is released under terms of the [MIT license](https://raw.githubuser
 
 ## Third party
 
-Logo is from [Flaticon](https://www.flaticon.com/free-icon/black-hole_1873555) with 
-free usage for personal and commercial purpose. <a href="https://www.flaticon.com/free-icons/black-hole" title="black hole icons">Black hole icons created by Freepik - Flaticon</a>
+Logo is from [Flaticon](https://www.flaticon.com) with 
+free usage for personal and commercial purpose. <a href="https://www.flaticon.com/free-icon/black-hole_1873555" title="black hole icons">Black hole icons created by Freepik - Flaticon</a>
