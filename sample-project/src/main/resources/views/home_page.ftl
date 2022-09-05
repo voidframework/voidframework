@@ -2,8 +2,8 @@
 <head>
     <title>Void Framework</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/webjars/font-awesome/6.1.0/css/all.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/font-awesome/6.1.2/css/all.min.css">
     <link rel="stylesheet" href="/static/css/application.css">
 </head>
 <body class="disable-select">
@@ -66,8 +66,8 @@
     ${i18n("commons.loader.please.wait")}
 </div>
 </body>
-<script type="text/javascript" src="/webjars/jquery/3.6.0/jquery.js"></script>
-<script type="text/javascript" src="/webjars/popper.js/2.9.3/umd/popper.min.js"></script>
-<script type="text/javascript" src="/webjars/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="/webjars/jquery/3.6.1/jquery.js"></script>
+<script type="text/javascript" src="/webjars/popper.js/2.9.2/umd/popper.min.js"></script>
+<script type="text/javascript" src="/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="/static/js/application.js"></script>
 </html>
