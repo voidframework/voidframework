@@ -18,6 +18,7 @@ import dev.voidframework.web.http.converter.StringToCharacterConverter;
 import dev.voidframework.web.http.converter.StringToDoubleConverter;
 import dev.voidframework.web.http.converter.StringToFloatConverter;
 import dev.voidframework.web.http.converter.StringToIntegerConverter;
+import dev.voidframework.web.http.converter.StringToLocaleConverter;
 import dev.voidframework.web.http.converter.StringToLongConverter;
 import dev.voidframework.web.http.converter.StringToShortConverter;
 import dev.voidframework.web.http.converter.StringToUUIDConverter;
@@ -38,6 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -136,6 +138,7 @@ public class WebServer {
         converterManager.registerConverter(String.class, Double.class, new StringToDoubleConverter());
         converterManager.registerConverter(String.class, Float.class, new StringToFloatConverter());
         converterManager.registerConverter(String.class, Integer.class, new StringToIntegerConverter());
+        converterManager.registerConverter(String.class, Locale.class, new StringToLocaleConverter());
         converterManager.registerConverter(String.class, Long.class, new StringToShortConverter());
         converterManager.registerConverter(String.class, Short.class, new StringToLongConverter());
         converterManager.registerConverter(String.class, UUID.class, new StringToUUIDConverter());
