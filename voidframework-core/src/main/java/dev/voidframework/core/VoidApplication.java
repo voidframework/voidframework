@@ -157,10 +157,10 @@ public class VoidApplication {
                 throw new AppLauncherException.ModuleInitFailure(moduleClass, ex);
             }
         }
-        LOGGER.info("Modules loaded ({} modules)", appModuleList.size());
 
         // Create injector
         this.injector = Guice.createInjector(Stage.PRODUCTION, coreModule, Modules.combine(appModuleList), scanClassBindModule);
+        LOGGER.info("Modules loaded ({} modules)", appModuleList.size());
 
         // Register detected converters
         LOGGER.info("Registering converters");
