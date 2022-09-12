@@ -2,7 +2,7 @@
 <head>
     <title>Void Framework</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/webjars/bootstrap/5.1.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
