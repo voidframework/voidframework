@@ -78,6 +78,11 @@ public class UndertowHttpHandler implements HttpHandler {
     @Override
     public void handleRequest(final HttpServerExchange httpServerExchange) {
 
+        if (httpServerExchange.isInIoThread()) {
+            httpServerExchange.dispatch(this);
+            return;
+        }
+
         httpServerExchange.startBlocking();
 
         // Create HTTP request
@@ -251,13 +256,13 @@ public class UndertowHttpHandler implements HttpHandler {
                         }
                     }
 
-                    httpRequest = new UndertowRequest(
+                    httpRequest = new UndertowHttpRequest(
                         httpServerExchange,
                         new HttpRequestBodyContent(contentType, null, formItemPerKeyMap));
 
                 } else {
                     final byte[] content = httpServerExchange.getInputStream().readAllBytes();
-                    httpRequest = new UndertowRequest(
+                    httpRequest = new UndertowHttpRequest(
                         httpServerExchange,
                         new HttpRequestBodyContent(contentType, content, null));
                 }
@@ -279,6 +284,6 @@ public class UndertowHttpHandler implements HttpHandler {
      */
     private HttpRequest createHttpRequestWithoutBodyContent(final HttpServerExchange httpServerExchange) {
 
-        return new UndertowRequest(httpServerExchange, new HttpRequestBodyContent(null, null, null));
+        return new UndertowHttpRequest(httpServerExchange, new HttpRequestBodyContent(null, null, null));
     }
 }

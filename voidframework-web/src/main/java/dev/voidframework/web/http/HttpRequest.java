@@ -22,7 +22,7 @@ public interface HttpRequest {
      * @param cookieName The cookie name
      * @return The cookie, otherwise, null
      */
-    Cookie getCookie(String cookieName);
+    Cookie getCookie(final String cookieName);
 
     /**
      * Checks if the current request accept a specific content type.
@@ -74,7 +74,7 @@ public interface HttpRequest {
      * @param parameterName The parameter name
      * @return The query string parameter value
      */
-    String getQueryStringParameter(String parameterName);
+    String getQueryStringParameter(final String parameterName);
 
     /**
      * Returns all query string parameters.
