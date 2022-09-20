@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Undertow {@link HttpRequest} implementation.
  */
-public final class UndertowRequest implements HttpRequest {
+public final class UndertowHttpRequest implements HttpRequest {
 
     private final HttpServerExchange httpServerExchange;
     private final HttpRequestBodyContent httpRequestBodyContent;
@@ -32,8 +32,8 @@ public final class UndertowRequest implements HttpRequest {
      * @param httpServerExchange     Current Http server exchange
      * @param httpRequestBodyContent Current Http request body content
      */
-    public UndertowRequest(final HttpServerExchange httpServerExchange,
-                           final HttpRequestBodyContent httpRequestBodyContent) {
+    public UndertowHttpRequest(final HttpServerExchange httpServerExchange,
+                               final HttpRequestBodyContent httpRequestBodyContent) {
 
         this.httpServerExchange = httpServerExchange;
         this.httpRequestBodyContent = httpRequestBodyContent;

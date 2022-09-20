@@ -22,28 +22,16 @@ import dev.voidframework.web.http.routing.Router;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Http request handler.
  */
-public final class HttpRequestHandler {
-
-    private static final Map<Class<?>, PrimitiveAlternative> PRIMITIVE_ALTERNATIVE_MAP = Map.ofEntries(
-        Map.entry(boolean.class, new PrimitiveAlternative(Boolean.class, false)),
-        Map.entry(byte.class, new PrimitiveAlternative(Byte.class, 0)),
-        Map.entry(char.class, new PrimitiveAlternative(Character.class, 0)),
-        Map.entry(double.class, new PrimitiveAlternative(Double.class, 0d)),
-        Map.entry(float.class, new PrimitiveAlternative(Float.class, 0f)),
-        Map.entry(int.class, new PrimitiveAlternative(Integer.class, 0)),
-        Map.entry(long.class, new PrimitiveAlternative(Long.class, 0)),
-        Map.entry(short.class, new PrimitiveAlternative(Short.class, 0)));
+public final class HttpRequestHandler extends AbstractHttpRequestHandler {
 
     private final Injector injector;
     private final List<Class<? extends Filter>> globalFilterClassTypes;
 
     private final ErrorHandler errorHandler;
-    private final Conversion conversion;
     private final Router router;
     private final Config configuration;
     private TemplateRenderer templateRenderer;
@@ -59,10 +47,11 @@ public final class HttpRequestHandler {
                               final ErrorHandler errorHandler,
                               final List<Class<? extends Filter>> globalFilterClassTypes) {
 
+        super(injector.getInstance(Conversion.class));
+
         this.injector = injector;
         this.errorHandler = errorHandler;
         this.globalFilterClassTypes = globalFilterClassTypes;
-        this.conversion = this.injector.getInstance(Conversion.class);
         this.router = this.injector.getInstance(Router.class);
         this.configuration = this.injector.getInstance(Config.class);
         try {
@@ -147,8 +136,8 @@ public final class HttpRequestHandler {
                     result.getResultProcessor().process(ctx, configuration, templateRenderer);
                     return result;
 
-                } catch (final Throwable throwable) {
-                    final Throwable cause = throwable.getCause() == null ? throwable : throwable.getCause();
+                } catch (final Exception exception) {
+                    final Throwable cause = exception.getCause() == null ? exception : exception.getCause();
 
                     final Result result;
                     if (cause instanceof HttpException.NotFound) {
@@ -156,7 +145,7 @@ public final class HttpRequestHandler {
                     } else if (cause instanceof HttpException.BadRequest) {
                         result = errorHandler.onBadRequest(ctx, (HttpException.BadRequest) cause);
                     } else {
-                        result = errorHandler.onServerError(ctx, throwable);
+                        result = errorHandler.onServerError(ctx, exception);
                     }
 
                     result.getResultProcessor().process(ctx, configuration, templateRenderer);
@@ -172,8 +161,8 @@ public final class HttpRequestHandler {
             // Process the entire Filters chain
             final FilterChain filterChain = new DefaultFilterChain(filterList);
             return filterChain.applyNext(context);
-        } catch (final Throwable throwable) {
-            final Result result = errorHandler.onServerError(context, throwable);
+        } catch (final Exception exception) {
+            final Result result = errorHandler.onServerError(context, exception);
             result.getResultProcessor().process(context, configuration, templateRenderer);
             return result;
         }
@@ -224,40 +213,5 @@ public final class HttpRequestHandler {
         }
 
         return methodArgumentValueArray;
-    }
-
-    /**
-     * Try to convert value from a String into the needed parameter type.
-     *
-     * @param value              The string containing the value to convert
-     * @param parameterTypeClass The needed output parameter type class
-     * @return The converter value, otherwise, null
-     */
-    private Object convertValueToParameterType(final String value, final Class<?> parameterTypeClass) {
-
-        Class<?> clazzToUse = parameterTypeClass;
-        Object defaultValue = null;
-
-        if (parameterTypeClass == String.class) {
-            return value;
-        }
-
-        final PrimitiveAlternative primitiveAlternative = PRIMITIVE_ALTERNATIVE_MAP.get(parameterTypeClass);
-        if (primitiveAlternative != null) {
-            clazzToUse = primitiveAlternative.replacementClass;
-            defaultValue = primitiveAlternative.defaultValue;
-        }
-
-        final Object converterValue = conversion.convert(value, clazzToUse);
-        return converterValue != null ? converterValue : defaultValue;
-    }
-
-    /**
-     * Defines an alternative for primitive value conversion.
-     *
-     * @param replacementClass The remplacement class
-     * @param defaultValue     The default value if converter return {@code null}
-     */
-    private record PrimitiveAlternative(Class<?> replacementClass, Object defaultValue) {
     }
 }

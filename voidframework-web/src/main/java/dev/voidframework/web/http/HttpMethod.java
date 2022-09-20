@@ -10,5 +10,6 @@ public enum HttpMethod {
     HEAD,
     OPTIONS,
     POST,
-    PUT
+    PUT,
+    WEBSOCKET
 }
