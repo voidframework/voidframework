@@ -292,10 +292,10 @@ public class WebServer {
         }
 
         // Tries to Apply extra configuration
-        if (this.configuration.hasPath("CONFIGURATION_EXTRA_WEBSERVER_CONFIGURATION_IMPLEMENTATION")) {
+        if (this.configuration.hasPath(CONFIGURATION_EXTRA_WEBSERVER_CONFIGURATION_IMPLEMENTATION)) {
             this.applyExtraWebServerConfiguration(
                 undertowBuilder,
-                this.configuration.getString("CONFIGURATION_EXTRA_WEBSERVER_CONFIGURATION_IMPLEMENTATION"));
+                this.configuration.getString(CONFIGURATION_EXTRA_WEBSERVER_CONFIGURATION_IMPLEMENTATION));
         }
 
         return undertowBuilder.build();
