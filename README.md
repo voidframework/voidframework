@@ -7,7 +7,7 @@
 
 [![Java CI](https://img.shields.io/github/workflow/status/voidframework/voidframework/Java%20CI?logo=github&color=%231da868)](https://github.com/voidframework/voidframework/actions/workflows/build.yml)
 [![CodeQL](https://img.shields.io/github/workflow/status/voidframework/voidframework/CodeQL?label=codeql&logo=github&color=%231da868)](https://github.com/voidframework/voidframework/actions/workflows/codeql-analysis.yml)
-[![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/voidframework_voidframework?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&color=%231da868)](https://github.com/voidframework/voidframework)
+[![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/voidframework_voidframework?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&color=%231da868)](https://sonarcloud.io/project/overview?id=voidframework_voidframework)
 
 Light and modular Framework for Java
 *****
