@@ -6,6 +6,7 @@ import dev.voidframework.core.helper.IO;
 import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.lang.Either;
 import dev.voidframework.web.exception.HttpException;
+import dev.voidframework.web.exception.TempFileLocationException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.Cookie;
 import dev.voidframework.web.http.FlashMessages;
@@ -25,10 +26,13 @@ import io.undertow.server.handlers.form.MultiPartParserDefinition;
 import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -67,9 +71,19 @@ public class UndertowHttpHandler implements HttpHandler {
         this.formEncodedDataDefinition = new FormEncodedDataDefinition();
         this.formEncodedDataDefinition.setDefaultEncoding("UTF-8");
 
+        Path tempFileLocationPath = null;
+        if (this.configuration.hasPath("voidframework.web.server.tempFileLocation")) {
+            final String tempFileLocationString = this.configuration.getString("voidframework.web.server.tempFileLocation");
+            tempFileLocationPath = Paths.get(tempFileLocationString);
+
+            final File tempFileLocationFile = tempFileLocationPath.toFile();
+            if (!tempFileLocationFile.exists() && !tempFileLocationFile.mkdirs()) {
+                throw new TempFileLocationException.DirectoryCreationFailure(tempFileLocationString);
+            }
+        }
+
         this.multiPartParserDefinition = new MultiPartParserDefinition()
-            //.setTempFileLocation(new File(System.getProperty("java.io.tmpdir")).toPath())
-            .setTempFileLocation(null)
+            .setTempFileLocation(tempFileLocationPath)
             .setDefaultEncoding("UTF-8");
         this.multiPartParserDefinition.setFileSizeThreshold(
             this.configuration.getMemorySize("voidframework.web.server.fileSizeThreshold").toBytes());
