@@ -74,9 +74,7 @@ public class VoidApplication {
         final long startTimeMillis = System.currentTimeMillis();
 
         LOGGER.info("Fetching configuration");
-        final Config applicationConfiguration = ConfigFactory.defaultApplication(this.getClass().getClassLoader());
-        final Config referenceConfiguration = ConfigFactory.defaultReference(this.getClass().getClassLoader()).withOnlyPath("voidframework");
-        final Config localConfiguration = applicationConfiguration.withFallback(referenceConfiguration).resolve();
+        final Config localConfiguration = ConfigFactory.load(this.getClass().getClassLoader());
         final Config remoteConfiguration = RemoteConfigurationLoader.processAllProviders(localConfiguration);
         final Config configuration = remoteConfiguration.withFallback(localConfiguration);
         LOGGER.info("Configuration fetched with success ({} keys)", configuration.entrySet().size());
