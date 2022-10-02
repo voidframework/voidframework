@@ -62,7 +62,7 @@ public class CronExpression {
         Map.entry("SEP", "9"),
         Map.entry("OCT", "10"),
         Map.entry("NOV", "11"),
-        Map.entry("DEV", "12"));
+        Map.entry("DEC", "12"));
 
     private static final Map<String, String> DAY_OF_WEEK_NAME_TO_VALUE = Map.ofEntries(
         Map.entry("SUN", "0"),
