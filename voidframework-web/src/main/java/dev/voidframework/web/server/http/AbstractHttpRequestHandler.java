@@ -2,6 +2,8 @@ package dev.voidframework.web.server.http;
 
 import dev.voidframework.core.conversion.Conversion;
 
+import java.lang.reflect.Array;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -55,6 +57,30 @@ abstract class AbstractHttpRequestHandler {
 
         final Object converterValue = conversion.convert(value, clazzToUse);
         return converterValue != null ? converterValue : defaultValue;
+    }
+
+    /**
+     * Try to convert multiple values from a String into an array of needed parameter type.
+     *
+     * @param valueList          The list of string containing the value to convert
+     * @param parameterTypeClass The needed output parameter type class
+     * @return The converter values as array, otherwise, null
+     */
+    protected Object convertValuesToParameterTypeArray(final List<String> valueList, final Class<?> parameterTypeClass) {
+
+        if (valueList == null) {
+            return null;
+        }
+
+        final Object target = Array.newInstance(parameterTypeClass, valueList.size());
+
+        int idx = 0;
+        for (final String value : valueList) {
+            Array.set(target, idx, this.convertValueToParameterType(value, parameterTypeClass));
+            idx += 1;
+        }
+
+        return target;
     }
 
     /**

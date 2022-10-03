@@ -10,6 +10,8 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderValues;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -120,9 +122,21 @@ public final class UndertowHttpRequest implements HttpRequest {
             return null;
         }
 
-        final Deque<String> parameetersValueDeque = this.httpServerExchange.getQueryParameters().get(parameterName);
+        final Deque<String> parametersValueDeque = this.httpServerExchange.getQueryParameters().get(parameterName);
 
-        return parameetersValueDeque == null ? null : parameetersValueDeque.getFirst();
+        return parametersValueDeque == null ? null : parametersValueDeque.getFirst();
+    }
+
+    @Override
+    public List<String> getQueryStringParameterAsList(final String parameterName) {
+
+        if (parameterName == null) {
+            return Collections.emptyList();
+        }
+
+        final Deque<String> parametersValueDeque = this.httpServerExchange.getQueryParameters().get(parameterName);
+
+        return parametersValueDeque == null ? Collections.emptyList() : new ArrayList<>(parametersValueDeque);
     }
 
     @Override
