@@ -49,6 +49,15 @@ final class CronExpressionTest {
     }
 
     @Test
+    void badCronExpressionDayOfWeek() {
+
+        // Act
+        Assertions.assertThrowsExactly(
+            SchedulerException.InvalidCronExpression.class,
+            () -> new CronExpression("0 0 18 0 0 sun"));
+    }
+
+    @Test
     void everySeconds() {
 
         // Arrange
@@ -186,6 +195,25 @@ final class CronExpressionTest {
 
         // Assert
         Assertions.assertEquals(LocalDateTime.of(2022, 6, 22, 14, 30, 0), nextTriggerLocalDateTime);
+    }
+
+    @Test
+    void everySundayAt18h00() {
+
+        // Arrange
+        // Twice a day (2h30 & 14h30) from Monday to Friday
+        final CronExpression cronExpression = new CronExpression("0 0 18 * * sun");
+
+        // Given: Wednesday, June 22, 2022 12:00:00
+        // Expected: Sunday, June 26, 2022 18:00:00
+        LocalDateTime localDateTime = LocalDateTime.of(2022, 6, 22, 12, 0, 0);
+
+        // Act
+        long delay = callByReflection_getNextDelayMilliseconds(cronExpression, localDateTime);
+        LocalDateTime nextTriggerLocalDateTime = localDateTime.plusSeconds(delay / 1000);
+
+        // Assert
+        Assertions.assertEquals(LocalDateTime.of(2022, 6, 26, 18, 0, 0), nextTriggerLocalDateTime);
     }
 
     /**
