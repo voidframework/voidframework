@@ -202,9 +202,15 @@ public final class HttpRequestHandler extends AbstractHttpRequestHandler {
                     resolvedRoute.extractedParameterValues().getOrDefault(requestPath.value(), null),
                     parameter.getType());
             } else if (requestVariable != null) {
-                methodArgumentValueArray[idx] = convertValueToParameterType(
-                    context.getRequest().getQueryStringParameter(requestVariable.value()),
-                    parameter.getType());
+                if (parameter.getType().isArray()) {
+                    methodArgumentValueArray[idx] = convertValuesToParameterTypeArray(
+                        context.getRequest().getQueryStringParameterAsList(requestVariable.value()),
+                        parameter.getType().componentType());
+                } else {
+                    methodArgumentValueArray[idx] = convertValueToParameterType(
+                        context.getRequest().getQueryStringParameter(requestVariable.value()),
+                        parameter.getType());
+                }
             } else {
                 methodArgumentValueArray[idx] = this.injector.getInstance(parameter.getType());
             }

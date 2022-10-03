@@ -77,6 +77,15 @@ public interface HttpRequest {
     String getQueryStringParameter(final String parameterName);
 
     /**
+     * Returns the query string parameter values as list.
+     * If the parameter does not exist, an empty list will be returned.
+     *
+     * @param parameterName The parameter name
+     * @return The query string parameter values as list
+     */
+    List<String> getQueryStringParameterAsList(final String parameterName);
+
+    /**
      * Returns all query string parameters.
      *
      * @return All query string parameters
