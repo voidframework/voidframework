@@ -1,6 +1,6 @@
 package dev.voidframework.cache.module;
 
-import dev.voidframework.cache.CacheResult;
+import dev.voidframework.cache.annotation.CacheResult;
 import org.aopalliance.intercept.MethodInvocation;
 
 /**

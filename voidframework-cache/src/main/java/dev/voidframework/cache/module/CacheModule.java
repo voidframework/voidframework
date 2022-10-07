@@ -2,8 +2,8 @@ package dev.voidframework.cache.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
-import dev.voidframework.cache.CacheRemove;
-import dev.voidframework.cache.CacheResult;
+import dev.voidframework.cache.annotation.CacheRemove;
+import dev.voidframework.cache.annotation.CacheResult;
 import dev.voidframework.cache.engine.CacheEngine;
 
 /**
