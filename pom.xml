@@ -59,8 +59,8 @@
         <dependency.version.hibernate.orm>6.1.2.Final</dependency.version.hibernate.orm>
         <dependency.version.hibernate.validator>7.0.5.Final</dependency.version.hibernate.validator>
         <dependency.version.hikaricp>5.0.1</dependency.version.hikaricp>
-        <dependency.version.jackson.core>2.13.4</dependency.version.jackson.core>
-        <dependency.version.jackson>2.13.4</dependency.version.jackson>
+        <dependency.version.jackson.core>2.14.0-rc1</dependency.version.jackson.core>
+        <dependency.version.jackson>2.14.0-rc1</dependency.version.jackson>
         <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
         <dependency.version.jakarta.persistenceapi>3.1.0</dependency.version.jakarta.persistenceapi>
         <dependency.version.jedis>4.2.3</dependency.version.jedis>
