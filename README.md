@@ -21,6 +21,8 @@ installed.
     #> mvn package
     #> mvn install
 
+To speed up process, you can ignore unit tests by using: `-DskipTests=true -Dmaven.test.skip=true`.
+
 
 
 ## Maven central
