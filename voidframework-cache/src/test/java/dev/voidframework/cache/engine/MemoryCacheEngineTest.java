@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.Optional;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -95,6 +96,30 @@ final class MemoryCacheEngineTest {
 
         // Assert
         Assertions.assertEquals(1337, value);
+
+        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        Assertions.assertNotNull(internalCacheMap);
+        Assertions.assertEquals(1, internalCacheMap.size());
+    }
+
+    @Test
+    void setOptionalValueAndGetOptionalValueKey() {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("voidframework.cache.inMemory.flushWhenFullMaxItem = 2");
+        final MemoryCacheEngine memoryCacheEngine = new MemoryCacheEngine(configuration);
+        final Optional<Integer> optionalInteger = Optional.of(1337);
+        memoryCacheEngine.set("key", optionalInteger, 60);
+
+        // Act
+        final Object value = memoryCacheEngine.get("key");
+
+        // Assert
+        Assertions.assertTrue(value instanceof Optional<?>);
+
+        final Optional<?> optIntegerActual = (Optional<?>) value;
+        Assertions.assertTrue(optIntegerActual.isPresent());
+        Assertions.assertEquals(1337, optIntegerActual.get());
 
         final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
