@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * This abstract implementation provides the necessary tools for the
@@ -27,9 +28,10 @@ public abstract class AbstractCacheEngine implements CacheEngine {
         this.kryo = new Kryo();
         kryo.setRegistrationRequired(false);
         kryo.register(ArrayList.class);
+        kryo.register(Class.class);
         kryo.register(HashMap.class);
         kryo.register(HashSet.class);
-        kryo.register(Class.class);
+        kryo.register(Optional.class);
     }
 
     /**

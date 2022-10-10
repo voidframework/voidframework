@@ -15,10 +15,10 @@ import java.util.Map;
  * In-memory cache implementation.
  */
 @BindClass
-public final class MemoryCacheEngine implements CacheEngine {
+public final class MemoryCacheEngine extends AbstractCacheEngine {
 
     private final int flushWhenFullMaxItem;
-    private final Map<String, CachedItem> cacheMap;
+    private final Map<String, ExpirationElement> cacheMap;
 
     /**
      * Build a new instance.
@@ -39,15 +39,15 @@ public final class MemoryCacheEngine implements CacheEngine {
             return null;
         }
 
-        final CachedItem cachedItem = this.cacheMap.get(cacheKey);
-        if (cachedItem == null) {
+        final ExpirationElement expirationElement = this.cacheMap.get(cacheKey);
+        if (expirationElement == null) {
             return null;
-        } else if (LocalDateTime.now(ZoneOffset.UTC).isAfter(cachedItem.expirationDate)) {
+        } else if (LocalDateTime.now(ZoneOffset.UTC).isAfter(expirationElement.expirationDate)) {
             this.cacheMap.remove(cacheKey);
             return null;
         }
 
-        return cachedItem.value;
+        return this.unwrap(expirationElement.cachedElement);
     }
 
     @Override
@@ -58,11 +58,12 @@ public final class MemoryCacheEngine implements CacheEngine {
                 this.cacheMap.clear();
             }
 
-            final CachedItem cachedItem = new CachedItem(value,
+            final ExpirationElement expirationElement = new ExpirationElement(
+                this.wrap(value),
                 timeToLive > 0
                     ? LocalDateTime.now(ZoneOffset.UTC).plusSeconds(timeToLive)
                     : LocalDateTime.MAX);
-            this.cacheMap.put(cacheKey, cachedItem);
+            this.cacheMap.put(cacheKey, expirationElement);
         }
     }
 
@@ -75,12 +76,12 @@ public final class MemoryCacheEngine implements CacheEngine {
     }
 
     /**
-     * A cached item.
+     * An element with expiration.
      *
-     * @param value          The cached value
+     * @param cachedElement  The cached element
      * @param expirationDate When the value will be considered as expired
      */
-    private record CachedItem(Object value,
-                              LocalDateTime expirationDate) {
+    private record ExpirationElement(CachedElement cachedElement,
+                                     LocalDateTime expirationDate) {
     }
 }
