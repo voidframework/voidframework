@@ -13,6 +13,7 @@ import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Jedis resource provider.
@@ -54,7 +55,7 @@ public class JedisResourceProvider implements Provider<Jedis> {
             final int poolMinIdle = this.configuration.getInt(CONFIGURATION_KEY_CONNECTION_POOL_MINIMUM_IDLE);
             final int poolMaxIdle = this.configuration.getInt(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_IDLE);
             final int poolMaxTotal = this.configuration.getInt(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_SIZE);
-            final int connectionTimeout = this.configuration.getInt(CONFIGURATION_KEY_CONNECTION_POOL_CONNECTION_TIMEOUT);
+            final long connectionTimeout = this.configuration.getDuration(CONFIGURATION_KEY_CONNECTION_POOL_CONNECTION_TIMEOUT, TimeUnit.MILLISECONDS);
             final Duration maximumWait = this.configuration.getDuration(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_WAIT);
             final String host = this.configuration.getString(CONFIGURATION_KEY_HOST);
             final int port = this.configuration.getInt(CONFIGURATION_KEY_PORT);
@@ -75,7 +76,7 @@ public class JedisResourceProvider implements Provider<Jedis> {
                 throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_HOST);
             } else if (port <= 0 || port > 65535) {
                 throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_PORT);
-            } else if (connectionTimeout <= 0) {
+            } else if (connectionTimeout <= 0 || connectionTimeout > Integer.MAX_VALUE) {
                 throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_CONNECTION_POOL_CONNECTION_TIMEOUT);
             }
 
@@ -87,9 +88,9 @@ public class JedisResourceProvider implements Provider<Jedis> {
             jedisPoolConfig.setMaxWait(maximumWait);
 
             if (StringUtils.isNotBlank(password)) {
-                this.jedisPool = new JedisPool(jedisPoolConfig, host, port, connectionTimeout, password);
+                this.jedisPool = new JedisPool(jedisPoolConfig, host, port, (int) connectionTimeout, password);
             } else {
-                this.jedisPool = new JedisPool(jedisPoolConfig, host, port, connectionTimeout);
+                this.jedisPool = new JedisPool(jedisPoolConfig, host, port, (int) connectionTimeout);
             }
 
             // Ready!
