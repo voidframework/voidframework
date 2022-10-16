@@ -352,6 +352,7 @@ public interface Redis {
 
     /**
      * Decrements a number value. If key does not exist, it will be created automatically.
+     * Expiration is set only when the key is created.
      *
      * @param key        The value key
      * @param expiration The value TTL
@@ -377,6 +378,7 @@ public interface Redis {
 
     /**
      * Increments a number value. If key does not exist, it will be created automatically.
+     * Expiration is set only when the key is created.
      *
      * @param key        The value key
      * @param expiration The value TTL
