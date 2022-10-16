@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.core.helper.Json;
@@ -321,7 +322,7 @@ public class DefaultRedis implements Redis {
             if (ret == 1) {
                 jedis.expire(key, expiration);
             }
-        } catch (final JedisConnectionException ex) {
+        } catch (final JedisConnectionException | ProvisionException ex) {
             LOGGER.error("Can't connect to Redis: {}", ex.getCause().getMessage());
         } catch (final JedisDataException ex) {
             LOGGER.error("Can't connect to Redis: {}", ex.getMessage());
@@ -337,7 +338,7 @@ public class DefaultRedis implements Redis {
 
         try (final Jedis jedis = this.getConnection()) {
             value = jedis.decr(key);
-            if (expiration > 0 && value == 1) {
+            if (expiration > 0 && value == -1) {
                 jedis.expire(key, expiration);
             }
         }
@@ -386,7 +387,7 @@ public class DefaultRedis implements Redis {
         try {
             final String data = writer.writeValueAsString(value);
             try (final Jedis jedis = this.getConnection()) {
-                jedis.lpush(key, data);
+                jedis.rpush(key, data);
             }
         } catch (final IOException ex) {
             LOGGER.error("Can't add object in list", ex);
@@ -409,8 +410,10 @@ public class DefaultRedis implements Redis {
         try {
             final String data = writer.writeValueAsString(value);
             try (final Jedis jedis = this.getConnection()) {
-                jedis.lpush(key, data);
-                jedis.ltrim(key, 0, maxItem > 0 ? maxItem - 1 : maxItem);
+                final long currentIdx = jedis.rpush(key, data);
+                if (currentIdx > maxItem) {
+                    jedis.ltrim(key, maxItem > 0 ? maxItem - 1 : maxItem + 1, -1);
+                }
             }
         } catch (final IOException ex) {
             LOGGER.error("Can't add object in list", ex);
@@ -434,6 +437,7 @@ public class DefaultRedis implements Redis {
             try (final Jedis jedis = this.getConnection()) {
                 rawData = jedis.get(key);
             }
+
             if (rawData != null) {
                 object = reader.readValue(rawData.getBytes());
             }
@@ -464,8 +468,10 @@ public class DefaultRedis implements Redis {
         try {
             final List<String> rawData;
             try (final Jedis jedis = this.getConnection()) {
-                rawData = jedis.lrange(key, offset, count > 0 ? count - 1 : count);
+                final int stop = offset + count;
+                rawData = jedis.lrange(key, offset, stop <= 0 ? stop : stop - 1);
             }
+
             if (rawData != null) {
                 for (final String s : rawData) {
                     objects.add(reader.readValue(s));
@@ -504,6 +510,7 @@ public class DefaultRedis implements Redis {
             } catch (final Exception ex) {
                 throw new RedisException.CallableFailure(ex);
             }
+
             this.set(key, writer, data, expiration);
         }
 
