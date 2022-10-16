@@ -21,7 +21,7 @@ final class InternationalizationProviderTest {
     void injectorDoesNotExist() {
 
         // Arrange + Act
-        final Config configuration = ConfigFactory.parseString("voidframework.i18n.engine =dev.voidframework.i18n.UnknownImplementationClass");
+        final Config configuration = ConfigFactory.parseString("voidframework.i18n.engine = dev.voidframework.i18n.UnknownImplementationClass");
         final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
             @Override
             protected void configure() {
