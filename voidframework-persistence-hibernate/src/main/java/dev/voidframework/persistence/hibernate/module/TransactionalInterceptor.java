@@ -46,7 +46,7 @@ public class TransactionalInterceptor implements MethodInterceptor {
         final EntityManager entityManager = this.entityManagerProvider.get();
         final EntityTransaction transaction = entityManager.getTransaction();
 
-        // Check transaction context
+        // Checks transaction context
         final boolean isTransactionActive = transaction.isActive();
 
         if (transactionalAnnotation.value() == Transactional.TxType.NOT_SUPPORTED) {

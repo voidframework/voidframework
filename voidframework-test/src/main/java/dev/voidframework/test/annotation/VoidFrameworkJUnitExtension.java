@@ -176,7 +176,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
                     continue;
                 }
 
-                // Check if mock is not already known
+                // Checks if mock is not already known
                 final Optional<TrackedInstanceHandler<Object>> existingMockedInstanceOptional = this.trackedInstanceHandlerSet
                     .stream()
                     .filter(element -> element.classType == classType)
@@ -211,7 +211,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
                         mockedInstance = Mockito.spy(mockedInstance);
                     }
 
-                    // Set mocked value to the field
+                    // Sets mocked value to the field
                     this.setValueToField(testInstance, field, mockedInstance);
 
                     // Keeps track of the mocked value (only the last instance is needed)

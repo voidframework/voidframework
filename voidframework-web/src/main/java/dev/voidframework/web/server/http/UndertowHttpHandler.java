@@ -142,12 +142,12 @@ public class UndertowHttpHandler implements HttpHandler {
             ? httpRequestHandler.onRouteRequest(context)
             : httpRequestHandler.onBadRequest(context, httpRequestOrException.getRight());
 
-        // Check if exchange is still available
+        // Checks if exchange is still available
         if (httpServerExchange.isComplete()) {
             return;
         }
 
-        // Set the return HttpCode and Content-Type
+        // Sets the return HttpCode and Content-Type
         httpServerExchange.setStatusCode(result.getHttpCode());
         httpServerExchange.getResponseHeaders().put(Headers.CONTENT_TYPE, result.getContentType());
 

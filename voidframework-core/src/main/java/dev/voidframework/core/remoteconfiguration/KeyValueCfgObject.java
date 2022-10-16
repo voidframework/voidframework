@@ -30,14 +30,14 @@ public final class KeyValueCfgObject {
             && !cleanedValue.startsWith(StringConstants.CURLY_BRACKET_OPEN)
             && cleanedValue.compareToIgnoreCase("null") != 0) {
 
-            // Check if value is a boolean
+            // Checks if value is a boolean
             if (cleanedValue.compareToIgnoreCase("true") == 0
                 || cleanedValue.compareToIgnoreCase("false") == 0) {
                 this.value = Boolean.parseBoolean(cleanedValue);
             } else {
                 try {
 
-                    // Check if value is a number
+                    // Checks if value is a number
                     this.value = Long.parseLong(cleanedValue);
                 } catch (final NumberFormatException ignore) {
                     try {

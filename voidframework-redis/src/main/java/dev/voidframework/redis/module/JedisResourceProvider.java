@@ -61,7 +61,7 @@ public class JedisResourceProvider implements Provider<Jedis> {
             final int port = this.configuration.getInt(CONFIGURATION_KEY_PORT);
             final String password = this.configuration.getString(CONFIGURATION_KEY_PASSWORD);
 
-            // Check configuration
+            // Checks configuration
             if (poolMinIdle < 0) {
                 throw new RedisException.InvalidConfiguration(CONFIGURATION_KEY_CONNECTION_POOL_MINIMUM_IDLE);
             } else if (poolMaxIdle < 0) {

@@ -136,7 +136,7 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
 
         for (final JsonNode entry : jsonNode) {
 
-            // Check if current node is a directory
+            // Checks if current node is a directory
             if (entry.hasNonNull(JSON_FIELD_IS_DIRECTORY) && entry.get(JSON_FIELD_IS_DIRECTORY).asBoolean()) {
                 this.exploreJsonNode(prefix, entry.get(JSON_FIELD_NODES), keyValueObjConsumer, fileObjConsumer);
             } else if (entry.hasNonNull(JSON_FIELD_DATA_VALUE)) {
@@ -155,7 +155,7 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
                         .replace(StringConstants.SLASH, StringConstants.DOT);
                 }
 
-                // Check if current configuration object is a file
+                // Checks if current configuration object is a file
                 if (isFile(entry.get(JSON_FIELD_DATA_VALUE).asText())) {
                     fileObjConsumer.accept(
                         new FileCfgObject(cfgKey, entry.get(JSON_FIELD_DATA_VALUE).asText()));
