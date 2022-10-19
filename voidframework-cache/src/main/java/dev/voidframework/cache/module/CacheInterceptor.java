@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import dev.voidframework.cache.engine.BlackHoleCacheEngine;
 import dev.voidframework.cache.engine.CacheEngine;
 import dev.voidframework.core.constant.StringConstants;
-import dev.voidframework.core.helper.ProxyDetector;
+import dev.voidframework.core.utils.ProxyDetectorUtils;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 
@@ -55,7 +55,7 @@ public abstract class CacheInterceptor implements MethodInterceptor {
         }
 
         if (cacheKey.contains(StringConstants.CURLY_BRACKET_OPEN)) {
-            final String className = ProxyDetector.isProxy(methodInvocation.getThis())
+            final String className = ProxyDetectorUtils.isProxy(methodInvocation.getThis())
                 ? methodInvocation.getThis().getClass().getSuperclass().getName()
                 : methodInvocation.getThis().getClass().getName();
             final String methodName = methodInvocation.getMethod().getName();

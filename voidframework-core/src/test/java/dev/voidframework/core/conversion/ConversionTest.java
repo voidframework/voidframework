@@ -2,7 +2,7 @@ package dev.voidframework.core.conversion;
 
 import dev.voidframework.core.conversion.impl.ConverterCompositeKey;
 import dev.voidframework.core.conversion.impl.DefaultConverterManager;
-import dev.voidframework.core.helper.Reflection;
+import dev.voidframework.core.utils.ReflectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -27,10 +27,10 @@ final class ConversionTest {
         Assertions.assertEquals(1, converterManager.count());
         Assertions.assertTrue(converterManager.hasConvertFor(String.class, Integer.class));
 
-        final Map<ConverterCompositeKey, TypeConverter<?, ?>> converterMap = Reflection.getFieldValue(
+        final Map<ConverterCompositeKey, TypeConverter<?, ?>> converterMap = ReflectionUtils.getFieldValue(
             converterManager,
             "converterMap",
-            new Reflection.WrappedClass<>());
+            new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(converterMap);
         Assertions.assertEquals(stringToIntegerConverter, converterMap.values().stream().findFirst().orElse(null));
     }

@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -16,9 +16,9 @@ import dev.voidframework.core.exception.YamlException;
 import java.io.IOException;
 
 /**
- * Helper to handle YAML document.
+ * Utility to handle YAML document.
  */
-public final class Yaml {
+public final class YamlUtils {
 
     private static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder(new YAMLFactory())
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -32,7 +32,7 @@ public final class Yaml {
     /**
      * Default constructor.
      */
-    private Yaml() {
+    private YamlUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

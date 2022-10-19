@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,13 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-final class JsonTest {
+final class JsonUtilsTest {
 
     @Test
     void objectMapper() {
 
         // Act
-        final ObjectMapper objectMapper = Json.objectMapper();
+        final ObjectMapper objectMapper = JsonUtils.objectMapper();
 
         // Assert
         Assertions.assertNotNull(objectMapper);
@@ -36,7 +36,7 @@ final class JsonTest {
         objectNode.put("hello", "world");
 
         // Act
-        final String jsonAsString = Json.toString(objectNode);
+        final String jsonAsString = JsonUtils.toString(objectNode);
 
         // Assert
         Assertions.assertNotNull(jsonAsString);
@@ -51,7 +51,7 @@ final class JsonTest {
         dataMap.put("hello", "world");
 
         // Act
-        final JsonNode jsonNode = Json.toJson(dataMap);
+        final JsonNode jsonNode = JsonUtils.toJson(dataMap);
 
         // Assert
         Assertions.assertNotNull(jsonNode);
@@ -67,7 +67,7 @@ final class JsonTest {
         final byte[] jsonAsByteArray = "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final JsonNode jsonNode = Json.toJson(jsonAsByteArray);
+        final JsonNode jsonNode = JsonUtils.toJson(jsonAsByteArray);
 
         // Assert
         Assertions.assertNotNull(jsonNode);
@@ -83,7 +83,7 @@ final class JsonTest {
         final SimpleDto simpleDto = new SimpleDto("world!");
 
         // Act
-        final Map<String, Object> dataMap = Json.toMap(simpleDto);
+        final Map<String, Object> dataMap = JsonUtils.toMap(simpleDto);
 
         // Assert
         Assertions.assertNotNull(dataMap);
@@ -98,7 +98,7 @@ final class JsonTest {
         final int invalidDataNotObject = -1;
 
         // Act
-        final Map<String, Object> dataMap = Json.toMap(invalidDataNotObject);
+        final Map<String, Object> dataMap = JsonUtils.toMap(invalidDataNotObject);
 
         // Assert
         Assertions.assertNull(dataMap);
@@ -113,7 +113,7 @@ final class JsonTest {
         // Act
         final JsonException.ToJsonConversionFailure exception = Assertions.assertThrows(
             JsonException.ToJsonConversionFailure.class,
-            () -> Json.toJson(jsonAsByteArray));
+            () -> JsonUtils.toJson(jsonAsByteArray));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -127,7 +127,7 @@ final class JsonTest {
         final byte[] jsonAsByteArray = "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final SimpleDto simpleDto = Json.fromJson(jsonAsByteArray, SimpleDto.class);
+        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsByteArray, SimpleDto.class);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -143,7 +143,7 @@ final class JsonTest {
         // Act
         final JsonException.FromJsonConversionFailure exception = Assertions.assertThrows(
             JsonException.FromJsonConversionFailure.class,
-            () -> Json.fromJson(jsonAsByteArray, SimpleDto.class));
+            () -> JsonUtils.fromJson(jsonAsByteArray, SimpleDto.class));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -157,7 +157,7 @@ final class JsonTest {
         final String jsonAsString = "{\"hello\": \"world\"}";
 
         // Act
-        final SimpleDto simpleDto = Json.fromJson(jsonAsString, SimpleDto.class);
+        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsString, SimpleDto.class);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -173,7 +173,7 @@ final class JsonTest {
         // Act
         final JsonException.FromJsonConversionFailure exception = Assertions.assertThrows(
             JsonException.FromJsonConversionFailure.class,
-            () -> Json.fromJson(jsonAsString, SimpleDto.class));
+            () -> JsonUtils.fromJson(jsonAsString, SimpleDto.class));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -188,7 +188,7 @@ final class JsonTest {
         objectNode.put("hello", "world");
 
         // Act
-        final SimpleDto simpleDto = Json.fromJson(objectNode, SimpleDto.class);
+        final SimpleDto simpleDto = JsonUtils.fromJson(objectNode, SimpleDto.class);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -205,7 +205,7 @@ final class JsonTest {
         // Act
         final JsonException.FromJsonConversionFailure exception = Assertions.assertThrows(
             JsonException.FromJsonConversionFailure.class,
-            () -> Json.fromJson(objectNode, (Class<? extends SimpleDto>) null));
+            () -> JsonUtils.fromJson(objectNode, (Class<? extends SimpleDto>) null));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -220,7 +220,7 @@ final class JsonTest {
         dataMap.put("hello", "world!");
 
         // Act
-        final SimpleDto simpleDto = Json.fromMap(dataMap, SimpleDto.class);
+        final SimpleDto simpleDto = JsonUtils.fromMap(dataMap, SimpleDto.class);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -235,7 +235,7 @@ final class JsonTest {
         dataMap.put("hello", "world!");
 
         // Act
-        final SimpleDto simpleDto = Json.fromMap(dataMap, null);
+        final SimpleDto simpleDto = JsonUtils.fromMap(dataMap, null);
 
         // Assert
         Assertions.assertNull(simpleDto);

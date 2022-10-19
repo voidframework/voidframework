@@ -5,7 +5,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
-import dev.voidframework.core.helper.ClassResolver;
+import dev.voidframework.core.utils.ClassResolverUtils;
 import dev.voidframework.i18n.Internationalization;
 import dev.voidframework.i18n.ResourceBundleInternationalization;
 
@@ -38,7 +38,7 @@ public final class InternationalizationProvider implements Provider<Internationa
         if (this.internationalization == null) {
             if (configuration.hasPath("voidframework.i18n.engine")) {
                 final String internationalizationImplClassName = configuration.getString("voidframework.i18n.engine");
-                final Class<?> clazz = ClassResolver.forName(internationalizationImplClassName);
+                final Class<?> clazz = ClassResolverUtils.forName(internationalizationImplClassName);
                 if (clazz != null) {
                     this.internationalization = (Internationalization) this.injector.getInstance(clazz);
                 }

@@ -1,6 +1,6 @@
 package dev.voidframework.web.http.routing;
 
-import dev.voidframework.core.helper.Reflection;
+import dev.voidframework.core.utils.ReflectionUtils;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.annotation.RequestPath;
@@ -23,7 +23,7 @@ final class RouterTest {
 
         // Arrange
         final Router router = new DefaultRouter();
-        final Method method = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
+        final Method method = ReflectionUtils.resolveMethod("displayHelloWorld", SampleController.class);
 
         // Act
         router.addRoute(HttpMethod.GET, "/", SampleController.class, method);
@@ -46,8 +46,8 @@ final class RouterTest {
 
         // Arrange
         final Router router = new DefaultRouter();
-        final Method methodDisplay = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
-        final Method methodRegister = Reflection.resolveMethod("displayRegister", SampleController.class);
+        final Method methodDisplay = ReflectionUtils.resolveMethod("displayHelloWorld", SampleController.class);
+        final Method methodRegister = ReflectionUtils.resolveMethod("displayRegister", SampleController.class);
         router.addRoute(HttpMethod.GET, "/", SampleController.class, methodDisplay);
         router.addRoute(HttpMethod.GET, "/register", SampleController.class, methodRegister);
 
@@ -67,9 +67,9 @@ final class RouterTest {
 
         // Arrange
         final Router router = new DefaultRouter();
-        final Method methodDisplay = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
-        final Method methodRegister = Reflection.resolveMethod("displayRegister", SampleController.class);
-        final Method methodAccount = Reflection.resolveMethod("displayAccount", SampleController.class);
+        final Method methodDisplay = ReflectionUtils.resolveMethod("displayHelloWorld", SampleController.class);
+        final Method methodRegister = ReflectionUtils.resolveMethod("displayRegister", SampleController.class);
+        final Method methodAccount = ReflectionUtils.resolveMethod("displayAccount", SampleController.class);
         router.addRoute(HttpMethod.GET, "/", SampleController.class, methodDisplay);
         router.addRoute(HttpMethod.GET, "/register", SampleController.class, methodRegister);
         router.addRoute(HttpMethod.GET, "/register/(?<accountId>[a-z]{0,36})", SampleController.class, methodAccount);
@@ -92,7 +92,7 @@ final class RouterTest {
 
         // Arrange
         final Router router = new DefaultRouter();
-        final Method methodAccount = Reflection.resolveMethod("displayAccount", SampleController.class);
+        final Method methodAccount = ReflectionUtils.resolveMethod("displayAccount", SampleController.class);
         router.addRoute(HttpMethod.GET, "/account/(?<accountId>[a-z0-9\\-]{36})", SampleController.class, methodAccount, "account");
 
         // Act
@@ -108,7 +108,7 @@ final class RouterTest {
 
         // Arrange
         final Router router = new DefaultRouter();
-        final Method methodAccount = Reflection.resolveMethod("displayAccount", SampleController.class);
+        final Method methodAccount = ReflectionUtils.resolveMethod("displayAccount", SampleController.class);
         router.addRoute(HttpMethod.GET, "/account/(?<accountId>[a-z0-9\\-]{36})", SampleController.class, methodAccount);
 
         // Act
@@ -124,7 +124,7 @@ final class RouterTest {
 
         // Arrange
         final Router router = new DefaultRouter();
-        final Method methodHelloWorld = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
+        final Method methodHelloWorld = ReflectionUtils.resolveMethod("displayHelloWorld", SampleController.class);
         router.addRoute(HttpMethod.GET, "/", SampleController.class, methodHelloWorld, "helloworld");
 
         // Act
@@ -140,7 +140,7 @@ final class RouterTest {
 
         // Arrange
         final Router router = new DefaultRouter();
-        final Method methodHelloWorld = Reflection.resolveMethod("displayHelloWorld", SampleController.class);
+        final Method methodHelloWorld = ReflectionUtils.resolveMethod("displayHelloWorld", SampleController.class);
         router.addRoute(HttpMethod.GET, "/test", SampleController.class, methodHelloWorld, "helloworld");
 
         // Act

@@ -1,6 +1,6 @@
 package dev.voidframework.validation;
 
-import dev.voidframework.core.helper.Reflection;
+import dev.voidframework.core.utils.ReflectionUtils;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.junit.jupiter.api.Assertions;
@@ -23,11 +23,11 @@ final class ValidatedTest {
         // Asset
         Assertions.assertNotNull(validated);
 
-        final Object objInstance = Reflection.getFieldValue(validated, "instance", Object.class);
-        final Map<String, List<ValidationError>> validationErrorPerPathMap = Reflection.getFieldValue(
+        final Object objInstance = ReflectionUtils.getFieldValue(validated, "instance", Object.class);
+        final Map<String, List<ValidationError>> validationErrorPerPathMap = ReflectionUtils.getFieldValue(
             validated,
             "validationErrorPerPathMap",
-            new Reflection.WrappedClass<>());
+            new ReflectionUtils.WrappedClass<>());
 
         Assertions.assertNull(objInstance);
         Assertions.assertNotNull(validationErrorPerPathMap);
@@ -46,17 +46,17 @@ final class ValidatedTest {
         // Asset
         Assertions.assertNotNull(validated);
 
-        final Object objInstance = Reflection.getFieldValue(validated, "instance", Object.class);
+        final Object objInstance = ReflectionUtils.getFieldValue(validated, "instance", Object.class);
         Assertions.assertNotNull(objInstance);
         Assertions.assertTrue(objInstance instanceof SimpleEntity);
 
-        final String email = Reflection.getFieldValue(objInstance, "email", String.class);
+        final String email = ReflectionUtils.getFieldValue(objInstance, "email", String.class);
         Assertions.assertEquals("a@a", email);
 
-        final Map<String, List<ValidationError>> validationErrorPerPathMap = Reflection.getFieldValue(
+        final Map<String, List<ValidationError>> validationErrorPerPathMap = ReflectionUtils.getFieldValue(
             validated,
             "validationErrorPerPathMap",
-            new Reflection.WrappedClass<>());
+            new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(validationErrorPerPathMap);
         Assertions.assertTrue(validationErrorPerPathMap.isEmpty());
     }

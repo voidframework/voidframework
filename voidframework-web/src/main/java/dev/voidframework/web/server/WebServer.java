@@ -6,9 +6,9 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.core.bindable.BindClass;
 import dev.voidframework.core.conversion.ConverterManager;
-import dev.voidframework.core.helper.ClassResolver;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.core.lifecycle.LifeCycleStop;
+import dev.voidframework.core.utils.ClassResolverUtils;
 import dev.voidframework.web.exception.ErrorHandlerException;
 import dev.voidframework.web.exception.ExtraWebServerConfigurationException;
 import dev.voidframework.web.exception.FilterException;
@@ -163,7 +163,7 @@ public class WebServer {
                 .stream()
                 .filter(StringUtils::isNotEmpty)
                 .forEach(appRoutesDefinitionClassName -> {
-                    final Class<?> abstractRoutesDefinitionClass = ClassResolver.forName(appRoutesDefinitionClassName);
+                    final Class<?> abstractRoutesDefinitionClass = ClassResolverUtils.forName(appRoutesDefinitionClassName);
                     if (abstractRoutesDefinitionClass == null) {
                         throw new RoutingException.AppRouteDefinitionLoadFailure(appRoutesDefinitionClassName);
                     }
@@ -186,7 +186,7 @@ public class WebServer {
         final List<Class<? extends Filter>> globalFilterList = new ArrayList<>();
         if (this.configuration.hasPath(CONFIGURATION_KEY_GLOBAL_FILTERS)) {
             for (final String filterName : this.configuration.getStringList(CONFIGURATION_KEY_GLOBAL_FILTERS)) {
-                final Class<? extends Filter> filterClass = ClassResolver.forName(filterName);
+                final Class<? extends Filter> filterClass = ClassResolverUtils.forName(filterName);
                 if (filterClass == null) {
                     throw new FilterException.LoadFailure(filterName);
                 }
@@ -206,7 +206,7 @@ public class WebServer {
     private ErrorHandler instantiateErrorHandler() {
 
         final String errorHandlerClassName = configuration.getString(CONFIGURATION_KEY_ERROR_HANDLER_IMPLEMENTATION);
-        final Class<?> errorHandlerClass = ClassResolver.forName(errorHandlerClassName);
+        final Class<?> errorHandlerClass = ClassResolverUtils.forName(errorHandlerClassName);
         if (errorHandlerClass == null) {
             throw new ErrorHandlerException.ClassNotFound(errorHandlerClassName);
         } else if (!ErrorHandler.class.isAssignableFrom(errorHandlerClass)) {
@@ -310,7 +310,7 @@ public class WebServer {
      */
     private void applyExtraWebServerConfiguration(final Undertow.Builder undertowBuilder, final String extraWebServerConfigurationClassName) {
 
-        final Class<?> extraWebServerConfigurationClass = ClassResolver.forName(extraWebServerConfigurationClassName);
+        final Class<?> extraWebServerConfigurationClass = ClassResolverUtils.forName(extraWebServerConfigurationClassName);
         if (extraWebServerConfigurationClass == null) {
             throw new ExtraWebServerConfigurationException.ClassNotFound(extraWebServerConfigurationClassName);
         } else if (!ExtraWebServerConfiguration.class.isAssignableFrom(extraWebServerConfigurationClass)) {

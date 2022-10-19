@@ -1,7 +1,7 @@
 package dev.voidframework.web.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import dev.voidframework.core.helper.Json;
+import dev.voidframework.core.utils.JsonUtils;
 import dev.voidframework.web.http.resultprocessor.NoContentResultProcessor;
 import dev.voidframework.web.http.resultprocessor.ObjectResultProcessor;
 import dev.voidframework.web.http.resultprocessor.ResultProcessor;
@@ -107,7 +107,7 @@ public final class Result {
 
         return new Result(
             HttpReturnCode.BAD_REQUEST,
-            new ObjectResultProcessor(Json.toString(content)),
+            new ObjectResultProcessor(JsonUtils.toString(content)),
             HttpContentType.APPLICATION_JSON);
     }
 
@@ -177,7 +177,7 @@ public final class Result {
 
         return new Result(
             HttpReturnCode.CREATED,
-            new ObjectResultProcessor(Json.toString(content)),
+            new ObjectResultProcessor(JsonUtils.toString(content)),
             HttpContentType.APPLICATION_JSON);
     }
 
@@ -247,7 +247,7 @@ public final class Result {
 
         return new Result(
             HttpReturnCode.FORBIDDEN,
-            new ObjectResultProcessor(Json.toString(content)),
+            new ObjectResultProcessor(JsonUtils.toString(content)),
             HttpContentType.APPLICATION_JSON);
     }
 
@@ -317,7 +317,7 @@ public final class Result {
 
         return new Result(
             HttpReturnCode.INTERNAL_SERVER_ERROR,
-            new ObjectResultProcessor(Json.toString(content)),
+            new ObjectResultProcessor(JsonUtils.toString(content)),
             HttpContentType.APPLICATION_JSON);
     }
 
@@ -400,7 +400,7 @@ public final class Result {
 
         return new Result(
             HttpReturnCode.NOT_FOUND,
-            new ObjectResultProcessor(Json.toString(content)),
+            new ObjectResultProcessor(JsonUtils.toString(content)),
             HttpContentType.APPLICATION_JSON);
     }
 
@@ -470,7 +470,7 @@ public final class Result {
 
         return new Result(
             HttpReturnCode.NOT_IMPLEMENTED,
-            new ObjectResultProcessor(Json.toString(content)),
+            new ObjectResultProcessor(JsonUtils.toString(content)),
             HttpContentType.APPLICATION_JSON);
     }
 
@@ -555,7 +555,7 @@ public final class Result {
 
         return new Result(
             HttpReturnCode.OK,
-            new ObjectResultProcessor(Json.toString(content)),
+            new ObjectResultProcessor(JsonUtils.toString(content)),
             HttpContentType.APPLICATION_JSON);
     }
 

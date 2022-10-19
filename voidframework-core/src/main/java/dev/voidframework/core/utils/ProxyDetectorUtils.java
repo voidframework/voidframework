@@ -1,18 +1,18 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import java.lang.reflect.Proxy;
 
 /**
- * Helper to detect proxy class.
+ * Utility to detect proxy class.
  */
-public final class ProxyDetector {
+public final class ProxyDetectorUtils {
 
     private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
     /**
      * Default constructor.
      */
-    private ProxyDetector() {
+    private ProxyDetectorUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

@@ -1,11 +1,11 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Helper to retrieve Void Framework version.
+ * Utility to retrieve Void Framework version.
  */
 public final class VoidFrameworkVersion {
 

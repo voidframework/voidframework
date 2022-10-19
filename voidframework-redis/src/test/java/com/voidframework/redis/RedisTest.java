@@ -9,7 +9,7 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Stage;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import dev.voidframework.core.helper.Json;
+import dev.voidframework.core.utils.JsonUtils;
 import dev.voidframework.redis.Redis;
 import dev.voidframework.redis.module.RedisModule;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +29,7 @@ final class RedisTest {
     private static final int TIME_TO_LIVE_IN_SECONDS = 60;
 
     private static final Class<String> STRING_CLASS_TYPE = String.class;
-    private static final JavaType STRING_JAVA_TYPE = Json.objectMapper().constructType(String.class);
+    private static final JavaType STRING_JAVA_TYPE = JsonUtils.objectMapper().constructType(String.class);
     private static final TypeReference<String> STRING_TYPE_REFERENCE = new TypeReference<>() {
     };
 
@@ -317,7 +317,7 @@ final class RedisTest {
 
         // Arrange
         final Redis redis = this.createRedisInstance(REDIS_VALID_HOSTNAME, REDIS_VALID_PORT);
-        final JavaType javaTypeString = Json.objectMapper().constructType(STRING_CLASS_TYPE);
+        final JavaType javaTypeString = JsonUtils.objectMapper().constructType(STRING_CLASS_TYPE);
         redis.remove("voidframework.junit.item");
 
         // Act

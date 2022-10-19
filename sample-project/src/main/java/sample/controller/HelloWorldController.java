@@ -2,8 +2,8 @@ package sample.controller;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import dev.voidframework.core.helper.Json;
-import dev.voidframework.core.helper.Yaml;
+import dev.voidframework.core.utils.JsonUtils;
+import dev.voidframework.core.utils.YamlUtils;
 import dev.voidframework.validation.Validated;
 import dev.voidframework.validation.Validation;
 import dev.voidframework.web.bindable.WebController;
@@ -77,7 +77,7 @@ public class HelloWorldController {
     @RequestRoute(method = HttpMethod.GET, route = "/json")
     public Result headersAsJson(final Context context) {
 
-        return Result.ok(Json.toJson(context.getRequest().getHeaders()));
+        return Result.ok(JsonUtils.toJson(context.getRequest().getHeaders()));
     }
 
     /**
@@ -88,7 +88,7 @@ public class HelloWorldController {
      */
     @RequestRoute(method = HttpMethod.POST, route = "/form")
     public Result postForm(@RequestBody final Pojo pojo) {
-        return Result.ok(Yaml.toString(pojo).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
+        return Result.ok(YamlUtils.toString(pojo).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
     }
 
     /**
@@ -102,9 +102,9 @@ public class HelloWorldController {
     public Result postForm2(final Context context, @RequestBody Pojo pojo) {
         final Validated<Pojo> pojoValidated = this.validation.validate(pojo, context.getLocale());
         if (pojoValidated.hasError()) {
-            return Result.badRequest(Yaml.toString(pojoValidated.getError()).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
+            return Result.badRequest(YamlUtils.toString(pojoValidated.getError()).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
         }
 
-        return Result.ok(Yaml.toString(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
+        return Result.ok(YamlUtils.toString(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
     }
 }

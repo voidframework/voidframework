@@ -2,7 +2,7 @@ package dev.voidframework.cache.engine;
 
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import dev.voidframework.core.helper.Reflection;
+import dev.voidframework.core.utils.ReflectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ final class MemoryCacheEngineTest {
         memoryCacheEngine.set("key4", 1337, 60);
 
         // Assert
-        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        final Map<String, Object> internalCacheMap = ReflectionUtils.getFieldValue(memoryCacheEngine, "cacheMap", new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(1, internalCacheMap.size());
     }
@@ -97,7 +97,7 @@ final class MemoryCacheEngineTest {
         // Assert
         Assertions.assertEquals(1337, value);
 
-        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        final Map<String, Object> internalCacheMap = ReflectionUtils.getFieldValue(memoryCacheEngine, "cacheMap", new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(1, internalCacheMap.size());
     }
@@ -121,7 +121,7 @@ final class MemoryCacheEngineTest {
         Assertions.assertTrue(optIntegerActual.isPresent());
         Assertions.assertEquals(1337, optIntegerActual.get());
 
-        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        final Map<String, Object> internalCacheMap = ReflectionUtils.getFieldValue(memoryCacheEngine, "cacheMap", new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(1, internalCacheMap.size());
     }
@@ -137,11 +137,11 @@ final class MemoryCacheEngineTest {
         memoryCacheEngine.set("key", 1337, 3600);
 
         // Assert
-        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        final Map<String, Object> internalCacheMap = ReflectionUtils.getFieldValue(memoryCacheEngine, "cacheMap", new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(1, internalCacheMap.size());
 
-        LocalDateTime expirationDateTime = Reflection.getFieldValue(internalCacheMap.get("key"), "expirationDate", LocalDateTime.class);
+        LocalDateTime expirationDateTime = ReflectionUtils.getFieldValue(internalCacheMap.get("key"), "expirationDate", LocalDateTime.class);
         Assertions.assertNotNull(expirationDateTime);
         Assertions.assertEquals(
             LocalDateTime.now(ZoneOffset.UTC).truncatedTo(ChronoUnit.MINUTES).plusHours(1),
@@ -151,7 +151,7 @@ final class MemoryCacheEngineTest {
         memoryCacheEngine.set("key2", 1337, -1);
         Assertions.assertEquals(2, internalCacheMap.size());
 
-        expirationDateTime = Reflection.getFieldValue(internalCacheMap.get("key2"), "expirationDate", LocalDateTime.class);
+        expirationDateTime = ReflectionUtils.getFieldValue(internalCacheMap.get("key2"), "expirationDate", LocalDateTime.class);
         Assertions.assertNotNull(expirationDateTime);
         Assertions.assertEquals(LocalDateTime.MAX, expirationDateTime);
     }
@@ -167,11 +167,11 @@ final class MemoryCacheEngineTest {
         memoryCacheEngine.set("key", 1337, -1);
 
         // Assert
-        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        final Map<String, Object> internalCacheMap = ReflectionUtils.getFieldValue(memoryCacheEngine, "cacheMap", new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(1, internalCacheMap.size());
 
-        final LocalDateTime expirationDateTime = Reflection.getFieldValue(internalCacheMap.get("key"), "expirationDate", LocalDateTime.class);
+        final LocalDateTime expirationDateTime = ReflectionUtils.getFieldValue(internalCacheMap.get("key"), "expirationDate", LocalDateTime.class);
         Assertions.assertNotNull(expirationDateTime);
         Assertions.assertEquals(LocalDateTime.MAX, expirationDateTime);
     }
@@ -191,7 +191,7 @@ final class MemoryCacheEngineTest {
         // Assert
         Assertions.assertNull(value);
 
-        final Map<String, Object> internalCacheMap = Reflection.getFieldValue(memoryCacheEngine, "cacheMap", new Reflection.WrappedClass<>());
+        final Map<String, Object> internalCacheMap = ReflectionUtils.getFieldValue(memoryCacheEngine, "cacheMap", new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(internalCacheMap);
         Assertions.assertEquals(0, internalCacheMap.size());
     }

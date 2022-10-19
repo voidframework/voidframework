@@ -2,10 +2,10 @@ package dev.voidframework.web.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import dev.voidframework.core.constant.StringConstants;
-import dev.voidframework.core.helper.Json;
-import dev.voidframework.core.helper.Reflection;
-import dev.voidframework.core.helper.Xml;
-import dev.voidframework.core.helper.Yaml;
+import dev.voidframework.core.utils.JsonUtils;
+import dev.voidframework.core.utils.ReflectionUtils;
+import dev.voidframework.core.utils.XmlUtils;
+import dev.voidframework.core.utils.YamlUtils;
 import dev.voidframework.web.exception.HttpException;
 import org.w3c.dom.Document;
 
@@ -47,10 +47,10 @@ public record HttpRequestBodyContent(String contentType,
             }
         }
 
-        final T output = Json.fromMap(flatValueMap, outputClass);
+        final T output = JsonUtils.fromMap(flatValueMap, outputClass);
 
         for (final Map.Entry<String, InputStream> entry : flatFileMap.entrySet()) {
-            Reflection.setFieldValue(output, entry.getKey(), entry.getValue());
+            ReflectionUtils.setFieldValue(output, entry.getKey(), entry.getValue());
         }
 
         return output;
@@ -63,7 +63,7 @@ public record HttpRequestBodyContent(String contentType,
      */
     public JsonNode asJson() {
 
-        return Json.toJson(asRaw);
+        return JsonUtils.toJson(asRaw);
     }
 
     /**
@@ -76,10 +76,10 @@ public record HttpRequestBodyContent(String contentType,
     public <T> T as(final Class<T> outputClass) {
 
         return switch (contentType()) {
-            case HttpContentType.APPLICATION_JSON -> Json.fromJson(this.asRaw, outputClass);
+            case HttpContentType.APPLICATION_JSON -> JsonUtils.fromJson(this.asRaw, outputClass);
             case HttpContentType.APPLICATION_X_FORM_URLENCODED, HttpContentType.MULTIPART_FORM_DATA -> asFormData(outputClass);
-            case HttpContentType.APPLICATION_XML -> Xml.fromXml(this.asRaw, outputClass);
-            case HttpContentType.TEXT_YAML -> Yaml.fromYaml(this.asRaw, outputClass);
+            case HttpContentType.APPLICATION_XML -> XmlUtils.fromXml(this.asRaw, outputClass);
+            case HttpContentType.TEXT_YAML -> YamlUtils.fromYaml(this.asRaw, outputClass);
             default -> throw new HttpException.BadRequest("Unhandled body content");
         };
     }
@@ -91,7 +91,7 @@ public record HttpRequestBodyContent(String contentType,
      */
     public Document asXml() {
 
-        return Xml.toXml(asRaw);
+        return XmlUtils.toXml(asRaw);
     }
 
     /**
@@ -101,7 +101,7 @@ public record HttpRequestBodyContent(String contentType,
      */
     public JsonNode asYaml() {
 
-        return Yaml.toYaml(asRaw);
+        return YamlUtils.toYaml(asRaw);
     }
 
     @Override

@@ -5,8 +5,8 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import dev.voidframework.core.constant.StringConstants;
-import dev.voidframework.core.helper.Hex;
 import dev.voidframework.core.lang.TypedMap;
+import dev.voidframework.core.utils.HexUtils;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.Cookie;
@@ -223,7 +223,7 @@ public class CSRFFilter implements Filter {
         try {
             final Mac mac = Mac.getInstance(H_MAC_ALGORITHM);
             mac.init(new SecretKeySpec(this.signatureKey.getBytes(StandardCharsets.UTF_8), H_MAC_ALGORITHM));
-            return Hex.toHex(mac.doFinal(value.getBytes(StandardCharsets.UTF_8)));
+            return HexUtils.toHex(mac.doFinal(value.getBytes(StandardCharsets.UTF_8)));
         } catch (final InvalidKeyException | NoSuchAlgorithmException exception) {
             throw new HttpException.InternalServerError(exception);
         }

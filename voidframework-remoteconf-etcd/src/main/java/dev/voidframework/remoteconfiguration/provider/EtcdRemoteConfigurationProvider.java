@@ -6,10 +6,10 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigException;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.exception.RemoteConfigurationException;
-import dev.voidframework.core.helper.IO;
 import dev.voidframework.core.remoteconfiguration.AbstractRemoteConfigurationProvider;
 import dev.voidframework.core.remoteconfiguration.FileCfgObject;
 import dev.voidframework.core.remoteconfiguration.KeyValueCfgObject;
+import dev.voidframework.core.utils.IOUtils;
 import org.apache.commons.lang3.RegExUtils;
 
 import java.io.IOException;
@@ -117,7 +117,7 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
         } catch (final IOException ex) {
             throw new ProviderException("Can't connect to the provider", ex);
         } finally {
-            IO.closeWithoutException(is);
+            IOUtils.closeWithoutException(is);
         }
     }
 

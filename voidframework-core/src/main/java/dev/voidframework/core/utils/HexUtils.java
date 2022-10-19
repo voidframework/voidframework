@@ -1,16 +1,16 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 /**
- * String utility methods.
+ * Utility methods to handle hexadecimal values.
  */
-public final class Hex {
+public final class HexUtils {
 
     private static final char[] HEX_CHARS = "0123456789abcdef".toCharArray();
 
     /**
      * Default constructor.
      */
-    private Hex() {
+    private HexUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

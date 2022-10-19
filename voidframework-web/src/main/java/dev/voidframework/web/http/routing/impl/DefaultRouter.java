@@ -3,7 +3,7 @@ package dev.voidframework.web.http.routing.impl;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dev.voidframework.core.constant.StringConstants;
-import dev.voidframework.core.helper.ProxyDetector;
+import dev.voidframework.core.utils.ProxyDetectorUtils;
 import dev.voidframework.web.exception.RoutingException;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.annotation.WithFilter;
@@ -84,7 +84,7 @@ public class DefaultRouter implements Router, RouterPostInitialization {
 
         this.checkAddRouteArguments(httpMethod, routeUrl, controllerClassType, method);
 
-        final Class<?> controllerClass = ProxyDetector.isProxy(controllerClassType)
+        final Class<?> controllerClass = ProxyDetectorUtils.isProxy(controllerClassType)
             ? controllerClassType.getSuperclass()
             : controllerClassType;
         LOGGER.debug("Add route {} {} {}::{}", httpMethod, routeUrl, controllerClass.getName(), method.getName());

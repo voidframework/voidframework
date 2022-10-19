@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
-import dev.voidframework.core.helper.Reflection;
+import dev.voidframework.core.utils.ReflectionUtils;
 import dev.voidframework.healthcheck.checker.JavaVirtualMachineHealthChecker;
 import dev.voidframework.healthcheck.module.HealthCheckModule;
 import org.junit.jupiter.api.Assertions;
@@ -42,10 +42,10 @@ final class HealthCheckTest {
         // Assert
         Assertions.assertNotNull(healthCheckManager);
 
-        final List<Class<? extends HealthChecker>> healthCheckerList = Reflection.getFieldValue(
+        final List<Class<? extends HealthChecker>> healthCheckerList = ReflectionUtils.getFieldValue(
             healthCheckManager,
             "healthCheckerList",
-            new Reflection.WrappedClass<>());
+            new ReflectionUtils.WrappedClass<>());
         Assertions.assertNotNull(healthCheckerList);
         Assertions.assertEquals(2, healthCheckerList.size());
         Assertions.assertEquals(healthCheckerList.get(0), JavaVirtualMachineHealthChecker.class);

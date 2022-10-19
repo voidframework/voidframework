@@ -1,6 +1,6 @@
 package dev.voidframework.scheduler.cron;
 
-import dev.voidframework.core.helper.Reflection;
+import dev.voidframework.core.utils.ReflectionUtils;
 import dev.voidframework.scheduler.exception.SchedulerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -225,7 +225,7 @@ final class CronExpressionTest {
      */
     private long callByReflection_getNextDelayMilliseconds(final CronExpression cronExpression, final LocalDateTime localDateTime) {
 
-        final Long delay = Reflection.callMethod(
+        final Long delay = ReflectionUtils.callMethod(
             cronExpression,
             "getNextDelayMilliseconds",
             Long.class,

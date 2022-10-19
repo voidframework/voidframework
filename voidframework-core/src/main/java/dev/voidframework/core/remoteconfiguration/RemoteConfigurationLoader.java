@@ -4,8 +4,8 @@ import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.exception.RemoteConfigurationException;
-import dev.voidframework.core.helper.ClassResolver;
-import dev.voidframework.core.helper.IO;
+import dev.voidframework.core.utils.ClassResolverUtils;
+import dev.voidframework.core.utils.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +73,7 @@ public final class RemoteConfigurationLoader {
             final AtomicInteger storedFileCount = new AtomicInteger(0);
 
             for (final String classPath : providerClassPathList) {
-                final Class<?> classType = ClassResolver.forName(classPath);
+                final Class<?> classType = ClassResolverUtils.forName(classPath);
                 if (classType == null) {
                     throw new RemoteConfigurationException.ProviderDoesNotExist(classPath);
                 }
@@ -102,7 +102,7 @@ public final class RemoteConfigurationLoader {
                         },
                         fileObj -> {
                             fileObj.apply();
-                            IO.closeWithoutException(fileObj);
+                            IOUtils.closeWithoutException(fileObj);
                             storedFileCount.incrementAndGet();
                             if (LOGGER.isDebugEnabled()) {
                                 LOGGER.debug("[{}] Store {}", remoteConfigurationProvider.getName(), fileObj);

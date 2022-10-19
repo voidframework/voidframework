@@ -1,6 +1,6 @@
 package dev.voidframework.web.http;
 
-import dev.voidframework.core.helper.Json;
+import dev.voidframework.core.utils.JsonUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +67,7 @@ public final class TemplateResult {
     public static TemplateResult of(final String templateName,
                                     final Object dataModel) {
 
-        final Map<String, Object> map = Json.toMap(dataModel);
+        final Map<String, Object> map = JsonUtils.toMap(dataModel);
         return new TemplateResult(templateName, map != null ? map : new HashMap<>());
     }
 }

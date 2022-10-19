@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -26,9 +26,9 @@ import java.io.StringWriter;
 import java.io.Writer;
 
 /**
- * Helper to handle XML document.
+ * Utility to handle XML document.
  */
-public final class Xml {
+public final class XmlUtils {
 
     private static final XmlMapper OBJECT_MAPPER = XmlMapper.builder()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -42,7 +42,7 @@ public final class Xml {
     /**
      * Default constructor.
      */
-    private Xml() {
+    private XmlUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
