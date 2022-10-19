@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 import java.util.UUID;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-final class ReflectionTest {
+final class ReflectionUtilsTest {
 
     @Test
     void getAnnotatedFieldFromValue() throws IllegalAccessException {
@@ -23,7 +23,7 @@ final class ReflectionTest {
         demo.setId(uuid);
 
         // Act
-        final Field field = Reflection.getAnnotatedField(demo, Validate.class);
+        final Field field = ReflectionUtils.getAnnotatedField(demo, Validate.class);
 
         // Assert
         Assertions.assertNotNull(field);
@@ -35,7 +35,7 @@ final class ReflectionTest {
     void getAnnotatedFieldFromClassType() {
 
         // Act
-        final Field field = Reflection.getAnnotatedField(Demo.class, Validate.class);
+        final Field field = ReflectionUtils.getAnnotatedField(Demo.class, Validate.class);
 
         // Assert
         Assertions.assertNotNull(field);
@@ -46,7 +46,7 @@ final class ReflectionTest {
     void getAnnotatedFieldFromClassTypeWithInheritance() {
 
         // Act
-        final Field field = Reflection.getAnnotatedField(DemoChild.class, Validate.class);
+        final Field field = ReflectionUtils.getAnnotatedField(DemoChild.class, Validate.class);
 
         // Assert
         Assertions.assertNotNull(field);
@@ -57,7 +57,7 @@ final class ReflectionTest {
     void getAnnotatedFieldWithNullValue() {
 
         // Act
-        final Field field = Reflection.getAnnotatedField((Demo) null, Validate.class);
+        final Field field = ReflectionUtils.getAnnotatedField((Demo) null, Validate.class);
 
         // Assert
         Assertions.assertNull(field);
@@ -67,7 +67,7 @@ final class ReflectionTest {
     void getAnnotatedFieldWithNullClassType() {
 
         // Act
-        final Field field = Reflection.getAnnotatedField((Class<?>) null, Validate.class);
+        final Field field = ReflectionUtils.getAnnotatedField((Class<?>) null, Validate.class);
 
         // Assert
         Assertions.assertNull(field);
@@ -82,7 +82,7 @@ final class ReflectionTest {
         demo.setId(uuid);
 
         // Act
-        final UUID value = Reflection.getFieldValue(demo, "id", UUID.class);
+        final UUID value = ReflectionUtils.getFieldValue(demo, "id", UUID.class);
 
         // Assert
         Assertions.assertNotNull(value);
@@ -99,7 +99,7 @@ final class ReflectionTest {
         demo.setFirstName("Marie");
 
         // Act
-        final UUID value = Reflection.getFieldValue(demo, "unknownField", UUID.class);
+        final UUID value = ReflectionUtils.getFieldValue(demo, "unknownField", UUID.class);
 
         // Assert
         Assertions.assertNull(value);
@@ -114,7 +114,7 @@ final class ReflectionTest {
         demo.setId(uuid);
 
         // Act
-        final UUID value = Reflection.getFieldValue(demo, "id", new Reflection.WrappedClass<>());
+        final UUID value = ReflectionUtils.getFieldValue(demo, "id", new ReflectionUtils.WrappedClass<>());
 
         // Assert
         Assertions.assertNotNull(value);
@@ -131,7 +131,7 @@ final class ReflectionTest {
         demo.setFirstName("Bob");
 
         // Act
-        final UUID value = Reflection.getFieldValue(demo, "unknownField", new Reflection.WrappedClass<>());
+        final UUID value = ReflectionUtils.getFieldValue(demo, "unknownField", new ReflectionUtils.WrappedClass<>());
 
         // Assert
         Assertions.assertNull(value);
@@ -147,7 +147,7 @@ final class ReflectionTest {
         demo.setId(uuidCurrent);
 
         // Act
-        Reflection.setFieldValue(demo, "id", uuidNew);
+        ReflectionUtils.setFieldValue(demo, "id", uuidNew);
 
         // Assert
         Assertions.assertNotEquals(uuidCurrent, uuidNew);
@@ -165,7 +165,7 @@ final class ReflectionTest {
         demo.setFirstName("Bob");
 
         // Act
-        Reflection.setFieldValue(demo, "unknownField", uuidNew);
+        ReflectionUtils.setFieldValue(demo, "unknownField", uuidNew);
 
         // Assert
         Assertions.assertEquals(demo.id, uuidCurrent);
@@ -182,7 +182,7 @@ final class ReflectionTest {
         demo.setId(uuidCurrent);
 
         // Act
-        final Method method = Reflection.resolveMethod("getId", Demo.class);
+        final Method method = ReflectionUtils.resolveMethod("getId", Demo.class);
 
         // Assert
         Assertions.assertNotNull(method);
@@ -194,7 +194,7 @@ final class ReflectionTest {
     void resolveMethodNotFound() {
 
         // Act
-        final Method method = Reflection.resolveMethod("unknownMethod", Demo.class);
+        final Method method = ReflectionUtils.resolveMethod("unknownMethod", Demo.class);
 
         // Assert
         Assertions.assertNull(method);
@@ -209,7 +209,7 @@ final class ReflectionTest {
         demo.setId(uuidCurrent);
 
         // Act
-        final UUID uuid = Reflection.callMethod(demo, "getId", UUID.class, new Class[]{});
+        final UUID uuid = ReflectionUtils.callMethod(demo, "getId", UUID.class, new Class[]{});
 
         // Assert
         Assertions.assertNotNull(uuid);
@@ -225,7 +225,7 @@ final class ReflectionTest {
         demo.setId(uuidCurrent);
 
         // Act
-        final UUID uuid = Reflection.callMethod(demo, "unknownMethod", UUID.class, new Class[]{});
+        final UUID uuid = ReflectionUtils.callMethod(demo, "unknownMethod", UUID.class, new Class[]{});
 
         // Assert
         Assertions.assertNull(uuid);
@@ -238,7 +238,7 @@ final class ReflectionTest {
         final Demo demo = new Demo();
 
         // Act
-        Reflection.callMethod(demo, "setFirstName", new Class[]{String.class}, "Vanessa");
+        ReflectionUtils.callMethod(demo, "setFirstName", new Class[]{String.class}, "Vanessa");
 
         // Assert
         Assertions.assertEquals("Vanessa", demo.getFirstName());
@@ -253,7 +253,7 @@ final class ReflectionTest {
         demo.setFirstName("Mina");
 
         // Act
-        Reflection.callMethod(demo, "unknownMethod", new Class[]{String.class}, "Vanessa");
+        ReflectionUtils.callMethod(demo, "unknownMethod", new Class[]{String.class}, "Vanessa");
 
         // Assert
         Assertions.assertEquals(UUID.fromString("bc35ec9f-9a74-4843-8504-e391e3d2fd15"), demo.getId());

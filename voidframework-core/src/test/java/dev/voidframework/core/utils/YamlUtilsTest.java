@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 import java.nio.charset.StandardCharsets;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-final class YamlTest {
+final class YamlUtilsTest {
 
     @Test
     void fromYamlByteArray() {
@@ -25,7 +25,7 @@ final class YamlTest {
             """.getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final SimpleDto simpleDto = Yaml.fromYaml(yamlAsByteArray, SimpleDto.class);
+        final SimpleDto simpleDto = YamlUtils.fromYaml(yamlAsByteArray, SimpleDto.class);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -43,7 +43,7 @@ final class YamlTest {
         // Act
         final YamlException.FromYamlConversionFailure exception = Assertions.assertThrows(
             YamlException.FromYamlConversionFailure.class,
-            () -> Yaml.fromYaml(yamlAsByteArray, null));
+            () -> YamlUtils.fromYaml(yamlAsByteArray, null));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -58,7 +58,7 @@ final class YamlTest {
         objectNode.put("hello", "world!");
 
         // Act
-        final SimpleDto simpleDto = Yaml.fromYaml(objectNode, SimpleDto.class);
+        final SimpleDto simpleDto = YamlUtils.fromYaml(objectNode, SimpleDto.class);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -75,7 +75,7 @@ final class YamlTest {
         // Act
         final YamlException.FromYamlConversionFailure exception = Assertions.assertThrows(
             YamlException.FromYamlConversionFailure.class,
-            () -> Yaml.fromYaml(objectNode, null));
+            () -> YamlUtils.fromYaml(objectNode, null));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -91,7 +91,7 @@ final class YamlTest {
             """.getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final JsonNode jsonNode = Yaml.toYaml(yamlAsByteArray);
+        final JsonNode jsonNode = YamlUtils.toYaml(yamlAsByteArray);
 
         // Assert
         Assertions.assertNotNull(jsonNode);
@@ -105,7 +105,7 @@ final class YamlTest {
         final SimpleDto simpleDto = new SimpleDto("world!");
 
         // Act
-        final String yamlDocument = Yaml.toString(simpleDto);
+        final String yamlDocument = YamlUtils.toString(simpleDto);
 
         // Assert
         Assertions.assertNotNull(yamlDocument);
@@ -123,7 +123,7 @@ final class YamlTest {
         objectNode.put("hello", "world!");
 
         // Act
-        final String yamlDocument = Yaml.toString(objectNode);
+        final String yamlDocument = YamlUtils.toString(objectNode);
 
         // Assert
         Assertions.assertNotNull(yamlDocument);

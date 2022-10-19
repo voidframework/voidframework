@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-final class ProxyDetectorTest {
+final class ProxyDetectorUtilsTest {
 
     @Test
     void isProxyClass() {
@@ -20,7 +20,7 @@ final class ProxyDetectorTest {
         final Example proxyInstance = createProxyInstance();
 
         // Act
-        final boolean isProxy = ProxyDetector.isProxy(proxyInstance.getClass());
+        final boolean isProxy = ProxyDetectorUtils.isProxy(proxyInstance.getClass());
 
         // Assert
         Assertions.assertTrue(isProxy);
@@ -33,7 +33,7 @@ final class ProxyDetectorTest {
         final Example nonProxyInstance = new Example();
 
         // Act
-        final boolean isProxy = ProxyDetector.isProxy(nonProxyInstance.getClass());
+        final boolean isProxy = ProxyDetectorUtils.isProxy(nonProxyInstance.getClass());
 
         // Assert
         Assertions.assertFalse(isProxy);
@@ -46,7 +46,7 @@ final class ProxyDetectorTest {
         final Example proxyInstance = createProxyInstance();
 
         // Act
-        final boolean isProxy = ProxyDetector.isProxy(proxyInstance);
+        final boolean isProxy = ProxyDetectorUtils.isProxy(proxyInstance);
 
         // Assert
         Assertions.assertTrue(isProxy);
@@ -59,7 +59,7 @@ final class ProxyDetectorTest {
         final Example nonProxyInstance = new Example();
 
         // Act
-        final boolean isProxy = ProxyDetector.isProxy(nonProxyInstance);
+        final boolean isProxy = ProxyDetectorUtils.isProxy(nonProxyInstance);
 
         // Assert
         Assertions.assertFalse(isProxy);

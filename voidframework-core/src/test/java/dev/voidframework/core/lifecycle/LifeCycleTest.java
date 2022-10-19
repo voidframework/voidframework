@@ -7,7 +7,7 @@ import com.google.inject.Stage;
 import com.google.inject.matcher.Matchers;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
-import dev.voidframework.core.helper.Reflection;
+import dev.voidframework.core.utils.ReflectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
@@ -42,11 +42,11 @@ final class LifeCycleTest {
         });
 
         // Assert
-        final List<?> startHandlerList = Reflection.getFieldValue(lifeCycleManager, "startHandlerList", List.class);
+        final List<?> startHandlerList = ReflectionUtils.getFieldValue(lifeCycleManager, "startHandlerList", List.class);
         Assertions.assertNotNull(startHandlerList);
         Assertions.assertEquals(1, startHandlerList.size());
 
-        final List<?> stopHandlerList = Reflection.getFieldValue(lifeCycleManager, "stopHandlerList", List.class);
+        final List<?> stopHandlerList = ReflectionUtils.getFieldValue(lifeCycleManager, "stopHandlerList", List.class);
         Assertions.assertNotNull(stopHandlerList);
         Assertions.assertEquals(1, stopHandlerList.size());
     }
@@ -104,7 +104,7 @@ final class LifeCycleTest {
             }
         });
 
-        Reflection.setFieldValue(lifeCycleManager, "isRunning", true);
+        ReflectionUtils.setFieldValue(lifeCycleManager, "isRunning", true);
 
         // Act
         final long startTime = System.currentTimeMillis();

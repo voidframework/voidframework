@@ -1,16 +1,16 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Helper to resolve class.
+ * Utility methods to resolve classes.
  */
-public final class ClassResolver {
+public final class ClassResolverUtils {
 
     /**
      * Default constructor.
      */
-    private ClassResolver() {
+    private ClassResolverUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

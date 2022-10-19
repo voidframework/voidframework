@@ -1,6 +1,6 @@
 package dev.voidframework.core.remoteconfiguration;
 
-import dev.voidframework.core.helper.Reflection;
+import dev.voidframework.core.utils.ReflectionUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Named;
@@ -38,7 +38,7 @@ final class FileCfgObjectTest {
         final String toString = fileCfgObject.toString();
 
         // Assert
-        final InputStream contentInputStream = Reflection.getFieldValue(fileCfgObject, "is", InputStream.class);
+        final InputStream contentInputStream = ReflectionUtils.getFieldValue(fileCfgObject, "is", InputStream.class);
         Assertions.assertNotNull(contentInputStream);
 
         final String content = new String(contentInputStream.readAllBytes(), StandardCharsets.UTF_8);
@@ -58,7 +58,7 @@ final class FileCfgObjectTest {
         final String toString = fileCfgObject.toString();
 
         // Assert
-        final InputStream contentInputStream = Reflection.getFieldValue(fileCfgObject, "is", InputStream.class);
+        final InputStream contentInputStream = ReflectionUtils.getFieldValue(fileCfgObject, "is", InputStream.class);
         Assertions.assertNotNull(contentInputStream);
 
         final String content = new String(contentInputStream.readAllBytes(), StandardCharsets.UTF_8);

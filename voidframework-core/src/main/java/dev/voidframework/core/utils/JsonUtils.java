@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,9 +17,9 @@ import java.io.IOException;
 import java.util.Map;
 
 /**
- * Helper to handle JSON document.
+ * Utility to handle JSON document.
  */
-public final class Json {
+public final class JsonUtils {
 
     private static final TypeReference<Map<String, Object>> MAP_TYPE_REFERENCE = new TypeReference<>() {
     };
@@ -29,7 +29,7 @@ public final class Json {
     /**
      * Default constructor.
      */
-    private Json() {
+    private JsonUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

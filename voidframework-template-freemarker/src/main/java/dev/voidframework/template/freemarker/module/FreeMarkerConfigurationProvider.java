@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
-import dev.voidframework.core.helper.VoidFrameworkVersion;
+import dev.voidframework.core.utils.VoidFrameworkVersion;
 import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.template.freemarker.method.ConfigTemplateMethodModel;
 import freemarker.cache.ClassTemplateLoader;

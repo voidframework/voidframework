@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
@@ -6,24 +6,24 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
-final class ClassResolverTest {
+final class ClassResolverUtilsTest {
 
     @Test
     void forNameWithoutExplicitClassLoader() {
 
         // Act
-        final Class<?> classType = ClassResolver.forName("dev.voidframework.core.helper.ClassResolver");
+        final Class<?> classType = ClassResolverUtils.forName("dev.voidframework.core.utils.ClassResolverUtils");
 
         // Assert
         Assertions.assertNotNull(classType);
-        Assertions.assertEquals(classType, ClassResolver.class);
+        Assertions.assertEquals(classType, ClassResolverUtils.class);
     }
 
     @Test
     void forNameWithoutExplicitClassLoaderNotFound() {
 
         // Act
-        final Class<?> classType = ClassResolver.forName("dev.voidframework.core.helper.Unknown");
+        final Class<?> classType = ClassResolverUtils.forName("dev.voidframework.core.utils.Unknown");
 
         // Assert
         Assertions.assertNull(classType);
@@ -33,7 +33,7 @@ final class ClassResolverTest {
     void forNameWithoutExplicitClassLoaderNull() {
 
         // Act
-        final Class<?> classType = ClassResolver.forName(null);
+        final Class<?> classType = ClassResolverUtils.forName(null);
 
         // Assert
         Assertions.assertNull(classType);
@@ -43,21 +43,21 @@ final class ClassResolverTest {
     void forNameWithExplicitClassLoader() {
 
         // Act
-        final Class<?> classType = ClassResolver.forName(
-            "dev.voidframework.core.helper.ClassResolver",
+        final Class<?> classType = ClassResolverUtils.forName(
+            "dev.voidframework.core.utils.ClassResolverUtils",
             Thread.currentThread().getContextClassLoader());
 
         // Assert
         Assertions.assertNotNull(classType);
-        Assertions.assertEquals(classType, ClassResolver.class);
+        Assertions.assertEquals(classType, ClassResolverUtils.class);
     }
 
     @Test
     void forNameWithExplicitClassLoaderNotFound() {
 
         // Act
-        final Class<?> classType = ClassResolver.forName(
-            "dev.voidframework.core.helper.Unknown",
+        final Class<?> classType = ClassResolverUtils.forName(
+            "dev.voidframework.core.utils.Unknown",
             Thread.currentThread().getContextClassLoader());
 
         // Assert
@@ -68,7 +68,7 @@ final class ClassResolverTest {
     void forNameWithExplicitClassLoaderNull() {
 
         // Act
-        final Class<?> classType = ClassResolver.forName(
+        final Class<?> classType = ClassResolverUtils.forName(
             null,
             Thread.currentThread().getContextClassLoader());
 

@@ -2,9 +2,9 @@ package dev.voidframework.web.server.http;
 
 import com.typesafe.config.Config;
 import dev.voidframework.core.constant.StringConstants;
-import dev.voidframework.core.helper.IO;
-import dev.voidframework.core.helper.Json;
 import dev.voidframework.core.lang.Either;
+import dev.voidframework.core.utils.IOUtils;
+import dev.voidframework.core.utils.JsonUtils;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.exception.TempFileLocationException;
 import dev.voidframework.web.http.Context;
@@ -121,7 +121,7 @@ public class UndertowHttpHandler implements HttpHandler {
         final FlashMessages flashMessages;
         if (flashMessagesCookie != null) {
             flashMessages = new FlashMessages(
-                Json.fromJson(Json.toJson(flashMessagesCookie.value().getBytes(StandardCharsets.UTF_8)), FlashMessages.class));
+                JsonUtils.fromJson(JsonUtils.toJson(flashMessagesCookie.value().getBytes(StandardCharsets.UTF_8)), FlashMessages.class));
         } else {
             flashMessages = new FlashMessages();
         }
@@ -176,7 +176,7 @@ public class UndertowHttpHandler implements HttpHandler {
         if (context.getFlashMessages().isModified()) {
             flashMessagesCookie = Cookie.of(
                 this.configuration.getString("voidframework.web.flashMessages.cookieName"),
-                Json.toJson(context.getFlashMessages()).toString(),
+                JsonUtils.toJson(context.getFlashMessages()).toString(),
                 this.configuration.getBoolean("voidframework.web.flashMessages.cookieHttpOnly"),
                 this.configuration.getBoolean("voidframework.web.flashMessages.cookieSecure"),
                 context.getFlashMessages().isEmpty() ? Duration.ZERO : null);
@@ -227,8 +227,8 @@ public class UndertowHttpHandler implements HttpHandler {
             } catch (final Exception ignore) {
                 // This exception is not important
             } finally {
-                IO.closeWithoutException(outputStream);
-                IO.closeWithoutException(inputStream);
+                IOUtils.closeWithoutException(outputStream);
+                IOUtils.closeWithoutException(inputStream);
             }
         }
     }

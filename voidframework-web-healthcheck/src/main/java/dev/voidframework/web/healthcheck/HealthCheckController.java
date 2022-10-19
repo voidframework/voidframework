@@ -1,7 +1,7 @@
 package dev.voidframework.web.healthcheck;
 
 import com.google.inject.Inject;
-import dev.voidframework.core.helper.Json;
+import dev.voidframework.core.utils.JsonUtils;
 import dev.voidframework.healthcheck.Health;
 import dev.voidframework.healthcheck.HealthCheckManager;
 import dev.voidframework.web.bindable.WebController;
@@ -41,6 +41,6 @@ public final class HealthCheckController {
     public Result healthCheck() {
 
         final Map<String, Health> healthPerNameMap = healthCheckManager.checkHealth();
-        return Result.ok(Json.toJson(healthPerNameMap));
+        return Result.ok(JsonUtils.toJson(healthPerNameMap));
     }
 }

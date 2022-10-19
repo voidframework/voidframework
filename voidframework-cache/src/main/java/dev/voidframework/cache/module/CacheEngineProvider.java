@@ -7,7 +7,7 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.cache.engine.BlackHoleCacheEngine;
 import dev.voidframework.cache.engine.CacheEngine;
-import dev.voidframework.core.helper.ClassResolver;
+import dev.voidframework.core.utils.ClassResolverUtils;
 
 /**
  * Cache engine provider.
@@ -38,7 +38,7 @@ public final class CacheEngineProvider implements Provider<CacheEngine> {
         if (this.cacheEngine == null) {
             if (configuration.hasPath("voidframework.cache.engine")) {
                 final String cacheEngineClassName = configuration.getString("voidframework.cache.engine");
-                final Class<?> clazz = ClassResolver.forName(cacheEngineClassName);
+                final Class<?> clazz = ClassResolverUtils.forName(cacheEngineClassName);
                 if (clazz != null) {
                     this.cacheEngine = (CacheEngine) this.injector.getInstance(clazz);
                 }

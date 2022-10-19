@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -8,12 +8,12 @@ import java.io.OutputStream;
 /**
  * IO utility methods.
  */
-public final class IO {
+public final class IOUtils {
 
     /**
      * Default constructor.
      */
-    private IO() {
+    private IOUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }

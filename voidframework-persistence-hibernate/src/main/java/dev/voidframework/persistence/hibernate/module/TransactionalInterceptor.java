@@ -1,7 +1,7 @@
 package dev.voidframework.persistence.hibernate.module;
 
 import com.google.inject.Inject;
-import dev.voidframework.core.helper.ProxyDetector;
+import dev.voidframework.core.utils.ProxyDetectorUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TransactionRequiredException;
@@ -61,7 +61,7 @@ public class TransactionalInterceptor implements MethodInterceptor {
             // The configuration indicates that a transaction must not exist
             // This is not the case here, so an exception will be thrown
             throw new InvalidTransactionException("%s::%s called inside a transaction context".formatted(
-                ProxyDetector.isProxy(methodInvocation.getThis())
+                ProxyDetectorUtils.isProxy(methodInvocation.getThis())
                     ? methodInvocation.getThis().getClass().getSuperclass().getName()
                     : methodInvocation.getThis().getClass().getName(),
                 methodInvocation.getMethod().getName()));
@@ -77,7 +77,7 @@ public class TransactionalInterceptor implements MethodInterceptor {
             // The configuration indicates that a transaction must already exist
             // This is not the case here, so an exception will be thrown
             throw new TransactionRequiredException("%s::%s called outside a transaction context".formatted(
-                ProxyDetector.isProxy(methodInvocation.getThis())
+                ProxyDetectorUtils.isProxy(methodInvocation.getThis())
                     ? methodInvocation.getThis().getClass().getSuperclass().getName()
                     : methodInvocation.getThis().getClass().getName(),
                 methodInvocation.getMethod().getName()));

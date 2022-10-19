@@ -8,7 +8,7 @@ import dev.voidframework.core.bindable.BindClass;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.conversion.TypeConverter;
 import dev.voidframework.core.exception.ConversionException;
-import dev.voidframework.core.helper.ClassResolver;
+import dev.voidframework.core.utils.ClassResolverUtils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.MethodInfo;
@@ -77,14 +77,14 @@ public final class ClassesToLoadScanner {
                     }
 
                     final String sourceClassName = typeArgumentList.get(0).getTypeSignature().toString();
-                    final Class<?> sourceClassType = ClassResolver.forName(sourceClassName);
+                    final Class<?> sourceClassType = ClassResolverUtils.forName(sourceClassName);
                     if (sourceClassType == null) {
                         throw new ConversionException.InvalidConverter(
                             classInfo.getName(), "Can't retrieve Class<?> from '" + sourceClassName + StringConstants.SIMPLE_QUOTE);
                     }
 
                     final String targetClassName = typeArgumentList.get(1).getTypeSignature().toString();
-                    final Class<?> targetClassType = ClassResolver.forName(targetClassName);
+                    final Class<?> targetClassType = ClassResolverUtils.forName(targetClassName);
                     if (targetClassType == null) {
                         throw new ConversionException.InvalidConverter(
                             classInfo.getName(), "Can't retrieve Class<?> from '" + targetClassName + StringConstants.SIMPLE_QUOTE);

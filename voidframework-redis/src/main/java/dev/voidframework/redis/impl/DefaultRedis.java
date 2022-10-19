@@ -9,7 +9,7 @@ import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
-import dev.voidframework.core.helper.Json;
+import dev.voidframework.core.utils.JsonUtils;
 import dev.voidframework.redis.Redis;
 import dev.voidframework.redis.exception.RedisException;
 import org.slf4j.Logger;
@@ -70,19 +70,19 @@ public class DefaultRedis implements Redis {
     @Override
     public <T> T get(final String key, final TypeReference<T> typeReference) {
 
-        return this.get(key, Json.objectMapper().readerFor(typeReference));
+        return this.get(key, JsonUtils.objectMapper().readerFor(typeReference));
     }
 
     @Override
     public <T> T get(final String key, final Class<T> clazz) {
 
-        return this.get(key, Json.objectMapper().readerFor(clazz));
+        return this.get(key, JsonUtils.objectMapper().readerFor(clazz));
     }
 
     @Override
     public <T> T get(final String key, final JavaType javaType) {
 
-        return this.get(key, Json.objectMapper().readerFor(javaType));
+        return this.get(key, JsonUtils.objectMapper().readerFor(javaType));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class DefaultRedis implements Redis {
                         final T value,
                         final int expiration) {
 
-        this.set(key, Json.objectMapper().writerFor(typeReference), value, expiration);
+        this.set(key, JsonUtils.objectMapper().writerFor(typeReference), value, expiration);
     }
 
     @Override
@@ -116,7 +116,7 @@ public class DefaultRedis implements Redis {
                         final T value,
                         final int expiration) {
 
-        this.set(key, Json.objectMapper().writerFor(clazz), value, expiration);
+        this.set(key, JsonUtils.objectMapper().writerFor(clazz), value, expiration);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class DefaultRedis implements Redis {
                     final Object value,
                     final int expiration) {
 
-        this.set(key, Json.objectMapper().writerFor(javaType), value, expiration);
+        this.set(key, JsonUtils.objectMapper().writerFor(javaType), value, expiration);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class DefaultRedis implements Redis {
                            final Callable<T> block,
                            final int expiration) {
 
-        return this.getOrElse(key, Json.objectMapper().readerFor(typeReference), Json.objectMapper().writerFor(typeReference), block, expiration);
+        return this.getOrElse(key, JsonUtils.objectMapper().readerFor(typeReference), JsonUtils.objectMapper().writerFor(typeReference), block, expiration);
     }
 
     @Override
@@ -167,7 +167,7 @@ public class DefaultRedis implements Redis {
                            final Callable<T> block,
                            final int expiration) {
 
-        return this.getOrElse(key, Json.objectMapper().readerFor(clazz), Json.objectMapper().writerFor(clazz), block, expiration);
+        return this.getOrElse(key, JsonUtils.objectMapper().readerFor(clazz), JsonUtils.objectMapper().writerFor(clazz), block, expiration);
     }
 
     @Override
@@ -183,7 +183,7 @@ public class DefaultRedis implements Redis {
                            final Callable<T> block,
                            final int expiration) {
 
-        return this.getOrElse(key, Json.objectMapper().readerFor(javaType), Json.objectMapper().writerFor(javaType), block, expiration);
+        return this.getOrElse(key, JsonUtils.objectMapper().readerFor(javaType), JsonUtils.objectMapper().writerFor(javaType), block, expiration);
     }
 
     @Override
@@ -221,7 +221,7 @@ public class DefaultRedis implements Redis {
                               final TypeReference<T> typeReference,
                               final Object value) {
 
-        this.addInList(key, Json.objectMapper().writerFor(typeReference), value);
+        this.addInList(key, JsonUtils.objectMapper().writerFor(typeReference), value);
     }
 
     @Override
@@ -230,7 +230,7 @@ public class DefaultRedis implements Redis {
                               final Object value,
                               final int maxItem) {
 
-        this.addInList(key, Json.objectMapper().writerFor(typeReference), value, maxItem);
+        this.addInList(key, JsonUtils.objectMapper().writerFor(typeReference), value, maxItem);
     }
 
     @Override
@@ -238,7 +238,7 @@ public class DefaultRedis implements Redis {
                               final Class<T> clazz,
                               final T value) {
 
-        this.addInList(key, Json.objectMapper().writerFor(clazz), value);
+        this.addInList(key, JsonUtils.objectMapper().writerFor(clazz), value);
     }
 
     @Override
@@ -247,7 +247,7 @@ public class DefaultRedis implements Redis {
                               final T value,
                               final int maxItem) {
 
-        this.addInList(key, Json.objectMapper().writerFor(clazz), value, maxItem);
+        this.addInList(key, JsonUtils.objectMapper().writerFor(clazz), value, maxItem);
     }
 
     @Override
@@ -255,7 +255,7 @@ public class DefaultRedis implements Redis {
                           final JavaType javaType,
                           final Object value) {
 
-        this.addInList(key, Json.objectMapper().writerFor(javaType), value);
+        this.addInList(key, JsonUtils.objectMapper().writerFor(javaType), value);
     }
 
     @Override
@@ -264,7 +264,7 @@ public class DefaultRedis implements Redis {
                           final Object value,
                           final int maxItem) {
 
-        this.addInList(key, Json.objectMapper().writerFor(javaType), value, maxItem);
+        this.addInList(key, JsonUtils.objectMapper().writerFor(javaType), value, maxItem);
     }
 
     @Override
@@ -279,7 +279,7 @@ public class DefaultRedis implements Redis {
                                    final int offset,
                                    final int count) {
 
-        return this.getFromList(key, Json.objectMapper().readerFor(typeReference), offset, count);
+        return this.getFromList(key, JsonUtils.objectMapper().readerFor(typeReference), offset, count);
     }
 
     @Override
@@ -294,7 +294,7 @@ public class DefaultRedis implements Redis {
                                    final int offset,
                                    final int count) {
 
-        return this.getFromList(key, Json.objectMapper().readerFor(clazz), offset, count);
+        return this.getFromList(key, JsonUtils.objectMapper().readerFor(clazz), offset, count);
     }
 
     @Override
@@ -309,7 +309,7 @@ public class DefaultRedis implements Redis {
                                    final int offset,
                                    final int count) {
 
-        return this.getFromList(key, Json.objectMapper().readerFor(javaType), offset, count);
+        return this.getFromList(key, JsonUtils.objectMapper().readerFor(javaType), offset, count);
     }
 
     @Override

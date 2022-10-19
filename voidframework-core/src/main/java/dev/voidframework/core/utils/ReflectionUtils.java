@@ -1,4 +1,4 @@
-package dev.voidframework.core.helper;
+package dev.voidframework.core.utils;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,14 +10,14 @@ import java.lang.reflect.Method;
 /**
  * Reflection-based utility methods.
  */
-public final class Reflection {
+public final class ReflectionUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Reflection.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReflectionUtils.class);
 
     /**
      * Default constructor.
      */
-    private Reflection() {
+    private ReflectionUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
     }
