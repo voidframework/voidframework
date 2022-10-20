@@ -3,6 +3,7 @@ package dev.voidframework.core.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -12,6 +13,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.voidframework.core.exception.JsonException;
+import dev.voidframework.core.jackson.VoidFrameworkModule;
 
 import java.io.IOException;
 import java.util.Map;
@@ -24,7 +26,15 @@ public final class JsonUtils {
     private static final TypeReference<Map<String, Object>> MAP_TYPE_REFERENCE = new TypeReference<>() {
     };
 
-    private static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false).configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false).configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, false).addModule(new JavaTimeModule()).addModule(new Jdk8Module()).addModule(new JodaModule()).build();
+    private static final ObjectMapper OBJECT_MAPPER = JsonMapper.builder()
+        .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        .configure(SerializationFeature.WRITE_DURATIONS_AS_TIMESTAMPS, false)
+        .addModule(new JavaTimeModule())
+        .addModule(new Jdk8Module())
+        .addModule(new JodaModule())
+        .addModule(new VoidFrameworkModule())
+        .build();
 
     /**
      * Default constructor.
@@ -115,6 +125,23 @@ public final class JsonUtils {
     /**
      * Converts a JSON document into to a Java object.
      *
+     * @param <T>            The type of the Java object
+     * @param json           JSON document to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromJson(final JsonNode json, final JavaType outputJavaType) {
+
+        try {
+            return OBJECT_MAPPER.treeToValue(json, outputJavaType);
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ex) {
+            throw new JsonException.FromJsonConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a JSON document into to a Java object.
+     *
      * @param <T>             The type of the Java object
      * @param jsonByteArray   JSON document as bytes array to convert
      * @param outputClassType Expected Java object type
@@ -128,6 +155,27 @@ public final class JsonUtils {
 
         try {
             return OBJECT_MAPPER.readValue(jsonByteArray, outputClassType);
+        } catch (final NullPointerException | IOException | IllegalArgumentException ex) {
+            throw new JsonException.FromJsonConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a JSON document into to a Java object.
+     *
+     * @param <T>            The type of the Java object
+     * @param jsonByteArray  JSON document as bytes array to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromJson(final byte[] jsonByteArray, final JavaType outputJavaType) {
+
+        if (jsonByteArray == null || jsonByteArray.length == 0) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(jsonByteArray, outputJavaType);
         } catch (final NullPointerException | IOException | IllegalArgumentException ex) {
             throw new JsonException.FromJsonConversionFailure(ex);
         }
@@ -151,6 +199,23 @@ public final class JsonUtils {
     }
 
     /**
+     * Converts a JSON document into to a Java object.
+     *
+     * @param <T>            The type of the Java object
+     * @param json           JSON document as String to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromJson(final String json, final JavaType outputJavaType) {
+
+        try {
+            return OBJECT_MAPPER.readValue(json, outputJavaType);
+        } catch (final NullPointerException | IOException | IllegalArgumentException ex) {
+            throw new JsonException.FromJsonConversionFailure(ex);
+        }
+    }
+
+    /**
      * Converts a data map into to a Java object.
      *
      * @param <T>             The type of the Java object
@@ -162,6 +227,23 @@ public final class JsonUtils {
 
         try {
             return OBJECT_MAPPER.convertValue(dataMap, outputClassType);
+        } catch (final NullPointerException | IllegalArgumentException ignore) {
+            return null;
+        }
+    }
+
+    /**
+     * Converts a data map into to a Java object.
+     *
+     * @param <T>            The type of the Java object
+     * @param dataMap        Data map to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromMap(final Map<?, ?> dataMap, final JavaType outputJavaType) {
+
+        try {
+            return OBJECT_MAPPER.convertValue(dataMap, outputJavaType);
         } catch (final NullPointerException | IllegalArgumentException ignore) {
             return null;
         }

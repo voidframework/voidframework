@@ -2,6 +2,7 @@ package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -235,7 +236,7 @@ final class JsonUtilsTest {
         dataMap.put("hello", "world!");
 
         // Act
-        final SimpleDto simpleDto = JsonUtils.fromMap(dataMap, null);
+        final SimpleDto simpleDto = JsonUtils.fromMap(dataMap, (JavaType) null);
 
         // Assert
         Assertions.assertNull(simpleDto);

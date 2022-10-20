@@ -38,7 +38,7 @@ final class CUIDTest {
     }
 
     @Test
-    void unicity() {
+    void unicityOver500000() {
 
         // Act
         final Set<CUID> cuidSet = new HashSet<>();

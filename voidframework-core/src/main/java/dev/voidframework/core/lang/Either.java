@@ -115,7 +115,7 @@ public class Either<L, R> {
      *
      * @param leftFunction  The "Left" function
      * @param rightFunction The "Right" function
-     * @param <U> The returned value type
+     * @param <U>           The returned value type
      * @return The result of the applied function
      */
     public <U> U match(final Function<L, U> leftFunction,
