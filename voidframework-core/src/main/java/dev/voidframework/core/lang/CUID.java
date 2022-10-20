@@ -123,7 +123,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
     public int compareTo(final CUID cuid) {
 
         if (cuid == null) {
-            return this.value == null ? 0 : -1;
+            return -1;
         }
 
         return this.value.compareTo(cuid.value);

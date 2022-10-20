@@ -27,6 +27,22 @@ final class CUIDTest {
     }
 
     @Test
+    void fromStringInvalid() {
+
+        // Arrange
+        final String cuidAsString = "invalid-cuid";
+
+        // Act
+        final IllegalArgumentException exception = Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> CUID.fromString(cuidAsString));
+
+        // Assert
+        Assertions.assertNotNull(exception);
+        Assertions.assertEquals("CUID string is invalid: 'invalid-cuid'", exception.getMessage());
+    }
+
+    @Test
     void randomCUID() {
 
         // Act
@@ -35,6 +51,47 @@ final class CUIDTest {
         // Assert
         Assertions.assertNotNull(cuid);
         Assertions.assertEquals(25, cuid.toString().length());
+    }
+
+    @Test
+    void compareToNotSame() {
+
+        // Arrange
+        final CUID cuidOne = CUID.fromString("cl9gts1kw00393647w1z4v2tc");
+        final CUID cuidTwo = CUID.fromString("cl9gts1kw00393647ee45bn56");
+
+        // Act
+        final int result = cuidOne.compareTo(cuidTwo);
+
+        // Assert
+        Assertions.assertEquals(18, result);
+    }
+
+    @Test
+    void compareToNotSameNull() {
+
+        // Arrange
+        final CUID cuidOne = CUID.fromString("cl9gts1kw00393647w1z4v2tc");
+
+        // Act
+        final int result = cuidOne.compareTo(null);
+
+        // Assert
+        Assertions.assertEquals(-1, result);
+    }
+
+    @Test
+    void compareToSame() {
+
+        // Arrange
+        final CUID cuidOne = CUID.fromString("cl9gts1kw00393647w1z4v2tc");
+        final CUID cuidTwo = CUID.fromString("cl9gts1kw00393647w1z4v2tc");
+
+        // Act
+        final int result = cuidOne.compareTo(cuidTwo);
+
+        // Assert
+        Assertions.assertEquals(0, result);
     }
 
     @Test
