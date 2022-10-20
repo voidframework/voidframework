@@ -39,6 +39,11 @@
 
     <main>
         <h1>${i18n("key")}</h1>
+        <br/>
+        <div>
+            <button class="btn btn-outline-primary btn-sm" id="btnGenerateCUID">${i18n("btn.generate.cuid")}</button>
+            <div id="resultGenerateCUID">-</div>
+        </div>
     </main>
 
     <footer class="pt-2 my-5 text-muted border-top">

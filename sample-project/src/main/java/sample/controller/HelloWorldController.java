@@ -2,6 +2,7 @@ package sample.controller;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import dev.voidframework.core.lang.CUID;
 import dev.voidframework.core.utils.JsonUtils;
 import dev.voidframework.core.utils.YamlUtils;
 import dev.voidframework.validation.Validated;
@@ -106,5 +107,16 @@ public class HelloWorldController {
         }
 
         return Result.ok(YamlUtils.toString(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
+    }
+
+    /**
+     * Retrieves a CUID.
+     *
+     * @return A Result
+     */
+    @RequestRoute(method = HttpMethod.GET, route = "/cuid")
+    public Result generateCUID() {
+        final CUID cuid = CUID.randomCUID();
+        return Result.ok(cuid.toString());
     }
 }

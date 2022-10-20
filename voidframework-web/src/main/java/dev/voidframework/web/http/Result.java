@@ -518,6 +518,21 @@ public final class Result {
     /**
      * Ok (200).
      *
+     * @param content The content
+     * @param contentType The content type
+     * @return A result
+     */
+    public static Result ok(final String content, final String contentType) {
+
+        return new Result(
+            HttpReturnCode.OK,
+            new ObjectResultProcessor(content),
+            contentType);
+    }
+
+    /**
+     * Ok (200).
+     *
      * @param content     The content
      * @param contentType The content type
      * @return A result

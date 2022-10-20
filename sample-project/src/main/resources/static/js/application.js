@@ -16,4 +16,10 @@ $(document).ready(function () {
     tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     });
+
+    $('#btnGenerateCUID').click(function () {
+        $.get("/cuid", function (data) {
+            $('#resultGenerateCUID').html(data);
+        });
+    })
 });
