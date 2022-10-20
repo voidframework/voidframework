@@ -1,0 +1,7 @@
+CREATE TABLE EVENT
+(
+    ID    VARCHAR(25) NOT NULL,
+    EVENT TEXT        NOT NULL,
+
+    PRIMARY KEY (id)
+);

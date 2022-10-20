@@ -12,6 +12,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.voidframework.core.exception.YamlException;
+import dev.voidframework.core.jackson.VoidFrameworkModule;
 
 import java.io.IOException;
 
@@ -27,6 +28,7 @@ public final class YamlUtils {
         .addModule(new JavaTimeModule())
         .addModule(new Jdk8Module())
         .addModule(new JodaModule())
+        .addModule(new VoidFrameworkModule())
         .build();
 
     /**

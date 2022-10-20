@@ -8,6 +8,7 @@ import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import dev.voidframework.core.exception.XmlException;
+import dev.voidframework.core.jackson.VoidFrameworkModule;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -37,6 +38,7 @@ public final class XmlUtils {
         .addModule(new JavaTimeModule())
         .addModule(new Jdk8Module())
         .addModule(new JodaModule())
+        .addModule(new VoidFrameworkModule())
         .build();
 
     /**

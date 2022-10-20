@@ -10,8 +10,8 @@ public interface ConverterManager {
      *
      * @param sourceClassType The source type class
      * @param targetClassType The target type class
-     * @param <S>   The source generic type
-     * @param <T>   The target generic type
+     * @param <S>             The source generic type
+     * @param <T>             The target generic type
      * @return {@code true} if the manager has a matching converter, otherwise {@code false}
      */
     <S, T> boolean hasConvertFor(final Class<S> sourceClassType, final Class<T> targetClassType);
@@ -30,8 +30,8 @@ public interface ConverterManager {
      *
      * @param sourceClassType The source type class
      * @param targetClassType The target type class
-     * @param <S>   The source generic type
-     * @param <T>   The target generic type
+     * @param <S>             The source generic type
+     * @param <T>             The target generic type
      * @return The requested converter
      */
     <S, T> TypeConverter<S, T> getConverter(final Class<S> sourceClassType, final Class<T> targetClassType);

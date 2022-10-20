@@ -17,6 +17,8 @@ import dev.voidframework.web.http.annotation.RequestBody;
 import dev.voidframework.web.http.annotation.RequestPath;
 import dev.voidframework.web.http.annotation.RequestRoute;
 import sample.entity.Pojo;
+import sample.model.EventModel;
+import sample.repository.EventRepository;
 
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -30,6 +32,7 @@ import java.util.Map;
 public class HelloWorldController {
 
     private final Validation validation;
+    private final EventRepository eventRepository;
 
     /**
      * Build a new instance.
@@ -37,8 +40,10 @@ public class HelloWorldController {
      * @param validation The validation service instance
      */
     @Inject
-    public HelloWorldController(final Validation validation) {
+    public HelloWorldController(final Validation validation,
+                                final EventRepository eventRepository) {
         this.validation = validation;
+        this.eventRepository = eventRepository;
     }
 
     /**
@@ -116,7 +121,27 @@ public class HelloWorldController {
      */
     @RequestRoute(method = HttpMethod.GET, route = "/cuid")
     public Result generateCUID() {
-        final CUID cuid = CUID.randomCUID();
-        return Result.ok(cuid.toString());
+
+        EventModel eventModel = new EventModel();
+        eventModel.setEvent("An event");
+
+        eventModel = eventRepository.persist(eventModel);
+
+        return Result.ok(eventModel.getId().toString());
+    }
+
+    /**
+     * Retrieves a CUID.
+     *
+     * @return A Result
+     */
+    @RequestRoute(method = HttpMethod.GET, route = "/event/(?<cuid>[0-9a-zA-Z]{25})")
+    public Result getEvent(@RequestPath("cuid") final CUID cuid) {
+
+        final String res = eventRepository.findById(cuid)
+            .map(EventModel::getEvent)
+            .orElse(null);
+
+        return Result.ok(res);
     }
 }
