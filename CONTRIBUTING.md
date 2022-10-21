@@ -3,7 +3,7 @@
 ## Introduction
 
 This document explains how to contribute changes to the
-play-remote-configuration project.
+Void Framework project.
 
 
 
@@ -17,12 +17,12 @@ If unique, [open an issue](https://github.com/voidframework/voidframework/issues
 so we can understand and reproduce the problematic behavior.
 
 The burden is on you to convince us that it is actually a bug in
-play-remote-configuration. This is easiest to do when you write clear, concise
+Void Framework. This is easiest to do when you write clear, concise
 instructions so we can reproduce the behavior (even if it seems obvious). The
 more detailed and specific you are, the faster we will be able to help you.
 Check out [How to Report Bugs Effectively](https://www.chiark.greenend.org.uk/~sgtatham/bugs.html).
 
-Please be kind, remember that play-remote-configuration comes at no cost to you,
+Please be kind, remember that Void Framework comes at no cost to you,
 and you're getting free help.
 
 
@@ -30,7 +30,7 @@ and you're getting free help.
 
 ## Code review
 
-Changes to play-remote-configuration must be reviewed before they are accepted,
+Changes to Void Framework must be reviewed before they are accepted,
 no matter who makes the change even if it is an owner or a maintainer. We use
 GitHub's pull request workflow to do that.
 
@@ -75,7 +75,7 @@ A good commit message serve at least three important purposes:
 
 * To help us write a good release note.
 
-* To help the future maintainers of play-remote-configuration, say five years
+* To help the future maintainers of Void Framework, say five years
   into the future, to find out why a particular change was made to the code or
   why a specific feature was added.
 
