@@ -2,6 +2,7 @@ package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -105,6 +106,23 @@ public final class XmlUtils {
     /**
      * Converts a XML document into to a Java object.
      *
+     * @param <T>            The type of the Java object
+     * @param xml            XML document to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromXml(final Document xml, final JavaType outputJavaType) {
+
+        try {
+            return OBJECT_MAPPER.readValue(toString(xml), outputJavaType);
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ex) {
+            throw new XmlException.FromXmlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a XML document into to a Java object.
+     *
      * @param <T>             The type of the Java object
      * @param xmlByteArray    XML document as bytes array to convert
      * @param outputClassType Expected Java object type
@@ -118,6 +136,27 @@ public final class XmlUtils {
 
         try {
             return OBJECT_MAPPER.readValue(xmlByteArray, outputClassType);
+        } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
+            throw new XmlException.FromXmlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a XML document into to a Java object.
+     *
+     * @param <T>            The type of the Java object
+     * @param xmlByteArray   XML document as bytes array to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromXml(final byte[] xmlByteArray, final JavaType outputJavaType) {
+
+        if (xmlByteArray == null || xmlByteArray.length == 0) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(xmlByteArray, outputJavaType);
         } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
             throw new XmlException.FromXmlConversionFailure(ex);
         }

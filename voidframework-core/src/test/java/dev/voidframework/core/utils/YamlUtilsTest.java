@@ -2,6 +2,7 @@ package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -43,7 +44,7 @@ final class YamlUtilsTest {
         // Act
         final YamlException.FromYamlConversionFailure exception = Assertions.assertThrows(
             YamlException.FromYamlConversionFailure.class,
-            () -> YamlUtils.fromYaml(yamlAsByteArray, null));
+            () -> YamlUtils.fromYaml(yamlAsByteArray, (JavaType) null));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -75,7 +76,7 @@ final class YamlUtilsTest {
         // Act
         final YamlException.FromYamlConversionFailure exception = Assertions.assertThrows(
             YamlException.FromYamlConversionFailure.class,
-            () -> YamlUtils.fromYaml(objectNode, null));
+            () -> YamlUtils.fromYaml(objectNode, (Class<?>) null));
 
         // Assert
         Assertions.assertNotNull(exception);

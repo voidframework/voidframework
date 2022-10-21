@@ -2,6 +2,7 @@ package dev.voidframework.core.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -105,6 +106,23 @@ public final class YamlUtils {
     /**
      * Converts a YAML document into to a Java object.
      *
+     * @param <T>            The type of the Java object
+     * @param yaml           YAML document to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromYaml(final JsonNode yaml, final JavaType outputJavaType) {
+
+        try {
+            return OBJECT_MAPPER.treeToValue(yaml, outputJavaType);
+        } catch (final NullPointerException | IllegalArgumentException | JsonProcessingException ex) {
+            throw new YamlException.FromYamlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a YAML document into to a Java object.
+     *
      * @param <T>             The type of the Java object
      * @param yamlByteArray   YAML document as bytes array to convert
      * @param outputClassType Expected Java object type
@@ -118,6 +136,27 @@ public final class YamlUtils {
 
         try {
             return OBJECT_MAPPER.readValue(yamlByteArray, outputClassType);
+        } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
+            throw new YamlException.FromYamlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a YAML document into to a Java object.
+     *
+     * @param <T>            The type of the Java object
+     * @param yamlByteArray  YAML document as bytes array to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromYaml(final byte[] yamlByteArray, final JavaType outputJavaType) {
+
+        if (yamlByteArray == null || yamlByteArray.length == 0) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(yamlByteArray, outputJavaType);
         } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
             throw new YamlException.FromYamlConversionFailure(ex);
         }
