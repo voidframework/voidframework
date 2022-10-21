@@ -20,11 +20,13 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
     private static final int NUMBER_BASE = 36;
     private static final int BLOCK_SIZE = 4;
     private static final int CUID_VALUE_LENGTH = 25;
-    private static final int DISCRETE_VALUES = (int) Math.pow(NUMBER_BASE, BLOCK_SIZE);
     private static final String START_CHARACTER = "c";
+    static final int RANDOM_BUFFER_SIZE = 4096;
+
 
     // Counter
     private static int counter = 0;
+    private static int randomBufferIndex = RANDOM_BUFFER_SIZE;
 
     // CUID value
     private final String value;
@@ -76,7 +78,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      */
     private static synchronized int nextCounterValue() {
 
-        counter = counter < DISCRETE_VALUES ? counter : 0;
+        counter = counter < Holder.DISCRETE_VALUES ? counter : 0;
         return counter++;
     }
 
@@ -87,7 +89,26 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      */
     private static String getRandomBlock() {
 
-        return padWithZero(Integer.toString(Holder.NUMBER_GENERATOR.nextInt() * DISCRETE_VALUES, NUMBER_BASE), BLOCK_SIZE);
+
+        return padWithZero(Integer.toString(nextIntValue() * Holder.DISCRETE_VALUES, NUMBER_BASE), BLOCK_SIZE);
+    }
+
+    /**
+     * Retrieves next random integer value.
+     *
+     * @return A random integer
+     */
+    private static synchronized int nextIntValue() {
+
+        if (randomBufferIndex == RANDOM_BUFFER_SIZE) {
+            Holder.NUMBER_GENERATOR.nextBytes(Holder.RANDOM_BUFFER);
+            randomBufferIndex = 0;
+        }
+
+        return Holder.RANDOM_BUFFER[randomBufferIndex++] << 24
+            | (Holder.RANDOM_BUFFER[randomBufferIndex++] & 0xff) << 16
+            | (Holder.RANDOM_BUFFER[randomBufferIndex++] & 0xff) << 8
+            | (Holder.RANDOM_BUFFER[randomBufferIndex++] & 0xff);
     }
 
     /**
@@ -155,8 +176,10 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      */
     private static final class Holder {
 
+        static final byte[] RANDOM_BUFFER = new byte[RANDOM_BUFFER_SIZE];
         static final SecureRandom NUMBER_GENERATOR = new SecureRandom();
         static final String MACHINE_FINGERPRINT = getMachineFingerprint();
+        private static final int DISCRETE_VALUES = (int) Math.pow(NUMBER_BASE, BLOCK_SIZE);
 
         /**
          * retrieves the machine fingerprint.
