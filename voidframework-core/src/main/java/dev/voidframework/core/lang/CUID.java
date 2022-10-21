@@ -21,8 +21,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
     private static final int BLOCK_SIZE = 4;
     private static final int CUID_VALUE_LENGTH = 25;
     private static final String START_CHARACTER = "c";
-    static final int RANDOM_BUFFER_SIZE = 4096;
-
+    private static final int RANDOM_BUFFER_SIZE = 4096;
 
     // Counter
     private static int counter = 0;
@@ -88,7 +87,6 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      * @return Newly generated block of data
      */
     private static String getRandomBlock() {
-
 
         return padWithZero(Integer.toString(nextIntValue() * Holder.DISCRETE_VALUES, NUMBER_BASE), BLOCK_SIZE);
     }
