@@ -99,6 +99,7 @@
         <module>voidframework-validation</module>
         <module>voidframework-web</module>
         <module>voidframework-web-healthcheck</module>
+        <module>voidframework-vfs</module>
     </modules>
 
     <profiles>
@@ -285,6 +286,11 @@
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-validation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-vfs</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

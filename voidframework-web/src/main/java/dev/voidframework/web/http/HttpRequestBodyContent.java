@@ -23,7 +23,7 @@ import java.util.Objects;
  */
 public record HttpRequestBodyContent(String contentType,
                                      byte[] asRaw,
-                                     Map<String, List<FormItem>> asFormData) {
+                                     FormData asFormData) {
 
     /**
      * Returns the form data content body as a specific object.
