@@ -518,7 +518,7 @@ public final class Result {
     /**
      * Ok (200).
      *
-     * @param content The content
+     * @param content     The content
      * @param contentType The content type
      * @return A result
      */
@@ -589,12 +589,13 @@ public final class Result {
     }
 
     /**
-     * Redirect Permanently (301).
+     * Moved Permanently (301).
+     * GET methods unchanged. Others may or may not be changed to GET.
      *
      * @param uri The URL to redirect to
      * @return A result
      */
-    public static Result redirectPermanentlyTo(final String uri) {
+    public static Result redirectMovedPermanently(final String uri) {
 
         return new Result(
             HttpReturnCode.MOVED_PERMANENTLY,
@@ -604,15 +605,64 @@ public final class Result {
     }
 
     /**
-     * Redirect Temporary (302).
+     * Permanent Redirect (308).
+     * Method and body not changed.
      *
      * @param uri The URL to redirect to
      * @return A result
      */
-    public static Result redirectTemporaryTo(final String uri) {
+    public static Result redirectPermanentRedirect(final String uri) {
+
+        return new Result(
+            HttpReturnCode.PERMANENT_REDIRECT,
+            NO_CONTENT_RESULT_PROCESSOR,
+            NO_CONTENT_TYPE
+        ).withHeader("Location", uri);
+    }
+
+    /**
+     * Found (302).
+     * GET methods unchanged. Others may or may not be changed to GET.
+     *
+     * @param uri The URL to redirect to
+     * @return A result
+     */
+    public static Result redirectFound(final String uri) {
 
         return new Result(
             HttpReturnCode.FOUND,
+            NO_CONTENT_RESULT_PROCESSOR,
+            NO_CONTENT_TYPE
+        ).withHeader("Location", uri);
+    }
+
+    /**
+     * See other (303).
+     * GET methods unchanged. Others changed to GET.
+     *
+     * @param uri The URL to redirect to
+     * @return A result
+     */
+    public static Result redirectSeeOther(final String uri) {
+
+        return new Result(
+            HttpReturnCode.SEE_OTHER,
+            NO_CONTENT_RESULT_PROCESSOR,
+            NO_CONTENT_TYPE
+        ).withHeader("Location", uri);
+    }
+
+    /**
+     * See other (307).
+     * Method and body not changed.
+     *
+     * @param uri The URL to redirect to
+     * @return A result
+     */
+    public static Result redirectTemporaryRedirect(final String uri) {
+
+        return new Result(
+            HttpReturnCode.TEMPORARY_REDIRECT,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
         ).withHeader("Location", uri);
