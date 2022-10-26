@@ -231,6 +231,8 @@ public class UndertowHttpHandler implements HttpHandler {
                 IOUtils.closeWithoutException(inputStream);
             }
         }
+
+        forceCloseUploadedFileInputStream(httpRequest);
     }
 
     /**
@@ -299,5 +301,22 @@ public class UndertowHttpHandler implements HttpHandler {
     private HttpRequest createHttpRequestWithoutBodyContent(final HttpServerExchange httpServerExchange) {
 
         return new UndertowHttpRequest(httpServerExchange, new HttpRequestBodyContent(null, null, null));
+    }
+
+    /**
+     * Force close of all upload files {@code InputStream}.
+     *
+     * @param httpRequest The current http request
+     */
+    private void forceCloseUploadedFileInputStream(final HttpRequest httpRequest) {
+
+        // If a FormData exists, we have to be sure that the potential streams are all closed
+        if (httpRequest.getBodyContent().asFormData() != null) {
+            for (final List<FormItem> formItemList : httpRequest.getBodyContent().asFormData().values()) {
+                for (final FormItem formItem : formItemList) {
+                    IOUtils.closeWithoutException(formItem.inputStream());
+                }
+            }
+        }
     }
 }
