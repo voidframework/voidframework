@@ -54,9 +54,9 @@ public final class LanguageController {
         // Redirect to the previous page, otherwise, "/"
         final String referer = context.getRequest().getHeader("referer");
         if (StringUtils.isNotBlank(referer)) {
-            return Result.redirectTemporaryTo(referer);
+            return Result.redirectTemporaryRedirect(referer);
         } else {
-            return Result.redirectTemporaryTo("/");
+            return Result.redirectTemporaryRedirect("/");
         }
     }
 }
