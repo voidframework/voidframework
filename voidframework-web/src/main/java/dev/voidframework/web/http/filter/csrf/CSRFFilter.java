@@ -12,6 +12,7 @@ import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.Cookie;
 import dev.voidframework.web.http.FormItem;
 import dev.voidframework.web.http.HttpContentType;
+import dev.voidframework.web.http.HttpHeader;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.filter.Filter;
@@ -180,7 +181,7 @@ public class CSRFFilter implements Filter {
         }
 
         // Header
-        csrfTokenProvided = context.getRequest().getHeader("X-CSRF-TOKEN");
+        csrfTokenProvided = context.getRequest().getHeader(HttpHeader.X_CSRF_TOKEN);
         if (StringUtils.isNotBlank(csrfTokenProvided)) {
             final String[] csrfTokenPartArray = csrfTokenProvided.split(StringConstants.HYPHEN);
             if (csrfTokenPartArray.length != 3) {
