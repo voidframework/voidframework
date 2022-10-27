@@ -6,6 +6,7 @@ import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.HttpContentType;
+import dev.voidframework.web.http.HttpHeader;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.annotation.NoCSRF;
@@ -73,7 +74,7 @@ public abstract class AbstractStaticAssetsController {
 
         final String contentType = detectFileContentType(fileName);
 
-        return Result.ok(inputStream, contentType).withHeader("Cache-Control", "public, max-age=3600;");
+        return Result.ok(inputStream, contentType).withHeader(HttpHeader.CACHE_CONTROL, "public, max-age=3600;");
     }
 
     /**
@@ -138,7 +139,7 @@ public abstract class AbstractStaticAssetsController {
         }
 
 
-        return Result.ok(inputStream, contentType).withHeader("Cache-Control", "public, max-age=3600;");
+        return Result.ok(inputStream, contentType).withHeader(HttpHeader.CACHE_CONTROL, "public, max-age=3600;");
     }
 
     /**

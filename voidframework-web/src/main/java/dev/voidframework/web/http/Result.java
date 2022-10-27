@@ -601,7 +601,7 @@ public final class Result {
             HttpReturnCode.MOVED_PERMANENTLY,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader("Location", uri);
+        ).withHeader(HttpHeader.LOCATION, uri);
     }
 
     /**
@@ -617,7 +617,7 @@ public final class Result {
             HttpReturnCode.PERMANENT_REDIRECT,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader("Location", uri);
+        ).withHeader(HttpHeader.LOCATION, uri);
     }
 
     /**
@@ -633,7 +633,7 @@ public final class Result {
             HttpReturnCode.FOUND,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader("Location", uri);
+        ).withHeader(HttpHeader.LOCATION, uri);
     }
 
     /**
@@ -649,7 +649,7 @@ public final class Result {
             HttpReturnCode.SEE_OTHER,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader("Location", uri);
+        ).withHeader(HttpHeader.LOCATION, uri);
     }
 
     /**
@@ -665,7 +665,7 @@ public final class Result {
             HttpReturnCode.TEMPORARY_REDIRECT,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader("Location", uri);
+        ).withHeader(HttpHeader.LOCATION, uri);
     }
 
     /**

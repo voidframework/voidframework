@@ -5,6 +5,7 @@ import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
+import dev.voidframework.web.http.HttpHeader;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.annotation.RequestPath;
@@ -52,7 +53,7 @@ public final class LanguageController {
         context.getFlashMessages().put("success", "flash.language.changed");
 
         // Redirect to the previous page, otherwise, "/"
-        final String referer = context.getRequest().getHeader("referer");
+        final String referer = context.getRequest().getHeader(HttpHeader.REFERER);
         if (StringUtils.isNotBlank(referer)) {
             return Result.redirectTemporaryRedirect(referer);
         } else {
