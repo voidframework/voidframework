@@ -11,8 +11,8 @@ import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.Cookie;
 import dev.voidframework.web.http.FormItem;
-import dev.voidframework.web.http.HttpContentType;
-import dev.voidframework.web.http.HttpHeader;
+import dev.voidframework.web.http.HttpContentTypes;
+import dev.voidframework.web.http.HttpHeaderNames;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.filter.Filter;
@@ -91,7 +91,7 @@ public class CSRFFilter implements Filter {
 
             return result.withoutCookie(this.cookieName);
         } else if (context.getRequest().getHttpMethod() == HttpMethod.GET
-            && context.getRequest().acceptContentType(HttpContentType.TEXT_HTML)) {
+            && context.getRequest().acceptContentType(HttpContentTypes.TEXT_HTML)) {
 
             final Pair<CSRFToken, String> tokens = extractAndRegenerateCSRFToken(context);
 
@@ -181,7 +181,7 @@ public class CSRFFilter implements Filter {
         }
 
         // Header
-        csrfTokenProvided = context.getRequest().getHeader(HttpHeader.X_CSRF_TOKEN);
+        csrfTokenProvided = context.getRequest().getHeader(HttpHeaderNames.X_CSRF_TOKEN);
         if (StringUtils.isNotBlank(csrfTokenProvided)) {
             final String[] csrfTokenPartArray = csrfTokenProvided.split(StringConstants.HYPHEN);
             if (csrfTokenPartArray.length != 3) {

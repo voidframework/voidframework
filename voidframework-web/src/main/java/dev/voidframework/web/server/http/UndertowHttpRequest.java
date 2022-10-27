@@ -3,7 +3,7 @@ package dev.voidframework.web.server.http;
 import com.google.common.collect.ImmutableList;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.http.Cookie;
-import dev.voidframework.web.http.HttpHeader;
+import dev.voidframework.web.http.HttpHeaderNames;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.HttpRequest;
 import dev.voidframework.web.http.HttpRequestBodyContent;
@@ -61,7 +61,7 @@ public final class UndertowHttpRequest implements HttpRequest {
     @Override
     public boolean acceptContentType(final String contentType) {
 
-        final HeaderValues acceptHeaderValues = this.httpServerExchange.getRequestHeaders().get(HttpHeader.ACCEPT);
+        final HeaderValues acceptHeaderValues = this.httpServerExchange.getRequestHeaders().get(HttpHeaderNames.ACCEPT);
         if (acceptHeaderValues == null || acceptHeaderValues.isEmpty()) {
             return false;
         }

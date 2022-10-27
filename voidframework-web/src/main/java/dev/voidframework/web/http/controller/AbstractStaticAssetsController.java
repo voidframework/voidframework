@@ -5,8 +5,8 @@ import com.typesafe.config.Config;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.exception.HttpException;
 import dev.voidframework.web.http.Context;
-import dev.voidframework.web.http.HttpContentType;
-import dev.voidframework.web.http.HttpHeader;
+import dev.voidframework.web.http.HttpContentTypes;
+import dev.voidframework.web.http.HttpHeaderNames;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.annotation.NoCSRF;
@@ -74,7 +74,7 @@ public abstract class AbstractStaticAssetsController {
 
         final String contentType = detectFileContentType(fileName);
 
-        return Result.ok(inputStream, contentType).withHeader(HttpHeader.CACHE_CONTROL, "public, max-age=3600;");
+        return Result.ok(inputStream, contentType).withHeader(HttpHeaderNames.CACHE_CONTROL, "public, max-age=3600;");
     }
 
     /**
@@ -139,7 +139,7 @@ public abstract class AbstractStaticAssetsController {
         }
 
 
-        return Result.ok(inputStream, contentType).withHeader(HttpHeader.CACHE_CONTROL, "public, max-age=3600;");
+        return Result.ok(inputStream, contentType).withHeader(HttpHeaderNames.CACHE_CONTROL, "public, max-age=3600;");
     }
 
     /**
@@ -153,8 +153,8 @@ public abstract class AbstractStaticAssetsController {
         String contentType = tika.detect(fileName);
 
         if (contentType == null) {
-            LOGGER.warn("Can't determine Content-Type for '{}', defaulting to '{}'", fileName, HttpContentType.APPLICATION_OCTET_STREAM);
-            contentType = HttpContentType.APPLICATION_OCTET_STREAM;
+            LOGGER.warn("Can't determine Content-Type for '{}', defaulting to '{}'", fileName, HttpContentTypes.APPLICATION_OCTET_STREAM);
+            contentType = HttpContentTypes.APPLICATION_OCTET_STREAM;
         }
 
         return contentType;

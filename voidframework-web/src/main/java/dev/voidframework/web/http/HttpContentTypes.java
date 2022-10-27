@@ -4,7 +4,7 @@ package dev.voidframework.web.http;
  * Defines some HTTP content types.
  */
 @SuppressWarnings("unused")
-public final class HttpContentType {
+public final class HttpContentTypes {
 
     public static final String APPLICATION_ATOM_XML = "application/atom+xml";
     public static final String APPLICATION_JSON = "application/json";
@@ -27,7 +27,7 @@ public final class HttpContentType {
     /**
      * Default constructor.
      */
-    private HttpContentType() {
+    private HttpContentTypes() {
 
         throw new UnsupportedOperationException("This is a class containing constants and cannot be instantiated");
     }

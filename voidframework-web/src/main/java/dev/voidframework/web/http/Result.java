@@ -65,7 +65,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.BAD_REQUEST,
             NO_CONTENT_RESULT_PROCESSOR,
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -79,7 +79,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.BAD_REQUEST,
             new ObjectResultProcessor(content),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -108,7 +108,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.BAD_REQUEST,
             new ObjectResultProcessor(JsonUtils.toString(content)),
-            HttpContentType.APPLICATION_JSON);
+            HttpContentTypes.APPLICATION_JSON);
     }
 
     /**
@@ -122,7 +122,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.BAD_REQUEST,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -135,7 +135,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.CREATED,
             NO_CONTENT_RESULT_PROCESSOR,
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -149,7 +149,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.CREATED,
             new ObjectResultProcessor(content),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -178,7 +178,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.CREATED,
             new ObjectResultProcessor(JsonUtils.toString(content)),
-            HttpContentType.APPLICATION_JSON);
+            HttpContentTypes.APPLICATION_JSON);
     }
 
     /**
@@ -192,7 +192,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.CREATED,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -205,7 +205,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.FORBIDDEN,
             NO_CONTENT_RESULT_PROCESSOR,
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -219,7 +219,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.FORBIDDEN,
             new ObjectResultProcessor(content),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -248,7 +248,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.FORBIDDEN,
             new ObjectResultProcessor(JsonUtils.toString(content)),
-            HttpContentType.APPLICATION_JSON);
+            HttpContentTypes.APPLICATION_JSON);
     }
 
     /**
@@ -262,7 +262,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.FORBIDDEN,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -275,7 +275,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.INTERNAL_SERVER_ERROR,
             NO_CONTENT_RESULT_PROCESSOR,
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -289,7 +289,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.INTERNAL_SERVER_ERROR,
             new ObjectResultProcessor(content),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -318,7 +318,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.INTERNAL_SERVER_ERROR,
             new ObjectResultProcessor(JsonUtils.toString(content)),
-            HttpContentType.APPLICATION_JSON);
+            HttpContentTypes.APPLICATION_JSON);
     }
 
     /**
@@ -332,7 +332,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_FOUND,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -358,7 +358,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_FOUND,
             NO_CONTENT_RESULT_PROCESSOR,
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -372,7 +372,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_FOUND,
             new ObjectResultProcessor(content),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -401,7 +401,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_FOUND,
             new ObjectResultProcessor(JsonUtils.toString(content)),
-            HttpContentType.APPLICATION_JSON);
+            HttpContentTypes.APPLICATION_JSON);
     }
 
     /**
@@ -415,7 +415,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_FOUND,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -428,7 +428,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_IMPLEMENTED,
             NO_CONTENT_RESULT_PROCESSOR,
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -442,7 +442,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_IMPLEMENTED,
             new ObjectResultProcessor(content),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -471,7 +471,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_IMPLEMENTED,
             new ObjectResultProcessor(JsonUtils.toString(content)),
-            HttpContentType.APPLICATION_JSON);
+            HttpContentTypes.APPLICATION_JSON);
     }
 
     /**
@@ -485,7 +485,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.NOT_IMPLEMENTED,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -498,7 +498,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.OK,
             NO_CONTENT_RESULT_PROCESSOR,
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -512,7 +512,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.OK,
             new ObjectResultProcessor(content),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -571,7 +571,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.OK,
             new ObjectResultProcessor(JsonUtils.toString(content)),
-            HttpContentType.APPLICATION_JSON);
+            HttpContentTypes.APPLICATION_JSON);
     }
 
     /**
@@ -585,7 +585,7 @@ public final class Result {
         return new Result(
             HttpReturnCode.OK,
             new TemplateResultProcessor(templateResult.templateName, templateResult.dataModel),
-            HttpContentType.TEXT_HTML);
+            HttpContentTypes.TEXT_HTML);
     }
 
     /**
@@ -601,7 +601,7 @@ public final class Result {
             HttpReturnCode.MOVED_PERMANENTLY,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader(HttpHeader.LOCATION, uri);
+        ).withHeader(HttpHeaderNames.LOCATION, uri);
     }
 
     /**
@@ -617,7 +617,7 @@ public final class Result {
             HttpReturnCode.PERMANENT_REDIRECT,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader(HttpHeader.LOCATION, uri);
+        ).withHeader(HttpHeaderNames.LOCATION, uri);
     }
 
     /**
@@ -633,7 +633,7 @@ public final class Result {
             HttpReturnCode.FOUND,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader(HttpHeader.LOCATION, uri);
+        ).withHeader(HttpHeaderNames.LOCATION, uri);
     }
 
     /**
@@ -649,7 +649,7 @@ public final class Result {
             HttpReturnCode.SEE_OTHER,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader(HttpHeader.LOCATION, uri);
+        ).withHeader(HttpHeaderNames.LOCATION, uri);
     }
 
     /**
@@ -665,7 +665,7 @@ public final class Result {
             HttpReturnCode.TEMPORARY_REDIRECT,
             NO_CONTENT_RESULT_PROCESSOR,
             NO_CONTENT_TYPE
-        ).withHeader(HttpHeader.LOCATION, uri);
+        ).withHeader(HttpHeaderNames.LOCATION, uri);
     }
 
     /**

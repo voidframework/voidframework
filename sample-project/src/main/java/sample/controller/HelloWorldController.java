@@ -9,7 +9,7 @@ import dev.voidframework.validation.Validated;
 import dev.voidframework.validation.Validation;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.Context;
-import dev.voidframework.web.http.HttpContentType;
+import dev.voidframework.web.http.HttpContentTypes;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.TemplateResult;
@@ -94,7 +94,7 @@ public class HelloWorldController {
      */
     @RequestRoute(method = HttpMethod.POST, route = "/form")
     public Result postForm(@RequestBody final Pojo pojo) {
-        return Result.ok(YamlUtils.toString(pojo).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
+        return Result.ok(YamlUtils.toString(pojo).getBytes(StandardCharsets.UTF_8), HttpContentTypes.TEXT_YAML);
     }
 
     /**
@@ -108,10 +108,10 @@ public class HelloWorldController {
     public Result postForm2(final Context context, @RequestBody Pojo pojo) {
         final Validated<Pojo> pojoValidated = this.validation.validate(pojo, context.getLocale());
         if (pojoValidated.hasError()) {
-            return Result.badRequest(YamlUtils.toString(pojoValidated.getError()).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
+            return Result.badRequest(YamlUtils.toString(pojoValidated.getError()).getBytes(StandardCharsets.UTF_8), HttpContentTypes.TEXT_YAML);
         }
 
-        return Result.ok(YamlUtils.toString(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), HttpContentType.TEXT_YAML);
+        return Result.ok(YamlUtils.toString(pojoValidated.getInstance()).getBytes(StandardCharsets.UTF_8), HttpContentTypes.TEXT_YAML);
     }
 
     /**
