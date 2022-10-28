@@ -11,7 +11,7 @@ import dev.voidframework.web.http.controller.AbstractStaticAssetsController;
  */
 @Singleton
 @WebController
-public class StaticAssetsController extends AbstractStaticAssetsController {
+public final class StaticAssetsController extends AbstractStaticAssetsController {
 
     /**
      * Build a new instance;

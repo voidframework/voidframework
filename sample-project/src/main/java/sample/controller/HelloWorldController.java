@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @Singleton
 @WebController
-public class HelloWorldController {
+public final class HelloWorldController {
 
     private final Validation validation;
     private final EventRepository eventRepository;

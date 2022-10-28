@@ -17,7 +17,7 @@ import io.undertow.websockets.core.WebSockets;
  */
 @Singleton
 @WebController
-public class WebSocketController {
+public final class WebSocketController {
 
     /**
      * Display WebSocket page.

@@ -3,7 +3,6 @@ package dev.voidframework.core.utils;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * IO utility methods.
@@ -19,6 +18,25 @@ public final class IOUtils {
     }
 
     /**
+     * Retrieves the number of bytes available to be read.
+     *
+     * @param inputStream The input stream
+     * @return The number of bytes available to be read
+     */
+    public static long availableBytes(final InputStream inputStream) {
+
+        if (inputStream == null) {
+            return -1;
+        }
+
+        try {
+            return inputStream.available();
+        } catch (final IOException ignore) {
+            return -1;
+        }
+    }
+
+    /**
      * Closes the given closeable without any exceptions.
      * This is typically used in finally blocks.
      *
@@ -29,40 +47,6 @@ public final class IOUtils {
         if (closeable != null) {
             try {
                 closeable.close();
-            } catch (final IOException ignore) {
-                // This exception is not important
-            }
-        }
-    }
-
-    /**
-     * Closes the given input stream without any exceptions.
-     * This is typically used in finally blocks.
-     *
-     * @param inputStream The input stream to close
-     */
-    public static void closeWithoutException(final InputStream inputStream) {
-
-        if (inputStream != null) {
-            try {
-                inputStream.close();
-            } catch (final IOException ignore) {
-                // This exception is not important
-            }
-        }
-    }
-
-    /**
-     * Closes the given output stream without any exceptions.
-     * This is typically used in finally blocks.
-     *
-     * @param outputStream The output stream to close
-     */
-    public static void closeWithoutException(final OutputStream outputStream) {
-
-        if (outputStream != null) {
-            try {
-                outputStream.close();
             } catch (final IOException ignore) {
                 // This exception is not important
             }

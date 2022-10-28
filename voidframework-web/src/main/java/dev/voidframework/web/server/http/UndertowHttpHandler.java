@@ -35,7 +35,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -219,9 +218,9 @@ public class UndertowHttpHandler implements HttpHandler {
                 httpServerExchange.setResponseContentLength(inputStream.available());
 
                 final byte[] buffer = new byte[8192];
-                int readLength;
-                while ((readLength = inputStream.read(buffer, 0, buffer.length)) > 0) {
-                    outputStream.write(buffer, 0, readLength);
+                int nbReadBytes;
+                while ((nbReadBytes = inputStream.read(buffer, 0, buffer.length)) > 0) {
+                    outputStream.write(buffer, 0, nbReadBytes);
                     outputStream.flush();
                 }
             } catch (final Exception ignore) {
@@ -259,15 +258,26 @@ public class UndertowHttpHandler implements HttpHandler {
                 .createParser(httpServerExchange)) {
 
                 if (formDataParser != null) {
-                    final Map<String, List<FormItem>> formItemPerKeyMap = new HashMap<>();
+
+                    final dev.voidframework.web.http.FormData formItemPerKeyMap = new dev.voidframework.web.http.FormData();
                     final FormData formData = formDataParser.parseBlocking();
                     for (final String formDataKey : formData) {
                         final List<FormItem> formItemList = formItemPerKeyMap.computeIfAbsent(formDataKey, k -> new ArrayList<>());
                         for (final FormData.FormValue formValue : formData.get(formDataKey)) {
                             if (formValue.isFileItem()) {
-                                formItemList.add(new FormItem(null, formValue.getCharset(), formValue.isFileItem(), formValue.getFileItem().getInputStream()));
+                                formItemList.add(new FormItem(
+                                    null,
+                                    formValue.getCharset(),
+                                    formValue.isFileItem(),
+                                    formValue.getFileItem().getFileSize(),
+                                    formValue.getFileItem().getInputStream()));
                             } else {
-                                formItemList.add(new FormItem(formValue.getValue(), formValue.getCharset(), formValue.isFileItem(), null));
+                                formItemList.add(new FormItem(
+                                    formValue.getValue(),
+                                    formValue.getCharset(),
+                                    formValue.isFileItem(),
+                                    -1,
+                                    null));
                             }
                         }
                     }

@@ -123,6 +123,10 @@
         </dependency>
         <dependency>
             <groupId>dev.voidframework</groupId>
+            <artifactId>voidframework-vfs</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>dev.voidframework</groupId>
             <artifactId>voidframework-web</artifactId>
         </dependency>
         <dependency>
