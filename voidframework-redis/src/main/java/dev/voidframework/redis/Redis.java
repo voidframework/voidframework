@@ -220,8 +220,9 @@ public interface Redis {
      * @param typeReference The object type reference
      * @param value         The value to add in the list
      * @param <T>           Generic type of something implementing {@code java.io.Serializable}
+     * @return The list size
      */
-    <T> void addInList(final String key, final TypeReference<T> typeReference, final Object value);
+    <T> long addInList(final String key, final TypeReference<T> typeReference, final Object value);
 
     /**
      * Adds a value in a list.
@@ -231,8 +232,9 @@ public interface Redis {
      * @param value         The value to add in the list
      * @param maxItem       The number of entries to keep in list
      * @param <T>           Generic type of something implementing {@code java.io.Serializable}
+     * @return The list size
      */
-    <T> void addInList(final String key, final TypeReference<T> typeReference, final Object value, final int maxItem);
+    <T> long addInList(final String key, final TypeReference<T> typeReference, final Object value, final int maxItem);
 
     /**
      * Adds a value in a list.
@@ -241,8 +243,9 @@ public interface Redis {
      * @param clazz The object class
      * @param value The value to add in the list
      * @param <T>   Generic type of something implementing {@code java.io.Serializable}
+     * @return The list size
      */
-    <T> void addInList(final String key, final Class<T> clazz, final T value);
+    <T> long addInList(final String key, final Class<T> clazz, final T value);
 
     /**
      * Adds a value in a list.
@@ -252,8 +255,9 @@ public interface Redis {
      * @param value   The value to add in the list
      * @param maxItem The number of entries to keep in list
      * @param <T>     Generic type of something implementing {@code java.io.Serializable}
+     * @return The list size
      */
-    <T> void addInList(final String key, final Class<T> clazz, final T value, final int maxItem);
+    <T> long addInList(final String key, final Class<T> clazz, final T value, final int maxItem);
 
     /**
      * Adds a value in a list.
@@ -261,8 +265,9 @@ public interface Redis {
      * @param key      The list key
      * @param javaType The object java type
      * @param value    The value to add in the list
+     * @return The list size
      */
-    void addInList(final String key, final JavaType javaType, final Object value);
+    long addInList(final String key, final JavaType javaType, final Object value);
 
     /**
      * Adds a value in a list.
@@ -271,8 +276,9 @@ public interface Redis {
      * @param javaType The object java type
      * @param value    The value to add in the list
      * @param maxItem  The number of entries to keep in list
+     * @return The list size
      */
-    void addInList(final String key, final JavaType javaType, final Object value, final int maxItem);
+    long addInList(final String key, final JavaType javaType, final Object value, final int maxItem);
 
     /**
      * Gets values from a list.
