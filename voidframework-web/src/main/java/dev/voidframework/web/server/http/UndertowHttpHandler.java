@@ -257,9 +257,9 @@ public class UndertowHttpHandler implements HttpHandler {
                 .build()
                 .createParser(httpServerExchange)) {
 
+                final dev.voidframework.web.http.FormData formItemPerKeyMap = new dev.voidframework.web.http.FormData();
                 if (formDataParser != null) {
 
-                    final dev.voidframework.web.http.FormData formItemPerKeyMap = new dev.voidframework.web.http.FormData();
                     final FormData formData = formDataParser.parseBlocking();
                     for (final String formDataKey : formData) {
                         final List<FormItem> formItemList = formItemPerKeyMap.computeIfAbsent(formDataKey, k -> new ArrayList<>());
@@ -284,13 +284,12 @@ public class UndertowHttpHandler implements HttpHandler {
 
                     httpRequest = new UndertowHttpRequest(
                         httpServerExchange,
-                        new HttpRequestBodyContent(contentType, null, formItemPerKeyMap));
+                        new HttpRequestBodyContent(contentType, httpServerExchange.getInputStream(), formItemPerKeyMap));
 
                 } else {
-                    final byte[] content = httpServerExchange.getInputStream().readAllBytes();
                     httpRequest = new UndertowHttpRequest(
                         httpServerExchange,
-                        new HttpRequestBodyContent(contentType, content, null));
+                        new HttpRequestBodyContent(contentType, httpServerExchange.getInputStream(), formItemPerKeyMap));
                 }
             } catch (final IOException exception) {
                 return Either.ofRight(new HttpException.BadRequest("Can't parse body content", exception));
@@ -319,6 +318,8 @@ public class UndertowHttpHandler implements HttpHandler {
      * @param httpRequest The current http request
      */
     private void forceCloseUploadedFileInputStream(final HttpRequest httpRequest) {
+
+        IOUtils.closeWithoutException(httpRequest.getBodyContent().asRaw());
 
         // If a FormData exists, we have to be sure that the potential streams are all closed
         if (httpRequest.getBodyContent().asFormData() != null) {

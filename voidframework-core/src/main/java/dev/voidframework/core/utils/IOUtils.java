@@ -52,4 +52,20 @@ public final class IOUtils {
             }
         }
     }
+
+    /**
+     * Reset a stream without any exceptions.
+     *
+     * @param inputStream The input stream to reset
+     */
+    public static void resetWithoutException(final InputStream inputStream) {
+
+        if (inputStream != null) {
+            try {
+                inputStream.reset();
+            } catch (final IOException ignore) {
+                // This exception is not important
+            }
+        }
+    }
 }

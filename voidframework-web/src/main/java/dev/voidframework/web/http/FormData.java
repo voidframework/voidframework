@@ -17,7 +17,7 @@ public final class FormData extends HashMap<String, List<FormItem>> {
     public FormItem getFirst(final String name) {
 
         final List<FormItem> formItemList = this.get(name);
-        if (formItemList.isEmpty()) {
+        if (formItemList == null || formItemList.isEmpty()) {
             return null;
         }
 

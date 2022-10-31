@@ -12,12 +12,17 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class JsonUtilsTest {
+
+    private static final Class<SimpleDto> SIMPLE_DTO_CLASS_TYPE = SimpleDto.class;
+    private static final JavaType SIMPLE_DTO_JAVA_TYPE = JsonUtils.objectMapper().constructType(SimpleDto.class);
 
     @Test
     void objectMapper() {
@@ -78,6 +83,23 @@ final class JsonUtilsTest {
     }
 
     @Test
+    void toJsonFromInputStream() {
+
+        // Arrange
+        final InputStream jsonAsInputstream = new ByteArrayInputStream(
+            "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8));
+
+        // Act
+        final JsonNode jsonNode = JsonUtils.toJson(jsonAsInputstream);
+
+        // Assert
+        Assertions.assertNotNull(jsonNode);
+        Assertions.assertTrue(jsonNode.hasNonNull("hello"));
+        Assertions.assertTrue(jsonNode.get("hello").isTextual());
+        Assertions.assertEquals("world", jsonNode.get("hello").asText());
+    }
+
+    @Test
     void toMap() {
 
         // Arrange
@@ -128,7 +150,51 @@ final class JsonUtilsTest {
         final byte[] jsonAsByteArray = "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsByteArray, SimpleDto.class);
+        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsByteArray, SIMPLE_DTO_CLASS_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world", simpleDto.hello);
+    }
+
+    @Test
+    void fromJsonByteArrayJavaType() {
+
+        // Arrange
+        final byte[] jsonAsByteArray = "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8);
+
+        // Act
+        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsByteArray, SIMPLE_DTO_JAVA_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world", simpleDto.hello);
+    }
+
+    @Test
+    void fromJsonInputStream() {
+
+        // Arrange
+        final InputStream jsonAsInputStream = new ByteArrayInputStream(
+            "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8));
+
+        // Act
+        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsInputStream, SIMPLE_DTO_CLASS_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world", simpleDto.hello);
+    }
+
+    @Test
+    void fromJsonInputStreamJavaType() {
+
+        // Arrange
+        final InputStream jsonAsInputStream = new ByteArrayInputStream(
+            "{\"hello\": \"world\"}".getBytes(StandardCharsets.UTF_8));
+
+        // Act
+        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsInputStream, SIMPLE_DTO_JAVA_TYPE);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -144,7 +210,7 @@ final class JsonUtilsTest {
         // Act
         final JsonException.FromJsonConversionFailure exception = Assertions.assertThrows(
             JsonException.FromJsonConversionFailure.class,
-            () -> JsonUtils.fromJson(jsonAsByteArray, SimpleDto.class));
+            () -> JsonUtils.fromJson(jsonAsByteArray, SIMPLE_DTO_CLASS_TYPE));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -158,7 +224,21 @@ final class JsonUtilsTest {
         final String jsonAsString = "{\"hello\": \"world\"}";
 
         // Act
-        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsString, SimpleDto.class);
+        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsString, SIMPLE_DTO_CLASS_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world", simpleDto.hello);
+    }
+
+    @Test
+    void fromJsonStringJavaType() {
+
+        // Arrange
+        final String jsonAsString = "{\"hello\": \"world\"}";
+
+        // Act
+        final SimpleDto simpleDto = JsonUtils.fromJson(jsonAsString, SIMPLE_DTO_JAVA_TYPE);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -174,7 +254,7 @@ final class JsonUtilsTest {
         // Act
         final JsonException.FromJsonConversionFailure exception = Assertions.assertThrows(
             JsonException.FromJsonConversionFailure.class,
-            () -> JsonUtils.fromJson(jsonAsString, SimpleDto.class));
+            () -> JsonUtils.fromJson(jsonAsString, SIMPLE_DTO_CLASS_TYPE));
 
         // Assert
         Assertions.assertNotNull(exception);
@@ -189,7 +269,22 @@ final class JsonUtilsTest {
         objectNode.put("hello", "world");
 
         // Act
-        final SimpleDto simpleDto = JsonUtils.fromJson(objectNode, SimpleDto.class);
+        final SimpleDto simpleDto = JsonUtils.fromJson(objectNode, SIMPLE_DTO_CLASS_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world", simpleDto.hello);
+    }
+
+    @Test
+    void fromJsonJsonNodeJavaType() {
+
+        // Arrange
+        final ObjectNode objectNode = new ObjectMapper().createObjectNode();
+        objectNode.put("hello", "world");
+
+        // Act
+        final SimpleDto simpleDto = JsonUtils.fromJson(objectNode, SIMPLE_DTO_JAVA_TYPE);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -221,7 +316,22 @@ final class JsonUtilsTest {
         dataMap.put("hello", "world!");
 
         // Act
-        final SimpleDto simpleDto = JsonUtils.fromMap(dataMap, SimpleDto.class);
+        final SimpleDto simpleDto = JsonUtils.fromMap(dataMap, SIMPLE_DTO_CLASS_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world!", simpleDto.hello);
+    }
+
+    @Test
+    void fromMapJavaType() {
+
+        // Arrange
+        final Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("hello", "world!");
+
+        // Act
+        final SimpleDto simpleDto = JsonUtils.fromMap(dataMap, SIMPLE_DTO_JAVA_TYPE);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -245,9 +355,7 @@ final class JsonUtilsTest {
     /**
      * Simple DTO.
      */
-    public static class SimpleDto {
-
-        public final String hello;
+    public record SimpleDto(String hello) {
 
         @JsonCreator
         public SimpleDto(@JsonProperty("hello") final String hello) {

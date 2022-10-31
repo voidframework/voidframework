@@ -16,6 +16,7 @@ import dev.voidframework.core.exception.JsonException;
 import dev.voidframework.core.jackson.VoidFrameworkModule;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -85,6 +86,25 @@ public final class JsonUtils {
 
         try {
             return OBJECT_MAPPER.valueToTree(obj);
+        } catch (final Exception ex) {
+            throw new JsonException.ToJsonConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts an {@code InputStream} to JSON document.
+     *
+     * @param inputStreamJson {@code InputStream} containing data to convert in JSON
+     * @return The JSON node
+     */
+    public static JsonNode toJson(final InputStream inputStreamJson) {
+
+        if (inputStreamJson == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readTree(inputStreamJson);
         } catch (final Exception ex) {
             throw new JsonException.ToJsonConversionFailure(ex);
         }
@@ -163,6 +183,27 @@ public final class JsonUtils {
     /**
      * Converts a JSON document into to a Java object.
      *
+     * @param <T>             The type of the Java object
+     * @param inputStreamJson {@code InputStream} containing a JSON document to convert
+     * @param outputClassType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromJson(final InputStream inputStreamJson, final Class<T> outputClassType) {
+
+        if (inputStreamJson == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(inputStreamJson, outputClassType);
+        } catch (final NullPointerException | IOException | IllegalArgumentException ex) {
+            throw new JsonException.FromJsonConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a JSON document into to a Java object.
+     *
      * @param <T>            The type of the Java object
      * @param jsonByteArray  JSON document as bytes array to convert
      * @param outputJavaType Expected Java object type
@@ -176,6 +217,27 @@ public final class JsonUtils {
 
         try {
             return OBJECT_MAPPER.readValue(jsonByteArray, outputJavaType);
+        } catch (final NullPointerException | IOException | IllegalArgumentException ex) {
+            throw new JsonException.FromJsonConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a JSON document into to a Java object.
+     *
+     * @param <T>             The type of the Java object
+     * @param inputStreamJson {@code InputStream} containing a JSON document to convert
+     * @param outputJavaType  Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromJson(final InputStream inputStreamJson, final JavaType outputJavaType) {
+
+        if (inputStreamJson == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(inputStreamJson, outputJavaType);
         } catch (final NullPointerException | IOException | IllegalArgumentException ex) {
             throw new JsonException.FromJsonConversionFailure(ex);
         }

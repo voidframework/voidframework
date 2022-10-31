@@ -12,10 +12,12 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.joda.JodaModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import dev.voidframework.core.exception.JsonException;
 import dev.voidframework.core.exception.YamlException;
 import dev.voidframework.core.jackson.VoidFrameworkModule;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Utility to handle YAML document.
@@ -87,6 +89,25 @@ public final class YamlUtils {
     }
 
     /**
+     * Converts an {@code InputStream} to a YAML document.
+     *
+     * @param inputStreamYaml {@code InputStream} containing data to convert in YAML
+     * @return The JSON node
+     */
+    public static JsonNode toYaml(final InputStream inputStreamYaml) {
+
+        if (inputStreamYaml == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readTree(inputStreamYaml);
+        } catch (final Exception ex) {
+            throw new JsonException.ToJsonConversionFailure(ex);
+        }
+    }
+
+    /**
      * Converts a YAML document into to a Java object.
      *
      * @param <T>             The type of the Java object
@@ -144,6 +165,27 @@ public final class YamlUtils {
     /**
      * Converts a YAML document into to a Java object.
      *
+     * @param <T>             The type of the Java object
+     * @param inputStreamYaml {@code InputStream} containing a YAML document to convert
+     * @param outputClassType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromYaml(final InputStream inputStreamYaml, final Class<T> outputClassType) {
+
+        if (inputStreamYaml == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(inputStreamYaml, outputClassType);
+        } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
+            throw new YamlException.FromYamlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a YAML document into to a Java object.
+     *
      * @param <T>            The type of the Java object
      * @param yamlByteArray  YAML document as bytes array to convert
      * @param outputJavaType Expected Java object type
@@ -157,6 +199,27 @@ public final class YamlUtils {
 
         try {
             return OBJECT_MAPPER.readValue(yamlByteArray, outputJavaType);
+        } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
+            throw new YamlException.FromYamlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a YAML document into to a Java object.
+     *
+     * @param <T>             The type of the Java object
+     * @param inputStreamYaml {@code InputStream} containing a YAML document to convert
+     * @param outputJavaType  Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromYaml(final InputStream inputStreamYaml, final JavaType outputJavaType) {
+
+        if (inputStreamYaml == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(inputStreamYaml, outputJavaType);
         } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
             throw new YamlException.FromYamlConversionFailure(ex);
         }

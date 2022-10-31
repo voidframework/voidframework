@@ -12,10 +12,15 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class YamlUtilsTest {
+
+    private static final Class<SimpleDto> SIMPLE_DTO_CLASS_TYPE = SimpleDto.class;
+    private static final JavaType SIMPLE_DTO_JAVA_TYPE = JsonUtils.objectMapper().constructType(SimpleDto.class);
 
     @Test
     void fromYamlByteArray() {
@@ -26,7 +31,55 @@ final class YamlUtilsTest {
             """.getBytes(StandardCharsets.UTF_8);
 
         // Act
-        final SimpleDto simpleDto = YamlUtils.fromYaml(yamlAsByteArray, SimpleDto.class);
+        final SimpleDto simpleDto = YamlUtils.fromYaml(yamlAsByteArray, SIMPLE_DTO_CLASS_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world!", simpleDto.hello);
+    }
+
+    @Test
+    void fromYamlByteArrayJavaType() {
+
+        // Arrange
+        final byte[] yamlAsByteArray = """
+            hello: "world!"
+            """.getBytes(StandardCharsets.UTF_8);
+
+        // Act
+        final SimpleDto simpleDto = YamlUtils.fromYaml(yamlAsByteArray, SIMPLE_DTO_JAVA_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world!", simpleDto.hello);
+    }
+
+    @Test
+    void fromYamlInputStream() {
+
+        // Arrange
+        final InputStream yamlAsInputStream = new ByteArrayInputStream("""
+            hello: "world!"
+            """.getBytes(StandardCharsets.UTF_8));
+
+        // Act
+        final SimpleDto simpleDto = YamlUtils.fromYaml(yamlAsInputStream, SIMPLE_DTO_CLASS_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world!", simpleDto.hello);
+    }
+
+    @Test
+    void fromYamlInputStreamJavaType() {
+
+        // Arrange
+        final InputStream yamlAsInputStream = new ByteArrayInputStream("""
+            hello: "world!"
+            """.getBytes(StandardCharsets.UTF_8));
+
+        // Act
+        final SimpleDto simpleDto = YamlUtils.fromYaml(yamlAsInputStream, SIMPLE_DTO_JAVA_TYPE);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -59,7 +112,22 @@ final class YamlUtilsTest {
         objectNode.put("hello", "world!");
 
         // Act
-        final SimpleDto simpleDto = YamlUtils.fromYaml(objectNode, SimpleDto.class);
+        final SimpleDto simpleDto = YamlUtils.fromYaml(objectNode, SIMPLE_DTO_CLASS_TYPE);
+
+        // Assert
+        Assertions.assertNotNull(simpleDto);
+        Assertions.assertEquals("world!", simpleDto.hello);
+    }
+
+    @Test
+    void fromYamlJsonNodeJavaType() {
+
+        // Arrange
+        final ObjectNode objectNode = new ObjectMapper().createObjectNode();
+        objectNode.put("hello", "world!");
+
+        // Act
+        final SimpleDto simpleDto = YamlUtils.fromYaml(objectNode, SIMPLE_DTO_JAVA_TYPE);
 
         // Assert
         Assertions.assertNotNull(simpleDto);
@@ -100,6 +168,22 @@ final class YamlUtilsTest {
     }
 
     @Test
+    void toYamlFromInputStream() {
+
+        // Arrange
+        final InputStream yamlAsInputStream = new ByteArrayInputStream("""
+            hello: "world!"
+            """.getBytes(StandardCharsets.UTF_8));
+
+        // Act
+        final JsonNode jsonNode = YamlUtils.toYaml(yamlAsInputStream);
+
+        // Assert
+        Assertions.assertNotNull(jsonNode);
+        Assertions.assertEquals("world!", jsonNode.get("hello").asText());
+    }
+
+    @Test
     void toStringFromObject() {
 
         // Arrange
@@ -133,9 +217,7 @@ final class YamlUtilsTest {
     /**
      * Simple DTO.
      */
-    public static class SimpleDto {
-
-        public final String hello;
+    public record SimpleDto(String hello) {
 
         @JsonCreator
         public SimpleDto(@JsonProperty("hello") final String hello) {
