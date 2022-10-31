@@ -144,6 +144,27 @@ public final class XmlUtils {
     /**
      * Converts a XML document into to a Java object.
      *
+     * @param <T>             The type of the Java object
+     * @param inputStreamXml  {@code InputStream} containing a XML document to convert
+     * @param outputClassType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromXml(final InputStream inputStreamXml, final Class<T> outputClassType) {
+
+        if (inputStreamXml == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(inputStreamXml, outputClassType);
+        } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
+            throw new XmlException.FromXmlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a XML document into to a Java object.
+     *
      * @param <T>            The type of the Java object
      * @param xmlByteArray   XML document as bytes array to convert
      * @param outputJavaType Expected Java object type
@@ -157,6 +178,27 @@ public final class XmlUtils {
 
         try {
             return OBJECT_MAPPER.readValue(xmlByteArray, outputJavaType);
+        } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
+            throw new XmlException.FromXmlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a XML document into to a Java object.
+     *
+     * @param <T>            The type of the Java object
+     * @param inputStreamXml {@code InputStream} containing a XML document to convert
+     * @param outputJavaType Expected Java object type
+     * @return The Java object
+     */
+    public static <T> T fromXml(final InputStream inputStreamXml, final JavaType outputJavaType) {
+
+        if (inputStreamXml == null) {
+            return null;
+        }
+
+        try {
+            return OBJECT_MAPPER.readValue(inputStreamXml, outputJavaType);
         } catch (final NullPointerException | IllegalArgumentException | IOException ex) {
             throw new XmlException.FromXmlConversionFailure(ex);
         }
@@ -181,6 +223,33 @@ public final class XmlUtils {
 
             final InputStream inputStream = new ByteArrayInputStream(data);
             return builder.parse(inputStream);
+        } catch (final ParserConfigurationException | SAXException | IOException ex) {
+            throw new XmlException.ToXmlConversionFailure(ex);
+        }
+    }
+
+    /**
+     * Converts a {@code InputStream} to an XML document.
+     *
+     * @param inputStreamXml {@code InputStream} containing data to convert in XML
+     * @return The XML document
+     */
+    public static Document toXml(final InputStream inputStreamXml) {
+
+        if (inputStreamXml == null) {
+            return null;
+        }
+
+        try {
+            final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            factory.setFeature("http://xml.org/sax/features/external-general-entities", false);
+            factory.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
+            factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+            factory.setNamespaceAware(true);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            return builder.parse(inputStreamXml);
         } catch (final ParserConfigurationException | SAXException | IOException ex) {
             throw new XmlException.ToXmlConversionFailure(ex);
         }

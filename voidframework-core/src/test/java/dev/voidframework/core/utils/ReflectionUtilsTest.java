@@ -67,7 +67,7 @@ final class ReflectionUtilsTest {
     void getAnnotatedFieldWithNullClassType() {
 
         // Act
-        final Field field = ReflectionUtils.getAnnotatedField((Class<?>) null, Validate.class);
+        final Field field = ReflectionUtils.getAnnotatedField(null, Validate.class);
 
         // Assert
         Assertions.assertNull(field);

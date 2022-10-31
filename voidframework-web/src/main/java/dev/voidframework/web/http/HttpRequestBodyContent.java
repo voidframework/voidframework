@@ -2,6 +2,7 @@ package dev.voidframework.web.http;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import dev.voidframework.core.constant.StringConstants;
+import dev.voidframework.core.utils.IOUtils;
 import dev.voidframework.core.utils.JsonUtils;
 import dev.voidframework.core.utils.ReflectionUtils;
 import dev.voidframework.core.utils.XmlUtils;
@@ -10,7 +11,6 @@ import dev.voidframework.web.exception.HttpException;
 import org.w3c.dom.Document;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,8 +22,30 @@ import java.util.Objects;
  * @param asRaw The body content as raw
  */
 public record HttpRequestBodyContent(String contentType,
-                                     byte[] asRaw,
+                                     InputStream asRaw,
                                      FormData asFormData) {
+
+    /**
+     * Returns the body content as a specific object.
+     *
+     * @param outputClass The requested Java object type
+     * @param <T>         The requested Java class type
+     * @return A Java object
+     */
+    public <T> T as(final Class<T> outputClass) {
+
+        final T object = switch (contentType()) {
+            case HttpContentTypes.APPLICATION_JSON -> JsonUtils.fromJson(this.asRaw, outputClass);
+            case HttpContentTypes.APPLICATION_X_FORM_URLENCODED, HttpContentTypes.MULTIPART_FORM_DATA -> asFormData(outputClass);
+            case HttpContentTypes.APPLICATION_XML -> XmlUtils.fromXml(this.asRaw, outputClass);
+            case HttpContentTypes.TEXT_YAML -> YamlUtils.fromYaml(this.asRaw, outputClass);
+            default -> throw new HttpException.BadRequest("Unhandled body content");
+        };
+
+        IOUtils.resetWithoutException(this.asRaw);
+
+        return object;
+    }
 
     /**
      * Returns the form data content body as a specific object.
@@ -63,25 +85,10 @@ public record HttpRequestBodyContent(String contentType,
      */
     public JsonNode asJson() {
 
-        return JsonUtils.toJson(asRaw);
-    }
+        final JsonNode node = JsonUtils.toJson(asRaw);
+        IOUtils.resetWithoutException(asRaw);
 
-    /**
-     * Returns the body content as a specific object.
-     *
-     * @param outputClass The requested Java object type
-     * @param <T>         The requested Java class type
-     * @return A Java object
-     */
-    public <T> T as(final Class<T> outputClass) {
-
-        return switch (contentType()) {
-            case HttpContentTypes.APPLICATION_JSON -> JsonUtils.fromJson(this.asRaw, outputClass);
-            case HttpContentTypes.APPLICATION_X_FORM_URLENCODED, HttpContentTypes.MULTIPART_FORM_DATA -> asFormData(outputClass);
-            case HttpContentTypes.APPLICATION_XML -> XmlUtils.fromXml(this.asRaw, outputClass);
-            case HttpContentTypes.TEXT_YAML -> YamlUtils.fromYaml(this.asRaw, outputClass);
-            default -> throw new HttpException.BadRequest("Unhandled body content");
-        };
+        return node;
     }
 
     /**
@@ -91,7 +98,10 @@ public record HttpRequestBodyContent(String contentType,
      */
     public Document asXml() {
 
-        return XmlUtils.toXml(asRaw);
+        final Document document = XmlUtils.toXml(asRaw);
+        IOUtils.resetWithoutException(asRaw);
+
+        return document;
     }
 
     /**
@@ -101,7 +111,10 @@ public record HttpRequestBodyContent(String contentType,
      */
     public JsonNode asYaml() {
 
-        return YamlUtils.toYaml(asRaw);
+        final JsonNode node = YamlUtils.toYaml(asRaw);
+        IOUtils.resetWithoutException(asRaw);
+
+        return node;
     }
 
     @Override
@@ -110,15 +123,13 @@ public record HttpRequestBodyContent(String contentType,
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         final HttpRequestBodyContent that = (HttpRequestBodyContent) o;
-        return Objects.equals(contentType, that.contentType) && Arrays.equals(asRaw, that.asRaw) && Objects.equals(asFormData, that.asFormData);
+        return Objects.equals(contentType, that.contentType) && asRaw == that.asRaw && Objects.equals(asFormData, that.asFormData);
     }
 
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(contentType, asFormData);
-        result = 31 * result + Arrays.hashCode(asRaw);
-        return result;
+        return Objects.hash(contentType, asFormData);
     }
 
     @Override
