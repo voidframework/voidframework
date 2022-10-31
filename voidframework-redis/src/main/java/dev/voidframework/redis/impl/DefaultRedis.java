@@ -217,54 +217,54 @@ public class DefaultRedis implements Redis {
     }
 
     @Override
-    public <T> void addInList(final String key,
+    public <T> long addInList(final String key,
                               final TypeReference<T> typeReference,
                               final Object value) {
 
-        this.addInList(key, JsonUtils.objectMapper().writerFor(typeReference), value);
+        return this.addInList(key, JsonUtils.objectMapper().writerFor(typeReference), value);
     }
 
     @Override
-    public <T> void addInList(final String key,
+    public <T> long addInList(final String key,
                               final TypeReference<T> typeReference,
                               final Object value,
                               final int maxItem) {
 
-        this.addInList(key, JsonUtils.objectMapper().writerFor(typeReference), value, maxItem);
+        return this.addInList(key, JsonUtils.objectMapper().writerFor(typeReference), value, maxItem);
     }
 
     @Override
-    public <T> void addInList(final String key,
+    public <T> long addInList(final String key,
                               final Class<T> clazz,
                               final T value) {
 
-        this.addInList(key, JsonUtils.objectMapper().writerFor(clazz), value);
+        return this.addInList(key, JsonUtils.objectMapper().writerFor(clazz), value);
     }
 
     @Override
-    public <T> void addInList(final String key,
+    public <T> long addInList(final String key,
                               final Class<T> clazz,
                               final T value,
                               final int maxItem) {
 
-        this.addInList(key, JsonUtils.objectMapper().writerFor(clazz), value, maxItem);
+        return this.addInList(key, JsonUtils.objectMapper().writerFor(clazz), value, maxItem);
     }
 
     @Override
-    public void addInList(final String key,
+    public long addInList(final String key,
                           final JavaType javaType,
                           final Object value) {
 
-        this.addInList(key, JsonUtils.objectMapper().writerFor(javaType), value);
+        return this.addInList(key, JsonUtils.objectMapper().writerFor(javaType), value);
     }
 
     @Override
-    public void addInList(final String key,
+    public long addInList(final String key,
                           final JavaType javaType,
                           final Object value,
                           final int maxItem) {
 
-        this.addInList(key, JsonUtils.objectMapper().writerFor(javaType), value, maxItem);
+        return this.addInList(key, JsonUtils.objectMapper().writerFor(javaType), value, maxItem);
     }
 
     @Override
@@ -379,18 +379,20 @@ public class DefaultRedis implements Redis {
      * @param key    The list key
      * @param writer The object writer
      * @param value  The value to add in the list
+     * @return The list size
      */
-    private void addInList(final String key,
+    private long addInList(final String key,
                            final ObjectWriter writer,
                            final Object value) {
 
         try {
             final String data = writer.writeValueAsString(value);
             try (final Jedis jedis = this.getConnection()) {
-                jedis.rpush(key, data);
+                return jedis.rpush(key, data);
             }
         } catch (final IOException ex) {
             LOGGER.error("Can't add object in list", ex);
+            return -1;
         }
     }
 
@@ -401,8 +403,9 @@ public class DefaultRedis implements Redis {
      * @param writer  The object writer
      * @param value   The value to add in the list
      * @param maxItem The number of entries to keep in list
+     * @return The list size
      */
-    private void addInList(final String key,
+    private long addInList(final String key,
                            final ObjectWriter writer,
                            final Object value,
                            final int maxItem) {
@@ -413,10 +416,14 @@ public class DefaultRedis implements Redis {
                 final long currentIdx = jedis.rpush(key, data);
                 if (currentIdx > maxItem) {
                     jedis.ltrim(key, maxItem > 0 ? maxItem - 1 : maxItem + 1, -1);
+                    return maxItem;
                 }
+
+                return currentIdx;
             }
         } catch (final IOException ex) {
             LOGGER.error("Can't add object in list", ex);
+            return -1;
         }
     }
 

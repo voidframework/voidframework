@@ -481,12 +481,14 @@ final class RedisTest {
         redis.remove("voidframework.junit.item");
 
         // Act
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "Hello");
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "World");
+        final long idxOne = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "Hello");
+        final long idxTwo = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "World");
         final List<String> addedValue = redis.getFromList("voidframework.junit.item", STRING_CLASS_TYPE);
 
         // Assert
         Assertions.assertEquals(List.of("Hello", "World"), addedValue);
+        Assertions.assertEquals(1, idxOne);
+        Assertions.assertEquals(2, idxTwo);
     }
 
     @Test
@@ -497,13 +499,16 @@ final class RedisTest {
         redis.remove("voidframework.junit.item");
 
         // Act
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "Hello", 2);
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "World", 2);
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "!", 2);
+        final long idxOne = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "Hello", 2);
+        final long idxTwo = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "World", 2);
+        final long idxThree = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "!", 2);
         final List<String> addedValue = redis.getFromList("voidframework.junit.item", STRING_CLASS_TYPE);
 
         // Assert
         Assertions.assertEquals(List.of("World", "!"), addedValue);
+        Assertions.assertEquals(1, idxOne);
+        Assertions.assertEquals(2, idxTwo);
+        Assertions.assertEquals(2, idxThree);
     }
 
     @Test
@@ -514,13 +519,16 @@ final class RedisTest {
         redis.remove("voidframework.junit.item");
 
         // Act
-        redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "Hello", 2);
-        redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "World", 2);
-        redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "!", 2);
+        final long idxOne = redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "Hello", 2);
+        final long idxTwo = redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "World", 2);
+        final long idxThree = redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "!", 2);
         final List<String> addedValue = redis.getFromList("voidframework.junit.item", STRING_JAVA_TYPE);
 
         // Assert
         Assertions.assertEquals(List.of("World", "!"), addedValue);
+        Assertions.assertEquals(1, idxOne);
+        Assertions.assertEquals(2, idxTwo);
+        Assertions.assertEquals(2, idxThree);
     }
 
     @Test
@@ -531,13 +539,16 @@ final class RedisTest {
         redis.remove("voidframework.junit.item");
 
         // Act
-        redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "Hello", 2);
-        redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "World", 2);
-        redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "!", 2);
+        final long idxOne = redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "Hello", 2);
+        final long idxTwo = redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "World", 2);
+        final long idxThree = redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "!", 2);
         final List<String> addedValue = redis.getFromList("voidframework.junit.item", STRING_TYPE_REFERENCE);
 
         // Assert
         Assertions.assertEquals(List.of("World", "!"), addedValue);
+        Assertions.assertEquals(1, idxOne);
+        Assertions.assertEquals(2, idxTwo);
+        Assertions.assertEquals(2, idxThree);
     }
 
     @Test
@@ -548,14 +559,18 @@ final class RedisTest {
         redis.remove("voidframework.junit.item");
 
         // Act
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "Hello");
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "World");
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "!");
-        redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "?");
+        final long idxOne = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "Hello");
+        final long idxTwo = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "World");
+        final long idxThree = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "!");
+        final long idxFour = redis.addInList("voidframework.junit.item", STRING_CLASS_TYPE, "?");
         final List<String> addedValue = redis.getFromList("voidframework.junit.item", STRING_CLASS_TYPE, 1, 2);
 
         // Assert
         Assertions.assertEquals(List.of("World", "!"), addedValue);
+        Assertions.assertEquals(1, idxOne);
+        Assertions.assertEquals(2, idxTwo);
+        Assertions.assertEquals(3, idxThree);
+        Assertions.assertEquals(4, idxFour);
     }
 
     @Test
@@ -566,14 +581,18 @@ final class RedisTest {
         redis.remove("voidframework.junit.item");
 
         // Act
-        redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "Hello");
-        redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "World");
-        redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "!");
-        redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "?");
+        final long idxOne = redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "Hello");
+        final long idxTwo = redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "World");
+        final long idxThree = redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "!");
+        final long idxFour = redis.addInList("voidframework.junit.item", STRING_JAVA_TYPE, "?");
         final List<String> addedValue = redis.getFromList("voidframework.junit.item", STRING_JAVA_TYPE, 1, 2);
 
         // Assert
         Assertions.assertEquals(List.of("World", "!"), addedValue);
+        Assertions.assertEquals(1, idxOne);
+        Assertions.assertEquals(2, idxTwo);
+        Assertions.assertEquals(3, idxThree);
+        Assertions.assertEquals(4, idxFour);
     }
 
     @Test
@@ -584,14 +603,18 @@ final class RedisTest {
         redis.remove("voidframework.junit.item");
 
         // Act
-        redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "Hello");
-        redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "World");
-        redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "!");
-        redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "?");
+        final long idxOne = redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "Hello");
+        final long idxTwo = redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "World");
+        final long idxThree = redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "!");
+        final long idxFour = redis.addInList("voidframework.junit.item", STRING_TYPE_REFERENCE, "?");
         final List<String> addedValue = redis.getFromList("voidframework.junit.item", STRING_TYPE_REFERENCE, 1, 2);
 
         // Assert
         Assertions.assertEquals(List.of("World", "!"), addedValue);
+        Assertions.assertEquals(1, idxOne);
+        Assertions.assertEquals(2, idxTwo);
+        Assertions.assertEquals(3, idxThree);
+        Assertions.assertEquals(4, idxFour);
     }
 
     /**
