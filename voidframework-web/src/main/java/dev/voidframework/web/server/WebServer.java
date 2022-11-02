@@ -65,7 +65,6 @@ public class WebServer {
     private static final String CONFIGURATION_KEY_ROUTES = "voidframework.web.routes";
     private static final String CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT = "voidframework.web.gracefulStopTimeout";
     private static final String CONFIGURATION_KEY_IDLE_TIMEOUT = "voidframework.web.server.idleTimeout";
-
     private static final String CONFIGURATION_KEY_MAX_REQUEST_BODY_SIZE = "voidframework.web.server.maxBodySize";
     private static final String CONFIGURATION_KEY_LISTEN_PORT = "voidframework.web.server.listenPort";
     private static final String CONFIGURATION_KEY_LISTEN_HOST = "voidframework.web.server.listenHost";
