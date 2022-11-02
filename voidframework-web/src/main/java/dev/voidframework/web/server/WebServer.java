@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Web server.
@@ -63,6 +64,8 @@ public class WebServer {
     private static final String CONFIGURATION_KEY_GLOBAL_FILTERS = "voidframework.web.globalFilters";
     private static final String CONFIGURATION_KEY_ROUTES = "voidframework.web.routes";
     private static final String CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT = "voidframework.web.gracefulStopTimeout";
+    private static final String CONFIGURATION_KEY_IDLE_TIMEOUT = "voidframework.web.server.idleTimeout";
+
     private static final String CONFIGURATION_KEY_MAX_REQUEST_BODY_SIZE = "voidframework.web.server.maxBodySize";
     private static final String CONFIGURATION_KEY_LISTEN_PORT = "voidframework.web.server.listenPort";
     private static final String CONFIGURATION_KEY_LISTEN_HOST = "voidframework.web.server.listenHost";
@@ -258,6 +261,9 @@ public class WebServer {
             .setServerOption(
                 UndertowOptions.SHUTDOWN_TIMEOUT,
                 this.configuration.getInt(CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT))
+            .setServerOption(
+                UndertowOptions.NO_REQUEST_TIMEOUT,
+                (int) this.configuration.getDuration(CONFIGURATION_KEY_IDLE_TIMEOUT, TimeUnit.MILLISECONDS))
             .setServerOption(
                 UndertowOptions.MULTIPART_MAX_ENTITY_SIZE,
                 this.configuration.getMemorySize(CONFIGURATION_KEY_MAX_REQUEST_BODY_SIZE).toBytes())
