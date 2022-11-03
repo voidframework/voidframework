@@ -75,17 +75,17 @@ final class ValidationTest {
         Assertions.assertNotNull(validationErrorList);
         Assertions.assertEquals(2, validationErrorList.size());
 
-        final int idxLength = validationErrorList.get(0).getMessageKey().contains("Length.message") ? 0 : 1;
-        Assertions.assertEquals("length must be between 5 and 125", validationErrorList.get(idxLength).getMessage());
-        Assertions.assertEquals("org.hibernate.validator.constraints.Length.message", validationErrorList.get(idxLength).getMessageKey());
-        Assertions.assertEquals(2, validationErrorList.get(idxLength).getArgumentArray().length);
-        Assertions.assertEquals(5, validationErrorList.get(idxLength).getArgumentArray()[0]);
-        Assertions.assertEquals(125, validationErrorList.get(idxLength).getArgumentArray()[1]);
+        final int idxLength = validationErrorList.get(0).messageKey().contains("Length.message") ? 0 : 1;
+        Assertions.assertEquals("length must be between 5 and 125", validationErrorList.get(idxLength).message());
+        Assertions.assertEquals("org.hibernate.validator.constraints.Length.message", validationErrorList.get(idxLength).messageKey());
+        Assertions.assertEquals(2, validationErrorList.get(idxLength).argumentArray().length);
+        Assertions.assertEquals(5, validationErrorList.get(idxLength).argumentArray()[0]);
+        Assertions.assertEquals(125, validationErrorList.get(idxLength).argumentArray()[1]);
 
-        final int idxEmail = validationErrorList.get(0).getMessageKey().contains("Email.message") ? 0 : 1;
-        Assertions.assertEquals("must be a well-formed email address", validationErrorList.get(idxEmail).getMessage());
-        Assertions.assertEquals("jakarta.validation.constraints.Email.message", validationErrorList.get(idxEmail).getMessageKey());
-        Assertions.assertEquals(0, validationErrorList.get(idxEmail).getArgumentArray().length);
+        final int idxEmail = validationErrorList.get(0).messageKey().contains("Email.message") ? 0 : 1;
+        Assertions.assertEquals("must be a well-formed email address", validationErrorList.get(idxEmail).message());
+        Assertions.assertEquals("jakarta.validation.constraints.Email.message", validationErrorList.get(idxEmail).messageKey());
+        Assertions.assertEquals(0, validationErrorList.get(idxEmail).argumentArray().length);
 
         Assertions.assertEquals(entity, entityValidated.getInstance());
     }
@@ -113,17 +113,17 @@ final class ValidationTest {
         Assertions.assertNotNull(validationErrorList);
         Assertions.assertEquals(2, validationErrorList.size());
 
-        final int idxLength = validationErrorList.get(0).getMessageKey().contains("Length.message") ? 0 : 1;
-        Assertions.assertEquals("length must be between 5 and 125", validationErrorList.get(idxLength).getMessage());
-        Assertions.assertEquals("org.hibernate.validator.constraints.Length.message", validationErrorList.get(idxLength).getMessageKey());
-        Assertions.assertEquals(2, validationErrorList.get(idxLength).getArgumentArray().length);
-        Assertions.assertEquals(5, validationErrorList.get(idxLength).getArgumentArray()[0]);
-        Assertions.assertEquals(125, validationErrorList.get(idxLength).getArgumentArray()[1]);
+        final int idxLength = validationErrorList.get(0).messageKey().contains("Length.message") ? 0 : 1;
+        Assertions.assertEquals("length must be between 5 and 125", validationErrorList.get(idxLength).message());
+        Assertions.assertEquals("org.hibernate.validator.constraints.Length.message", validationErrorList.get(idxLength).messageKey());
+        Assertions.assertEquals(2, validationErrorList.get(idxLength).argumentArray().length);
+        Assertions.assertEquals(5, validationErrorList.get(idxLength).argumentArray()[0]);
+        Assertions.assertEquals(125, validationErrorList.get(idxLength).argumentArray()[1]);
 
-        final int idxEmail = validationErrorList.get(0).getMessageKey().contains("Email.message") ? 0 : 1;
-        Assertions.assertEquals("must be a well-formed email address", validationErrorList.get(idxEmail).getMessage());
-        Assertions.assertEquals("jakarta.validation.constraints.Email.message", validationErrorList.get(idxEmail).getMessageKey());
-        Assertions.assertEquals(0, validationErrorList.get(idxEmail).getArgumentArray().length);
+        final int idxEmail = validationErrorList.get(0).messageKey().contains("Email.message") ? 0 : 1;
+        Assertions.assertEquals("must be a well-formed email address", validationErrorList.get(idxEmail).message());
+        Assertions.assertEquals("jakarta.validation.constraints.Email.message", validationErrorList.get(idxEmail).messageKey());
+        Assertions.assertEquals(0, validationErrorList.get(idxEmail).argumentArray().length);
 
         Assertions.assertEquals(entity, entityValidated.getInstance());
     }

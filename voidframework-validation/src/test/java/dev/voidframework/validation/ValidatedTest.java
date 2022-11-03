@@ -183,8 +183,8 @@ final class ValidatedTest {
 
         final List<ValidationError> validationErrorListActual = validationErrorMap.get("fieldName");
         Assertions.assertEquals(1, validationErrorListActual.size());
-        Assertions.assertEquals("message", validationErrorListActual.get(0).getMessage());
-        Assertions.assertEquals("messageKey", validationErrorListActual.get(0).getMessageKey());
+        Assertions.assertEquals("message", validationErrorListActual.get(0).message());
+        Assertions.assertEquals("messageKey", validationErrorListActual.get(0).messageKey());
     }
 
     @Test
@@ -200,8 +200,8 @@ final class ValidatedTest {
 
         // Asset
         Assertions.assertNotNull(validationError);
-        Assertions.assertEquals("message", validationError.getMessage());
-        Assertions.assertEquals("messageKey", validationError.getMessageKey());
+        Assertions.assertEquals("message", validationError.message());
+        Assertions.assertEquals("messageKey", validationError.messageKey());
     }
 
     @Test
@@ -218,8 +218,8 @@ final class ValidatedTest {
         // Asset
         Assertions.assertNotNull(validationErrorListActual);
         Assertions.assertEquals(1, validationErrorListActual.size());
-        Assertions.assertEquals("message", validationErrorListActual.get(0).getMessage());
-        Assertions.assertEquals("messageKey", validationErrorListActual.get(0).getMessageKey());
+        Assertions.assertEquals("message", validationErrorListActual.get(0).message());
+        Assertions.assertEquals("messageKey", validationErrorListActual.get(0).messageKey());
     }
 
     @Test
