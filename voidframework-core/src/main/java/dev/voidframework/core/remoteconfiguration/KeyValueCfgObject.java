@@ -72,12 +72,11 @@ public final class KeyValueCfgObject {
     @Override
     public String toString() {
 
-        return KeyValueCfgObject.class.getSimpleName()
-            + StringConstants.SQUARE_BRACKET_OPEN
+        return "KeyValueCfgObject{"
             + this.key
-            + " <- "
+            + StringConstants.EQUAL
             + this.value
-            + StringConstants.SQUARE_BRACKET_CLOSE;
+            + StringConstants.CURLY_BRACKET_CLOSE;
     }
 
     /**
@@ -88,12 +87,11 @@ public final class KeyValueCfgObject {
     public String toStringWithAdaptativeMask() {
 
         final boolean maskValueOnToString = isSensitiveValue();
-        return KeyValueCfgObject.class.getSimpleName()
-            + StringConstants.SQUARE_BRACKET_OPEN
+        return "KeyValueCfgObject{"
             + this.key
-            + " <- "
+            + StringConstants.EQUAL
             + (maskValueOnToString ? "**********" : this.value)
-            + StringConstants.SQUARE_BRACKET_CLOSE;
+            + StringConstants.CURLY_BRACKET_CLOSE;
     }
 
     /**

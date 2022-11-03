@@ -16,13 +16,13 @@ final class KeyValueCfgObjectTest {
 
     static Stream<Arguments> namedKeyValueArguments() {
         return Stream.of(
-            Arguments.of(Named.of("keyValueSimple", "value"), "KeyValueCfgObject[key <- \"value\"]"),
-            Arguments.of(Named.of("keyValueSimpleDouble", "12.45"), "KeyValueCfgObject[key <- 12.45]"),
-            Arguments.of(Named.of("keyValueSimpleLong", "1337"), "KeyValueCfgObject[key <- 1337]"),
-            Arguments.of(Named.of("keyValueQuoted", "\"value\""), "KeyValueCfgObject[key <- \"value\"]"),
-            Arguments.of(Named.of("keyValueQuotedDouble", "\"12.45\""), "KeyValueCfgObject[key <- \"12.45\"]"),
-            Arguments.of(Named.of("keyValueBoolean", "true"), "KeyValueCfgObject[key <- true]"),
-            Arguments.of(Named.of("keyValueQuotedBoolean", "\"true\""), "KeyValueCfgObject[key <- \"true\"]"));
+            Arguments.of(Named.of("keyValueSimple", "value"), "KeyValueCfgObject{key=\"value\"}"),
+            Arguments.of(Named.of("keyValueSimpleDouble", "12.45"), "KeyValueCfgObject{key=12.45}"),
+            Arguments.of(Named.of("keyValueSimpleLong", "1337"), "KeyValueCfgObject{key=1337}"),
+            Arguments.of(Named.of("keyValueQuoted", "\"value\""), "KeyValueCfgObject{key=\"value\"}"),
+            Arguments.of(Named.of("keyValueQuotedDouble", "\"12.45\""), "KeyValueCfgObject{key=\"12.45\"}"),
+            Arguments.of(Named.of("keyValueBoolean", "true"), "KeyValueCfgObject{key=true}"),
+            Arguments.of(Named.of("keyValueQuotedBoolean", "\"true\""), "KeyValueCfgObject{key=\"true\"}"));
     }
 
     @ParameterizedTest
@@ -49,7 +49,7 @@ final class KeyValueCfgObjectTest {
         final String toString = keyValueCfgObject.toStringWithAdaptativeMask();
 
         // Assert
-        Assertions.assertEquals("KeyValueCfgObject[key <- \"value\"]", toString);
+        Assertions.assertEquals("KeyValueCfgObject{key=\"value\"}", toString);
     }
 
     @Test
@@ -62,7 +62,7 @@ final class KeyValueCfgObjectTest {
         final String toString = keyValueCfgObject.toStringWithAdaptativeMask();
 
         // Assert
-        Assertions.assertEquals("KeyValueCfgObject[token <- **********]", toString);
+        Assertions.assertEquals("KeyValueCfgObject{token=**********}", toString);
     }
 
     @Test

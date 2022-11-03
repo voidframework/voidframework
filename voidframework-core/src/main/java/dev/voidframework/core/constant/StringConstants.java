@@ -19,6 +19,7 @@ public final class StringConstants {
     public static final String DOUBLE_QUOTE = "\"";
     public static final String EMPTY = "";
     public static final String EM_DASH = "—";
+    public static final String EQUAL = "=";
     public static final String HASHTAG = "#";
     public static final String HYPHEN = "-";
     public static final String LINE_FEED = "\n";

@@ -17,6 +17,7 @@ public final class CharConstants {
     public static final char DOUBLE_QUOTE = '"';
     public static final char EMPTY = '\u0000';
     public static final char EM_DASH = '—';
+    public static final char EQUAL = '=';
     public static final char HASHTAG = '#';
     public static final char HYPHEN = '-';
     public static final char LINE_FEED = '\n';

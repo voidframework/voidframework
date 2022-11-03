@@ -44,7 +44,7 @@ final class FileCfgObjectTest {
         final String content = new String(contentInputStream.readAllBytes(), StandardCharsets.UTF_8);
         Assertions.assertEquals("Hello World!", content);
 
-        Assertions.assertEquals("FileCfgObject[size <- 12 ; target <- ./test]", toString);
+        Assertions.assertEquals("FileCfgObject{size=12, target='./test'}", toString);
     }
 
     @Test
@@ -64,7 +64,7 @@ final class FileCfgObjectTest {
         final String content = new String(contentInputStream.readAllBytes(), StandardCharsets.UTF_8);
         Assertions.assertEquals("Hello World!", content);
 
-        Assertions.assertEquals("FileCfgObject[size <- 12 ; target <- ./test]", toString);
+        Assertions.assertEquals("FileCfgObject{size=12, target='./test'}", toString);
     }
 
     @Test

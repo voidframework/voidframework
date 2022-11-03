@@ -115,10 +115,10 @@ public final class FileCfgObject implements Closeable {
     @Override
     public String toString() {
 
-        return FileCfgObject.class.getSimpleName()
-            + "[size <- "
+        return "FileCfgObject{size="
             + this.size
-            + " ; target <- "
-            + this.target + StringConstants.SQUARE_BRACKET_CLOSE;
+            + ", target='"
+            + this.target
+            + "'}";
     }
 }
