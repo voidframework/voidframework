@@ -1,57 +1,45 @@
 package dev.voidframework.validation;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 /**
  * Represents a single validation error.
+ *
+ * @param message       The translated error message
+ * @param messageKey    The error message key
+ * @param argumentArray The error message arguments
  */
-public class ValidationError {
+public record ValidationError(String message,
+                              String messageKey,
+                              Object... argumentArray) {
 
-    private final String message;
-    private final String messageKey;
-    private final Object[] argumentArray;
+    @Override
+    public boolean equals(final Object o) {
 
-    /**
-     * Build a new instance.
-     *
-     * @param message       The translated error message
-     * @param messageKey    The error message key
-     * @param argumentArray The error message arguments
-     */
-    public ValidationError(final String message,
-                           final String messageKey,
-                           final Object... argumentArray) {
-
-        this.message = message;
-        this.messageKey = messageKey;
-        this.argumentArray = argumentArray;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final ValidationError that = (ValidationError) o;
+        return Objects.equals(message, that.message)
+            && Objects.equals(messageKey, that.messageKey)
+            && Arrays.equals(argumentArray, that.argumentArray);
     }
 
-    /**
-     * Retrieves the translated error message.
-     *
-     * @return The translated error message
-     */
-    public String getMessage() {
+    @Override
+    public int hashCode() {
 
-        return message;
+        int result = Objects.hash(message, messageKey);
+        result = 31 * result + Arrays.hashCode(argumentArray);
+        return result;
     }
 
-    /**
-     * Retrieves the error message key.
-     *
-     * @return The error message key
-     */
-    public String getMessageKey() {
+    @Override
+    public String toString() {
 
-        return messageKey;
-    }
-
-    /**
-     * Retrieves the error message arguments.
-     *
-     * @return The error message arguments
-     */
-    public Object[] getArgumentArray() {
-
-        return argumentArray;
+        return "ValidationError{message='"
+            + this.message
+            + "', messageKey='" + this.messageKey
+            + "', argumentArray=" + Arrays.toString(this.argumentArray)
+            + '}';
     }
 }
