@@ -43,7 +43,7 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
 
         try {
             this.reverseRouteTemplateMethodModel = new ReverseRouteTemplateMethodModel(injector.getInstance(Router.class));
-        } catch (final Exception ignore) {
+        } catch (final Throwable ignore) { // NOSONAR
             this.reverseRouteTemplateMethodModel = null;
         }
     }
