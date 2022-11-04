@@ -32,8 +32,8 @@ public final class UndertowHttpRequest implements HttpRequest {
     /**
      * Build a new instance.
      *
-     * @param httpServerExchange     Current Http server exchange
-     * @param httpRequestBodyContent Current Http request body content
+     * @param httpServerExchange     Current HTTP server exchange
+     * @param httpRequestBodyContent Current HTTP request body content
      */
     public UndertowHttpRequest(final HttpServerExchange httpServerExchange,
                                final HttpRequestBodyContent httpRequestBodyContent) {

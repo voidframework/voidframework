@@ -11,6 +11,7 @@ import dev.voidframework.web.http.Context;
 import dev.voidframework.web.http.Cookie;
 import dev.voidframework.web.http.FlashMessages;
 import dev.voidframework.web.http.FormItem;
+import dev.voidframework.web.http.HttpHeaderNames;
 import dev.voidframework.web.http.HttpRequest;
 import dev.voidframework.web.http.HttpRequestBodyContent;
 import dev.voidframework.web.http.Result;
@@ -131,7 +132,7 @@ public class UndertowHttpHandler implements HttpHandler {
         if (i18nCookie != null && availableLanguageList.contains(i18nCookie.value())) {
             i18nLocale = Locale.forLanguageTag(i18nCookie.value());
         } else {
-            i18nLocale = availableLanguageList.isEmpty() ? null : Locale.forLanguageTag(availableLanguageList.get(0));
+            i18nLocale = determineI18NLocale(httpRequest, availableLanguageList);
         }
 
         final Context context = new Context(httpRequest, session, flashMessages, i18nLocale);
@@ -313,9 +314,32 @@ public class UndertowHttpHandler implements HttpHandler {
     }
 
     /**
+     * Determine I18N {@code Locale} to use for the current request.
+     *
+     * @param httpRequest           The current HTTP request
+     * @param availableLanguageList Available languages
+     * @return The {@code Locale} to use
+     */
+    private Locale determineI18NLocale(final HttpRequest httpRequest, final List<String> availableLanguageList) {
+
+        if (availableLanguageList.isEmpty()) {
+            return null;
+        }
+
+        final String acceptLanguage = httpRequest
+            .getHeader(HttpHeaderNames.ACCEPT_LANGUAGE)
+            .split(StringConstants.COMMA)[0]
+            .trim();
+
+        return availableLanguageList.contains(acceptLanguage)
+            ? Locale.forLanguageTag(acceptLanguage)
+            : Locale.forLanguageTag(availableLanguageList.get(0));
+    }
+
+    /**
      * Force close of all upload files {@code InputStream}.
      *
-     * @param httpRequest The current http request
+     * @param httpRequest The current HTTP request
      */
     private void forceCloseUploadedFileInputStream(final HttpRequest httpRequest) {
 
