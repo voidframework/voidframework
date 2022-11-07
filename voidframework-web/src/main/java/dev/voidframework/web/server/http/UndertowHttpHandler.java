@@ -326,10 +326,10 @@ public class UndertowHttpHandler implements HttpHandler {
             return null;
         }
 
-        final String acceptLanguage = httpRequest
-            .getHeader(HttpHeaderNames.ACCEPT_LANGUAGE)
-            .split(StringConstants.COMMA)[0]
-            .trim();
+        final String acceptHeader = httpRequest.getHeader(HttpHeaderNames.ACCEPT_LANGUAGE);
+        final String acceptLanguage = acceptHeader != null
+            ? acceptHeader.split(StringConstants.COMMA)[0].trim()
+            : StringConstants.EMPTY;
 
         return availableLanguageList.contains(acceptLanguage)
             ? Locale.forLanguageTag(acceptLanguage)
