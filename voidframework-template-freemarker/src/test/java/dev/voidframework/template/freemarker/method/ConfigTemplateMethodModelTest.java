@@ -87,7 +87,7 @@ final class ConfigTemplateMethodModelTest {
 
         // Assert
         Assertions.assertEquals("Can't render template", exception.getMessage());
-        Assertions.assertEquals("String: 1: No configuration setting found for key 'unknownKey'", exception.getCause().getCause().getMessage());
+        Assertions.assertTrue(exception.getCause().getMessage().startsWith("The following has evaluated to null or missing"));
     }
 
     @Test

@@ -36,7 +36,12 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
             throw new TemplateModelException("Wrong arguments");
         }
 
-        final Object value = this.configuration.getAnyRef(((SimpleScalar) argumentList.get(0)).getAsString());
+        final String configPath = ((SimpleScalar) argumentList.get(0)).getAsString();
+        if (!this.configuration.hasPath(configPath)) {
+            return null;
+        }
+
+        final Object value = this.configuration.getAnyRef(configPath);
         if (value instanceof String) {
             return new SimpleScalar((String) value);
         } else if (value instanceof Number) {
