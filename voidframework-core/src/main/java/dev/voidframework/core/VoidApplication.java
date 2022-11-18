@@ -21,6 +21,7 @@ import dev.voidframework.core.conversion.impl.DefaultConverterManager;
 import dev.voidframework.core.exception.AppLauncherException;
 import dev.voidframework.core.lifecycle.LifeCycleAnnotationListener;
 import dev.voidframework.core.lifecycle.LifeCycleManager;
+import dev.voidframework.core.module.OrderedModule;
 import dev.voidframework.core.remoteconfiguration.RemoteConfigurationLoader;
 import dev.voidframework.core.utils.VoidFrameworkVersion;
 import org.apache.commons.lang3.StringUtils;
@@ -32,6 +33,7 @@ import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,6 +157,16 @@ public class VoidApplication {
                 throw new AppLauncherException.ModuleInitFailure(moduleClass, ex);
             }
         }
+
+        // Sort all modules per priority
+        final Comparator<Module> orderedModuleComparator = Comparator.comparingInt(module -> {
+            if (module instanceof final OrderedModule orderedModule) {
+                return orderedModule.priority();
+            } else {
+                return 0;
+            }
+        });
+        appModuleList.sort(orderedModuleComparator.reversed());
 
         // Create injector
         this.injector = Guice.createInjector(Stage.PRODUCTION, coreModule, Modules.combine(appModuleList), scanClassBindModule);
