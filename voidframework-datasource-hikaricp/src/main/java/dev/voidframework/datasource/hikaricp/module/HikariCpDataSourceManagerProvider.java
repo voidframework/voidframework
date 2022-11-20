@@ -7,7 +7,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import dev.voidframework.datasource.AbstractDataSourceProvider;
 import dev.voidframework.datasource.DataSourceManager;
-import dev.voidframework.exception.DataSourceException;
+import dev.voidframework.datasource.exception.DataSourceException;
 
 import javax.sql.DataSource;
 import java.util.HashMap;

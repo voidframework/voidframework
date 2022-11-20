@@ -1,4 +1,4 @@
-package dev.voidframework.persistence.hibernate.module;
+package dev.voidframework.persistence.jooq.module;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
@@ -6,16 +6,17 @@ import com.google.inject.name.Names;
 import com.typesafe.config.Config;
 import dev.voidframework.datasource.exception.DataSourceException;
 import dev.voidframework.datasource.utils.DataSourceUtils;
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInterceptor;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
 
 import java.util.Set;
 
 /**
- * Hibernate module.
+ * jOOQ module.
  */
-public class HibernateModule extends AbstractModule {
+public class JooqModule extends AbstractModule {
 
     private final Config configuration;
 
@@ -24,7 +25,7 @@ public class HibernateModule extends AbstractModule {
      *
      * @param configuration The application configuration
      */
-    public HibernateModule(final Config configuration) {
+    public JooqModule(final Config configuration) {
 
         this.configuration = configuration;
     }
@@ -32,28 +33,24 @@ public class HibernateModule extends AbstractModule {
     @Override
     protected void configure() {
 
-        if (!this.configuration.hasPathOrNull("voidframework.datasource")) {
-            throw new DataSourceException.NotConfigured();
-        }
+        System.setProperty("org.jooq.no-logo", "true");
+        System.setProperty("org.jooq.no-tips", "true");
 
         final Set<String> dbConfigurationNameSet = DataSourceUtils.getAllDataSourceNames(this.configuration);
         if (dbConfigurationNameSet.isEmpty()) {
             throw new DataSourceException.NotConfigured();
         }
 
-        String modelsJarUrlPattern = this.configuration.getString("voidframework.persistence.modelsJarUrlPattern");
-        if (modelsJarUrlPattern != null && modelsJarUrlPattern.equalsIgnoreCase("auto")) {
-            modelsJarUrlPattern = "(.*)";
-        }
-
         for (final String dbConfigurationName : dbConfigurationNameSet) {
-            final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dbConfigurationName, modelsJarUrlPattern);
-            requestInjection(entityManagerProvider);
-            bind(EntityManager.class).annotatedWith(Names.named(dbConfigurationName)).toProvider(entityManagerProvider);
+            final DSLContextProvider dslContextProvider = new DSLContextProvider(dbConfigurationName, SQLDialect.H2);
+            requestInjection(dslContextProvider);
+
+            bind(DSLContext.class).annotatedWith(Names.named(dbConfigurationName)).toProvider(dslContextProvider);
+            bind(DSLContextProvider.class).annotatedWith(Names.named(dbConfigurationName)).toInstance(dslContextProvider);
 
             if (dbConfigurationName.equals("default")) {
-                bind(EntityManager.class).toProvider(entityManagerProvider);
-                bind(EntityManagerProvider.class).toInstance(entityManagerProvider);
+                bind(DSLContext.class).toProvider(dslContextProvider);
+                bind(DSLContextProvider.class).toInstance(dslContextProvider);
             }
         }
 

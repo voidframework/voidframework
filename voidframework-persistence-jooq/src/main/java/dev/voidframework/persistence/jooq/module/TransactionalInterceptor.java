@@ -1,58 +1,58 @@
-package dev.voidframework.persistence.hibernate.module;
+package dev.voidframework.persistence.jooq.module;
 
 import com.google.inject.Inject;
+import dev.voidframework.core.lang.Either;
 import dev.voidframework.core.utils.ProxyDetectorUtils;
 import dev.voidframework.persistence.AbstractTransactionalInterceptor;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TransactionRequiredException;
 import jakarta.transaction.InvalidTransactionException;
 import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInvocation;
+import org.jooq.DSLContext;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Intercepts method call when annotation {@link Transactional} is used.
  */
 public class TransactionalInterceptor extends AbstractTransactionalInterceptor {
 
-    private EntityManagerProvider entityManagerProvider;
+    private DSLContextProvider dslContextProvider;
 
     /**
      * Sets the entity manager provider.
      *
-     * @param entityManagerProvider The entity manager provider
+     * @param dslContextProvider The DSL context provider
      */
     @Inject
-    public void setDataSourceManagerProvider(final EntityManagerProvider entityManagerProvider) {
+    public void setDataSourceManagerProvider(final DSLContextProvider dslContextProvider) {
 
-        this.entityManagerProvider = entityManagerProvider;
+        this.dslContextProvider = dslContextProvider;
     }
 
     @Override
     public Object invoke(final MethodInvocation methodInvocation) throws Throwable {
 
         // Retrieves the transaction configuration
-        Transactional transactionalAnnotation = methodInvocation.getMethod().getAnnotation(Transactional.class);
-        if (transactionalAnnotation == null) {
-            transactionalAnnotation = methodInvocation.getThis().getClass().getAnnotation(Transactional.class);
-        }
+        final Transactional transactionalAnnotation = Optional.ofNullable(methodInvocation.getMethod().getAnnotation(Transactional.class))
+            .orElseGet(() -> methodInvocation.getThis().getClass().getAnnotation(Transactional.class));
 
         // Create a new EntityManager for this current thread (must be done once)
-        if (this.entityManagerProvider.isEntityManagerMustBeInitialized() || transactionalAnnotation.value() == Transactional.TxType.REQUIRES_NEW) {
-            this.entityManagerProvider.initializeNewEntityFactoryManager();
+        if (this.dslContextProvider.isDSLContextMustBeInitialized() || transactionalAnnotation.value() == Transactional.TxType.REQUIRES_NEW) {
+            this.dslContextProvider.initializeNewDSLContext();
         }
 
         // Retrieve transaction
-        final EntityManager entityManager = this.entityManagerProvider.get();
-        final EntityTransaction transaction = entityManager.getTransaction();
+        final DSLContext dslContext = this.dslContextProvider.get();
 
         // Checks transaction context
-        final boolean isTransactionActive = transaction.isActive();
+        final boolean isTransactionActive = this.isTransactionActive(this.dslContextProvider.get());
 
         if (transactionalAnnotation.value() == Transactional.TxType.NOT_SUPPORTED) {
             // The configuration indicates that current method must run outside a transaction context
             if (isTransactionActive) {
-                this.entityManagerProvider.initializeNewEntityFactoryManager();
+                this.dslContextProvider.initializeNewDSLContext();
             }
             return methodInvocation.proceed();
         }
@@ -85,20 +85,40 @@ public class TransactionalInterceptor extends AbstractTransactionalInterceptor {
 
         // Creates a new transaction and then executes the method. If something goes
         // wrong, and depending on the configuration, a rollback will be performed
-        try {
-            transaction.begin();
-            final Object result = methodInvocation.proceed();
-            transaction.commit();
-            return result;
-        } catch (final Throwable throwable) {
-            if (this.hasToRollback(transactionalAnnotation, throwable.getClass())) {
-                transaction.rollback();
-            } else {
-                transaction.commit();
+        final Either<Object, Throwable> result = dslContext.transactionResult((configuration) -> {
+            try {
+                this.dslContextProvider.replaceExistingDSLContext(configuration.dsl());
+                return Either.ofLeft(methodInvocation.proceed());
+            } catch (final Throwable throwable) {
+                if (this.hasToRollback(transactionalAnnotation, throwable.getClass())) {
+                    throw throwable;
+                }
+
+                return Either.ofRight(throwable);
+            } finally {
+                this.dslContextProvider.destroyLatestDSLContext();
             }
-            throw throwable;
-        } finally {
-            this.entityManagerProvider.destroyLatestEntityManager();
+        });
+
+        if (result.hasRight()) {
+            throw result.getRight();
         }
+
+        return result.getLeft();
+    }
+
+    /**
+     * Checks if the transaction is active.
+     *
+     * @param dslContext The DSL Context
+     * @return {@code true} if the transaction is active, otherwise, {@code false}
+     */
+    private boolean isTransactionActive(final DSLContext dslContext) {
+
+        return dslContext.data()
+            .keySet()
+            .stream()
+            .map(Object::toString)
+            .anyMatch(toStringValue -> Objects.equals(toStringValue, "DATA_DEFAULT_TRANSACTION_PROVIDER_SAVEPOINTS"));
     }
 }
