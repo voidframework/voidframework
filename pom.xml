@@ -63,7 +63,9 @@
         <dependency.version.jackson>2.14.0</dependency.version.jackson>
         <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
         <dependency.version.jakarta.persistenceapi>3.1.0</dependency.version.jakarta.persistenceapi>
+        <dependency.version.jakarta.transactionapi>2.0.1</dependency.version.jakarta.transactionapi>
         <dependency.version.jedis>4.3.1</dependency.version.jedis>
+        <dependency.version.jooq>3.17.5</dependency.version.jooq>
         <dependency.version.jwt>4.2.1</dependency.version.jwt>
         <dependency.version.kryo>5.3.0</dependency.version.kryo>
         <dependency.version.logback>1.4.4</dependency.version.logback>
@@ -87,7 +89,9 @@
         <module>voidframework-healthcheck</module>
         <module>voidframework-i18n</module>
         <module>voidframework-migration-flyway</module>
+        <module>voidframework-persistence</module>
         <module>voidframework-persistence-hibernate</module>
+        <module>voidframework-persistence-jooq</module>
         <module>voidframework-redis</module>
         <module>voidframework-redis-healthcheck</module>
         <module>voidframework-remoteconf-etcd</module>
@@ -103,6 +107,7 @@
     </modules>
 
     <profiles>
+        <!-- Profile: Sample Project -->
         <profile>
             <id>build-sample-project</id>
             <activation>
@@ -112,6 +117,8 @@
                 <module>sample-project</module>
             </modules>
         </profile>
+
+        <!-- Profile: Sign Jars -->
         <profile>
             <id>sign-jars</id>
             <activation>
@@ -255,7 +262,17 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-persistence-hibernate</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-persistence-jooq</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -422,12 +439,21 @@
                         <groupId>jakarta.persistence</groupId>
                         <artifactId>jakarta.persistence-api</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>jakarta.transaction</groupId>
+                        <artifactId>jakarta.transaction-api</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
                 <version>${dependency.version.jakarta.persistenceapi}</version>
+            </dependency>
+            <dependency>
+                <groupId>jakarta.transaction</groupId>
+                <artifactId>jakarta.transaction-api</artifactId>
+                <version>${dependency.version.jakarta.transactionapi}</version>
             </dependency>
             <dependency>
                 <groupId>com.esotericsoftware</groupId>
@@ -459,6 +485,16 @@
                         <artifactId>slf4j-api</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq</artifactId>
+                <version>${dependency.version.jooq}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-meta</artifactId>
+                <version>${dependency.version.jooq}</version>
             </dependency>
 
             <!-- Unit Tests -->

@@ -166,7 +166,7 @@ public class VoidApplication {
                 return 0;
             }
         });
-        appModuleList.sort(orderedModuleComparator.reversed());
+        appModuleList.sort(orderedModuleComparator);
 
         // Create injector
         this.injector = Guice.createInjector(Stage.PRODUCTION, coreModule, Modules.combine(appModuleList), scanClassBindModule);

@@ -1,4 +1,4 @@
-package dev.voidframework.exception;
+package dev.voidframework.datasource.exception;
 
 /**
  * All exceptions thrown by the Data Source feature are subclasses of {@code DataSourceException}.

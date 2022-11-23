@@ -3,7 +3,7 @@ package dev.voidframework.datasource;
 import com.google.inject.Provider;
 import com.typesafe.config.Config;
 import dev.voidframework.core.constant.StringConstants;
-import dev.voidframework.exception.DataSourceException;
+import dev.voidframework.datasource.exception.DataSourceException;
 
 import java.util.Map;
 import java.util.Set;

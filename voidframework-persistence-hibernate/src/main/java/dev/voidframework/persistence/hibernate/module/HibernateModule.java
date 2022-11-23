@@ -4,15 +4,13 @@ import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.typesafe.config.Config;
-import dev.voidframework.core.constant.StringConstants;
-import dev.voidframework.exception.DataSourceException;
+import dev.voidframework.datasource.exception.DataSourceException;
+import dev.voidframework.datasource.utils.DataSourceUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInterceptor;
 
-import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Hibernate module.
@@ -38,19 +36,8 @@ public class HibernateModule extends AbstractModule {
             throw new DataSourceException.NotConfigured();
         }
 
-        final Set<String> dbConfigurationNameSet = this.configuration.getConfig("voidframework.datasource").entrySet()
-            .stream()
-            .map(Map.Entry::getKey)
-            .map(key -> {
-                if (key.contains(StringConstants.DOT)) {
-                    return key.substring(0, key.indexOf(StringConstants.DOT));
-                } else {
-                    return key;
-                }
-            })
-            .collect(Collectors.toSet());
-
-        if (dbConfigurationNameSet.isEmpty()) {
+        final Set<String> dataSourceNameSet = DataSourceUtils.getAllDataSourceNames(this.configuration);
+        if (dataSourceNameSet.isEmpty()) {
             throw new DataSourceException.NotConfigured();
         }
 
@@ -59,12 +46,12 @@ public class HibernateModule extends AbstractModule {
             modelsJarUrlPattern = "(.*)";
         }
 
-        for (final String dbConfigurationName : dbConfigurationNameSet) {
-            final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dbConfigurationName, modelsJarUrlPattern);
+        for (final String dataSourceName : dataSourceNameSet) {
+            final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dataSourceName, modelsJarUrlPattern);
             requestInjection(entityManagerProvider);
-            bind(EntityManager.class).annotatedWith(Names.named(dbConfigurationName)).toProvider(entityManagerProvider);
+            bind(EntityManager.class).annotatedWith(Names.named(dataSourceName)).toProvider(entityManagerProvider);
 
-            if (dbConfigurationName.equals("default")) {
+            if (dataSourceName.equals("default")) {
                 bind(EntityManager.class).toProvider(entityManagerProvider);
                 bind(EntityManagerProvider.class).toInstance(entityManagerProvider);
             }

@@ -6,7 +6,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 import com.typesafe.config.Config;
 import dev.voidframework.datasource.AbstractDataSourceProvider;
 import dev.voidframework.datasource.DataSourceManager;
-import dev.voidframework.exception.DataSourceException;
+import dev.voidframework.datasource.exception.DataSourceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>voidframework</artifactId>
+        <groupId>dev.voidframework</groupId>
+        <version>1.3.3-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>voidframework-persistence</artifactId>
+    <name>Void Framework - Persistence</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <!-- Framework -->
+        <dependency>
+            <groupId>dev.voidframework</groupId>
+            <artifactId>voidframework-core</artifactId>
+        </dependency>
+
+        <!-- Dependencies -->
+        <dependency>
+            <groupId>jakarta.transaction</groupId>
+            <artifactId>jakarta.transaction-api</artifactId>
+        </dependency>
+    </dependencies>
+</project>
