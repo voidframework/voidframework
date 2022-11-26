@@ -3,10 +3,9 @@ package dev.voidframework.web.module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.spi.TypeEncounter;
 import com.google.inject.spi.TypeListener;
-import dev.voidframework.core.constant.CharConstants;
-import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.bindable.WebController;
 import dev.voidframework.web.http.annotation.RequestRoute;
+import dev.voidframework.web.http.routing.RouteURL;
 import dev.voidframework.web.http.routing.Router;
 
 import java.lang.reflect.Method;
@@ -16,15 +15,18 @@ import java.lang.reflect.Method;
  */
 public class ControllerAnnotationListener implements TypeListener {
 
+    private final String contextPath;
     private final Router router;
 
     /**
      * Build a new instance.
      *
-     * @param router The current router
+     * @param contextPath The context path
+     * @param router      The current router
      */
-    public ControllerAnnotationListener(final Router router) {
+    public ControllerAnnotationListener(final String contextPath, final Router router) {
 
+        this.contextPath = contextPath;
         this.router = router;
     }
 
@@ -38,54 +40,11 @@ public class ControllerAnnotationListener implements TypeListener {
             for (final Method method : classType.getMethods()) {
                 if (method.isAnnotationPresent(RequestRoute.class)) {
                     final RequestRoute requestRoute = method.getAnnotation(RequestRoute.class);
-                    final String completeRoute = this.appendPrefixToRoute(webController.prefixRoute(), requestRoute.route());
+                    final RouteURL routeURL = RouteURL.of(this.contextPath, webController.prefixRoute(), requestRoute.route());
 
-                    router.addRoute(requestRoute.method(), completeRoute, classType, method, requestRoute.name());
+                    router.addRoute(requestRoute.method(), routeURL, classType, method, requestRoute.name());
                 }
             }
         }
-    }
-
-    /**
-     * Prepends prefix to a route.
-     *
-     * @param prefix The prefix to prepend
-     * @param route  The route to use
-     * @return The complete route
-     */
-    private String appendPrefixToRoute(final String prefix, final String route) {
-
-        final String cleanedPrefix = this.cleanRoutePath(prefix);
-        final String cleanedRoute = this.cleanRoutePath(route);
-
-        if (cleanedPrefix.endsWith(StringConstants.SLASH) && cleanedRoute.charAt(0) == CharConstants.SLASH) {
-            return cleanedPrefix + cleanedRoute.substring(1);
-        }
-
-        return this.cleanRoutePath(cleanedPrefix + cleanedRoute);
-    }
-
-    /**
-     * Cleans the given route path.
-     *
-     * @param routePath The route path to clean
-     * @return Cleaned route path
-     */
-    private String cleanRoutePath(final String routePath) {
-
-        String cleanedRoutePath = routePath.trim();
-
-        if (cleanedRoutePath.isEmpty() || cleanedRoutePath.equals(StringConstants.SLASH)) {
-            return StringConstants.SLASH;
-        }
-
-        if (cleanedRoutePath.charAt(0) != CharConstants.SLASH) {
-            cleanedRoutePath = StringConstants.SLASH + cleanedRoutePath;
-        }
-        if (cleanedRoutePath.endsWith(StringConstants.SLASH)) {
-            cleanedRoutePath = cleanedRoutePath.substring(0, cleanedRoutePath.length() - 1);
-        }
-
-        return cleanedRoutePath;
     }
 }

@@ -131,7 +131,11 @@ public class WebServer {
 
         // Display listener(s) information
         for (final Undertow.ListenerInfo listenerInfo : undertowServer.getListenerInfo()) {
-            LOGGER.info("Server now listening on {}:/{}", listenerInfo.getProtcol(), listenerInfo.getAddress());
+            LOGGER.info(
+                "Server now listening on {}:/{}{}",
+                listenerInfo.getProtcol(),
+                listenerInfo.getAddress(),
+                this.configuration.getString("voidframework.web.contextPath"));
         }
 
         this.isRunning = true;
