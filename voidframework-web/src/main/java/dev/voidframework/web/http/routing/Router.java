@@ -15,12 +15,12 @@ public interface Router {
      * Adds a new route.
      *
      * @param httpMethod          The HTTP method (ie: GET)
-     * @param routeUrl            The route url
+     * @param routeURL            The route URL
      * @param controllerClassType The controller class type
      * @param method              The method to call
      */
     void addRoute(final HttpMethod httpMethod,
-                  final String routeUrl,
+                  final RouteURL routeURL,
                   final Class<?> controllerClassType,
                   final Method method);
 
@@ -28,13 +28,13 @@ public interface Router {
      * Adds a new route.
      *
      * @param httpMethod          The HTTP method (ie: GET)
-     * @param routeUrl            The route url
+     * @param routeURL            The route URL
      * @param controllerClassType The controller class type
      * @param method              The method to call
      * @param name                The route name
      */
     void addRoute(final HttpMethod httpMethod,
-                  final String routeUrl,
+                  final RouteURL routeURL,
                   final Class<?> controllerClassType,
                   final Method method,
                   final String name);

@@ -10,6 +10,7 @@ import dev.voidframework.web.http.annotation.WithFilter;
 import dev.voidframework.web.http.filter.Filter;
 import dev.voidframework.web.http.routing.ResolvedRoute;
 import dev.voidframework.web.http.routing.Route;
+import dev.voidframework.web.http.routing.RouteURL;
 import dev.voidframework.web.http.routing.Router;
 import dev.voidframework.web.http.routing.RouterPostInitialization;
 import org.apache.commons.lang3.StringUtils;
@@ -68,26 +69,26 @@ public class DefaultRouter implements Router, RouterPostInitialization {
 
     @Override
     public void addRoute(final HttpMethod httpMethod,
-                         final String routeUrl,
+                         final RouteURL routeURL,
                          final Class<?> controllerClassType,
                          final Method method) {
 
-        this.addRoute(httpMethod, routeUrl, controllerClassType, method, StringUtils.EMPTY);
+        this.addRoute(httpMethod, routeURL, controllerClassType, method, StringUtils.EMPTY);
     }
 
     @Override
     public void addRoute(final HttpMethod httpMethod,
-                         final String routeUrl,
+                         final RouteURL routeURL,
                          final Class<?> controllerClassType,
                          final Method method,
                          final String name) {
 
-        this.checkAddRouteArguments(httpMethod, routeUrl, controllerClassType, method);
+        this.checkAddRouteArguments(httpMethod, routeURL, controllerClassType, method);
 
         final Class<?> controllerClass = ProxyDetectorUtils.isProxy(controllerClassType)
             ? controllerClassType.getSuperclass()
             : controllerClassType;
-        LOGGER.debug("Add route {} {} {}::{}", httpMethod, routeUrl, controllerClass.getName(), method.getName());
+        LOGGER.debug("Add route {} {} {}::{}", httpMethod, routeURL, controllerClass.getName(), method.getName());
 
         final List<Class<? extends Filter>> filterClassList = new ArrayList<>();
         WithFilter withFilter = controllerClass.getAnnotation(WithFilter.class);
@@ -100,7 +101,7 @@ public class DefaultRouter implements Router, RouterPostInitialization {
             filterClassList.addAll(Arrays.asList(withFilter.value()));
         }
 
-        final Route route = new Route(httpMethod, Pattern.compile(routeUrl), filterClassList, controllerClass, method);
+        final Route route = new Route(httpMethod, Pattern.compile(routeURL.url()), filterClassList, controllerClass, method);
         this.routeListPerHttpMethodMap.computeIfAbsent(httpMethod, (key) -> new ArrayList<>()).add(route);
 
         final String nameKey = StringUtils.isBlank(name)
@@ -229,19 +230,19 @@ public class DefaultRouter implements Router, RouterPostInitialization {
      * This method will throw an exception if any argument is invalid.
      *
      * @param httpMethod          The HTTP method (ie: GET)
-     * @param routeUrl            The route url
+     * @param routeURL            The route url
      * @param controllerClassType The controller class type
      * @param method              The method to call
      */
     private void checkAddRouteArguments(final HttpMethod httpMethod,
-                                        final String routeUrl,
+                                        final RouteURL routeURL,
                                         final Class<?> controllerClassType,
                                         final Method method) {
 
         if (httpMethod == null) {
             throw new RoutingException.BadRoutingArgument("httpMethod", null);
-        } else if (routeUrl == null || (routeUrl.length() != routeUrl.trim().length())) {
-            throw new RoutingException.BadRoutingArgument("routeUrl", routeUrl);
+        } else if (routeURL == null || routeURL.url().isEmpty()) {
+            throw new RoutingException.BadRoutingArgument("routeUrl", routeURL);
         } else if (controllerClassType == null) {
             throw new RoutingException.BadRoutingArgument("controllerClassType", null);
         } else if (method == null) {
