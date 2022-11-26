@@ -107,17 +107,6 @@
     </modules>
 
     <profiles>
-        <!-- Profile: Sample Project -->
-        <profile>
-            <id>build-sample-project</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <modules>
-                <module>sample-project</module>
-            </modules>
-        </profile>
-
         <!-- Profile: Sign Jars -->
         <profile>
             <id>sign-jars</id>
@@ -222,17 +211,12 @@
             <!-- Framework -->
             <dependency>
                 <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-cache-redis</artifactId>
+                <artifactId>voidframework-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -257,22 +241,7 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-migration-flyway</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-persistence</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-persistence-hibernate</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-persistence-jooq</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -282,42 +251,12 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-redis-healthcheck</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-scheduler</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-template</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-template-freemarker</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-validation</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-vfs</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-web</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>dev.voidframework</groupId>
-                <artifactId>voidframework-web-healthcheck</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
