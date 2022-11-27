@@ -197,6 +197,7 @@ public class VoidApplication {
      * @return The class instance
      */
     public <T> T getInstance(final Class<T> classType) {
+
         if (this.injector == null) {
             return null;
         }
