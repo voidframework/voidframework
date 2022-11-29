@@ -182,7 +182,7 @@ public final class SchedulerManager {
                     return null;
                 }
             };
-        } else {
+        } else if (scheduledHandler.scheduledAnnotation().fixedRate() >= 1) {
             // In mode "fixe rate", the next run is determined before the current run. If the current
             // execution takes too long, it will not be cancelled when the new one is executed
             callable = new Callable<>() {
@@ -203,6 +203,21 @@ public final class SchedulerManager {
 
                     return null;
                 }
+            };
+        } else {
+            // In mode "run once", the method will be called one time at specified initial delay
+            callable = () -> {
+                try {
+                    scheduledHandler.method().invoke(classInstance);
+                } catch (final Exception exception) {
+                    LOGGER.error(
+                        "An error occurred during the execution of scheduled (run once) method {}::{}",
+                        scheduledHandler.getClass().getName(),
+                        scheduledHandler.method().getName(),
+                        exception);
+                }
+
+                return null;
             };
         }
 
