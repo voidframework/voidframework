@@ -59,7 +59,7 @@ public abstract class AbstractStaticAssetsController {
      * @throws HttpException.NotFound If requested asset does not exist
      */
     @NoCSRF
-    @RequestRoute(method = HttpMethod.GET, route = "/webjars/(?<fileName>.*)")
+    @RequestRoute(method = HttpMethod.GET, route = "/webjars/(?<fileName>.*)", name = "static_webjar")
     @SuppressWarnings("unused")
     public Result webjarAsset(@RequestPath("fileName") final String fileName) {
 
@@ -100,7 +100,7 @@ public abstract class AbstractStaticAssetsController {
      * @throws HttpException.NotFound If requested asset does not exist
      */
     @NoCSRF
-    @RequestRoute(method = HttpMethod.GET, route = "/static/(?<fileName>.*)")
+    @RequestRoute(method = HttpMethod.GET, route = "/static/(?<fileName>.*)", name = "static_file")
     public Result staticAsset(@RequestPath("fileName") final String fileName) {
 
         if (StringUtils.isBlank(fileName) || fileName.contains(StringConstants.DOUBLE_DOT)) {
