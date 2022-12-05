@@ -51,16 +51,16 @@
 
         <!-- Dependencies -->
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
-        <dependency.version.classgraph>4.8.149</dependency.version.classgraph>
+        <dependency.version.classgraph>4.8.151</dependency.version.classgraph>
         <dependency.version.commons.lang>3.12.0</dependency.version.commons.lang>
-        <dependency.version.flyway>9.7.0</dependency.version.flyway>
+        <dependency.version.flyway>9.8.3</dependency.version.flyway>
         <dependency.version.freemarker>2.3.31</dependency.version.freemarker>
         <dependency.version.guice>5.1.0</dependency.version.guice>
         <dependency.version.hibernate.core>6.1.5.Final</dependency.version.hibernate.core>
         <dependency.version.hibernate.validator>8.0.0.Final</dependency.version.hibernate.validator>
         <dependency.version.hikaricp>5.0.1</dependency.version.hikaricp>
-        <dependency.version.jackson.core>2.14.0</dependency.version.jackson.core>
-        <dependency.version.jackson>2.14.0</dependency.version.jackson>
+        <dependency.version.jackson.core>2.14.1</dependency.version.jackson.core>
+        <dependency.version.jackson>2.14.1</dependency.version.jackson>
         <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
         <dependency.version.jakarta.persistenceapi>3.1.0</dependency.version.jakarta.persistenceapi>
         <dependency.version.jakarta.transactionapi>2.0.1</dependency.version.jakarta.transactionapi>
@@ -68,15 +68,15 @@
         <dependency.version.jooq>3.17.5</dependency.version.jooq>
         <dependency.version.jwt>4.2.1</dependency.version.jwt>
         <dependency.version.kryo>5.3.0</dependency.version.kryo>
-        <dependency.version.logback>1.4.4</dependency.version.logback>
-        <dependency.version.tika>2.5.0</dependency.version.tika>
+        <dependency.version.logback>1.4.5</dependency.version.logback>
+        <dependency.version.tika>2.6.0</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
         <dependency.version.undertow>2.3.0.Final</dependency.version.undertow>
 
         <!-- Unit Tests -->
         <dependency.version.h2>2.1.214</dependency.version.h2>
         <dependency.version.junit>5.9.1</dependency.version.junit>
-        <dependency.version.mockito>4.8.1</dependency.version.mockito>
+        <dependency.version.mockito>4.9.0</dependency.version.mockito>
     </properties>
 
     <modules>
