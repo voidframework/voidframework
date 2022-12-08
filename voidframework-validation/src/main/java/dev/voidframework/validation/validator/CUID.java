@@ -1,6 +1,7 @@
 package dev.voidframework.validation.validator;
 
-import dev.voidframework.validation.validator.impl.CUIDImpl;
+import dev.voidframework.validation.validator.impl.CUIDAsStringImpl;
+import dev.voidframework.validation.validator.impl.CUIDAsByteArrayImpl;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -21,7 +22,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = CUIDImpl.class)
+@Constraint(validatedBy = {CUIDAsStringImpl.class, CUIDAsByteArrayImpl.class})
 public @interface CUID {
 
     /**

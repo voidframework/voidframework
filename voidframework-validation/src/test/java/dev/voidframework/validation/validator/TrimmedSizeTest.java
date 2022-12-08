@@ -2,15 +2,14 @@ package dev.voidframework.validation.validator;
 
 import dev.voidframework.validation.Validated;
 import dev.voidframework.validation.Validation;
+import dev.voidframework.validation.ValidationError;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Locale;
 
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class TrimmedSizeTest {
 
@@ -28,6 +27,13 @@ final class TrimmedSizeTest {
         Assertions.assertNotNull(pojoValidated);
         Assertions.assertTrue(pojoValidated.hasError());
         Assertions.assertFalse(pojoValidated.isValid());
+
+        final ValidationError validationError = pojoValidated.getError("firstName");
+        Assertions.assertNotNull(pojoValidated);
+        Assertions.assertEquals("org.hibernate.validator.constraints.Length.message", validationError.messageKey());
+        Assertions.assertEquals(2, validationError.argumentArray().length);
+        Assertions.assertEquals(1, validationError.argumentArray()[0]);
+        Assertions.assertEquals(10, validationError.argumentArray()[1]);
 
         Assertions.assertEquals(pojo, pojoValidated.getInstance());
     }

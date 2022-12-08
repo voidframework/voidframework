@@ -7,7 +7,7 @@ import jakarta.validation.ConstraintValidatorContext;
 /**
  * Implementation of the annotation {@link CUID}.
  */
-public class CUIDImpl implements ConstraintValidator<CUID, String> {
+public class CUIDAsStringImpl implements ConstraintValidator<CUID, String> {
 
     @Override
     public boolean isValid(final String value, final ConstraintValidatorContext context) {
