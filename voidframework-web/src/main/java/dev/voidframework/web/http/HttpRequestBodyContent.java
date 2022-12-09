@@ -35,7 +35,7 @@ public record HttpRequestBodyContent(String contentType,
 
         final T object = switch (contentType()) {
             case HttpContentTypes.APPLICATION_JSON -> JsonUtils.fromJson(this.asRaw, outputClass);
-            case HttpContentTypes.APPLICATION_X_FORM_URLENCODED, HttpContentTypes.MULTIPART_FORM_DATA -> asFormData(outputClass);
+            case HttpContentTypes.APPLICATION_WWW_FORM_URLENCODED, HttpContentTypes.MULTIPART_FORM_DATA -> asFormData(outputClass);
             case HttpContentTypes.APPLICATION_XML -> XmlUtils.fromXml(this.asRaw, outputClass);
             case HttpContentTypes.TEXT_YAML -> YamlUtils.fromYaml(this.asRaw, outputClass);
             default -> throw new HttpException.BadRequest("Unhandled body content");

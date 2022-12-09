@@ -7,12 +7,13 @@ package dev.voidframework.web.http;
 public final class HttpContentTypes {
 
     public static final String APPLICATION_ATOM_XML = "application/atom+xml";
+    public static final String APPLICATION_JAVASCRIPT = "application/javascript";
     public static final String APPLICATION_JSON = "application/json";
     public static final String APPLICATION_OCTET_STREAM = "application/octet-stream";
     public static final String APPLICATION_PDF = "application/pdf";
     public static final String APPLICATION_RSS_XML = "application/rss+xml";
+    public static final String APPLICATION_WWW_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String APPLICATION_XML = "application/xml";
-    public static final String APPLICATION_X_FORM_URLENCODED = "application/x-www-form-urlencoded";
     public static final String APPLICATION_ZIP = "application/zip";
     public static final String IMAGE_GIF = "image/gif";
     public static final String IMAGE_ICON = "image/x-icon";
