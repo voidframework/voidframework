@@ -8,6 +8,8 @@ import dev.voidframework.web.http.resultprocessor.ResultProcessor;
 import dev.voidframework.web.http.resultprocessor.TemplateResultProcessor;
 
 import java.io.InputStream;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +18,7 @@ import java.util.Map;
  */
 public final class Result {
 
+    private static final String CONTENT_TYPE_CHARSET = "; charset=";
     private static final NoContentResultProcessor NO_CONTENT_RESULT_PROCESSOR = new NoContentResultProcessor();
     private static final String NO_CONTENT_TYPE = null;
 
@@ -76,10 +79,26 @@ public final class Result {
      */
     public static Result badRequest(final String content) {
 
+        return badRequest(
+            content,
+            HttpContentTypes.TEXT_HTML,
+            StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Bad request (400).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result badRequest(final String content, final String contentType, final Charset charset) {
+
         return new Result(
             HttpReturnCode.BAD_REQUEST,
             new ObjectResultProcessor(content),
-            HttpContentTypes.TEXT_HTML);
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -95,6 +114,22 @@ public final class Result {
             HttpReturnCode.BAD_REQUEST,
             new ObjectResultProcessor(content),
             contentType);
+    }
+
+    /**
+     * Bad request (400).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result badRequest(final byte[] content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.BAD_REQUEST,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -159,12 +194,59 @@ public final class Result {
      * @param contentType The content type
      * @return A result
      */
+    public static Result created(final String content, final String contentType) {
+
+        return created(
+            content,
+            contentType,
+            StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Created (201).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result created(final String content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.CREATED,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
+    }
+
+    /**
+     * Created (201).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @return A result
+     */
     public static Result created(final byte[] content, final String contentType) {
 
         return new Result(
             HttpReturnCode.CREATED,
             new ObjectResultProcessor(content),
             contentType);
+    }
+
+    /**
+     * Created (201).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result created(final byte[] content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.CREATED,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -216,10 +298,41 @@ public final class Result {
      */
     public static Result forbidden(final String content) {
 
+        return forbidden(
+            content,
+            HttpContentTypes.TEXT_HTML,
+            StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Forbidden (403).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @return A result
+     */
+    public static Result forbidden(final String content, final String contentType) {
+
         return new Result(
             HttpReturnCode.FORBIDDEN,
             new ObjectResultProcessor(content),
-            HttpContentTypes.TEXT_HTML);
+            contentType);
+    }
+
+    /**
+     * Forbidden (403).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result forbidden(final String content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.FORBIDDEN,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset);
     }
 
     /**
@@ -235,6 +348,22 @@ public final class Result {
             HttpReturnCode.FORBIDDEN,
             new ObjectResultProcessor(content),
             contentType);
+    }
+
+    /**
+     * Forbidden (403).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result forbidden(final byte[] content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.FORBIDDEN,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -286,10 +415,41 @@ public final class Result {
      */
     public static Result internalServerError(final String content) {
 
+        return internalServerError(
+            content,
+            HttpContentTypes.TEXT_HTML,
+            StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Internal Server Error (500).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @return A result
+     */
+    public static Result internalServerError(final String content, final String contentType) {
+
         return new Result(
             HttpReturnCode.INTERNAL_SERVER_ERROR,
             new ObjectResultProcessor(content),
-            HttpContentTypes.TEXT_HTML);
+            contentType);
+    }
+
+    /**
+     * Internal Server Error (500).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result internalServerError(final String content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.INTERNAL_SERVER_ERROR,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -305,6 +465,22 @@ public final class Result {
             HttpReturnCode.INTERNAL_SERVER_ERROR,
             new ObjectResultProcessor(content),
             contentType);
+    }
+
+    /**
+     * Internal Server Error (500).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result internalServerError(final byte[] content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.INTERNAL_SERVER_ERROR,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset);
     }
 
     /**
@@ -369,10 +545,41 @@ public final class Result {
      */
     public static Result notFound(final String content) {
 
+        return notFound(
+            content,
+            HttpContentTypes.TEXT_HTML,
+            StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Not Found (404).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @return A result
+     */
+    public static Result notFound(final String content, final String contentType) {
+
         return new Result(
             HttpReturnCode.NOT_FOUND,
             new ObjectResultProcessor(content),
-            HttpContentTypes.TEXT_HTML);
+            contentType);
+    }
+
+    /**
+     * Not Found (404).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result notFound(final String content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.NOT_FOUND,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -388,6 +595,22 @@ public final class Result {
             HttpReturnCode.NOT_FOUND,
             new ObjectResultProcessor(content),
             contentType);
+    }
+
+    /**
+     * Not Found (404).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result notFound(final byte[] content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.NOT_FOUND,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -439,10 +662,41 @@ public final class Result {
      */
     public static Result notImplemented(final String content) {
 
+        return notImplemented(
+            content,
+            HttpContentTypes.TEXT_HTML,
+            StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Not Implemented (501).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @return A result
+     */
+    public static Result notImplemented(final String content, final String contentType) {
+
         return new Result(
             HttpReturnCode.NOT_IMPLEMENTED,
             new ObjectResultProcessor(content),
-            HttpContentTypes.TEXT_HTML);
+            contentType);
+    }
+
+    /**
+     * Not Implemented (501).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result notImplemented(final String content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.NOT_IMPLEMENTED,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -458,6 +712,22 @@ public final class Result {
             HttpReturnCode.NOT_IMPLEMENTED,
             new ObjectResultProcessor(content),
             contentType);
+    }
+
+    /**
+     * Not Implemented (501).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result notImplemented(final byte[] content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.NOT_IMPLEMENTED,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
@@ -509,10 +779,10 @@ public final class Result {
      */
     public static Result ok(final String content) {
 
-        return new Result(
-            HttpReturnCode.OK,
-            new ObjectResultProcessor(content),
-            HttpContentTypes.TEXT_HTML);
+        return ok(
+            content,
+            HttpContentTypes.TEXT_HTML,
+            StandardCharsets.UTF_8);
     }
 
     /**
@@ -535,6 +805,22 @@ public final class Result {
      *
      * @param content     The content
      * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result ok(final String content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.OK,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
+    }
+
+    /**
+     * Ok (200).
+     *
+     * @param content     The content
+     * @param contentType The content type
      * @return A result
      */
     public static Result ok(final byte[] content, final String contentType) {
@@ -543,6 +829,22 @@ public final class Result {
             HttpReturnCode.OK,
             new ObjectResultProcessor(content),
             contentType);
+    }
+
+    /**
+     * Ok (200).
+     *
+     * @param content     The content
+     * @param contentType The content type
+     * @param charset     The content charset
+     * @return A result
+     */
+    public static Result ok(final byte[] content, final String contentType, final Charset charset) {
+
+        return new Result(
+            HttpReturnCode.OK,
+            new ObjectResultProcessor(content),
+            contentType + CONTENT_TYPE_CHARSET + charset.name());
     }
 
     /**
