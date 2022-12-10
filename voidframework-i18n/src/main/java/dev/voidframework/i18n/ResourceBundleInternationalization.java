@@ -68,4 +68,23 @@ public final class ResourceBundleInternationalization implements Internationaliz
 
         return MessageFormat.format(resolvedMessageFormat, argumentArray);
     }
+
+    @Override
+    public Map<String, String> getAllMessages(final Locale locale) {
+
+        ResourceBundle resourceBundle = this.bundlePerLocaleCacheMap.get(locale);
+        if (resourceBundle == null) {
+            resourceBundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale, this.getClass().getClassLoader());
+            this.bundlePerLocaleCacheMap.put(locale, resourceBundle);
+        }
+
+        final Map<String, String> messagePerKeyMap = new HashMap<>();
+        for (final String key : resourceBundle.keySet()) {
+            messagePerKeyMap.put(
+                key,
+                resourceBundle.getString(key));
+        }
+
+        return messagePerKeyMap;
+    }
 }

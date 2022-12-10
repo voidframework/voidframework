@@ -8,6 +8,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
 import java.util.Locale;
+import java.util.Map;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -198,5 +199,27 @@ final class InternationalizationTest {
         // Assert
         Assertions.assertNotNull(msgPluralMoreEnglish);
         Assertions.assertEquals("Inbox \"BoxName\" contains 456 messages", msgPluralMoreEnglish);
+    }
+
+    @Test
+    void getAllMessages() {
+
+        // Arrange
+        final ResourceBundleInternationalization internationalization = new ResourceBundleInternationalization();
+
+        // Act
+        final Map<String, String> messagesPerKeyMap = internationalization.getAllMessages(Locale.ENGLISH);
+
+        // Assert
+        Assertions.assertNotNull(messagesPerKeyMap);
+        Assertions.assertEquals(6, messagesPerKeyMap.size());
+        Assertions.assertEquals("Hello {0}!", messagesPerKeyMap.get("hello.name"));
+        Assertions.assertEquals("Hello World!", messagesPerKeyMap.get("hello.world"));
+        Assertions.assertEquals("Inbox \"{0}\" contains no messages", messagesPerKeyMap.get("inbox.0"));
+        Assertions.assertEquals("Inbox \"{0}\" contains one message", messagesPerKeyMap.get("inbox.1"));
+        Assertions.assertEquals("Inbox \"{0}\" contains {1} messages", messagesPerKeyMap.get("inbox.2"));
+        Assertions.assertEquals(
+            "This element contains {0,choice,0#no comments|1#one comment|1<{0,number,000} comments}",
+            messagesPerKeyMap.get("complex.format"));
     }
 }
