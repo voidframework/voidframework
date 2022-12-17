@@ -5,8 +5,8 @@
 [![Maven](https://img.shields.io/maven-central/v/dev.voidframework/voidframework.svg?logo=apache-maven)](https://search.maven.org/search?q=g:dev.voidframework)
 [![Repository size](https://img.shields.io/github/repo-size/voidframework/voidframework.svg?logo=git)](https://github.com/voidframework/voidframework)
 
-[![Java CI](https://img.shields.io/github/workflow/status/voidframework/voidframework/Java%20CI?logo=github&color=%231da868)](https://github.com/voidframework/voidframework/actions/workflows/build.yml)
-[![CodeQL](https://img.shields.io/github/workflow/status/voidframework/voidframework/CodeQL?label=codeql&logo=github&color=%231da868)](https://github.com/voidframework/voidframework/actions/workflows/codeql-analysis.yml)
+[![Java CI](https://img.shields.io/github/actions/workflow/status/voidframework/voidframework/build.yml?logo=github&color=%231da868&branch=master)](https://github.com/voidframework/voidframework/actions/workflows/build.yml)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/voidframework/voidframework/codeql-analysis.yml?label=codeql&logo=github&color=%231da868&branch=master)](https://github.com/voidframework/voidframework/actions/workflows/codeql-analysis.yml)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/voidframework_voidframework?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&color=%231da868)](https://sonarcloud.io/project/overview?id=voidframework_voidframework)
 
 Light and modular Framework for Java
