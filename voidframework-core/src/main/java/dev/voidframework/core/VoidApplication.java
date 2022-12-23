@@ -13,6 +13,7 @@ import com.typesafe.config.ConfigFactory;
 import dev.voidframework.core.classestoload.ClassesToLoadScanner;
 import dev.voidframework.core.classestoload.ConverterInformation;
 import dev.voidframework.core.classestoload.ScannedClassesToLoad;
+import dev.voidframework.core.conditionalfeature.ConditionalFeatureVerifier;
 import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.core.conversion.ConverterManager;
 import dev.voidframework.core.conversion.TypeConverter;
@@ -96,6 +97,7 @@ public class VoidApplication {
         LOGGER.info("Found {} useful classes", scannedClassesToLoad.count());
 
         // Configure core components
+        final ConditionalFeatureVerifier conditionalFeatureVerifier = new ConditionalFeatureVerifier(configuration);
         this.lifeCycleManager = new LifeCycleManager(configuration);
 
         final AbstractModule coreModule = new AbstractModule() {
@@ -123,13 +125,17 @@ public class VoidApplication {
                     binder().requireExplicitBindings();
                 }
 
-                for (final Class<?> clazz : scannedClassesToLoad.bindableList()) {
-                    bind(clazz);
+                for (final Class<?> classType : scannedClassesToLoad.bindableList()) {
+                    if (conditionalFeatureVerifier.isFeatureDisabled(classType)) {
+                        continue;
+                    }
 
-                    for (final Class<?> interfaceClassType : clazz.getInterfaces()) {
+                    bind(classType);
+
+                    for (final Class<?> interfaceClassType : classType.getInterfaces()) {
                         this.multibinderMap.computeIfAbsent(interfaceClassType,
                             key -> Multibinder.newSetBinder(binder(), interfaceClassType)
-                        ).addBinding().to((Class) clazz);
+                        ).addBinding().to((Class) classType);
                     }
                 }
 
@@ -145,7 +151,7 @@ public class VoidApplication {
         final List<Module> appModuleList = new ArrayList<>();
         final List<String> disabledModuleList = configuration.getStringList("voidframework.core.disabledModules");
         for (final Class<?> moduleClass : scannedClassesToLoad.moduleList()) {
-            if (disabledModuleList.contains(moduleClass.getName())) {
+            if (disabledModuleList.contains(moduleClass.getName()) || conditionalFeatureVerifier.isFeatureDisabled(moduleClass)) {
                 // Don't load this module
                 continue;
             }
