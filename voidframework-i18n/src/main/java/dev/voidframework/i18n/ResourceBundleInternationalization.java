@@ -1,6 +1,6 @@
 package dev.voidframework.i18n;
 
-import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.bindable.Bindable;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ import java.util.ResourceBundle;
 /**
  * Resource bundle based internationalization.
  */
-@BindClass
+@Bindable
 public final class ResourceBundleInternationalization implements Internationalization {
 
     private static final String BUNDLE_BASE_NAME = "messages";

@@ -3,7 +3,7 @@ package dev.voidframework.healthcheck.checker;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.healthcheck.Health;
 import dev.voidframework.healthcheck.HealthChecker;
 import redis.clients.jedis.Jedis;
@@ -14,7 +14,7 @@ import java.util.Map;
 /**
  * Redis health checker.
  */
-@BindClass
+@Bindable
 @Singleton
 public class RedisHealthChecker implements HealthChecker {
 

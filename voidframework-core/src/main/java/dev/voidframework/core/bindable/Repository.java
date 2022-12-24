@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * Indicates that an annotated class is a "Repository".
  */
-@BindClass
+@Bindable
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)

@@ -4,7 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.google.inject.AbstractModule;
-import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.conversion.TypeConverter;
 import dev.voidframework.core.exception.ConversionException;
@@ -172,7 +172,7 @@ public final class ClassesToLoadScanner {
     private static boolean isBindable(final ClassInfo classInfo,
                                       final List<String> extraInterfaces) {
 
-        if (classInfo.getAnnotationInfo(BindClass.class) != null && !classInfo.isInterfaceOrAnnotation()) {
+        if (classInfo.getAnnotationInfo(Bindable.class) != null && !classInfo.isInterfaceOrAnnotation()) {
             return true;
         }
 

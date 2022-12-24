@@ -6,7 +6,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.name.Names;
 import com.typesafe.config.Config;
-import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.datasource.exception.DataSourceException;
 import dev.voidframework.datasource.utils.DataSourceUtils;
@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * This LifeCycle allows to force the initialization of the EntityManagerFactory.
  */
-@BindClass
+@Bindable
 public final class PersistenceLifeCycle {
 
     private final Config configuration;
