@@ -1,13 +1,13 @@
 package dev.voidframework.cache.engine;
 
 import com.google.inject.Inject;
-import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.redis.Redis;
 
 /**
  * Redis cache implementation.
  */
-@BindClass
+@Bindable
 public class RedisCacheEngine extends AbstractCacheEngine {
 
     private final Redis redis;

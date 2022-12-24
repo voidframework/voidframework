@@ -4,7 +4,7 @@ import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
-import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.core.conversion.ConverterManager;
 import dev.voidframework.core.lang.CUID;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
@@ -54,7 +54,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Web server.
  */
-@BindClass
+@Bindable
 @Singleton
 public class WebServer {
 

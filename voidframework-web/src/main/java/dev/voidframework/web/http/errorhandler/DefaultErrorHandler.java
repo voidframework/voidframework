@@ -2,7 +2,7 @@ package dev.voidframework.web.http.errorhandler;
 
 import com.google.inject.Inject;
 import com.typesafe.config.Config;
-import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.template.exception.TemplateException;
 import dev.voidframework.web.exception.HttpException;
@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 /**
  * Default implementation of {@link ErrorHandler}.
  */
-@BindClass
+@Bindable
 public class DefaultErrorHandler implements ErrorHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultErrorHandler.class);

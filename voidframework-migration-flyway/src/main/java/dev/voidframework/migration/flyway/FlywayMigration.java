@@ -3,7 +3,7 @@ package dev.voidframework.migration.flyway;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.typesafe.config.Config;
-import dev.voidframework.core.bindable.BindClass;
+import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.datasource.DataSourceManager;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * Flyway migration.
  */
-@BindClass
+@Bindable
 public final class FlywayMigration {
 
     private final Config configuration;
