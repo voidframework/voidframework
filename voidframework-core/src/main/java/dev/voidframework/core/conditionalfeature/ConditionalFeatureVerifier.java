@@ -2,6 +2,7 @@ package dev.voidframework.core.conditionalfeature;
 
 import com.typesafe.config.Config;
 import dev.voidframework.core.conditionalfeature.condition.Condition;
+import dev.voidframework.core.exception.ConditionalFeatureException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -76,7 +77,7 @@ public final class ConditionalFeatureVerifier {
             final Constructor<? extends Condition> constructor = conditionClassType.getDeclaredConstructor();
             return constructor.newInstance();
         } catch (final InvocationTargetException | InstantiationException | IllegalAccessException | NoSuchMethodException exception) {
-            throw new RuntimeException(exception);
+            throw new ConditionalFeatureException.ConditionInitFailure(conditionClassType, exception);
         }
     }
 

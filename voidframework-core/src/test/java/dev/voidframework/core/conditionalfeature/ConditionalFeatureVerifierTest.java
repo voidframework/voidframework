@@ -3,6 +3,7 @@ package dev.voidframework.core.conditionalfeature;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.core.conditionalfeature.condition.Condition;
+import dev.voidframework.core.exception.ConditionalFeatureException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Named;
@@ -78,12 +79,14 @@ final class ConditionalFeatureVerifierTest {
         final ConditionalFeatureVerifier conditionalFeatureVerifier = new ConditionalFeatureVerifier(configuration);
 
         // Act
-        final RuntimeException exception = Assertions.assertThrows(
-            RuntimeException.class,
+        final ConditionalFeatureException.ConditionInitFailure exception = Assertions.assertThrows(
+            ConditionalFeatureException.ConditionInitFailure.class,
             () -> conditionalFeatureVerifier.isFeatureDisabled(DummyController4.class));
 
         // Assert
-        Assertions.assertTrue(exception.getMessage().contains("ConditionalFeatureVerifier cannot access a member of class"));
+        Assertions.assertEquals(
+            "Cannot initialize condition 'dev.voidframework.core.conditionalfeature.ConditionalFeatureVerifierTest$DummyConditionInvalidConstructor'",
+            exception.getMessage());
     }
 
     /**
