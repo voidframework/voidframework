@@ -64,7 +64,14 @@ public class DSLContextProvider implements Provider<DSLContext> {
      */
     public void destroyLatestDSLContext() {
 
-        this.currentDSLContext.get().removeFirst();
+        final Deque<DSLContext> currentDSLContextDeque = this.currentDSLContext.get();
+        if (currentDSLContextDeque != null) {
+            currentDSLContextDeque.removeFirst();
+
+            if (currentDSLContextDeque.isEmpty()) {
+                this.currentDSLContext.remove();
+            }
+        }
     }
 
     /**
@@ -86,7 +93,13 @@ public class DSLContextProvider implements Provider<DSLContext> {
     public void replaceExistingDSLContext(final DSLContext dslContext) {
 
         this.destroyLatestDSLContext();
-        this.currentDSLContext.get().addFirst(dslContext);
+
+        Deque<DSLContext> currentDSLContextDeque = this.currentDSLContext.get();
+        if (currentDSLContextDeque == null) {
+            currentDSLContextDeque = new ArrayDeque<>();
+            this.currentDSLContext.set(currentDSLContextDeque);
+        }
+        currentDSLContextDeque.addFirst(dslContext);
     }
 
     /**
