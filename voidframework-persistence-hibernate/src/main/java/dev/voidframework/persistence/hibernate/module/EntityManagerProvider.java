@@ -107,6 +107,10 @@ public class EntityManagerProvider implements Provider<EntityManager> {
         if (entityManager != null) {
             entityManager.close();
         }
+
+        if (this.currentEntityManager.get().isEmpty()) {
+            this.currentEntityManager.remove();
+        }
     }
 
     /**
