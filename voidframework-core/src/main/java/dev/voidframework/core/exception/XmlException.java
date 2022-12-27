@@ -28,7 +28,7 @@ public class XmlException extends RuntimeException {
          */
         public ToStringConversionFailure(final Throwable cause) {
 
-            super("To XML string conversion failure: ", cause);
+            super("To XML string conversion failure", cause);
         }
     }
 
@@ -44,7 +44,7 @@ public class XmlException extends RuntimeException {
          */
         public ToXmlConversionFailure(final Throwable cause) {
 
-            super("To XML conversion failure: ", cause);
+            super("To XML conversion failure", cause);
         }
     }
 
@@ -60,7 +60,7 @@ public class XmlException extends RuntimeException {
          */
         public FromXmlConversionFailure(final Throwable cause) {
 
-            super("From XML conversion failure: ", cause);
+            super("From XML conversion failure", cause);
         }
     }
 }

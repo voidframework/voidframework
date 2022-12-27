@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.shadow.com.univocity.parsers.annotations.Validate;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -13,6 +14,20 @@ import java.util.UUID;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class ReflectionUtilsTest {
+
+    @Test
+    void constructor() throws NoSuchMethodException {
+
+        // Act
+        final Constructor<ReflectionUtils> constructor = ReflectionUtils.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+
+        final InvocationTargetException exception = Assertions.assertThrows(InvocationTargetException.class, constructor::newInstance);
+
+        // Assert
+        Assertions.assertNotNull(exception.getCause());
+        Assertions.assertEquals("This is a utility class and cannot be instantiated", exception.getCause().getMessage());
+    }
 
     @Test
     void getAnnotatedFieldFromValue() throws IllegalAccessException {

@@ -14,6 +14,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +25,20 @@ final class JsonUtilsTest {
 
     private static final Class<SimpleDto> SIMPLE_DTO_CLASS_TYPE = SimpleDto.class;
     private static final JavaType SIMPLE_DTO_JAVA_TYPE = JsonUtils.objectMapper().constructType(SimpleDto.class);
+
+    @Test
+    void constructor() throws NoSuchMethodException {
+
+        // Act
+        final Constructor<JsonUtils> constructor = JsonUtils.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+
+        final InvocationTargetException exception = Assertions.assertThrows(InvocationTargetException.class, constructor::newInstance);
+
+        // Assert
+        Assertions.assertNotNull(exception.getCause());
+        Assertions.assertEquals("This is a utility class and cannot be instantiated", exception.getCause().getMessage());
+    }
 
     @Test
     void objectMapper() {
@@ -359,6 +375,7 @@ final class JsonUtilsTest {
 
         @JsonCreator
         public SimpleDto(@JsonProperty("hello") final String hello) {
+
             this.hello = hello;
         }
     }

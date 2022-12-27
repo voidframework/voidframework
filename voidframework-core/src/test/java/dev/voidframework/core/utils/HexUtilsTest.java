@@ -5,10 +5,26 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class HexUtilsTest {
+
+    @Test
+    void constructor() throws NoSuchMethodException {
+
+        // Act
+        final Constructor<HexUtils> constructor = HexUtils.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+
+        final InvocationTargetException exception = Assertions.assertThrows(InvocationTargetException.class, constructor::newInstance);
+
+        // Assert
+        Assertions.assertNotNull(exception.getCause());
+        Assertions.assertEquals("This is a utility class and cannot be instantiated", exception.getCause().getMessage());
+    }
 
     @Test
     void toHexString() {

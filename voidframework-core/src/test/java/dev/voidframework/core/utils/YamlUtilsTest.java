@@ -14,6 +14,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
@@ -21,6 +23,20 @@ final class YamlUtilsTest {
 
     private static final Class<SimpleDto> SIMPLE_DTO_CLASS_TYPE = SimpleDto.class;
     private static final JavaType SIMPLE_DTO_JAVA_TYPE = JsonUtils.objectMapper().constructType(SimpleDto.class);
+
+    @Test
+    void constructor() throws NoSuchMethodException {
+
+        // Act
+        final Constructor<YamlUtils> constructor = YamlUtils.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+
+        final InvocationTargetException exception = Assertions.assertThrows(InvocationTargetException.class, constructor::newInstance);
+
+        // Assert
+        Assertions.assertNotNull(exception.getCause());
+        Assertions.assertEquals("This is a utility class and cannot be instantiated", exception.getCause().getMessage());
+    }
 
     @Test
     void fromYamlByteArray() {
@@ -221,6 +237,7 @@ final class YamlUtilsTest {
 
         @JsonCreator
         public SimpleDto(@JsonProperty("hello") final String hello) {
+
             this.hello = hello;
         }
     }

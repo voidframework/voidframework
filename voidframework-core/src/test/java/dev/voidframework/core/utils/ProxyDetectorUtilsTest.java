@@ -10,8 +10,25 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class ProxyDetectorUtilsTest {
+
+    @Test
+    void constructor() throws NoSuchMethodException {
+
+        // Act
+        final Constructor<ProxyDetectorUtils> constructor = ProxyDetectorUtils.class.getDeclaredConstructor();
+        constructor.setAccessible(true);
+
+        final InvocationTargetException exception = Assertions.assertThrows(InvocationTargetException.class, constructor::newInstance);
+
+        // Assert
+        Assertions.assertNotNull(exception.getCause());
+        Assertions.assertEquals("This is a utility class and cannot be instantiated", exception.getCause().getMessage());
+    }
 
     @Test
     void isProxyClass() {
