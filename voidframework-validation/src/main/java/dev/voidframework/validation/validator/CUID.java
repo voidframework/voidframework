@@ -1,7 +1,7 @@
 package dev.voidframework.validation.validator;
 
-import dev.voidframework.validation.validator.impl.CUIDAsStringImpl;
 import dev.voidframework.validation.validator.impl.CUIDAsByteArrayImpl;
+import dev.voidframework.validation.validator.impl.CUIDAsStringImpl;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 

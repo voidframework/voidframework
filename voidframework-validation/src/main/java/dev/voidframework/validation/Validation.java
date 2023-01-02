@@ -43,8 +43,8 @@ public final class Validation {
     /**
      * Validates an object.
      *
-     * @param objectToValidate       The object to validate
-     * @param <T> Type of the object to validate
+     * @param objectToValidate The object to validate
+     * @param <T>              Type of the object to validate
      * @return The validated object
      */
     public <T> Validated<T> validate(final T objectToValidate) {
@@ -55,10 +55,10 @@ public final class Validation {
     /**
      * Validates an object.
      *
-     * @param objectToValidate       The object to validate
-     * @param locale                 The locale to use for validation error message
-     * @param constraintGroupArray   The constraint groups to apply (OPTIONAL)
-     * @param <T> Type of the object to validate
+     * @param objectToValidate     The object to validate
+     * @param locale               The locale to use for validation error message
+     * @param constraintGroupArray The constraint groups to apply (OPTIONAL)
+     * @param <T>                  Type of the object to validate
      * @return The validated object
      */
     public <T> Validated<T> validate(final T objectToValidate,

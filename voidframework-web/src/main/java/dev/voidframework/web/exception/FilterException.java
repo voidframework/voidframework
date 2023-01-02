@@ -57,9 +57,9 @@ public class FilterException extends RuntimeException {
 
             super(
                 "Filter chain overflow detected! Current index ("
-                + currentIndex
-                + ") is greater or equal to filter list size ("
-                + filterListSize + ")");
+                    + currentIndex
+                    + ") is greater or equal to filter list size ("
+                    + filterListSize + ")");
         }
     }
 }

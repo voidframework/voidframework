@@ -22,7 +22,7 @@ final class SessionTest {
         final boolean isEqual = sessionOne.equals(sessionTwo);
 
         // Assert
-         Assertions.assertTrue(isEqual);
+        Assertions.assertTrue(isEqual);
     }
 
     @Test
