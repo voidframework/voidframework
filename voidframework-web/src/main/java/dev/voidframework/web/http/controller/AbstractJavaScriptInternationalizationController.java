@@ -75,16 +75,16 @@ public abstract class AbstractJavaScriptInternationalizationController {
     }
 
     /**
-     * Retrieves a webjar asset.
+     * Retrieves JS I18N script.
      *
      * @param locale Locale for which retrieve messages
      * @return A result containing JavaScript code
      * @throws HttpException.NotFound If requested asset does not exist
      */
     @NoCSRF
-    @RequestRoute(method = HttpMethod.GET, route = "/js/messages-(?<locale>[a-zA-Z_\\-]{2,6}).js", name = "static_webjar")
+    @RequestRoute(method = HttpMethod.GET, route = "/js/messages-(?<locale>[a-zA-Z_\\-]{2,6}).js", name = "js_i18n")
     @SuppressWarnings("unused")
-    public Result webjarAsset(@RequestPath("locale") final Locale locale) {
+    public Result jsInternationalizationScript(@RequestPath("locale") final Locale locale) {
 
         if (locale == null) {
             throw new HttpException.NotFound();
