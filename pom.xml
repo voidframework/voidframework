@@ -12,6 +12,22 @@
     <description>Light and modular Framework for Java</description>
     <url>https://voidframework.dev</url>
 
+    <organization>
+        <name>Void Framework</name>
+        <url>https://voidframework.dev</url>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>thibaultmeyer</id>
+            <name>Thibault Meyer</name>
+            <roles>
+                <role>Owner</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <scm>
         <connection>scm:git:https://github.com/voidframework/voidframework.git</connection>
         <developerConnection>scm:git:https://github.com/voidframework/voidframework.git</developerConnection>
@@ -29,12 +45,6 @@
             <url>https://github.com/voidframework/voidframework/blob/master/LICENSE</url>
         </license>
     </licenses>
-
-    <developers>
-        <developer>
-            <name>Thibault Meyer</name>
-        </developer>
-    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -101,9 +111,9 @@
         <module>voidframework-template-freemarker</module>
         <module>voidframework-test</module>
         <module>voidframework-validation</module>
+        <module>voidframework-vfs</module>
         <module>voidframework-web</module>
         <module>voidframework-web-healthcheck</module>
-        <module>voidframework-vfs</module>
     </modules>
 
     <profiles>
