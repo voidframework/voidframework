@@ -7,7 +7,7 @@
     <groupId>dev.voidframework</groupId>
     <artifactId>voidframework</artifactId>
     <packaging>pom</packaging>
-    <version>1.5.1-SNAPSHOT</version>
+    <version>1.5.1</version>
     <name>Void Framework</name>
     <description>Light and modular Framework for Java</description>
     <url>https://voidframework.dev</url>
