@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Life cycle manager takes care of executing the various hooks defined by the use of
@@ -157,7 +158,7 @@ public final class LifeCycleManager {
             if (StringUtils.isNotBlank(stopHandler.gracefulStopTimeoutConfigKey)
                 && this.configuration.hasPath(stopHandler.gracefulStopTimeoutConfigKey)) {
 
-                gracefulStopTimeout = this.configuration.getLong(stopHandler.gracefulStopTimeoutConfigKey);
+                gracefulStopTimeout = this.configuration.getDuration(stopHandler.gracefulStopTimeoutConfigKey, TimeUnit.MILLISECONDS);
             }
 
             final long start = System.currentTimeMillis();

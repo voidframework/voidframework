@@ -20,7 +20,7 @@ public @interface LifeCycleStop {
     int priority() default 1000;
 
     /**
-     * Defines the configuration key for the time (in milliseconds) to shut down properly.
+     * Defines the configuration key for the time (duration or milliseconds) to shut down properly.
      *
      * @return The configuration key
      */

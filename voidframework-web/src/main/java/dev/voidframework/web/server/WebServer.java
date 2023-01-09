@@ -263,7 +263,7 @@ public class WebServer {
         final Undertow.Builder undertowBuilder = Undertow.builder()
             .setServerOption(
                 UndertowOptions.SHUTDOWN_TIMEOUT,
-                this.configuration.getInt(CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT))
+                (int) this.configuration.getDuration(CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT, TimeUnit.MILLISECONDS))
             .setServerOption(
                 UndertowOptions.NO_REQUEST_TIMEOUT,
                 (int) this.configuration.getDuration(CONFIGURATION_KEY_IDLE_TIMEOUT, TimeUnit.MILLISECONDS))
