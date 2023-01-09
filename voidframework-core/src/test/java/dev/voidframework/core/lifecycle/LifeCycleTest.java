@@ -25,7 +25,7 @@ final class LifeCycleTest {
         final Config configuration = ConfigFactory.parseString("""
             voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
             voidframework.cache.inMemory.flushWhenFullMaxItem = 500
-            cfg.gracefulStopTimeoutConfigKey = 500
+            cfg.gracefulStopTimeoutConfigKey = 500 ms
             """);
 
         final LifeCycleManager lifeCycleManager = new LifeCycleManager(configuration);
@@ -58,7 +58,7 @@ final class LifeCycleTest {
         final Config configuration = ConfigFactory.parseString("""
             voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
             voidframework.cache.inMemory.flushWhenFullMaxItem = 500
-            cfg.gracefulStopTimeoutConfigKey = 500
+            cfg.gracefulStopTimeoutConfigKey = 500 ms
             """);
 
         final LifeCycleManager lifeCycleManager = new LifeCycleManager(configuration);
@@ -90,7 +90,7 @@ final class LifeCycleTest {
         final Config configuration = ConfigFactory.parseString("""
             voidframework.cache.engine = "dev.voidframework.cache.engine.MemoryCacheEngine"
             voidframework.cache.inMemory.flushWhenFullMaxItem = 500
-            cfg.gracefulStopTimeoutConfigKey = 500
+            cfg.gracefulStopTimeoutConfigKey = 500 ms
             """);
 
         final LifeCycleManager lifeCycleManager = new LifeCycleManager(configuration);
