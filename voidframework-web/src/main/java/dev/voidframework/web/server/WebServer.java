@@ -5,6 +5,7 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
 import dev.voidframework.core.bindable.Bindable;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.conversion.ConverterManager;
 import dev.voidframework.core.lang.CUID;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
@@ -13,6 +14,7 @@ import dev.voidframework.core.utils.ClassResolverUtils;
 import dev.voidframework.web.exception.ErrorHandlerException;
 import dev.voidframework.web.exception.ExtraWebServerConfigurationException;
 import dev.voidframework.web.exception.FilterException;
+import dev.voidframework.web.exception.HttpsWebServerConfigurationException;
 import dev.voidframework.web.exception.RoutingException;
 import dev.voidframework.web.http.HttpMethod;
 import dev.voidframework.web.http.converter.StringToBooleanConverter;
@@ -44,10 +46,28 @@ import io.undertow.websockets.WebSocketProtocolHandshakeHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xnio.Options;
+import org.xnio.Sequence;
 
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -60,17 +80,26 @@ public class WebServer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WebServer.class);
 
+    private static final String CONFIGURATION_EXTRA_WEBSERVER_CONFIGURATION_IMPLEMENTATION = "voidframework.web.server.extraWebServerConfiguration";
     private static final String CONFIGURATION_KEY_ERROR_HANDLER_IMPLEMENTATION = "voidframework.web.errorHandler";
     private static final String CONFIGURATION_KEY_GLOBAL_FILTERS = "voidframework.web.globalFilters";
-    private static final String CONFIGURATION_KEY_ROUTES = "voidframework.web.routes";
     private static final String CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT = "voidframework.web.gracefulStopTimeout";
+    private static final String CONFIGURATION_KEY_HTTPS_LISTEN_HOST = "voidframework.web.server.https.listenHost";
+    private static final String CONFIGURATION_KEY_HTTPS_LISTEN_PORT = "voidframework.web.server.https.listenPort";
+    private static final String CONFIGURATION_KEY_HTTPS_SSL_KEYSTORE_PASSWORD = "voidframework.web.server.https.ssl.keyStorePassword";
+    private static final String CONFIGURATION_KEY_HTTPS_SSL_KEYSTORE_PATH = "voidframework.web.server.https.ssl.keyStorePath";
+    private static final String CONFIGURATION_KEY_HTTPS_SSL_KEYSTORE_TYPE = "voidframework.web.server.https.ssl.keyStoreType";
+    private static final String CONFIGURATION_KEY_HTTPS_SSL_KEY_ALIAS = "voidframework.web.server.https.ssl.keyAlias";
+    private static final String CONFIGURATION_KEY_HTTPS_SSL_KEY_PASSWORD = "voidframework.web.server.https.ssl.keyPassword";
+    private static final String CONFIGURATION_KEY_HTTPS_SSL_PROTOCOLS = "voidframework.web.server.https.ssl.protocols";
+    private static final String CONFIGURATION_KEY_HTTPS_SSL_CIPHERS = "voidframework.web.server.https.ssl.ciphers";
+    private static final String CONFIGURATION_KEY_HTTP_LISTEN_HOST = "voidframework.web.server.http.listenHost";
+    private static final String CONFIGURATION_KEY_HTTP_LISTEN_PORT = "voidframework.web.server.http.listenPort";
     private static final String CONFIGURATION_KEY_IDLE_TIMEOUT = "voidframework.web.server.idleTimeout";
     private static final String CONFIGURATION_KEY_MAX_REQUEST_BODY_SIZE = "voidframework.web.server.maxBodySize";
-    private static final String CONFIGURATION_KEY_LISTEN_PORT = "voidframework.web.server.listenPort";
-    private static final String CONFIGURATION_KEY_LISTEN_HOST = "voidframework.web.server.listenHost";
     private static final String CONFIGURATION_KEY_NUMBER_IO_THREADS = "voidframework.web.server.ioThreads";
     private static final String CONFIGURATION_KEY_NUMBER_WORKER_THREADS = "voidframework.web.server.workerThreads";
-    private static final String CONFIGURATION_EXTRA_WEBSERVER_CONFIGURATION_IMPLEMENTATION = "voidframework.web.server.extraWebServerConfiguration";
+    private static final String CONFIGURATION_KEY_ROUTES = "voidframework.web.routes";
 
     private final Config configuration;
     private final Injector injector;
@@ -130,7 +159,7 @@ public class WebServer {
         this.undertowServer.start();
 
         // Display listener(s) information
-        for (final Undertow.ListenerInfo listenerInfo : undertowServer.getListenerInfo()) {
+        for (final Undertow.ListenerInfo listenerInfo : this.undertowServer.getListenerInfo()) {
             LOGGER.info(
                 "Server now listening on {}:/{}{}",
                 listenerInfo.getProtcol(),
@@ -166,20 +195,18 @@ public class WebServer {
     private Router loadProgrammaticallyDefinedRoutes() {
 
         final Router router = this.injector.getInstance(Router.class);
-        if (this.configuration.hasPath(CONFIGURATION_KEY_ROUTES)) {
-            this.configuration.getStringList(CONFIGURATION_KEY_ROUTES)
-                .stream()
-                .filter(StringUtils::isNotEmpty)
-                .forEach(appRoutesDefinitionClassName -> {
-                    final Class<?> abstractRoutesDefinitionClass = ClassResolverUtils.forName(appRoutesDefinitionClassName);
-                    if (abstractRoutesDefinitionClass == null) {
-                        throw new RoutingException.AppRouteDefinitionLoadFailure(appRoutesDefinitionClassName);
-                    }
+        this.configuration.getStringList(CONFIGURATION_KEY_ROUTES)
+            .stream()
+            .filter(StringUtils::isNotEmpty)
+            .forEach(appRoutesDefinitionClassName -> {
+                final Class<? extends AppRoutesDefinition> abstractRoutesDefinitionClass = ClassResolverUtils.forName(appRoutesDefinitionClassName);
+                if (abstractRoutesDefinitionClass == null) {
+                    throw new RoutingException.AppRouteDefinitionLoadFailure(appRoutesDefinitionClassName);
+                }
 
-                    final AppRoutesDefinition appRoutesDefinition = (AppRoutesDefinition) this.injector.getInstance(abstractRoutesDefinitionClass);
-                    appRoutesDefinition.defineAppRoutes(router);
-                });
-        }
+                final AppRoutesDefinition appRoutesDefinition = this.injector.getInstance(abstractRoutesDefinitionClass);
+                appRoutesDefinition.defineAppRoutes(router);
+            });
 
         return router;
     }
@@ -192,15 +219,13 @@ public class WebServer {
     private List<Class<? extends Filter>> retrieveAllGlobalFilters() {
 
         final List<Class<? extends Filter>> globalFilterList = new ArrayList<>();
-        if (this.configuration.hasPath(CONFIGURATION_KEY_GLOBAL_FILTERS)) {
-            for (final String filterName : this.configuration.getStringList(CONFIGURATION_KEY_GLOBAL_FILTERS)) {
-                final Class<? extends Filter> filterClass = ClassResolverUtils.forName(filterName);
-                if (filterClass == null) {
-                    throw new FilterException.LoadFailure(filterName);
-                }
-
-                globalFilterList.add(filterClass);
+        for (final String filterName : this.configuration.getStringList(CONFIGURATION_KEY_GLOBAL_FILTERS)) {
+            final Class<? extends Filter> filterClass = ClassResolverUtils.forName(filterName);
+            if (filterClass == null) {
+                throw new FilterException.LoadFailure(filterName);
             }
+
+            globalFilterList.add(filterClass);
         }
 
         return globalFilterList;
@@ -274,8 +299,34 @@ public class WebServer {
                 UndertowOptions.MAX_ENTITY_SIZE,
                 this.configuration.getMemorySize(CONFIGURATION_KEY_MAX_REQUEST_BODY_SIZE).toBytes())
             .addHttpListener(
-                configuration.getInt(CONFIGURATION_KEY_LISTEN_PORT),
-                configuration.getString(CONFIGURATION_KEY_LISTEN_HOST));
+                configuration.getInt(CONFIGURATION_KEY_HTTP_LISTEN_PORT),
+                configuration.getString(CONFIGURATION_KEY_HTTP_LISTEN_HOST));
+
+        if (this.configuration.hasPath(CONFIGURATION_KEY_HTTPS_LISTEN_HOST)
+            && this.configuration.hasPath(CONFIGURATION_KEY_HTTPS_LISTEN_PORT)
+            && this.configuration.hasPath(CONFIGURATION_KEY_HTTPS_SSL_KEYSTORE_PATH)) {
+
+            undertowBuilder.addHttpsListener(
+                configuration.getInt(CONFIGURATION_KEY_HTTPS_LISTEN_PORT),
+                configuration.getString(CONFIGURATION_KEY_HTTPS_LISTEN_HOST),
+                this.createSSLContext());
+
+            // Currently, the newly created SSL context is not configured to limit protocols and ciphers. The configuration of
+            // these elements is not directly accessible, it is necessary to use a more complex implementation using the class
+            // "SSLContextBuilder". Its use will be necessary sooner or later, but it can wait for a future version of the Void
+            // Framework. When this is done, this comment and the options provided to Undertow will no longer be necessary and
+            // can be removed.
+            undertowBuilder.setSocketOption(
+                Options.SSL_ENABLED_PROTOCOLS,
+                Sequence.of(this.configuration.getStringList(CONFIGURATION_KEY_HTTPS_SSL_PROTOCOLS)));
+
+            final List<String> enableCipherList = this.configuration.getStringList(CONFIGURATION_KEY_HTTPS_SSL_CIPHERS);
+            if (!enableCipherList.isEmpty()) {
+                undertowBuilder.setSocketOption(
+                    Options.SSL_ENABLED_CIPHER_SUITES,
+                    Sequence.of(enableCipherList));
+            }
+        }
 
         if (this.configuration.hasPath(CONFIGURATION_KEY_NUMBER_IO_THREADS)
             && this.configuration.getInt(CONFIGURATION_KEY_NUMBER_IO_THREADS) > 0) {
@@ -340,5 +391,91 @@ public class WebServer {
         }
 
         extraWebServerConfiguration.doExtraConfiguration(undertowBuilder);
+    }
+
+    /**
+     * Creates a new SSL context.
+     *
+     * @return Newly created SSL context
+     */
+    private SSLContext createSSLContext() {
+
+        final KeyStore keyStore;
+        final KeyManagerFactory keyManagerFactory;
+
+        // Initializes key store
+        try {
+            keyStore = KeyStore.getInstance(this.configuration.getString(CONFIGURATION_KEY_HTTPS_SSL_KEYSTORE_TYPE));
+            keyStore.load(
+                this.tryOpenKeyStore(),
+                this.configuration.getString(CONFIGURATION_KEY_HTTPS_SSL_KEYSTORE_PASSWORD).toCharArray());
+
+            if (this.configuration.hasPath(CONFIGURATION_KEY_HTTPS_SSL_KEY_ALIAS)) {
+                // Key alias is specified, remove all other keys from the store
+                for (final Iterator<String> it = keyStore.aliases().asIterator(); it.hasNext(); ) {
+                    final String keyAlias = it.next();
+
+                    if (!Objects.equals(keyAlias, this.configuration.getString(CONFIGURATION_KEY_HTTPS_SSL_KEY_ALIAS))) {
+                        keyStore.deleteEntry(keyAlias);
+                    }
+                }
+
+                if (keyStore.size() == 0) {
+                    throw new HttpsWebServerConfigurationException.KeyNotFound(this.configuration.getString(CONFIGURATION_KEY_HTTPS_SSL_KEY_ALIAS));
+                }
+            }
+        } catch (final CertificateException | KeyStoreException | IOException | NoSuchAlgorithmException exception) {
+            throw new HttpsWebServerConfigurationException.CannotLoadKeyStore(exception);
+        }
+
+        // Initializes key manager factory
+        try {
+            keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+            keyManagerFactory.init(keyStore, this.configuration.getString(CONFIGURATION_KEY_HTTPS_SSL_KEY_PASSWORD).toCharArray());
+        } catch (final KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException exception) {
+            throw new HttpsWebServerConfigurationException.KeyManagerInitFailure(exception);
+        }
+
+        // Creates SSL context
+        try {
+            final SSLContext sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(keyManagerFactory.getKeyManagers(), null, new SecureRandom());
+
+            return sslContext;
+        } catch (final IndexOutOfBoundsException | KeyManagementException | NoSuchAlgorithmException exception) {
+            throw new HttpsWebServerConfigurationException.SSLContextInitFailure(exception);
+        }
+    }
+
+    /**
+     * Tries to open a stream to the configured key store.
+     *
+     * @return An input stream
+     * @throws IOException If stream cannot be opened
+     */
+    private InputStream tryOpenKeyStore() throws IOException {
+
+        // Retrieves key store path
+        final String keyStorePath = this.configuration.getString(CONFIGURATION_KEY_HTTPS_SSL_KEYSTORE_PATH);
+
+        // Tries to load key from the "resources" directory
+        URL keyStoreURL = this.getClass().getResource(
+            keyStorePath.startsWith(StringConstants.SLASH)
+                ? keyStorePath
+                : StringConstants.SLASH + keyStorePath);
+        if (keyStoreURL != null) {
+            return keyStoreURL.openStream();
+        }
+
+        // Tries to load key from a URL (local or remote)
+        try {
+            keyStoreURL = new URL(keyStorePath);
+            return keyStoreURL.openStream();
+        } catch (final MalformedURLException ignore) {
+            // Nothing to do
+        }
+
+        // Tries to load key from the file system
+        return new FileInputStream(keyStorePath);
     }
 }

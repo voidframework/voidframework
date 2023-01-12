@@ -86,5 +86,4 @@ public class ExtraWebServerConfigurationException extends RuntimeException {
             super("Can't instantiate '" + className + "'", cause);
         }
     }
-
 }
