@@ -3,7 +3,6 @@ package dev.voidframework.validation.validator.impl;
 import dev.voidframework.validation.validator.TrimmedLength;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Implementation of the annotation {@link TrimmedLength}.
@@ -25,7 +24,7 @@ public class TrimmedLengthImpl implements ConstraintValidator<TrimmedLength, Str
             return true;
         }
 
-        final int length = StringUtils.trimToEmpty(value).length();
+        final int length = value.trim().length();
         return length >= constraintAnnotation.min() && length <= constraintAnnotation.max();
     }
 }
