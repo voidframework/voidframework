@@ -1,18 +1,18 @@
 package dev.voidframework.validation.validator.impl;
 
-import dev.voidframework.validation.validator.Instance;
+import dev.voidframework.validation.validator.NotInstance;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 /**
- * Implementation of the annotation {@link Instance}.
+ * Implementation of the annotation {@link NotInstance}.
  */
-public class InstanceImpl implements ConstraintValidator<Instance, Object> {
+public class NotInstanceImpl implements ConstraintValidator<NotInstance, Object> {
 
-    private Instance constraintAnnotation;
+    private NotInstance constraintAnnotation;
 
     @Override
-    public void initialize(final Instance constraintAnnotation) {
+    public void initialize(final NotInstance constraintAnnotation) {
 
         this.constraintAnnotation = constraintAnnotation;
     }
@@ -26,10 +26,10 @@ public class InstanceImpl implements ConstraintValidator<Instance, Object> {
 
         for (final Class<?> classType : constraintAnnotation.value()) {
             if (classType.isInstance(value)) {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
     }
 }
