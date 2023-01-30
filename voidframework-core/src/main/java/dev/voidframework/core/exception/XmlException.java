@@ -1,7 +1,7 @@
 package dev.voidframework.core.exception;
 
 /**
- * All exceptions thrown by the XML utility class are subclasses of {@code JsonException}.
+ * All exceptions thrown by the XML utility class are subclasses of {@code XmlException}.
  */
 public class XmlException extends RuntimeException {
 

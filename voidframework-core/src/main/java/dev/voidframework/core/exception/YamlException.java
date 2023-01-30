@@ -1,7 +1,7 @@
 package dev.voidframework.core.exception;
 
 /**
- * All exceptions thrown by the YAML utility class are subclasses of {@code JsonException}.
+ * All exceptions thrown by the YAML utility class are subclasses of {@code YamlException}.
  */
 public class YamlException extends RuntimeException {
 
