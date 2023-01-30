@@ -6,6 +6,7 @@ package dev.voidframework.core.constant;
 public final class CharConstants {
 
     public static final char AND = '&';
+    public static final char AT = '@';
     public static final char BACKSLASH = '\\';
     public static final char CARRIAGE_RETURN = '\r';
     public static final char COLON = ':';
