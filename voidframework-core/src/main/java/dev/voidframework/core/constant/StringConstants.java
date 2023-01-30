@@ -6,6 +6,7 @@ package dev.voidframework.core.constant;
 public final class StringConstants {
 
     public static final String AND = "&";
+    public static final String AT = "@";
     public static final String BACKSLASH = "\\";
     public static final String CARRIAGE_RETURN = "\r";
     public static final String CARRIAGE_RETURN_LINE_FEED = "\r\n";
