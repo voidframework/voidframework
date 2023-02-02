@@ -119,7 +119,7 @@ public class VoidApplication {
             private final Map<Class<?>, Multibinder<?>> multibinderMap = new HashMap<>();
 
             @Override
-            @SuppressWarnings("unchecked")
+            @SuppressWarnings({"unchecked", "rawtypes"})
             protected void configure() {
                 if (configuration.getBoolean("voidframework.core.requireExplicitBindings")) {
                     binder().requireExplicitBindings();

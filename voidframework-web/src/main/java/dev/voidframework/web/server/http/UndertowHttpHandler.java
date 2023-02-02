@@ -282,16 +282,11 @@ public class UndertowHttpHandler implements HttpHandler {
                             }
                         }
                     }
-
-                    httpRequest = new UndertowHttpRequest(
-                        httpServerExchange,
-                        new HttpRequestBodyContent(contentType, httpServerExchange.getInputStream(), formItemPerKeyMap));
-
-                } else {
-                    httpRequest = new UndertowHttpRequest(
-                        httpServerExchange,
-                        new HttpRequestBodyContent(contentType, httpServerExchange.getInputStream(), formItemPerKeyMap));
                 }
+
+                httpRequest = new UndertowHttpRequest(
+                    httpServerExchange,
+                    new HttpRequestBodyContent(contentType, httpServerExchange.getInputStream(), formItemPerKeyMap));
             } catch (final IOException exception) {
                 return Either.ofRight(new HttpException.BadRequest("Can't parse body content", exception));
             }

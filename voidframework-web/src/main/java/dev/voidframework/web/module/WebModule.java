@@ -11,7 +11,7 @@ import dev.voidframework.web.http.routing.impl.DefaultRouter;
  */
 public class WebModule extends AbstractModule {
 
-    private Config configuration;
+    private final Config configuration;
 
     /**
      * Build a new instance.
