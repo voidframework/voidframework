@@ -52,16 +52,12 @@ public final class DurationUtils {
 
     /**
      * Transforms a string expressing a duration to a {@code Duration}.
-     * <p>
-     * <p>
-     * For example:
+     * <p>For example:</p>
      * <blockquote><pre>
      *    DurationUtils.fromString("45 m");
-     *    DurationUtils.fromString("45 minutes");</pre></blockquote>
-     * <p>
-     * </p>
-     * <p>
-     * The following temporal units can be used:
+     *    DurationUtils.fromString("45 minutes");
+     * </pre></blockquote>
+     * <p>The following temporal units can be used:</p>
      * <pre>
      * Family               Temporal unit
      * ----------           --------------------
@@ -93,7 +89,6 @@ public final class DurationUtils {
      *                      day
      *                      days
      * </pre>
-     * </p>
      *
      * @param str String containing a duration
      * @return Duration obtained from the given argument
