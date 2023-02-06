@@ -2,6 +2,7 @@ package dev.voidframework.web.server.http;
 
 import com.google.inject.Injector;
 import com.typesafe.config.Config;
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.template.TemplateRenderer;
 import dev.voidframework.web.exception.HttpException;
@@ -18,9 +19,11 @@ import dev.voidframework.web.http.filter.FilterChain;
 import dev.voidframework.web.http.filter.csrf.CSRFFilter;
 import dev.voidframework.web.http.routing.ResolvedRoute;
 import dev.voidframework.web.http.routing.Router;
+import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -203,12 +206,18 @@ public final class HttpRequestHandler extends AbstractHttpRequestHandler {
                     parameter.getType());
             } else if (requestVariable != null) {
                 if (parameter.getType().isArray()) {
-                    methodArgumentValueArray[idx] = convertValuesToParameterTypeArray(
-                        context.getRequest().getQueryStringParameterAsList(requestVariable.value()),
-                        parameter.getType().componentType());
+                    List<String> paramValueList = context.getRequest().getQueryStringParameterAsList(requestVariable.value());
+                    if (paramValueList.isEmpty() && !EMPTY_FALLBACK_VALUE.equals(requestVariable.fallback())) {
+                        paramValueList = Arrays.asList(
+                            StringUtils.splitByWholeSeparator(requestVariable.fallback(), StringConstants.COMMA));
+                    }
+
+                    methodArgumentValueArray[idx] = convertValuesToParameterTypeArray(paramValueList, parameter.getType().componentType());
                 } else {
                     methodArgumentValueArray[idx] = convertValueToParameterType(
-                        context.getRequest().getQueryStringParameter(requestVariable.value()),
+                        context.getRequest().getQueryStringParameter(
+                            requestVariable.value(),
+                            EMPTY_FALLBACK_VALUE.equals(requestVariable.fallback()) ? null : requestVariable.fallback()),
                         parameter.getType());
                 }
             } else {

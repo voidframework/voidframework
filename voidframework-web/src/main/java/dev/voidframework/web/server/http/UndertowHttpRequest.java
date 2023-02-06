@@ -9,6 +9,7 @@ import dev.voidframework.web.http.HttpRequest;
 import dev.voidframework.web.http.HttpRequestBodyContent;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.HeaderValues;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -129,6 +130,14 @@ public final class UndertowHttpRequest implements HttpRequest {
     }
 
     @Override
+    public String getQueryStringParameter(final String parameterName, final String fallbackValue) {
+
+        final String value = this.getQueryStringParameter(parameterName);
+
+        return StringUtils.isBlank(value) ? fallbackValue : value;
+    }
+
+    @Override
     public List<String> getQueryStringParameterAsList(final String parameterName) {
 
         if (parameterName == null) {
@@ -138,6 +147,18 @@ public final class UndertowHttpRequest implements HttpRequest {
         final Deque<String> parametersValueDeque = this.httpServerExchange.getQueryParameters().get(parameterName);
 
         return parametersValueDeque == null ? Collections.emptyList() : new ArrayList<>(parametersValueDeque);
+    }
+
+    @Override
+    public List<String> getQueryStringParameterAsList(final String parameterName, final List<String> fallbackValue) {
+
+        if (parameterName == null) {
+            return fallbackValue;
+        }
+
+        final Deque<String> parametersValueDeque = this.httpServerExchange.getQueryParameters().get(parameterName);
+
+        return parametersValueDeque == null || parametersValueDeque.isEmpty() ? fallbackValue : new ArrayList<>(parametersValueDeque);
     }
 
     @Override

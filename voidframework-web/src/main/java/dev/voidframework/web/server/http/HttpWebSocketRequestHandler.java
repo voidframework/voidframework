@@ -92,7 +92,9 @@ public final class HttpWebSocketRequestHandler extends AbstractHttpRequestHandle
                         parameter.getType());
                 } else if (requestVariable != null) {
                     methodArgumentValueArray[idx] = convertValueToParameterType(
-                        context.getRequest().getQueryStringParameter(requestVariable.value()),
+                        context.getRequest().getQueryStringParameter(
+                            requestVariable.value(),
+                            EMPTY_FALLBACK_VALUE.equals(requestVariable.fallback()) ? null : requestVariable.fallback()),
                         parameter.getType());
                 } else {
                     methodArgumentValueArray[idx] = this.injector.getInstance(parameter.getType());

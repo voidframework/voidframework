@@ -3,6 +3,7 @@ package dev.voidframework.web.server.http;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.http.WebSocketRequest;
 import io.undertow.websockets.spi.WebSocketHttpExchange;
+import org.apache.commons.lang3.StringUtils;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -86,7 +87,6 @@ public final class UndertowWebSocketRequest implements WebSocketRequest {
         return queryStringValuesMapCache;
     }
 
-
     @Override
     public String getQueryStringParameter(final String parameterName) {
 
@@ -104,6 +104,14 @@ public final class UndertowWebSocketRequest implements WebSocketRequest {
         }
 
         return queryStringValue.get(0);
+    }
+
+    @Override
+    public String getQueryStringParameter(final String parameterName, final String fallbackValue) {
+
+        final String value = this.getQueryStringParameter(parameterName);
+
+        return StringUtils.isBlank(value) ? fallbackValue : value;
     }
 
     @Override
