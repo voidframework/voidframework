@@ -47,11 +47,22 @@ public interface WebSocketRequest {
 
     /**
      * Returns the query string parameter value.
+     * If the parameter does not exist, null value will be returned.
      *
      * @param parameterName The parameter name
      * @return The query string parameter value
      */
     String getQueryStringParameter(final String parameterName);
+
+    /**
+     * Returns the query string parameter value.
+     * If the parameter does not exist or associated value is blank, fallback value will be returned.
+     *
+     * @param parameterName The parameter name
+     * @param fallbackValue The value to use if the parameter does not exist or associated value is blank
+     * @return The query string parameter value
+     */
+    String getQueryStringParameter(final String parameterName, final String fallbackValue);
 
     /**
      * Returns the original request URI.

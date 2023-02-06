@@ -11,6 +11,8 @@ import java.util.Map;
  */
 abstract class AbstractHttpRequestHandler {
 
+    protected static final String EMPTY_FALLBACK_VALUE = "\00\00";
+
     private static final Map<Class<?>, PrimitiveAlternative> PRIMITIVE_ALTERNATIVE_MAP = Map.ofEntries(
         Map.entry(boolean.class, new PrimitiveAlternative(Boolean.class, false)),
         Map.entry(byte.class, new PrimitiveAlternative(Byte.class, 0)),
@@ -42,12 +44,12 @@ abstract class AbstractHttpRequestHandler {
      */
     protected Object convertValueToParameterType(final String value, final Class<?> parameterTypeClass) {
 
-        Class<?> clazzToUse = parameterTypeClass;
-        Object defaultValue = null;
-
         if (parameterTypeClass == String.class) {
             return value;
         }
+
+        Class<?> clazzToUse = parameterTypeClass;
+        Object defaultValue = null;
 
         final PrimitiveAlternative primitiveAlternative = PRIMITIVE_ALTERNATIVE_MAP.get(parameterTypeClass);
         if (primitiveAlternative != null) {

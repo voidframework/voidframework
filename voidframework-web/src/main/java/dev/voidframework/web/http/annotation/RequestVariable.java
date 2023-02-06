@@ -21,4 +21,11 @@ public @interface RequestVariable {
      * @return The name of the query string variable to bind to the method parameter.
      */
     String value();
+
+    /**
+     * The fallback value to use when the request variable is not provided.
+     *
+     * @return The fallback value to use when the request variable is not provided
+     */
+    String fallback() default "\00\00";
 }
