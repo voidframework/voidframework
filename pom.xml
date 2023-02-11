@@ -53,29 +53,28 @@
         <maven.compiler.target>17</maven.compiler.target>
 
         <!-- Plugins -->
-        <plugin.version.mavengpg>3.0.1</plugin.version.mavengpg>
-        <plugin.version.mavenjavadoc>3.4.1</plugin.version.mavenjavadoc>
-        <plugin.version.mavensource>3.2.1</plugin.version.mavensource>
-        <plugin.version.sonatypenexus>1.6.13</plugin.version.sonatypenexus>
-        <plugin.version.surefire>2.22.2</plugin.version.surefire>
+        <plugin.version.maven-gpg-plugin>3.0.1</plugin.version.maven-gpg-plugin>
+        <plugin.version.maven-javadoc-plugin>3.4.1</plugin.version.maven-javadoc-plugin>
+        <plugin.version.maven-source-plugin>3.2.1</plugin.version.maven-source-plugin>
+        <plugin.version.maven-surefire-plugin>2.22.2</plugin.version.maven-surefire-plugin>
+        <plugin.version.nexus-staging-maven-plugin>1.6.13</plugin.version.nexus-staging-maven-plugin>
 
         <!-- Dependencies -->
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
         <dependency.version.classgraph>4.8.154</dependency.version.classgraph>
-        <dependency.version.commons.lang>3.12.0</dependency.version.commons.lang>
+        <dependency.version.commons-lang3>3.12.0</dependency.version.commons-lang3>
         <dependency.version.flyway>9.14.1</dependency.version.flyway>
         <dependency.version.freemarker>2.3.32</dependency.version.freemarker>
         <dependency.version.guice>5.1.0</dependency.version.guice>
-        <dependency.version.hibernate.core>6.1.6.Final</dependency.version.hibernate.core>
-        <dependency.version.hibernate.validator>8.0.0.Final</dependency.version.hibernate.validator>
+        <dependency.version.hibernate-core>6.1.7.Final</dependency.version.hibernate-core>
+        <dependency.version.hibernate-validator>8.0.0.Final</dependency.version.hibernate-validator>
         <dependency.version.hikaricp>5.0.1</dependency.version.hikaricp>
-        <dependency.version.jackson.core>2.14.2</dependency.version.jackson.core>
         <dependency.version.jackson>2.14.2</dependency.version.jackson>
         <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
-        <dependency.version.jakarta.persistenceapi>3.1.0</dependency.version.jakarta.persistenceapi>
-        <dependency.version.jakarta.transactionapi>2.0.1</dependency.version.jakarta.transactionapi>
+        <dependency.version.jakarta.persistence-api>3.1.0</dependency.version.jakarta.persistence-api>
+        <dependency.version.jakarta.transaction-api>2.0.1</dependency.version.jakarta.transaction-api>
         <dependency.version.jedis>4.3.1</dependency.version.jedis>
-        <dependency.version.jooq>3.17.7</dependency.version.jooq>
+        <dependency.version.jooq>3.17.8</dependency.version.jooq>
         <dependency.version.jwt>4.2.2</dependency.version.jwt>
         <dependency.version.kryo>5.4.0</dependency.version.kryo>
         <dependency.version.logback>1.4.5</dependency.version.logback>
@@ -128,7 +127,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>${plugin.version.mavengpg}</version>
+                        <version>${plugin.version.maven-gpg-plugin}</version>
                         <configuration>
                             <gpgArguments>
                                 <arg>--pinentry-mode</arg>
@@ -159,7 +158,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${plugin.version.mavenjavadoc}</version>
+                <version>${plugin.version.maven-javadoc-plugin}</version>
                 <configuration>
                     <doclint>all,-missing</doclint>
                     <encoding>UTF-8</encoding>
@@ -176,7 +175,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>${plugin.version.mavensource}</version>
+                <version>${plugin.version.maven-source-plugin}</version>
                 <executions>
                     <execution>
                         <id>attach-sources</id>
@@ -189,12 +188,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${plugin.version.surefire}</version>
+                <version>${plugin.version.maven-surefire-plugin}</version>
             </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${plugin.version.sonatypenexus}</version>
+                <version>${plugin.version.nexus-staging-maven-plugin}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -284,7 +283,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>${dependency.version.commons.lang}</version>
+                <version>${dependency.version.commons-lang3}</version>
             </dependency>
             <dependency>
                 <groupId>com.typesafe</groupId>
@@ -304,7 +303,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${dependency.version.jackson.core}</version>
+                <version>${dependency.version.jackson}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -382,7 +381,7 @@
             <dependency>
                 <groupId>org.hibernate.orm</groupId>
                 <artifactId>hibernate-core</artifactId>
-                <version>${dependency.version.hibernate.core}</version>
+                <version>${dependency.version.hibernate-core}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>jakarta.persistence</groupId>
@@ -397,12 +396,12 @@
             <dependency>
                 <groupId>jakarta.persistence</groupId>
                 <artifactId>jakarta.persistence-api</artifactId>
-                <version>${dependency.version.jakarta.persistenceapi}</version>
+                <version>${dependency.version.jakarta.persistence-api}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.transaction</groupId>
                 <artifactId>jakarta.transaction-api</artifactId>
-                <version>${dependency.version.jakarta.transactionapi}</version>
+                <version>${dependency.version.jakarta.transaction-api}</version>
             </dependency>
             <dependency>
                 <groupId>com.esotericsoftware</groupId>
@@ -417,7 +416,7 @@
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>${dependency.version.hibernate.validator}</version>
+                <version>${dependency.version.hibernate-validator}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish</groupId>
