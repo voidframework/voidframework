@@ -6,6 +6,8 @@ import dev.voidframework.redis.Redis;
 
 /**
  * Redis cache implementation.
+ *
+ * @since 1.1.0
  */
 @Bindable
 public class RedisCacheEngine extends AbstractCacheEngine {
@@ -16,6 +18,7 @@ public class RedisCacheEngine extends AbstractCacheEngine {
      * Build a new instance.
      *
      * @param redis The current Redis instance
+     * @since 1.1.0
      */
     @Inject
     public RedisCacheEngine(final Redis redis) {

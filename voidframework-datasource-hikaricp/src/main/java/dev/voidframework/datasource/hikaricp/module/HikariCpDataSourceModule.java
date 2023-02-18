@@ -5,6 +5,8 @@ import dev.voidframework.datasource.DataSourceManager;
 
 /**
  * HikariCP data source module.
+ *
+ * @since 1.0.0
  */
 public class HikariCpDataSourceModule extends AbstractModule {
 

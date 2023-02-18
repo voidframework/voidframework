@@ -12,6 +12,8 @@ import java.util.Map;
 
 /**
  * Default implementation of {@link ConverterManager}.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public final class DefaultConverterManager implements ConverterManager {
@@ -22,6 +24,8 @@ public final class DefaultConverterManager implements ConverterManager {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.0.0
      */
     public DefaultConverterManager() {
 

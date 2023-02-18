@@ -10,6 +10,8 @@ import java.util.Map;
 
 /**
  * Utility methods to handle durations.
+ *
+ * @since 1.6.0
  */
 public final class DurationUtils {
 
@@ -44,6 +46,8 @@ public final class DurationUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.6.0
      */
     private DurationUtils() {
 
@@ -92,6 +96,7 @@ public final class DurationUtils {
      *
      * @param str String containing a duration
      * @return Duration obtained from the given argument
+     * @since 1.6.0
      */
     public static Duration fromString(final String str) {
 

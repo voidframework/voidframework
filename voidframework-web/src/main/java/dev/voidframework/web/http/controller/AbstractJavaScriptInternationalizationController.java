@@ -21,6 +21,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Abstraction to facilitate the use "Internationalization" in JavaScript (client side).
+ *
+ * @since 1.5.0
  */
 public abstract class AbstractJavaScriptInternationalizationController {
 
@@ -65,6 +67,7 @@ public abstract class AbstractJavaScriptInternationalizationController {
      * Build a new instance;
      *
      * @param internationalization The internationalization instance
+     * @since 1.5.0
      */
     @Inject
     protected AbstractJavaScriptInternationalizationController(final Internationalization internationalization) {
@@ -80,6 +83,7 @@ public abstract class AbstractJavaScriptInternationalizationController {
      * @param locale Locale for which retrieve messages
      * @return A result containing JavaScript code
      * @throws HttpException.NotFound If requested asset does not exist
+     * @since 1.5.1
      */
     @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/js/messages-(?<locale>[a-zA-Z_\\-]{2,6}).js", name = "js_i18n")
@@ -106,6 +110,7 @@ public abstract class AbstractJavaScriptInternationalizationController {
      *
      * @param locale The locale for which generate JavaScript file
      * @return A String containing JavaScript content
+     * @since 1.5.0
      */
     private String generateJavaScriptFile(final Locale locale) {
 
@@ -134,6 +139,7 @@ public abstract class AbstractJavaScriptInternationalizationController {
      *
      * @param key The key
      * @return {@code true} if the key can be user, otherwise, {@code false}
+     * @since 1.5.0
      */
     private boolean canUseKey(final String key) {
 

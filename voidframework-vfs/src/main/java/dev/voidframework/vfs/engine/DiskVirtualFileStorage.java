@@ -17,6 +17,8 @@ import java.util.Properties;
 
 /**
  * Virtual File Storage: Disk.
+ *
+ * @since 1.3.0
  */
 public class DiskVirtualFileStorage implements VirtualFileStorage {
 
@@ -28,6 +30,7 @@ public class DiskVirtualFileStorage implements VirtualFileStorage {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.3.0
      */
     @Inject
     public DiskVirtualFileStorage(final Config configuration) {

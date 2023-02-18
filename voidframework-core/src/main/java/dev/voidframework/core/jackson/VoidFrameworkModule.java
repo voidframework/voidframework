@@ -6,11 +6,15 @@ import dev.voidframework.core.lang.CUID;
 
 /**
  * Void Framework module for Jackson.
+ *
+ * @since 1.3.0
  */
 public class VoidFrameworkModule extends SimpleModule {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.3.0
      */
     public VoidFrameworkModule() {
 

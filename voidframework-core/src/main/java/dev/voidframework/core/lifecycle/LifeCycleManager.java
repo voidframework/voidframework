@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
  * Life cycle manager takes care of executing the various hooks defined by the use of
  * the {@link LifeCycleStart} and {@link LifeCycleStop}
  * annotations.
+ *
+ * @since 1.0.0
  */
 public final class LifeCycleManager {
 
@@ -34,6 +36,7 @@ public final class LifeCycleManager {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     public LifeCycleManager(final Config configuration) {
 
@@ -47,6 +50,7 @@ public final class LifeCycleManager {
      * Sets the injector.
      *
      * @param injector The injector instance
+     * @since 1.0.0
      */
     @Inject
     public void setInjector(final Injector injector) {
@@ -60,6 +64,7 @@ public final class LifeCycleManager {
      * @param classType The class type where is located the method to invoke
      * @param method    The method to invoke
      * @param priority  The priority
+     * @since 1.0.0
      */
     public void registerStart(final Class<?> classType, final Method method, final int priority) {
 
@@ -79,6 +84,7 @@ public final class LifeCycleManager {
      * @param method                       The method to invoke
      * @param priority                     The priority
      * @param gracefulStopTimeoutConfigKey The graceful stop timeout configuration key
+     * @since 1.0.0
      */
     public void registerStop(final Class<?> classType, final Method method, final int priority, final String gracefulStopTimeoutConfigKey) {
 
@@ -88,6 +94,8 @@ public final class LifeCycleManager {
 
     /**
      * Invoke all registered "START" methods.
+     *
+     * @since 1.0.0
      */
     public void startAll() {
 
@@ -103,6 +111,8 @@ public final class LifeCycleManager {
 
     /**
      * Invoke all registered "STOP" methods.
+     *
+     * @since 1.0.0
      */
     public void stopAll() {
 
@@ -120,6 +130,7 @@ public final class LifeCycleManager {
      * Invokes a "START" method.
      *
      * @param startHandler The method handler
+     * @since 1.0.0
      */
     private void invokeMethodStart(final StartHandler startHandler) {
 
@@ -140,6 +151,7 @@ public final class LifeCycleManager {
      * Invokes a "STOP" method.
      *
      * @param stopHandler The method handler
+     * @since 1.0.0
      */
     private void invokeMethodStop(final StopHandler stopHandler) {
 
@@ -179,6 +191,7 @@ public final class LifeCycleManager {
      * @param classType The class type
      * @param method    The method to invoke
      * @param priority  The priority
+     * @since 1.0.0
      */
     private record StartHandler(Class<?> classType,
                                 Method method,
@@ -192,6 +205,7 @@ public final class LifeCycleManager {
      * @param method                       The method to invoke
      * @param priority                     The priority
      * @param gracefulStopTimeoutConfigKey The graceful stop timeout configuration key
+     * @since 1.0.0
      */
     private record StopHandler(Class<?> classType,
                                Method method,

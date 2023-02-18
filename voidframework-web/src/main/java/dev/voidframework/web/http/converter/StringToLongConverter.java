@@ -4,6 +4,8 @@ import dev.voidframework.core.conversion.TypeConverter;
 
 /**
  * Convert a {@code String} into an {@code Long}.
+ *
+ * @since 1.0.0
  */
 public class StringToLongConverter implements TypeConverter<String, Long> {
 

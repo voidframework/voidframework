@@ -15,6 +15,8 @@ import java.util.Map;
 /**
  * Health check manager takes care of executing the various hooks defined by the
  * use of the {@link dev.voidframework.healthcheck.HealthChecker} annotation.
+ *
+ * @since 1.0.0
  */
 public final class HealthCheckManager {
 
@@ -26,6 +28,8 @@ public final class HealthCheckManager {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.0.0
      */
     public HealthCheckManager() {
 
@@ -36,6 +40,7 @@ public final class HealthCheckManager {
      * Sets the injector to use.
      *
      * @param injector The injector instance
+     * @since 1.1.0
      */
     @Inject
     public void setInjector(final Injector injector) {
@@ -47,6 +52,7 @@ public final class HealthCheckManager {
      * Registers a new health checker.
      *
      * @param healthCheckerClassType The health checker to register
+     * @since 1.0.0
      */
     public void registerHealthCheck(final Class<? extends HealthChecker> healthCheckerClassType) {
 
@@ -58,6 +64,7 @@ public final class HealthCheckManager {
      * Checks the health status of the various components being monitored.
      *
      * @return The health status report
+     * @since 1.0.0
      */
     public Map<String, Health> checkHealth() {
 

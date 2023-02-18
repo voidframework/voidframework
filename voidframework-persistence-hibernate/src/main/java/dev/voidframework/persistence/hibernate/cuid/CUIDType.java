@@ -13,6 +13,8 @@ import java.util.Objects;
 
 /**
  * Value type mapper for {@code CUID}.
+ *
+ * @since 1.3.0
  */
 public final class CUIDType implements UserType<CUID> {
 

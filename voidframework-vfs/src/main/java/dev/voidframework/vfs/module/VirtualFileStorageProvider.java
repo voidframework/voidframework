@@ -11,6 +11,8 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * Virtual File Storage provider. This provider is special, it exposes methods to manually manage
  * the {@link VirtualFileStorage} to return when a user calls the method {@link #get()}.
+ *
+ * @since 1.3.0
  */
 @Singleton
 public class VirtualFileStorageProvider implements Provider<VirtualFileStorage> {
@@ -24,6 +26,7 @@ public class VirtualFileStorageProvider implements Provider<VirtualFileStorage> 
      *
      * @param classType              The VFS engine class type
      * @param vfsEngineConfiguration The VFS engine configuration
+     * @since 1.3.0
      */
     public VirtualFileStorageProvider(final Class<? extends VirtualFileStorage> classType,
                                       final Config vfsEngineConfiguration) {
@@ -59,6 +62,7 @@ public class VirtualFileStorageProvider implements Provider<VirtualFileStorage> 
      * @throws InvocationTargetException If the underlying constructor throws an exception
      * @throws InstantiationException    If the class that declares the underlying constructor represents an abstract class
      * @throws IllegalAccessException    If this Constructor object is enforcing Java language access control and the underlying constructor is inaccessible
+     * @since 1.3.0
      */
     private void instantiateVirtualFileStorage()
         throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {

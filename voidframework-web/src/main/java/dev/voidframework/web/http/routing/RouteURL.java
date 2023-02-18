@@ -7,6 +7,7 @@ import dev.voidframework.core.constant.StringConstants;
  * A single route URL.
  *
  * @param url The route URL
+ * @since 1.4.0
  */
 public record RouteURL(String url) {
 
@@ -15,6 +16,7 @@ public record RouteURL(String url) {
      *
      * @param route The route to use
      * @return The route URL
+     * @since 1.4.0
      */
     public static RouteURL of(final String route) {
 
@@ -29,6 +31,7 @@ public record RouteURL(String url) {
      * @param prefix      The prefix to prepend
      * @param route       The route to use
      * @return The route URL
+     * @since 1.4.0
      */
     public static RouteURL of(final String contextPath, final String prefix, final String route) {
 
@@ -50,6 +53,7 @@ public record RouteURL(String url) {
      *
      * @param contextPath The context path to clean
      * @return Cleaned context path
+     * @since 1.4.0
      */
     private static String cleanContextPath(final String contextPath) {
 
@@ -77,6 +81,7 @@ public record RouteURL(String url) {
      *
      * @param routePath The route path to clean
      * @return Cleaned route path
+     * @since 1.4.0
      */
     private static String cleanRoutePath(final String routePath) {
 

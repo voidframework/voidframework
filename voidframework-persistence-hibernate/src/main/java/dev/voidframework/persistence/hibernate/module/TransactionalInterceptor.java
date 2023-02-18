@@ -12,6 +12,8 @@ import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * Intercepts method call when annotation {@link Transactional} is used.
+ *
+ * @since 1.0.0
  */
 public class TransactionalInterceptor extends AbstractTransactionalInterceptor {
 
@@ -21,6 +23,7 @@ public class TransactionalInterceptor extends AbstractTransactionalInterceptor {
      * Sets the entity manager provider.
      *
      * @param entityManagerProvider The entity manager provider
+     * @since 1.0.0
      */
     @Inject
     public void setDataSourceManagerProvider(final EntityManagerProvider entityManagerProvider) {

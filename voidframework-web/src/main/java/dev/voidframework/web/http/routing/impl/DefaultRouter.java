@@ -36,6 +36,8 @@ import java.util.stream.Stream;
 
 /**
  * Default implementation of {@link Router}.
+ *
+ * @since 1.0.0
  */
 public class DefaultRouter implements Router, RouterPostInitialization {
 
@@ -48,6 +50,8 @@ public class DefaultRouter implements Router, RouterPostInitialization {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.0.0
      */
     public DefaultRouter() {
 
@@ -55,6 +59,13 @@ public class DefaultRouter implements Router, RouterPostInitialization {
         this.routeListPerNameMap = new HashMap<>();
     }
 
+    /**
+     * Extracts capture group names from a regular expression.
+     *
+     * @param regex Regular expression containing capture group(s)
+     * @return All extracted capture group names
+     * @since 1.0.0
+     */
     private static Set<String> getNamedGroup(final String regex) {
 
         final Set<String> namedGroups = new TreeSet<>();
@@ -233,6 +244,7 @@ public class DefaultRouter implements Router, RouterPostInitialization {
      * @param routeURL            The route url
      * @param controllerClassType The controller class type
      * @param method              The method to call
+     * @since 1.0.0
      */
     private void checkAddRouteArguments(final HttpMethod httpMethod,
                                         final RouteURL routeURL,

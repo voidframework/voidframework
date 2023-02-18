@@ -34,6 +34,8 @@ import java.util.concurrent.TimeUnit;
 /**
  * This filter takes care of generating and checking a CSRF
  * token if the request matches the chosen criteria.
+ *
+ * @since 1.1.0
  */
 @Singleton
 public class CSRFFilter implements Filter {
@@ -54,6 +56,7 @@ public class CSRFFilter implements Filter {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.1.0
      */
     @Inject
     public CSRFFilter(final Config configuration) {
@@ -109,6 +112,7 @@ public class CSRFFilter implements Filter {
      *
      * @param context The current context
      * @return A {@code Pair} containing the current {@code CSRFToken} and the new one as {@code String}
+     * @since 1.1.0
      */
     private Pair<CSRFToken, String> extractAndRegenerateCSRFToken(final Context context) {
 
@@ -127,6 +131,7 @@ public class CSRFFilter implements Filter {
      *
      * @param context The current context
      * @return The current CSRF, otherwise, {@code null}
+     * @since 1.1.0
      */
     private CSRFToken extractCurrentCSRFToken(final Context context) {
 
@@ -148,6 +153,7 @@ public class CSRFFilter implements Filter {
      *
      * @param context The current context
      * @return The provided CSRF, otherwise, {@code null}
+     * @since 1.1.0
      */
     private CSRFToken extractProvidedCSRFToken(final Context context) {
 
@@ -199,6 +205,7 @@ public class CSRFFilter implements Filter {
      *
      * @param existingCSRFToken An existing CSRF token (could be null)
      * @return The newly creates CSRF token as String
+     * @since 1.1.0
      */
     private String createNewCSRFTokenAsString(final CSRFToken existingCSRFToken) {
 
@@ -218,6 +225,7 @@ public class CSRFFilter implements Filter {
      *
      * @param value The value to sign
      * @return The signature
+     * @since 1.1.0
      */
     private String generateSignature(final String value) {
 
@@ -235,6 +243,7 @@ public class CSRFFilter implements Filter {
      *
      * @param csrfTokenExpected The expected CSRF token
      * @param csrfTokenProvided The provided CSRF token
+     * @since 1.1.0
      */
     private void checkCSRFToken(final CSRFToken csrfTokenExpected, final CSRFToken csrfTokenProvided) {
 
@@ -264,6 +273,7 @@ public class CSRFFilter implements Filter {
      * @param value     The token value
      * @param nonce     When the token has been created (in milliseconds)
      * @param signature The token signature
+     * @since 1.1.0
      */
     private record CSRFToken(String value,
                              long nonce,

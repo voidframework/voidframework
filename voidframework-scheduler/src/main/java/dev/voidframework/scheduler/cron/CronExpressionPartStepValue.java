@@ -4,6 +4,8 @@ import dev.voidframework.scheduler.exception.SchedulerException;
 
 /**
  * CRON expression part representing a step value.
+ *
+ * @since 1.0.0
  */
 class CronExpressionPartStepValue implements CronExpressionPart {
 
@@ -13,6 +15,7 @@ class CronExpressionPartStepValue implements CronExpressionPart {
      * Build a new instance.
      *
      * @param stepValue The value
+     * @since 1.0.0
      */
     protected CronExpressionPartStepValue(final int stepValue) {
 

@@ -8,6 +8,8 @@ import dev.voidframework.healthcheck.HealthChecker;
 
 /**
  * Detects implementations of {@link HealthChecker} when they are bind.
+ *
+ * @since 1.0.0
  */
 public final class HealthCheckAnnotationListener implements TypeListener {
 
@@ -17,6 +19,7 @@ public final class HealthCheckAnnotationListener implements TypeListener {
      * Build a new instance.
      *
      * @param healthCheckManager The health check manager to use
+     * @since 1.0.0
      */
     public HealthCheckAnnotationListener(final HealthCheckManager healthCheckManager) {
 

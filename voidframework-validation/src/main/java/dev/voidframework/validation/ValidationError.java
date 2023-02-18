@@ -9,6 +9,7 @@ import java.util.Objects;
  * @param message       The translated error message
  * @param messageKey    The error message key
  * @param argumentArray The error message arguments
+ * @since 1.0.0
  */
 public record ValidationError(String message,
                               String messageKey,

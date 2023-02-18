@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * The annotated element class type must not be compliant.
+ *
+ * @since 1.6.0
  */
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
@@ -26,21 +28,25 @@ public @interface NotInstance {
 
     /**
      * @return The constraint error message
+     * @since 1.6.0
      */
     String message() default "{voidframework.validation.constraints.NotInstance.message}";
 
     /**
      * @return The subset of constraints
+     * @since 1.6.0
      */
     Class<?>[] groups() default {};
 
     /**
      * @return The attached Payload type
+     * @since 1.6.0
      */
     Class<? extends Payload>[] payload() default {};
 
     /**
      * @return The allowed classes
+     * @since 1.6.0
      */
     Class<?>[] value();
 
@@ -48,6 +54,7 @@ public @interface NotInstance {
      * Defines several <code>@NotInstance</code> annotations on the same element
      *
      * @see NotInstance
+     * @since 1.6.0
      */
     @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
     @Retention(RUNTIME)
@@ -55,7 +62,8 @@ public @interface NotInstance {
     @interface List {
 
         /**
-         * @return Defined annotations.
+         * @return Defined annotations
+         * @since 1.6.0
          */
         NotInstance[] value();
     }

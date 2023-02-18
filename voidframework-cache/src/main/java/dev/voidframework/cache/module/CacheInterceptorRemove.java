@@ -5,6 +5,8 @@ import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * Intercepts method call when annotation {@link CacheRemove} is used.
+ *
+ * @since 1.0.1
  */
 public final class CacheInterceptorRemove extends CacheInterceptor {
 
@@ -38,6 +40,7 @@ public final class CacheInterceptorRemove extends CacheInterceptor {
      * @param cacheRemove    The current cache annotation
      * @param throwableClass The caught throwable class
      * @return {@code true} if an eviction should be performed, otherwise {@code false}
+     * @since 1.0.1
      */
     private boolean hasToEvict(final CacheRemove cacheRemove, final Class<?> throwableClass) {
 

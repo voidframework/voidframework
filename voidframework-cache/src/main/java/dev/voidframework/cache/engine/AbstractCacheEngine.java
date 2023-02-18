@@ -15,6 +15,8 @@ import java.util.Optional;
 /**
  * This abstract implementation provides the necessary tools for the
  * various implementations of {@link CacheEngine} to work smoothly.
+ *
+ * @since 1.1.0
  */
 public abstract class AbstractCacheEngine implements CacheEngine {
 
@@ -22,6 +24,8 @@ public abstract class AbstractCacheEngine implements CacheEngine {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.1.0
      */
     protected AbstractCacheEngine() {
 
@@ -39,6 +43,7 @@ public abstract class AbstractCacheEngine implements CacheEngine {
      *
      * @param obj Object to wrap
      * @return Wrapped object
+     * @since 1.1.0
      */
     public CachedElement wrap(final Object obj) {
 
@@ -54,6 +59,7 @@ public abstract class AbstractCacheEngine implements CacheEngine {
      *
      * @param cachedElement wrapped object
      * @return Unwrapped object
+     * @since 1.1.0
      */
     public Object unwrap(final CachedElement cachedElement) {
 
@@ -70,6 +76,7 @@ public abstract class AbstractCacheEngine implements CacheEngine {
      *
      * @param classType The class type
      * @param content   The value serialized
+     * @since 1.1.0
      */
     protected record CachedElement(Class<?> classType, byte[] content) {
 

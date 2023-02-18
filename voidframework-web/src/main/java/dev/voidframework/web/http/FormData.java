@@ -5,6 +5,8 @@ import java.util.List;
 
 /**
  * Data extracted from the body content.
+ *
+ * @since 1.3.0
  */
 public final class FormData extends HashMap<String, List<FormItem>> {
 
@@ -13,6 +15,7 @@ public final class FormData extends HashMap<String, List<FormItem>> {
      *
      * @param name The item name
      * @return The form item, otherwise, {@code null}
+     * @since 1.3.0
      */
     public FormItem getFirst(final String name) {
 

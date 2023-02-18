@@ -8,6 +8,8 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Implementation of the annotation {@link CUID}.
+ *
+ * @since 1.5.0
  */
 public class CUIDAsByteArrayImpl implements ConstraintValidator<CUID, byte[]> {
 

@@ -28,6 +28,8 @@ import java.util.List;
 
 /**
  * Classpath scanner to fin classes to load.
+ *
+ * @since 1.0.0
  */
 public final class ClassesToLoadScanner {
 
@@ -35,6 +37,8 @@ public final class ClassesToLoadScanner {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private ClassesToLoadScanner() {
     }
@@ -46,6 +50,7 @@ public final class ClassesToLoadScanner {
      * @param rejectedScanPaths The locations to exclude from the scan
      * @param extraInterfaces   The extra interface for which consider implementations as useful classes to load
      * @return Scan result
+     * @since 1.0.0
      */
     public static ScannedClassesToLoad findClassesToLoad(final String[] acceptedScanPaths,
                                                          final String[] rejectedScanPaths,
@@ -112,6 +117,7 @@ public final class ClassesToLoadScanner {
      *
      * @param inputStream The stream to use to restore {@code ScannedClassesToLoad}
      * @return Restored {@code ScannedClassesToLoad}
+     * @since 1.0.0
      */
     public static ScannedClassesToLoad restoreClassesToLoad(final InputStream inputStream) {
 
@@ -129,6 +135,7 @@ public final class ClassesToLoadScanner {
      *
      * @param scannedClassesToLoad The {@code ScannedClassesToLoad} object to persist
      * @param outputDirectoryPath  Output directory
+     * @since 1.0.0
      */
     public static void persistClassesToLoad(final ScannedClassesToLoad scannedClassesToLoad,
                                             final Path outputDirectoryPath) {
@@ -149,6 +156,7 @@ public final class ClassesToLoadScanner {
      * Initializes Kryo.
      *
      * @return Instance of {@code Kryo}
+     * @since 1.0.1
      */
     private static Kryo initializeKryo() {
 
@@ -168,6 +176,7 @@ public final class ClassesToLoadScanner {
      * @param classInfo       The current class information
      * @param extraInterfaces The extra interface for which consider implementations as useful classes to load
      * @return {@code true} if can be bind, otherwise {@code false}
+     * @since 1.0.0
      */
     private static boolean isBindable(final ClassInfo classInfo,
                                       final List<String> extraInterfaces) {

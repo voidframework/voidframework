@@ -2,6 +2,8 @@ package dev.voidframework.vfs.exception;
 
 /**
  * All exceptions thrown by the VFS feature are subclasses of {@code VirtualFileStorageException}.
+ *
+ * @since 1.3.0
  */
 public class VirtualFileStorageException extends RuntimeException {
 
@@ -9,6 +11,7 @@ public class VirtualFileStorageException extends RuntimeException {
      * Build a new instance.
      *
      * @param message The detail message
+     * @since 1.3.0
      */
     protected VirtualFileStorageException(final String message) {
 
@@ -20,6 +23,7 @@ public class VirtualFileStorageException extends RuntimeException {
      *
      * @param message The detail message
      * @param cause   The cause
+     * @since 1.3.0
      */
     protected VirtualFileStorageException(final String message, final Throwable cause) {
 
@@ -28,6 +32,8 @@ public class VirtualFileStorageException extends RuntimeException {
 
     /**
      * Exception indicates that no VFS configuration have been found.
+     *
+     * @since 1.3.0
      */
     public static class EngineNotFound extends VirtualFileStorageException {
 
@@ -35,6 +41,7 @@ public class VirtualFileStorageException extends RuntimeException {
          * Build a new instance.
          *
          * @param engineClassPath The engine class path
+         * @since 1.3.0
          */
         public EngineNotFound(final String engineClassPath) {
 
@@ -44,11 +51,15 @@ public class VirtualFileStorageException extends RuntimeException {
 
     /**
      * Exception indicates that no VFS configuration have been found.
+     *
+     * @since 1.3.0
      */
     public static class NotConfigured extends VirtualFileStorageException {
 
         /**
          * Build a new instance.
+         *
+         * @since 1.3.0
          */
         public NotConfigured() {
 
@@ -58,11 +69,15 @@ public class VirtualFileStorageException extends RuntimeException {
 
     /**
      * Exception indicates that VFS engine can't be instantiated.
+     *
+     * @since 1.3.0
      */
     public static class CantInstantiateEngine extends VirtualFileStorageException {
 
         /**
          * Build a new instance.
+         *
+         * @since 1.3.0
          */
         public CantInstantiateEngine() {
 

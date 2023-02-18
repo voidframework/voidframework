@@ -2,6 +2,8 @@ package dev.voidframework.scheduler.cron;
 
 /**
  * Represents a subpart of a CRON expression.
+ *
+ * @since 1.0.0
  */
 public interface CronExpressionPart {
 
@@ -10,6 +12,7 @@ public interface CronExpressionPart {
      *
      * @param value The value to test
      * @return {@code true} if not compliant, otherwise, {@code false}
+     * @since 1.0.0
      */
     boolean isNotCompliant(final int value);
 
@@ -20,6 +23,7 @@ public interface CronExpressionPart {
      * @param allowedMaxStepValue The maximum value for the Step value
      * @param allowedMinValue     The minimum value
      * @param allowedMaxValue     The maximum value
+     * @since 1.0.0
      */
     void assertViolation(final int allowedMinStepValue,
                          final int allowedMaxStepValue,

@@ -5,6 +5,8 @@ import com.google.inject.matcher.Matchers;
 
 /**
  * The scheduler module.
+ *
+ * @since 1.0.0
  */
 public class SchedulerModule extends AbstractModule {
 

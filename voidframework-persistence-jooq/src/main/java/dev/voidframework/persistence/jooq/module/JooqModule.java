@@ -16,6 +16,8 @@ import java.util.Set;
 
 /**
  * jOOQ module.
+ *
+ * @since 1.4.0
  */
 public class JooqModule extends AbstractModule {
 
@@ -25,6 +27,7 @@ public class JooqModule extends AbstractModule {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.4.0
      */
     public JooqModule(final Config configuration) {
 
@@ -67,6 +70,7 @@ public class JooqModule extends AbstractModule {
      *
      * @param dataSourceName The data source name
      * @return Identified SQL dialect
+     * @since 1.4.0
      */
     private SQLDialect identifySQLDialect(final String dataSourceName) {
 

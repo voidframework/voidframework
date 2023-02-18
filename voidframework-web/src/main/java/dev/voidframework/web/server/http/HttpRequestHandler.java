@@ -28,6 +28,8 @@ import java.util.List;
 
 /**
  * Http request handler.
+ *
+ * @since 1.0.0
  */
 public final class HttpRequestHandler extends AbstractHttpRequestHandler {
 
@@ -45,6 +47,7 @@ public final class HttpRequestHandler extends AbstractHttpRequestHandler {
      * @param injector               The injector instance
      * @param errorHandler           The error handler to use
      * @param globalFilterClassTypes The global filter class types
+     * @since 1.0.0
      */
     public HttpRequestHandler(final Injector injector,
                               final ErrorHandler errorHandler,
@@ -70,6 +73,7 @@ public final class HttpRequestHandler extends AbstractHttpRequestHandler {
      * @param context The current context
      * @param cause   The cause (OPTIONAL)
      * @return A result
+     * @since 1.0.0
      */
     public Result onBadRequest(final Context context, final HttpException.BadRequest cause) {
 
@@ -81,6 +85,7 @@ public final class HttpRequestHandler extends AbstractHttpRequestHandler {
      *
      * @param context The current context
      * @return A result
+     * @since 1.0.0
      */
     public Result onRouteRequest(final Context context) {
 
@@ -177,6 +182,7 @@ public final class HttpRequestHandler extends AbstractHttpRequestHandler {
      * @param context       The current context
      * @param resolvedRoute The resolved route
      * @return An array containing method arguments
+     * @since 1.0.0
      */
     private Object[] buildMethodArguments(final Context context, final ResolvedRoute resolvedRoute) {
 

@@ -14,6 +14,8 @@ import java.util.List;
 
 /**
  * FreeMarker method: retrieves value from the configuration into the template.
+ *
+ * @since 1.0.0
  */
 public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
 
@@ -23,6 +25,7 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     public ConfigTemplateMethodModel(final Config configuration) {
 

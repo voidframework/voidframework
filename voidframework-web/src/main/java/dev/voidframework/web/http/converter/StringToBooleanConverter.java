@@ -8,6 +8,8 @@ import java.util.Locale;
 
 /**
  * Convert a {@code String} into an {@code Boolean}.
+ *
+ * @since 1.0.0
  */
 public class StringToBooleanConverter implements TypeConverter<String, Boolean> {
 

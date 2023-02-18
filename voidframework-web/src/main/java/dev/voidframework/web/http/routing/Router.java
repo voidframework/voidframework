@@ -8,6 +8,8 @@ import java.util.Map;
 
 /**
  * Router.
+ *
+ * @since 1.0.0
  */
 public interface Router {
 
@@ -17,7 +19,8 @@ public interface Router {
      * @param httpMethod          The HTTP method (ie: GET)
      * @param routeURL            The route URL
      * @param controllerClassType The controller class type
-     * @param method              The method to call
+     * @param method              The method to
+     * @since 1.0.0
      */
     void addRoute(final HttpMethod httpMethod,
                   final RouteURL routeURL,
@@ -32,6 +35,7 @@ public interface Router {
      * @param controllerClassType The controller class type
      * @param method              The method to call
      * @param name                The route name
+     * @since 1.0.0
      */
     void addRoute(final HttpMethod httpMethod,
                   final RouteURL routeURL,
@@ -45,6 +49,7 @@ public interface Router {
      * @param httpMethod The HTTP method (ie: GET)
      * @param uri        The URI to parse to resolve route
      * @return The resolved route, otherwise, {@code null}
+     * @since 1.0.0
      */
     ResolvedRoute resolveRoute(final HttpMethod httpMethod,
                                final String uri);
@@ -54,6 +59,7 @@ public interface Router {
      *
      * @param name The route name
      * @return A string containing a URL
+     * @since 1.0.0
      */
     String reverseRoute(final String name);
 
@@ -63,6 +69,7 @@ public interface Router {
      * @param name          The route name
      * @param parameterList The parameters to use
      * @return A string containing a URL
+     * @since 1.0.0
      */
     String reverseRoute(final String name, final List<Object> parameterList);
 
@@ -70,6 +77,7 @@ public interface Router {
      * Retrieves all registered routes.
      *
      * @return All registered routes as List
+     * @since 1.0.0
      */
     List<Route> getRoutesAsList();
 
@@ -77,6 +85,7 @@ public interface Router {
      * Retrieves all registered routes.
      *
      * @return All registered routes as Map
+     * @since 1.0.0
      */
     Map<HttpMethod, List<Route>> getRoutesAsMap();
 }

@@ -15,6 +15,8 @@ import java.util.stream.Collectors;
 
 /**
  * Virtual File Storage Module.
+ *
+ * @since 1.3.0
  */
 public final class VirtualFileStorageModule extends AbstractModule {
 
@@ -24,6 +26,7 @@ public final class VirtualFileStorageModule extends AbstractModule {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.3.0
      */
     public VirtualFileStorageModule(final Config configuration) {
 

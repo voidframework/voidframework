@@ -32,6 +32,8 @@ import java.util.stream.Stream;
 
 /**
  * FreeMarker configuration provider.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public class FreeMarkerConfigurationProvider implements Provider<Configuration> {
@@ -43,6 +45,7 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     @Inject
     public FreeMarkerConfigurationProvider(final Config configuration) {
@@ -111,6 +114,7 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
      * Resolve possible template locations.
      *
      * @return The possible template locations
+     * @since 1.0.0
      */
     private List<Path> resolvePossibleLocations() {
 

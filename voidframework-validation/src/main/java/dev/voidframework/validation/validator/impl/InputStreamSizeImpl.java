@@ -9,6 +9,8 @@ import java.io.InputStream;
 
 /**
  * Implementation of the annotation {@link InputStreamSize}.
+ *
+ * @since 1.0.0
  */
 public class InputStreamSizeImpl implements ConstraintValidator<InputStreamSize, InputStream> {
 

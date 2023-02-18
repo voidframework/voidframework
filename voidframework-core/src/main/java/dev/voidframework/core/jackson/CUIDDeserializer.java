@@ -11,11 +11,14 @@ import java.io.IOException;
  * Jackson deserializer for {@code CUID}.
  *
  * @see CUID
+ * @since 1.3.0
  */
 public final class CUIDDeserializer extends StdDeserializer<CUID> {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.3.0
      */
     public CUIDDeserializer() {
 
@@ -26,6 +29,7 @@ public final class CUIDDeserializer extends StdDeserializer<CUID> {
      * Build a new instance.
      *
      * @param cuidClassType The CUID class type
+     * @since 1.3.0
      */
     public CUIDDeserializer(final Class<CUID> cuidClassType) {
 

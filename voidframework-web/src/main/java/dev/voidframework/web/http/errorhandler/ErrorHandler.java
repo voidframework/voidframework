@@ -6,6 +6,8 @@ import dev.voidframework.web.http.Result;
 
 /**
  * This interface allows you to define the behaviour to have when an error occurs.
+ *
+ * @since 1.0.0
  */
 public interface ErrorHandler {
 

@@ -11,6 +11,8 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates extra Guice modules to load when the VoidFramework is started up.
+ *
+ * @since 1.2.0
  */
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
@@ -20,6 +22,8 @@ public @interface ExtraGuiceModule {
 
     /**
      * An array of one or more Module classes to register.
+     *
+     * @since 1.2.0
      */
     Class<? extends Module>[] value() default {};
 }

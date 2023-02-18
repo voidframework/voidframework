@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 
 /**
  * Reflection-based utility methods.
+ *
+ * @since 1.0.0
  */
 public final class ReflectionUtils {
 
@@ -16,6 +18,8 @@ public final class ReflectionUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private ReflectionUtils() {
 
@@ -28,6 +32,7 @@ public final class ReflectionUtils {
      * @param classInstance       The instance of the class in which the field is located
      * @param annotationClassType The annotation
      * @return The field, otherwise, null
+     * @since 1.1.0
      */
     public static Field getAnnotatedField(final Object classInstance,
                                           final Class<? extends Annotation> annotationClassType) {
@@ -45,6 +50,7 @@ public final class ReflectionUtils {
      * @param classType           The class type in which the field is located
      * @param annotationClassType The annotation
      * @return The field, otherwise, null
+     * @since 1.1.0
      */
     public static Field getAnnotatedField(final Class<?> classType,
                                           final Class<? extends Annotation> annotationClassType) {
@@ -75,6 +81,7 @@ public final class ReflectionUtils {
      * @param valueTypeClass The value class type
      * @param <T>            The value type
      * @return The field value, otherwise, null
+     * @since 1.0.0
      */
     public static <T> T getFieldValue(final Object classInstance,
                                       final String fieldName,
@@ -99,6 +106,7 @@ public final class ReflectionUtils {
      * @param wrappedClass  The value class type (wrapped)
      * @param <T>           The value type
      * @return The field value, otherwise, null
+     * @since 1.0.0
      */
     public static <T> T getFieldValue(final Object classInstance,
                                       final String fieldName,
@@ -121,6 +129,7 @@ public final class ReflectionUtils {
      * @param classInstance The instance of the class in which the field is located
      * @param fieldName     The field name
      * @param value         The value
+     * @since 1.0.0
      */
     public static void setFieldValue(final Object classInstance,
                                      final String fieldName,
@@ -142,6 +151,7 @@ public final class ReflectionUtils {
      * @param methodName The method name
      * @param classType  The class where are located this method
      * @return The method
+     * @since 1.0.0
      */
     public static Method resolveMethod(final String methodName, final Class<?> classType) {
 
@@ -164,6 +174,7 @@ public final class ReflectionUtils {
      * @param argumentArray     The method arguments
      * @param <T>               Type of the return value
      * @return The method call result
+     * @since 1.0.0
      */
     public static <T> T callMethod(final Object classInstance,
                                    final String methodeName,
@@ -192,6 +203,7 @@ public final class ReflectionUtils {
      * @param methodeName       The method name
      * @param argumentTypeArray The method argument types
      * @param argumentArray     The method arguments
+     * @since 1.0.0
      */
     public static void callMethod(final Object classInstance,
                                   final String methodeName,
@@ -212,6 +224,7 @@ public final class ReflectionUtils {
      * Allows to wrap a complex class type (ie: Map{String, Integer})
      *
      * @param <T> The wrapped class type
+     * @since 1.0.0
      */
     public static final class WrappedClass<T> {
 
@@ -219,6 +232,8 @@ public final class ReflectionUtils {
 
         /**
          * Build a new instance.
+         *
+         * @since 1.0.0
          */
         @SuppressWarnings("unchecked")
         public WrappedClass() {
@@ -230,6 +245,7 @@ public final class ReflectionUtils {
          * Returns the wrapped class type.
          *
          * @return The wrapped class type
+         * @since 1.0.0
          */
         public Class<T> getWrappedClass() {
 

@@ -14,6 +14,8 @@ import java.util.Set;
 
 /**
  * Hibernate module.
+ *
+ * @since 1.0.0
  */
 public class HibernateModule extends AbstractModule {
 
@@ -23,6 +25,7 @@ public class HibernateModule extends AbstractModule {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     public HibernateModule(final Config configuration) {
 

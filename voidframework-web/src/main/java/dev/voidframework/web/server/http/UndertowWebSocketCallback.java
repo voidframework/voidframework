@@ -10,6 +10,8 @@ import java.io.IOException;
 
 /**
  * Undertow WebSocket callback implementation.
+ *
+ * @since 1.3.0
  */
 public class UndertowWebSocketCallback implements WebSocketConnectionCallback {
 
@@ -19,6 +21,7 @@ public class UndertowWebSocketCallback implements WebSocketConnectionCallback {
      * Build a new instance.
      *
      * @param wsSocketIncomingConnHandler The WebSocket incoming connection handler
+     * @since 1.3.0
      */
     public UndertowWebSocketCallback(final HttpWebSocketRequestHandler wsSocketIncomingConnHandler) {
 

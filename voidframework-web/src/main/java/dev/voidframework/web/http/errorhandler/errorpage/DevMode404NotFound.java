@@ -8,6 +8,8 @@ import java.util.List;
 /**
  * Generates a "404 Not Found" page when development mode is enabled. The template
  * engine is not used, as it is not guaranteed to be available or compatible.
+ *
+ * @since 1.0.0
  */
 public final class DevMode404NotFound {
 
@@ -96,6 +98,8 @@ public final class DevMode404NotFound {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private DevMode404NotFound() {
 
@@ -109,6 +113,7 @@ public final class DevMode404NotFound {
      * @param requestUri    The request URI
      * @param routeList     The available routes
      * @return The rendered template
+     * @since 1.0.0
      */
     public static String render(final HttpMethod requestMethod,
                                 final String requestUri,

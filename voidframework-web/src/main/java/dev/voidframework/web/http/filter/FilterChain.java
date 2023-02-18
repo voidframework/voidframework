@@ -5,6 +5,8 @@ import dev.voidframework.web.http.Result;
 
 /**
  * Represents a chain of filters to apply.
+ *
+ * @since 1.0.0
  */
 public interface FilterChain {
 
@@ -13,6 +15,7 @@ public interface FilterChain {
      *
      * @param context The current context
      * @return A result
+     * @since 1.0.0
      */
     Result applyNext(final Context context);
 }

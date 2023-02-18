@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Virtual File Storage: Memory.
+ * @since 1.3.0
  */
 public class MemoryVirtualFileStorage implements VirtualFileStorage {
 

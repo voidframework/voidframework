@@ -25,6 +25,8 @@ import java.util.function.Consumer;
 
 /**
  * Retrieves configuration from an HTTP server.
+ *
+ * @since 1.2.0
  */
 public class HttpRemoteConfigurationProvider extends AbstractRemoteConfigurationProvider {
 
@@ -102,6 +104,7 @@ public class HttpRemoteConfigurationProvider extends AbstractRemoteConfiguration
      * @return The remote configuration content as String
      * @throws IOException                             if something goes wrong
      * @throws RemoteConfigurationException.FetchError if the remote endpoint return an error
+     * @since 1.2.0
      */
     private String fetchRemoteConfiguration(final Config configuration) throws IOException {
 

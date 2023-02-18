@@ -19,6 +19,7 @@ import java.util.Objects;
  * An Http request body content
  *
  * @param asRaw The body content as raw
+ * @since 1.0.0
  */
 public record HttpRequestBodyContent(String contentType,
                                      InputStream asRaw,
@@ -29,7 +30,8 @@ public record HttpRequestBodyContent(String contentType,
      *
      * @param outputClass The requested Java object type
      * @param <T>         The requested Java class type
-     * @return A Java object
+     * @return An object
+     * @since 1.3.0
      */
     public <T> T as(final Class<T> outputClass) {
 
@@ -52,6 +54,7 @@ public record HttpRequestBodyContent(String contentType,
      * @param outputClass The requested Java object type
      * @param <T>         The requested Java class type
      * @return A Java object
+     * @since 1.0.0
      */
     public <T> T asFormData(final Class<T> outputClass) {
 
@@ -81,6 +84,7 @@ public record HttpRequestBodyContent(String contentType,
      * Returns the JSON content body.
      *
      * @return A JSON node
+     * @since 1.0.0
      */
     public JsonNode asJson() {
 
@@ -94,6 +98,7 @@ public record HttpRequestBodyContent(String contentType,
      * Returns the XML content body.
      *
      * @return An XML document
+     * @since 1.0.0
      */
     public Document asXml() {
 
@@ -107,6 +112,7 @@ public record HttpRequestBodyContent(String contentType,
      * Returns the YAML content body.
      *
      * @return A YAML node
+     * @since 1.0.0
      */
     public JsonNode asYaml() {
 

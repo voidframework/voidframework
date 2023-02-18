@@ -13,6 +13,7 @@ import java.time.Duration;
  * @param isSecure     Is the cookie secured? If true, sent only for HTTPS requests
  * @param sameSiteMode The same site mode (None, Lax, or Strict)
  * @param timeToLive   The cookie time to live
+ * @since 1.0.0
  */
 public record Cookie(String name,
                      String value,
@@ -31,6 +32,7 @@ public record Cookie(String name,
      *
      * @param name The cookie name
      * @return Newly created expired cookie
+     * @since 1.0.0
      */
     static Cookie expired(final String name) {
 
@@ -43,6 +45,7 @@ public record Cookie(String name,
      * @param name  The cookie name
      * @param value The cookie value
      * @return Newly created cookie
+     * @since 1.0.0
      */
     public static Cookie of(final String name, final String value) {
 
@@ -58,6 +61,7 @@ public record Cookie(String name,
      * @param isSecure   Is the cookie secured? If true, sent only for HTTPS
      * @param timeToLive The cookie time to live
      * @return Newly created cookie
+     * @since 1.0.0
      */
     public static Cookie of(final String name, final String value, final boolean isHttpOnly, final boolean isSecure, final Duration timeToLive) {
 
@@ -74,6 +78,7 @@ public record Cookie(String name,
      * @param sameSiteMode The same site mode (None, Lax, or Strict)
      * @param timeToLive   The cookie time to live
      * @return Newly created cookie
+     * @since 1.0.1
      */
     public static Cookie of(final String name,
                             final String value,
@@ -92,6 +97,7 @@ public record Cookie(String name,
      * @param value      The cookie value
      * @param timeToLive The cookie time to live
      * @return Newly created cookie
+     * @since 1.0.0
      */
     public static Cookie of(final String name, final String value, final Duration timeToLive) {
 

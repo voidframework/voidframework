@@ -11,6 +11,8 @@ import java.util.ResourceBundle;
 
 /**
  * Resource bundle based internationalization.
+ *
+ * @since 1.0.0
  */
 @Bindable
 public final class ResourceBundleInternationalization implements Internationalization {
@@ -22,6 +24,8 @@ public final class ResourceBundleInternationalization implements Internationaliz
 
     /**
      * Build a new instance.
+     *
+     * @since 1.0.0
      */
     public ResourceBundleInternationalization() {
 

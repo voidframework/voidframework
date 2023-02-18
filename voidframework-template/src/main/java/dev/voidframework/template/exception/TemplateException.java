@@ -2,6 +2,8 @@ package dev.voidframework.template.exception;
 
 /**
  * All exceptions related to template rendering errors are subclasses of {@code TemplateException}.
+ *
+ * @since 1.0.0
  */
 public class TemplateException extends RuntimeException {
 
@@ -10,6 +12,7 @@ public class TemplateException extends RuntimeException {
      *
      * @param message The detail message
      * @param cause   The root cause
+     * @since 1.0.0
      */
     protected TemplateException(final String message, final Throwable cause) {
 
@@ -20,6 +23,7 @@ public class TemplateException extends RuntimeException {
      * Build a new instance.
      *
      * @param message The detail message
+     * @since 1.0.0
      */
     protected TemplateException(final String message) {
 
@@ -28,11 +32,15 @@ public class TemplateException extends RuntimeException {
 
     /**
      * Exception indicates that data model was not provided.
+     *
+     * @since 1.0.0
      */
     public static class DataModelNotProvided extends TemplateException {
 
         /**
          * Build a new instance.
+         *
+         * @since 1.0.0
          */
         public DataModelNotProvided() {
 
@@ -42,6 +50,8 @@ public class TemplateException extends RuntimeException {
 
     /**
      * Exception indicates that rendering process failure.
+     *
+     * @since 1.0.0
      */
     public static class RenderingFailure extends TemplateException {
 
@@ -54,6 +64,7 @@ public class TemplateException extends RuntimeException {
          * @param templateName The template name
          * @param lineNumber   The line where the error occur
          * @param cause        The cause
+         * @since 1.0.0
          */
         public RenderingFailure(final String templateName, final int lineNumber, final Throwable cause) {
 
@@ -66,6 +77,7 @@ public class TemplateException extends RuntimeException {
          * Gets the template name.
          *
          * @return The template name
+         * @since 1.0.0
          */
         public String getTemplateName() {
 
@@ -76,6 +88,7 @@ public class TemplateException extends RuntimeException {
          * Gets the line number.
          *
          * @return The line number
+         * @since 1.0.0
          */
         public int getLineNumber() {
 
@@ -85,6 +98,8 @@ public class TemplateException extends RuntimeException {
 
     /**
      * Exception indicates that an error occur during the initialization of the template engine.
+     *
+     * @since 1.0.0
      */
     public static class TemplateEngineInitFailure extends TemplateException {
 
@@ -92,6 +107,7 @@ public class TemplateException extends RuntimeException {
          * Build a new instance.
          *
          * @param cause The cause
+         * @since 1.0.0
          */
         public TemplateEngineInitFailure(final Throwable cause) {
 
@@ -101,11 +117,15 @@ public class TemplateException extends RuntimeException {
 
     /**
      * Exception indicates that template engine wasn't found.
+     *
+     * @since 1.0.0
      */
     public static class NoTemplateEngine extends TemplateException {
 
         /**
          * Build a new instance.
+         *
+         * @since 1.0.0
          */
         public NoTemplateEngine() {
 

@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 
 /**
  * Listens to the different bind classes to detect which ones have scheduled methods.
+ *
+ * @since 1.0.0
  */
 public class SchedulerAnnotationListener implements TypeListener {
 
@@ -18,6 +20,7 @@ public class SchedulerAnnotationListener implements TypeListener {
      * Build a new instance.
      *
      * @param scheduledHandlers The scheduled hooks
+     * @since 1.0.0
      */
     public SchedulerAnnotationListener(final ScheduledHandlers scheduledHandlers) {
 

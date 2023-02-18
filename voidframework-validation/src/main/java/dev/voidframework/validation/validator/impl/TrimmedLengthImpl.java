@@ -6,6 +6,8 @@ import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * Implementation of the annotation {@link TrimmedLength}.
+ *
+ * @since 1.0.0
  */
 public class TrimmedLengthImpl implements ConstraintValidator<TrimmedLength, String> {
 

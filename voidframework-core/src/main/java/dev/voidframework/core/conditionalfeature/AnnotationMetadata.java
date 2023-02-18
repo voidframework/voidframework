@@ -5,11 +5,15 @@ import java.util.Map;
 
 /**
  * Annotation metadata.
+ *
+ * @since 1.5.0
  */
 public final class AnnotationMetadata {
 
     /**
      * Empty instance of annotation metadata.
+     *
+     * @since 1.5.0
      */
     public static final AnnotationMetadata EMPTY = new AnnotationMetadata(Collections.emptyMap());
 
@@ -19,6 +23,7 @@ public final class AnnotationMetadata {
      * Build a new instance.
      *
      * @param initialData Initial data
+     * @since 1.5.0
      */
     AnnotationMetadata(final Map<String, Object> initialData) {
 
@@ -30,6 +35,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public boolean getBoolean(final String key) {
 
@@ -41,6 +47,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public boolean[] getBooleanArray(final String key) {
 
@@ -52,6 +59,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public char getChar(final String key) {
 
@@ -63,6 +71,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public char[] getCharArray(final String key) {
 
@@ -74,6 +83,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     @SuppressWarnings("unchecked")
     public <T> Class<T> getClassType(final String key) {
@@ -86,6 +96,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     @SuppressWarnings("unchecked")
     public <T> Class<T>[] getClassTypeArray(final String key) {
@@ -98,6 +109,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     @SuppressWarnings("unchecked")
     public <T extends Enum<?>> T getEnumeration(final String key) {
@@ -110,6 +122,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     @SuppressWarnings("unchecked")
     public <T extends Enum<?>> T[] getEnumerationArray(final String key) {
@@ -122,6 +135,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public int getInteger(final String key) {
 
@@ -133,6 +147,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public int[] getIntegerArray(final String key) {
 
@@ -144,6 +159,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public long getLong(final String key) {
 
@@ -155,6 +171,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public long[] getLongArray(final String key) {
 
@@ -166,6 +183,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public String getString(final String key) {
 
@@ -177,6 +195,7 @@ public final class AnnotationMetadata {
      *
      * @param key Key whose associated value is to be returned
      * @return Value to which the specified key is mapped, otherwise {@code null}
+     * @since 1.5.0
      */
     public String[] getStringArray(final String key) {
 

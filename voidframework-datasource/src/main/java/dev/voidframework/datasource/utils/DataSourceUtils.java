@@ -10,11 +10,15 @@ import java.util.stream.Collectors;
 
 /**
  * Data source utility methods.
+ *
+ * @since 1.4.0
  */
 public final class DataSourceUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.4.0
      */
     private DataSourceUtils() {
 
@@ -27,6 +31,7 @@ public final class DataSourceUtils {
      * @param configuration The application configuration
      * @return Existing data source names
      * @throws DataSourceException.NotConfigured If data source was not found in the configuration
+     * @since 1.4.0
      */
     public static Set<String> getAllDataSourceNames(final Config configuration) {
 

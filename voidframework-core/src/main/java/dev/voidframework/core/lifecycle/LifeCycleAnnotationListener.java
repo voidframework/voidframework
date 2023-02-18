@@ -9,6 +9,8 @@ import java.lang.reflect.Method;
 /**
  * Listens to the different bind classes to detect which ones have
  * methods to call when starting or stopping the application.
+ *
+ * @since 1.0.0
  */
 public final class LifeCycleAnnotationListener implements TypeListener {
 
@@ -18,6 +20,7 @@ public final class LifeCycleAnnotationListener implements TypeListener {
      * Build a new instance.
      *
      * @param lifeCycleManager The life cycle manager to use
+     * @since 1.0.0
      */
     public LifeCycleAnnotationListener(final LifeCycleManager lifeCycleManager) {
 

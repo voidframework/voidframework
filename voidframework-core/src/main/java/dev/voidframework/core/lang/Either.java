@@ -8,6 +8,7 @@ import java.util.function.Function;
  *
  * @param <L> Type of "Left" value
  * @param <R> Type of "Right" value
+ * @since 1.0.0
  */
 public class Either<L, R> {
 
@@ -19,6 +20,7 @@ public class Either<L, R> {
      *
      * @param left  The "Left" value
      * @param right The "Right" value
+     * @since 1.0.0
      */
     private Either(final L left, final R right) {
 
@@ -33,6 +35,7 @@ public class Either<L, R> {
      * @param <L>  Type of "Left" value
      * @param <R>  Type of "Right" value
      * @return The newly created Either
+     * @since 1.0.0
      */
     public static <L, R> Either<L, R> ofLeft(final L left) {
 
@@ -46,6 +49,7 @@ public class Either<L, R> {
      * @param <L>   Type of "Left" value
      * @param <R>   Type of "Right" value
      * @return The newly created Either
+     * @since 1.0.0
      */
     public static <L, R> Either<L, R> ofRight(final R right) {
 
@@ -56,6 +60,7 @@ public class Either<L, R> {
      * Returns the "Left" value.
      *
      * @return The "Left" value
+     * @since 1.0.0
      */
     public L getLeft() {
 
@@ -66,6 +71,7 @@ public class Either<L, R> {
      * Returns the "Right" value.
      *
      * @return The "Right" value
+     * @since 1.0.0
      */
     public R getRight() {
 
@@ -76,6 +82,7 @@ public class Either<L, R> {
      * Checks if the "Left" value is set.
      *
      * @return {@code true} if the "Left" value is set, otherwise, {@code false}
+     * @since 1.0.0
      */
     public boolean hasLeft() {
 
@@ -86,6 +93,7 @@ public class Either<L, R> {
      * Checks if the "Right" value is set.
      *
      * @return {@code true} if the "Right" value is set, otherwise, {@code false}
+     * @since 1.0.0
      */
     public boolean hasRight() {
 
@@ -97,6 +105,7 @@ public class Either<L, R> {
      *
      * @param leftConsumer  The "Left" consumer
      * @param rightConsumer The "Right" consumer
+     * @since 1.0.0
      */
     public void match(final Consumer<L> leftConsumer,
                       final Consumer<R> rightConsumer) {
@@ -117,6 +126,7 @@ public class Either<L, R> {
      * @param rightFunction The "Right" function
      * @param <U>           The returned value type
      * @return The result of the applied function
+     * @since 1.0.0
      */
     public <U> U match(final Function<L, U> leftFunction,
                        final Function<R, U> rightFunction) {

@@ -8,6 +8,8 @@ import java.util.Map;
 
 /**
  * Defines common methods for all Http request handler implementation (Http, WebSocket, ...).
+ *
+ * @since 1.3.0
  */
 abstract class AbstractHttpRequestHandler {
 
@@ -29,6 +31,7 @@ abstract class AbstractHttpRequestHandler {
      * Build a new instance.
      *
      * @param conversion The conversion instance
+     * @since 1.3.0
      */
     AbstractHttpRequestHandler(final Conversion conversion) {
 
@@ -41,6 +44,7 @@ abstract class AbstractHttpRequestHandler {
      * @param value              The string containing the value to convert
      * @param parameterTypeClass The needed output parameter type class
      * @return The converter value, otherwise, null
+     * @since 1.3.0
      */
     protected Object convertValueToParameterType(final String value, final Class<?> parameterTypeClass) {
 
@@ -67,6 +71,7 @@ abstract class AbstractHttpRequestHandler {
      * @param valueList          The list of string containing the value to convert
      * @param parameterTypeClass The needed output parameter type class
      * @return The converter values as array, otherwise, null
+     * @since 1.3.0
      */
     protected Object convertValuesToParameterTypeArray(final List<String> valueList, final Class<?> parameterTypeClass) {
 
@@ -90,6 +95,7 @@ abstract class AbstractHttpRequestHandler {
      *
      * @param replacementClass The remplacement class
      * @param defaultValue     The default value if converter return {@code null}
+     * @since 1.3.0
      */
     private record PrimitiveAlternative(Class<?> replacementClass, Object defaultValue) {
     }

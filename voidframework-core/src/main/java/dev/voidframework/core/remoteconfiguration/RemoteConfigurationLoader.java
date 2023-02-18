@@ -16,6 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Remote configuration loader.
+ *
+ * @since 1.2.0
  */
 public final class RemoteConfigurationLoader {
 
@@ -26,6 +28,8 @@ public final class RemoteConfigurationLoader {
 
     /**
      * Default constructor.
+     *
+     * @since 1.2.0
      */
     private RemoteConfigurationLoader() {
 
@@ -37,6 +41,7 @@ public final class RemoteConfigurationLoader {
      *
      * @param localConfiguration The local configuration
      * @return The configuration retrieved from all declared providers
+     * @since 1.2.0
      */
     public static Config processAllProviders(final Config localConfiguration) {
 

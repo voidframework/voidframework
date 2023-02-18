@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 /**
  * Remote configuration provider.
+ *
+ * @since 1.2.0
  */
 public interface RemoteConfigurationProvider {
 
@@ -14,6 +16,7 @@ public interface RemoteConfigurationProvider {
      * Retrieves the provider name.
      *
      * @return The provider name
+     * @since 1.2.0
      */
     String getName();
 
@@ -21,6 +24,7 @@ public interface RemoteConfigurationProvider {
      * Retrieves the provider configuration object name.
      *
      * @return The provider configuration object name
+     * @since 1.2.0
      */
     String getConfigurationObjectName();
 
@@ -31,6 +35,7 @@ public interface RemoteConfigurationProvider {
      * @param keyValueObjConsumer The Key/Value object consumer
      * @param fileObjConsumer     The File object consumer
      * @throws RemoteConfigurationException If something goes wrong during the process
+     * @since 1.2.0
      */
     void loadConfiguration(final Config configuration,
                            final Consumer<KeyValueCfgObject> keyValueObjConsumer,

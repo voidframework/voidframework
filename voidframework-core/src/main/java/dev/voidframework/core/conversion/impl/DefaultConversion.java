@@ -16,6 +16,8 @@ import java.util.Set;
 
 /**
  * Default implementation of {@link Conversion}.
+ *
+ * @since 1.0.0
  */
 @Singleton
 @SuppressWarnings("java:S1168")
@@ -27,6 +29,7 @@ public class DefaultConversion implements Conversion {
      * Build a new instance.
      *
      * @param converterManager Instance of the Converter Manager
+     * @since 1.0.0
      */
     @Inject
     public DefaultConversion(final ConverterManager converterManager) {
@@ -174,6 +177,7 @@ public class DefaultConversion implements Conversion {
      * @param targetTypeClass        The target type class
      * @param <S>                    The source generic type
      * @param <T>                    The target generic type
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     private <S, T> void convertIntoCollection(final Iterable<S> objectSourceIterable,
@@ -212,6 +216,7 @@ public class DefaultConversion implements Conversion {
      * @param targetTypeClass        The target type class
      * @param <S>                    The source generic type
      * @param <T>                    The target generic type
+     * @since 1.0.0
      */
 
     private <S, T> void convertIntoCollection(final Iterable<S> objectSourceIterable,

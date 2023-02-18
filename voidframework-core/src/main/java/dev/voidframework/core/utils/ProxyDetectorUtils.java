@@ -4,6 +4,8 @@ import java.lang.reflect.Proxy;
 
 /**
  * Utility to detect proxy class.
+ *
+ * @since 1.0.0
  */
 public final class ProxyDetectorUtils {
 
@@ -11,6 +13,8 @@ public final class ProxyDetectorUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private ProxyDetectorUtils() {
 
@@ -22,6 +26,7 @@ public final class ProxyDetectorUtils {
      *
      * @param object the object to check
      * @return {@code true} if the object is a proxy
+     * @since 1.0.0
      */
     public static boolean isProxy(final Object object) {
 
@@ -34,6 +39,7 @@ public final class ProxyDetectorUtils {
      *
      * @param clazz the class to check
      * @return {@code true} if the class is a proxy
+     * @since 1.0.0
      */
     public static boolean isProxy(final Class<?> clazz) {
 

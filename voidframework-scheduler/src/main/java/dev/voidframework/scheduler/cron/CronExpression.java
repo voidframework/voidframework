@@ -20,6 +20,8 @@ import java.util.stream.Collectors;
 
 /**
  * A CRON expression.
+ *
+ * @since 1.0.0
  */
 public class CronExpression {
 
@@ -88,6 +90,7 @@ public class CronExpression {
      * Build a new instance.
      *
      * @param cron The CRON expression to parse
+     * @since 1.0.0
      */
     public CronExpression(final String cron) {
 
@@ -145,6 +148,7 @@ public class CronExpression {
      *
      * @param zoneId The Zone to use for manipulating datetime
      * @return The next delay in milliseconds
+     * @since 1.0.0
      */
     public long getNextDelayMilliseconds(final ZoneId zoneId) {
 
@@ -156,6 +160,7 @@ public class CronExpression {
      *
      * @param from The datetime
      * @return The next delay in milliseconds
+     * @since 1.0.0
      */
     private long getNextDelayMilliseconds(final LocalDateTime from) {
 
@@ -195,6 +200,13 @@ public class CronExpression {
         return ChronoUnit.MILLIS.between(from.truncatedTo(ChronoUnit.MILLIS), nextTrigger.minus(millisecondsToRemove, ChronoUnit.MILLIS));
     }
 
+    /**
+     * Parses a string into {@code CronExpressionPart}.
+     *
+     * @param str String to parse
+     * @return A {@code CronExpressionPart} retrieve from parsed string
+     * @since 1.0.0
+     */
     private CronExpressionPart parseCronExpressionPart(final String str) {
 
         CronExpressionPart cronExpressionPart = null;

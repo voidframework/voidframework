@@ -8,6 +8,8 @@ import dev.voidframework.cache.engine.CacheEngine;
 
 /**
  * Cache module.
+ *
+ * @since 1.0.0
  */
 public final class CacheModule extends AbstractModule {
 

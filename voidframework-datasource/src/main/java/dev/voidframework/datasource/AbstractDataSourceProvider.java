@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 /**
  * This abstraction provides common methods for all {@code DataSourceManager} providers.
+ *
+ * @since 1.2.0
  */
 public abstract class AbstractDataSourceProvider implements Provider<DataSourceManager> {
 
@@ -22,6 +24,7 @@ public abstract class AbstractDataSourceProvider implements Provider<DataSourceM
      *
      * @param configuration The application configuration
      * @return DataSource configuration names
+     * @since 1.2.0
      */
     protected Set<String> retrieveDataSourceConfigurationNames(final Config configuration) {
 

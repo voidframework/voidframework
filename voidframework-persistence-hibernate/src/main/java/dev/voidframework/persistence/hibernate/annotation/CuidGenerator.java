@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
 
 /**
  * CUID generation strategies for the values of primary keys.
+ *
+ * @since 1.3.0
  */
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)

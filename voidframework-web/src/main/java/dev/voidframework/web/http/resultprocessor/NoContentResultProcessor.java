@@ -8,6 +8,8 @@ import java.io.InputStream;
 
 /**
  * No content ("do nothing") processor.
+ *
+ * @since 1.0.0
  */
 public class NoContentResultProcessor implements ResultProcessor {
 

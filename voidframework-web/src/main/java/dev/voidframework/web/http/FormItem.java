@@ -10,6 +10,7 @@ import java.io.InputStream;
  * @param isFile      {@code true} if this item represent an uploaded file
  * @param fileSize    The file size. {@code -1} if this item not represent an uploaded file
  * @param inputStream The input stream. {@code null} if this item not represent an uploaded file
+ * @since 1.0.0
  */
 public record FormItem(String value,
                        String charset,

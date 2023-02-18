@@ -22,6 +22,8 @@ import java.util.Map;
 
 /**
  * Undertow {@link HttpRequest} implementation.
+ *
+ * @since 1.0.0
  */
 public final class UndertowHttpRequest implements HttpRequest {
 
@@ -35,6 +37,7 @@ public final class UndertowHttpRequest implements HttpRequest {
      *
      * @param httpServerExchange     Current HTTP server exchange
      * @param httpRequestBodyContent Current HTTP request body content
+     * @since 1.0.0
      */
     public UndertowHttpRequest(final HttpServerExchange httpServerExchange,
                                final HttpRequestBodyContent httpRequestBodyContent) {

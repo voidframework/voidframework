@@ -5,6 +5,8 @@ import dev.voidframework.core.lang.CUID;
 
 /**
  * Convert a {@code String} into an {@code CUID}.
+ *
+ * @since 1.3.0
  */
 public class StringToCUIDConverter implements TypeConverter<String, CUID> {
 

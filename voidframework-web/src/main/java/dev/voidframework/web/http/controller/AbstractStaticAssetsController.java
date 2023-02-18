@@ -27,6 +27,8 @@ import java.util.stream.Stream;
 
 /**
  * Abstraction to facilitate the use of static and webjar assets.
+ *
+ * @since 1.0.0
  */
 public abstract class AbstractStaticAssetsController {
 
@@ -41,6 +43,7 @@ public abstract class AbstractStaticAssetsController {
      * Build a new instance;
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     @Inject
     protected AbstractStaticAssetsController(final Config configuration) {
@@ -57,6 +60,7 @@ public abstract class AbstractStaticAssetsController {
      * @param fileName Requested webjar asset file name
      * @return A result containing the requested webjar asset
      * @throws HttpException.NotFound If requested asset does not exist
+     * @since 1.0.0
      */
     @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/webjars/(?<fileName>.*)", name = "static_webjar")
@@ -83,6 +87,7 @@ public abstract class AbstractStaticAssetsController {
      * @param context The current context
      * @return A result containing the requested static asset
      * @throws HttpException.NotFound If requested asset does not exist
+     * @since 1.0.0
      */
     @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/(favicon.ico|robots.txt)")
@@ -98,6 +103,7 @@ public abstract class AbstractStaticAssetsController {
      * @param fileName Requested static asset file name
      * @return A result containing the requested static asset
      * @throws HttpException.NotFound If requested asset does not exist
+     * @since 1.0.0
      */
     @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/static/(?<fileName>.*)", name = "static_file")
@@ -147,6 +153,7 @@ public abstract class AbstractStaticAssetsController {
      *
      * @param fileName The file name with extension
      * @return The detected file content
+     * @since 1.0.0
      */
     private String detectFileContentType(final String fileName) {
 
@@ -165,6 +172,7 @@ public abstract class AbstractStaticAssetsController {
      *
      * @param fileName File name
      * @return The file location, otherwise, null
+     * @since 1.0.0
      */
     private Path resolveLocation(final String fileName) {
 

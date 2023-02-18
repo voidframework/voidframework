@@ -5,6 +5,8 @@ import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * Intercepts method call when annotation {@link CacheResult} is used.
+ *
+ * @since 1.0.1
  */
 public final class CacheInterceptorResult extends CacheInterceptor {
 

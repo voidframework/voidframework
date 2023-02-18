@@ -11,6 +11,8 @@ import java.lang.annotation.Target;
 
 /**
  * Defines filters to apply.
+ *
+ * @since 1.0.0
  */
 @Controller
 @Documented
@@ -22,6 +24,7 @@ public @interface WithFilter {
      * Defines filters to apply.
      *
      * @return Filters to apply
+     * @since 1.0.0
      */
     Class<? extends Filter>[] value() default {};
 }

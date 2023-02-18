@@ -25,6 +25,8 @@ import java.util.concurrent.Callable;
 
 /**
  * Implementation of {@link dev.voidframework.redis.Redis}.
+ *
+ * @since 1.1.0
  */
 @Singleton
 public class DefaultRedis implements Redis {
@@ -39,6 +41,7 @@ public class DefaultRedis implements Redis {
      *
      * @param jedisProvider The Jedis resource provider
      * @param configuration The application configuration
+     * @since 1.1.0
      */
     @Inject
     public DefaultRedis(final Provider<Jedis> jedisProvider,

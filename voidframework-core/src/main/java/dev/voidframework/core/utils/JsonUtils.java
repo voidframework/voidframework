@@ -21,6 +21,8 @@ import java.util.Map;
 
 /**
  * Utility to handle JSON document.
+ *
+ * @since 1.0.0
  */
 public final class JsonUtils {
 
@@ -40,6 +42,8 @@ public final class JsonUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private JsonUtils() {
 
@@ -51,6 +55,7 @@ public final class JsonUtils {
      *
      * @param json The JSON to convert.
      * @return The string representation.
+     * @since 1.0.0
      */
     public static String toString(final JsonNode json) {
 
@@ -67,6 +72,7 @@ public final class JsonUtils {
      *
      * @param obj Object to convert in JSON.
      * @return The string representation.
+     * @since 1.0.0
      */
     public static String toString(final Object obj) {
 
@@ -82,6 +88,7 @@ public final class JsonUtils {
      *
      * @param obj Object to convert in JSON
      * @return The JSON node
+     * @since 1.0.0
      */
     public static JsonNode toJson(final Object obj) {
 
@@ -97,6 +104,7 @@ public final class JsonUtils {
      *
      * @param inputStreamJson {@code InputStream} containing data to convert in JSON
      * @return The JSON node
+     * @since 1.3.0
      */
     public static JsonNode toJson(final InputStream inputStreamJson) {
 
@@ -116,6 +124,7 @@ public final class JsonUtils {
      *
      * @param data Data to convert in JSON
      * @return The JSON node
+     * @since 1.0.0
      */
     public static JsonNode toJson(final byte[] data) {
 
@@ -133,6 +142,7 @@ public final class JsonUtils {
      * @param json            JSON document to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.0.0
      */
     public static <T> T fromJson(final JsonNode json, final Class<T> outputClassType) {
 
@@ -150,6 +160,7 @@ public final class JsonUtils {
      * @param json           JSON document to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromJson(final JsonNode json, final JavaType outputJavaType) {
 
@@ -167,6 +178,7 @@ public final class JsonUtils {
      * @param jsonByteArray   JSON document as bytes array to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.0.1
      */
     public static <T> T fromJson(final byte[] jsonByteArray, final Class<T> outputClassType) {
 
@@ -188,6 +200,7 @@ public final class JsonUtils {
      * @param inputStreamJson {@code InputStream} containing a JSON document to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromJson(final InputStream inputStreamJson, final Class<T> outputClassType) {
 
@@ -209,6 +222,7 @@ public final class JsonUtils {
      * @param jsonByteArray  JSON document as bytes array to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromJson(final byte[] jsonByteArray, final JavaType outputJavaType) {
 
@@ -230,6 +244,7 @@ public final class JsonUtils {
      * @param inputStreamJson {@code InputStream} containing a JSON document to convert
      * @param outputJavaType  Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromJson(final InputStream inputStreamJson, final JavaType outputJavaType) {
 
@@ -251,6 +266,7 @@ public final class JsonUtils {
      * @param json            JSON document as String to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.2.0
      */
     public static <T> T fromJson(final String json, final Class<T> outputClassType) {
 
@@ -268,6 +284,7 @@ public final class JsonUtils {
      * @param json           JSON document as String to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromJson(final String json, final JavaType outputJavaType) {
 
@@ -285,6 +302,7 @@ public final class JsonUtils {
      * @param dataMap         Data map to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.0.0
      */
     public static <T> T fromMap(final Map<?, ?> dataMap, final Class<T> outputClassType) {
 
@@ -302,6 +320,7 @@ public final class JsonUtils {
      * @param dataMap        Data map to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromMap(final Map<?, ?> dataMap, final JavaType outputJavaType) {
 
@@ -317,6 +336,7 @@ public final class JsonUtils {
      *
      * @param obj Object to convert
      * @return The data map
+     * @since 1.0.0
      */
     @SuppressWarnings("java:S1168")
     public static Map<String, Object> toMap(final Object obj) {
@@ -332,6 +352,7 @@ public final class JsonUtils {
      * Gets the object mapper.
      *
      * @return JSON object mapper
+     * @since 1.1.0
      */
     public static ObjectMapper objectMapper() {
 

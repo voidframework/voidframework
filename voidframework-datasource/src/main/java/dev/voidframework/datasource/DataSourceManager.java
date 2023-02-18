@@ -8,6 +8,8 @@ import java.util.Map;
 
 /**
  * Data source manager.
+ *
+ * @since 1.0.0
  */
 public final class DataSourceManager {
 
@@ -17,6 +19,7 @@ public final class DataSourceManager {
      * Build a new instance.
      *
      * @param dataSourcePerNameMap Handled data sources
+     * @since 1.0.0
      */
     public DataSourceManager(final Map<String, DataSource> dataSourcePerNameMap) {
 
@@ -29,6 +32,7 @@ public final class DataSourceManager {
      * @return A connection to the data source
      * @throws SQLException        If a database access error occurs
      * @throws SQLTimeoutException If a timeout occur during database access
+     * @since 1.0.0
      */
     public Connection getConnection() throws SQLException {
 
@@ -42,6 +46,7 @@ public final class DataSourceManager {
      * @return A connection to the data source
      * @throws SQLException        If a database access error occurs
      * @throws SQLTimeoutException If a timeout occur during database access
+     * @since 1.0.0
      */
     public Connection getConnection(final String dataSourceName) throws SQLException {
 
@@ -53,6 +58,7 @@ public final class DataSourceManager {
      * Retrieves the default data source.
      *
      * @return The data source
+     * @since 1.0.0
      */
     public DataSource getDataSource() {
 
@@ -64,6 +70,7 @@ public final class DataSourceManager {
      *
      * @param dataSourceName The data source name
      * @return The data source
+     * @since 1.0.0
      */
     public DataSource getDataSource(final String dataSourceName) {
 
