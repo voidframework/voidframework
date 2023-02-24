@@ -41,6 +41,7 @@ import dev.voidframework.web.server.http.UndertowWebSocketCallback;
 import io.undertow.Undertow;
 import io.undertow.UndertowOptions;
 import io.undertow.server.HttpHandler;
+import io.undertow.server.handlers.GracefulShutdownHandler;
 import io.undertow.websockets.WebSocketConnectionCallback;
 import io.undertow.websockets.WebSocketProtocolHandshakeHandler;
 import org.apache.commons.lang3.StringUtils;
@@ -107,6 +108,7 @@ public class WebServer {
     private boolean isRunning;
     private Undertow undertowServer;
     private HttpRequestHandler httpRequestHandler;
+    private GracefulShutdownHandler httpGracefulShutdownHandler;
 
     /**
      * Build a new instance.
@@ -172,15 +174,24 @@ public class WebServer {
 
     /**
      * Stop the web server.
+     *
+     * @throws InterruptedException If web server can't be stopped gracefully
      */
     @LifeCycleStop(gracefulStopTimeoutConfigKey = CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT)
     @SuppressWarnings("unused")
-    public void stopWebServer() {
+    public void stopWebServer() throws InterruptedException {
 
         if (this.undertowServer != null) {
-            this.undertowServer.stop();
+            if (this.httpGracefulShutdownHandler != null) {
+                this.httpGracefulShutdownHandler.shutdown();
+                this.httpGracefulShutdownHandler.awaitShutdown();
+            } else {
+                this.undertowServer.stop();
+            }
+
             this.undertowServer = null;
             this.httpRequestHandler = null;
+            this.httpGracefulShutdownHandler = null;
             this.isRunning = false;
         } else {
             LOGGER.info("Web Daemon is already stopped!");
@@ -344,14 +355,16 @@ public class WebServer {
             this.httpRequestHandler,
             new SessionSigner(this.configuration));
 
+        this.httpGracefulShutdownHandler = new GracefulShutdownHandler(httpHandler);
+
         if (router.getRoutesAsMap().get(HttpMethod.WEBSOCKET) != null) {
             final HttpWebSocketRequestHandler wsIncomingConnHandler = new HttpWebSocketRequestHandler(this.injector);
             final WebSocketConnectionCallback wsCallback = new UndertowWebSocketCallback(wsIncomingConnHandler);
-            final HttpHandler wsHandler = new WebSocketProtocolHandshakeHandler(wsCallback, httpHandler);
+            final HttpHandler wsHandler = new WebSocketProtocolHandshakeHandler(wsCallback, this.httpGracefulShutdownHandler);
 
             undertowBuilder.setHandler(wsHandler);
         } else {
-            undertowBuilder.setHandler(httpHandler);
+            undertowBuilder.setHandler(this.httpGracefulShutdownHandler);
         }
 
         // Tries to Apply extra configuration
