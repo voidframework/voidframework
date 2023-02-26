@@ -18,6 +18,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * The annotated element length must be between the specified boundaries (included).
  * Trailing and ending whitespaces are ignored.
+ *
+ * @since 1.0.0
  */
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
@@ -27,26 +29,31 @@ public @interface TrimmedLength {
 
     /**
      * @return The constraint error message
+     * @since 1.0.0
      */
     String message() default "{org.hibernate.validator.constraints.Length.message}";
 
     /**
      * @return The subset of constraints
+     * @since 1.0.0
      */
     Class<?>[] groups() default {};
 
     /**
      * @return The attached Payload type
+     * @since 1.0.0
      */
     Class<? extends Payload>[] payload() default {};
 
     /**
      * @return The size the element must be higher or equal to
+     * @since 1.0.0
      */
     int min() default 0;
 
     /**
-     * @return The size the element must be lower or equal to
+     * @return The size the element must be lowed or equal to
+     * @since 1.0.0
      */
     int max() default Integer.MAX_VALUE;
 
@@ -54,6 +61,7 @@ public @interface TrimmedLength {
      * Defines several <code>@TrimmedSize</code> annotations on the same element
      *
      * @see TrimmedLength
+     * @since 1.0.0
      */
     @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
     @Retention(RUNTIME)
@@ -61,7 +69,8 @@ public @interface TrimmedLength {
     @interface List {
 
         /**
-         * @return Defined annotations.
+         * @return Defined annotations
+         * @since 1.0.0
          */
         TrimmedLength[] value();
     }

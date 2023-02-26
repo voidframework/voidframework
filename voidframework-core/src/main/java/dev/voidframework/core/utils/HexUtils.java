@@ -2,6 +2,8 @@ package dev.voidframework.core.utils;
 
 /**
  * Utility methods to handle hexadecimal values.
+ *
+ * @since 1.1.0
  */
 public final class HexUtils {
 
@@ -9,6 +11,8 @@ public final class HexUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.1.0
      */
     private HexUtils() {
 
@@ -20,6 +24,7 @@ public final class HexUtils {
      *
      * @param str String to convert
      * @return Hexadecimal representation
+     * @since 1.1.0
      */
     public static String toHex(final String str) {
 
@@ -35,6 +40,7 @@ public final class HexUtils {
      *
      * @param byteArray A byte array
      * @return Hexadecimal representation
+     * @since 1.1.0
      */
     public static String toHex(final byte[] byteArray) {
 

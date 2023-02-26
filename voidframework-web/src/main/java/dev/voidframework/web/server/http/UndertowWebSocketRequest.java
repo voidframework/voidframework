@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * Undertow {@link WebSocketRequest} implementation.
+ *
+ * @since 1.3.0
  */
 public final class UndertowWebSocketRequest implements WebSocketRequest {
 
@@ -26,6 +28,7 @@ public final class UndertowWebSocketRequest implements WebSocketRequest {
      * Build a new instance.
      *
      * @param webSocketHttpExchange Current WebSocket server exchange
+     * @since 1.3.0
      */
     public UndertowWebSocketRequest(final WebSocketHttpExchange webSocketHttpExchange) {
 

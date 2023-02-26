@@ -6,6 +6,8 @@ import java.util.Locale;
 
 /**
  * Convert a {@code String} into an {@code Locale}.
+ *
+ * @since 1.2.1
  */
 public class StringToLocaleConverter implements TypeConverter<String, Locale> {
 

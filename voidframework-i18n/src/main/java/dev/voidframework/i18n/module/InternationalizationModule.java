@@ -5,6 +5,8 @@ import dev.voidframework.i18n.Internationalization;
 
 /**
  * Internationalization module.
+ *
+ * @since 1.0.0
  */
 public final class InternationalizationModule extends AbstractModule {
 

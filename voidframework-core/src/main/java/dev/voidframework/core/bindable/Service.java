@@ -8,6 +8,8 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates that an annotated class is a "Service".
+ *
+ * @since 1.0.0
  */
 @Bindable
 @Documented

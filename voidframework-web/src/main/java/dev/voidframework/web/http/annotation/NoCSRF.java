@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates that CSRF token verification don't have to be performed.
+ *
+ * @since 1.1.0
  */
 @Controller
 @Documented

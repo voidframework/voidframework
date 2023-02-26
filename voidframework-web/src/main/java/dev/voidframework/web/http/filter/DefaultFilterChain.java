@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * Default implementation of {@link FilterChain}.
+ *
+ * @since 1.0.0
  */
 public final class DefaultFilterChain implements FilterChain {
 
@@ -18,6 +20,7 @@ public final class DefaultFilterChain implements FilterChain {
      * Build a new instance.
      *
      * @param filterList Filters to apply
+     * @since 1.0.0
      */
     public DefaultFilterChain(final List<Filter> filterList) {
 
@@ -25,12 +28,6 @@ public final class DefaultFilterChain implements FilterChain {
         this.currentFilterIndex = -1;
     }
 
-    /**
-     * Applies the next filter.
-     *
-     * @param context The current context
-     * @return A result
-     */
     @Override
     public Result applyNext(final Context context) {
 

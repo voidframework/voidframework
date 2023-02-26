@@ -13,6 +13,8 @@ import java.util.Map;
 
 /**
  * Adds some security headers.
+ *
+ * @since 1.2.0
  */
 @Singleton
 public final class SecurityHeadersFilter implements Filter {
@@ -23,6 +25,7 @@ public final class SecurityHeadersFilter implements Filter {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.2.0
      */
     @Inject
     public SecurityHeadersFilter(final Config configuration) {

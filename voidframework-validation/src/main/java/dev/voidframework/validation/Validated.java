@@ -9,6 +9,7 @@ import java.util.Map;
  * A validation result.
  *
  * @param <T> Type of the validated object
+ * @since 1.0.0
  */
 public class Validated<T> {
 
@@ -20,6 +21,7 @@ public class Validated<T> {
      *
      * @param instance                  The validated object instance
      * @param validationErrorPerPathMap The validation errors group by path
+     * @since 1.0.0
      */
     Validated(final T instance,
               final Map<String, List<ValidationError>> validationErrorPerPathMap) {
@@ -33,6 +35,7 @@ public class Validated<T> {
      *
      * @param <T> Type of the validated object
      * @return Newly created instance
+     * @since 1.0.0
      */
     public static <T> Validated<T> emptyOf() {
 
@@ -45,6 +48,7 @@ public class Validated<T> {
      * @param instance The validated object instance
      * @param <T>      Type of the validated object
      * @return Newly created instance
+     * @since 1.0.0
      */
     public static <T> Validated<T> emptyOf(final T instance) {
 
@@ -55,6 +59,7 @@ public class Validated<T> {
      * Indicates if validated object has errors.
      *
      * @return {@code true} if validated object has one error or more, otherwise {@code false}
+     * @since 1.0.0
      */
     public boolean hasError() {
 
@@ -66,6 +71,7 @@ public class Validated<T> {
      *
      * @param path The path
      * @return {@code true} if the specific path of validated object has one error or more, otherwise {@code false}
+     * @since 1.0.0
      */
     public boolean hasError(final String path) {
 
@@ -77,6 +83,7 @@ public class Validated<T> {
      * Indicates if validated object is valid.
      *
      * @return {@code true} if validated object has no errors, otherwise {@code false}
+     * @since 1.0.0
      */
     public boolean isValid() {
 
@@ -87,6 +94,7 @@ public class Validated<T> {
      * Returns all errors of validated object.
      *
      * @return All errors group by path
+     * @since 1.0.0
      */
     public Map<String, List<ValidationError>> getError() {
 
@@ -98,6 +106,7 @@ public class Validated<T> {
      *
      * @param path The path
      * @return The error if exists, otherwise, {@code null}
+     * @since 1.0.0
      */
     public ValidationError getError(final String path) {
 
@@ -110,6 +119,7 @@ public class Validated<T> {
      *
      * @param path The path
      * @return The error if exists, otherwise, {@code null}
+     * @since 1.0.0
      */
     public List<ValidationError> getErrorList(final String path) {
 
@@ -121,6 +131,7 @@ public class Validated<T> {
      * Returns instance of the validated object.
      *
      * @return The validated object
+     * @since 1.0.0
      */
     public T getInstance() {
 

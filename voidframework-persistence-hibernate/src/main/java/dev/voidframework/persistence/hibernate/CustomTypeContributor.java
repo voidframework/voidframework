@@ -7,6 +7,8 @@ import org.hibernate.service.ServiceRegistry;
 
 /**
  * Hibernate custom type contributor for Void Framework.
+ *
+ * @since 1.3.0
  */
 public class CustomTypeContributor implements TypeContributor {
 

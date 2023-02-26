@@ -9,6 +9,8 @@ import java.util.Map;
 
 /**
  * Java Virtual Machine health checker.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public class JavaVirtualMachineHealthChecker implements HealthChecker {

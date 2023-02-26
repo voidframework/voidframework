@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * Indicates that the feature will only be loaded if the condition is met. The value
  * is retrieved from the configuration, properties or environment variables.
+ *
+ * @since 1.5.0
  */
 public class ConfigurationCondition implements Condition {
 

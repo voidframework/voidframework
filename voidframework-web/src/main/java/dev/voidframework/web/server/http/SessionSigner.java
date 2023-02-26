@@ -24,6 +24,8 @@ import java.util.Map;
 
 /**
  * Signs and verifies the session.
+ *
+ * @since 1.0.0
  */
 public final class SessionSigner {
 
@@ -37,6 +39,7 @@ public final class SessionSigner {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     public SessionSigner(final Config configuration) {
 
@@ -61,6 +64,7 @@ public final class SessionSigner {
      *
      * @param signedSession The signed session to verify
      * @return The session retrieved from the signed session, otherwise, an empty session
+     * @since 1.0.0
      */
     public Session verify(final String signedSession) {
 
@@ -87,6 +91,7 @@ public final class SessionSigner {
      *
      * @param session The session to sign
      * @return The signed session
+     * @since 1.0.0
      */
     public String sign(final Session session) {
 
@@ -112,6 +117,7 @@ public final class SessionSigner {
      *
      * @param signatureKey The key to be used to sign the session data
      * @param timeToLive   The maximum lifetime allowed for a session
+     * @since 1.2.0
      */
     private record SessionSignerConfiguration(String signatureKey,
                                               Duration timeToLive) {

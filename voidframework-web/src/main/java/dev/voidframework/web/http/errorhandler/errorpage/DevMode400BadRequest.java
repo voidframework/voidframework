@@ -5,6 +5,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Generates a "400 Bad Request" page when development mode is enabled. The template
  * engine is not used, as it is not guaranteed to be available or compatible.
+ *
+ * @since 1.0.0
  */
 public final class DevMode400BadRequest {
 
@@ -79,6 +81,8 @@ public final class DevMode400BadRequest {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private DevMode400BadRequest() {
 
@@ -90,6 +94,7 @@ public final class DevMode400BadRequest {
      *
      * @param errorMessage The error message
      * @return The rendered template
+     * @since 1.0.0
      */
     public static String render(final String errorMessage) {
 

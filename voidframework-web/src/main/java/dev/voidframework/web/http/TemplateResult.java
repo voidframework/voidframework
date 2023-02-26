@@ -7,16 +7,22 @@ import java.util.Map;
 
 /**
  * Indicates that the elements necessary for the result to be processed by the template engine.
+ *
+ * @since 1.0.0
  */
 public final class TemplateResult {
 
     /**
      * The name of the template to render.
+     *
+     * @since 1.0.0
      */
     public final String templateName;
 
     /**
      * The data model to use.
+     *
+     * @since 1.0.0
      */
     public final Map<String, Object> dataModel;
 
@@ -25,6 +31,7 @@ public final class TemplateResult {
      *
      * @param templateName The name of the template to render
      * @param dataModel    The data model to use
+     * @since 1.0.0
      */
     private TemplateResult(final String templateName,
                            final Map<String, Object> dataModel) {
@@ -38,6 +45,7 @@ public final class TemplateResult {
      *
      * @param templateName The name of the template to render
      * @return Newly created instance
+     * @since 1.0.0
      */
     public static TemplateResult of(final String templateName) {
 
@@ -50,6 +58,7 @@ public final class TemplateResult {
      * @param templateName The name of the template to render
      * @param dataModel    The data model to use
      * @return Newly created instance
+     * @since 1.0.0
      */
     public static TemplateResult of(final String templateName,
                                     final Map<String, Object> dataModel) {
@@ -63,6 +72,7 @@ public final class TemplateResult {
      * @param templateName The name of the template to render
      * @param dataModel    The data model to use
      * @return Newly created instance
+     * @since 1.0.0
      */
     public static TemplateResult of(final String templateName,
                                     final Object dataModel) {

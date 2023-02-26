@@ -18,6 +18,7 @@ import java.util.Map;
  *
  * @see ConditionalFeature
  * @see Condition
+ * @since 1.5.0
  */
 public final class ConditionalFeatureVerifier {
 
@@ -30,6 +31,7 @@ public final class ConditionalFeatureVerifier {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.5.0
      */
     public ConditionalFeatureVerifier(final Config configuration) {
 
@@ -41,6 +43,7 @@ public final class ConditionalFeatureVerifier {
      * Checks if the feature is disabled.
      *
      * @return {@code true} if the feature is disabled, otherwise, {@code false}
+     * @since 1.5.0
      */
     public boolean isFeatureDisabled(final Class<?> classType) {
 
@@ -70,6 +73,7 @@ public final class ConditionalFeatureVerifier {
      *
      * @param conditionClassType Condition class type
      * @return Newly created instance
+     * @since 1.5.0
      */
     private Condition instantiateCondition(final Class<? extends Condition> conditionClassType) {
 
@@ -86,6 +90,7 @@ public final class ConditionalFeatureVerifier {
      *
      * @param annotation Annotation to use
      * @return Annotation metadata
+     * @since 1.5.0
      */
     private AnnotationMetadata buildAnnotationMetadata(final Annotation annotation) {
 

@@ -6,6 +6,8 @@ import java.util.Properties;
 
 /**
  * Utility to retrieve Void Framework version.
+ *
+ * @since 1.0.0
  */
 public final class VoidFrameworkVersion {
 
@@ -14,6 +16,8 @@ public final class VoidFrameworkVersion {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private VoidFrameworkVersion() {
 
@@ -24,6 +28,7 @@ public final class VoidFrameworkVersion {
      * Retrieves the framework version.
      *
      * @return The version number "x.y.z"
+     * @since 1.0.0
      */
     public static String getVersion() {
 

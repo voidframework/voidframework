@@ -7,6 +7,8 @@ import java.util.Set;
 
 /**
  * Conversion from one type to another.
+ *
+ * @since 1.0.0
  */
 public interface Conversion {
 
@@ -18,6 +20,7 @@ public interface Conversion {
      * @param <S>             The source generic type
      * @param <T>             The target generic type
      * @return {@code true} if conversion is possible, otherwise, {@code false}
+     * @since 1.0.0
      */
     <S, T> boolean canConvert(final Class<S> sourceTypeClass, final Class<T> targetTypeClass);
 
@@ -28,6 +31,7 @@ public interface Conversion {
      * @param targetTypeClass The target type class
      * @param <T>             The target generic type
      * @return {@code true} if conversion is possible, otherwise, {@code false}
+     * @since 1.0.0
      */
     <T> boolean canConvert(final Object object, final Class<T> targetTypeClass);
 
@@ -40,6 +44,7 @@ public interface Conversion {
      * @param <T>             The target generic type
      * @return converted object
      * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
+     * @since 1.0.0
      */
     <S, T> T convert(final S object, final Class<T> targetTypeClass);
 
@@ -53,6 +58,7 @@ public interface Conversion {
      * @param <T>             The target generic type
      * @return converted object
      * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
+     * @since 1.0.0
      */
     <S, T> T convert(final S object, final Class<S> sourceTypeClass, final Class<T> targetTypeClass);
 
@@ -65,6 +71,7 @@ public interface Conversion {
      * @param <T>             The target generic type
      * @return converted collection of objects
      * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
+     * @since 1.0.0
      */
     <S, T> List<T> convert(final Iterable<S> objectIterable, final Class<T> targetTypeClass);
 
@@ -78,6 +85,7 @@ public interface Conversion {
      * @param <T>             The target generic type
      * @return converted collection of objects
      * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
+     * @since 1.0.0
      */
     <S, T> List<T> convert(final Iterable<S> objectIterable, final Class<S> sourceTypeClass, final Class<T> targetTypeClass);
 
@@ -90,6 +98,7 @@ public interface Conversion {
      * @param <T>             The target generic type
      * @return converted collection of objects
      * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
+     * @since 1.0.0
      */
     <S, T> List<T> convert(final List<S> objectList, final Class<T> targetTypeClass);
 
@@ -103,6 +112,7 @@ public interface Conversion {
      * @param <T>             The target generic type
      * @return converted collection of objects
      * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
+     * @since 1.0.0
      */
     <S, T> List<T> convert(final List<S> objectList, final Class<S> sourceTypeClass, final Class<T> targetTypeClass);
 
@@ -115,6 +125,7 @@ public interface Conversion {
      * @param <T>             The target generic type
      * @return converted collection of objects
      * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
+     * @since 1.0.0
      */
     <S, T> Set<T> convert(final Set<S> objectList, final Class<T> targetTypeClass);
 
@@ -128,6 +139,7 @@ public interface Conversion {
      * @param <T>             The target generic type
      * @return converted collection of objects
      * @throws ConversionException.ConverterDoesNotExist If the needed converter does not exist
+     * @since 1.0.0
      */
     <S, T> Set<T> convert(final Set<S> objectList, final Class<S> sourceTypeClass, final Class<T> targetTypeClass);
 }

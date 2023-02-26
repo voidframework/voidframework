@@ -29,6 +29,8 @@ import java.io.Writer;
 
 /**
  * Utility to handle XML document.
+ *
+ * @since 1.0.0
  */
 public final class XmlUtils {
 
@@ -45,6 +47,8 @@ public final class XmlUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private XmlUtils() {
 
@@ -56,6 +60,7 @@ public final class XmlUtils {
      *
      * @param xml The XML to convert.
      * @return The string representation.
+     * @since 1.0.0
      */
     public static String toString(final Document xml) {
 
@@ -77,6 +82,7 @@ public final class XmlUtils {
      *
      * @param obj Object to convert in YAML
      * @return The string representation
+     * @since 1.2.0
      */
     public static String toString(final Object obj) {
 
@@ -94,6 +100,7 @@ public final class XmlUtils {
      * @param xml             XML document to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.0.1
      */
     public static <T> T fromXml(final Document xml, final Class<T> outputClassType) {
 
@@ -111,6 +118,7 @@ public final class XmlUtils {
      * @param xml            XML document to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromXml(final Document xml, final JavaType outputJavaType) {
 
@@ -128,6 +136,7 @@ public final class XmlUtils {
      * @param xmlByteArray    XML document as bytes array to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.0.1
      */
     public static <T> T fromXml(final byte[] xmlByteArray, final Class<T> outputClassType) {
 
@@ -149,6 +158,7 @@ public final class XmlUtils {
      * @param inputStreamXml  {@code InputStream} containing a XML document to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromXml(final InputStream inputStreamXml, final Class<T> outputClassType) {
 
@@ -170,6 +180,7 @@ public final class XmlUtils {
      * @param xmlByteArray   XML document as bytes array to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromXml(final byte[] xmlByteArray, final JavaType outputJavaType) {
 
@@ -191,6 +202,7 @@ public final class XmlUtils {
      * @param inputStreamXml {@code InputStream} containing a XML document to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromXml(final InputStream inputStreamXml, final JavaType outputJavaType) {
 
@@ -210,6 +222,7 @@ public final class XmlUtils {
      *
      * @param data data to convert in XML
      * @return The XML document
+     * @since 1.0.0
      */
     public static Document toXml(final byte[] data) {
 
@@ -234,6 +247,7 @@ public final class XmlUtils {
      *
      * @param inputStreamXml {@code InputStream} containing data to convert in XML
      * @return The XML document
+     * @since 1.3.0
      */
     public static Document toXml(final InputStream inputStreamXml) {
 

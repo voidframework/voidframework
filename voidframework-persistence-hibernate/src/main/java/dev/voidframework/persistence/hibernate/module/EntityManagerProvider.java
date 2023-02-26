@@ -35,6 +35,8 @@ import java.util.Properties;
  * the {@link EntityManager} to return when a user calls the method {@link #get()}. These
  * methods are used to handle transaction with the {@link jakarta.transaction.Transactional}
  * annotation interceptor.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public class EntityManagerProvider implements Provider<EntityManager> {
@@ -52,6 +54,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      *
      * @param dataSourceName      The data source name
      * @param modelsJarUrlPattern The pattern to identify JAR containing models
+     * @since 1.0.0
      */
     public EntityManagerProvider(final String dataSourceName, final String modelsJarUrlPattern) {
 
@@ -64,6 +67,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * Sets the data source manager provider.
      *
      * @param dataSourceManagerProvider The data source manager provider
+     * @since 1.0.0
      */
     @Inject
     public void setDataSourceManagerProvider(final Provider<DataSourceManager> dataSourceManagerProvider) {
@@ -84,6 +88,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
     /**
      * Initializes a new entity manager for the current Thread.
+     *
+     * @since 1.0.0
      */
     public void initializeNewEntityFactoryManager() {
 
@@ -99,6 +105,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
     /**
      * Destroys the latest entity manager initialized for the current Thread.
+     *
+     * @since 1.0.0
      */
     public void destroyLatestEntityManager() {
 
@@ -117,6 +125,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * Checks if, at least, one entity manager is initialized for the current Thread.
      *
      * @return {@code true} at least one entity manager is initialized, otherwise, {@code false}
+     * @since 1.0.0
      */
     public boolean isEntityManagerMustBeInitialized() {
 
@@ -126,6 +135,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
     /**
      * Creates the entity manager factory, if needed.
+     *
+     * @since 1.0.0
      */
     private void createEntityManagerFactoryIfNeeded() {
 
@@ -146,6 +157,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      * Creates a list of JAR files who can contain models.
      *
      * @return A list of JAR file URLs
+     * @since 1.1.2
      */
     private List<URL> createModelsJarFileUrls() {
 
@@ -199,6 +211,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      *
      * @param urlAsString The URL as String
      * @return The newly created URL
+     * @since 1.1.2
      */
     private URL createURL(final String urlAsString) {
 
@@ -213,6 +226,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
 
     /**
      * Persistence unit information.
+     *
+     * @since 1.0.0
      */
     private static class PersistenceUnitInfoIml implements PersistenceUnitInfo {
 
@@ -224,6 +239,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
          *
          * @param persistenceUnitName Name of the persistence unit
          * @param jarUrlList          JAR URLs
+         * @since 1.0.0
          */
         private PersistenceUnitInfoIml(final String persistenceUnitName,
                                        final List<URL> jarUrlList) {

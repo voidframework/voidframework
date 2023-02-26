@@ -5,6 +5,8 @@ import java.util.Map;
 
 /**
  * Provides locale-specific messages.
+ *
+ * @since 1.0.0
  */
 public interface Internationalization {
 
@@ -14,6 +16,7 @@ public interface Internationalization {
      * @param locale The locale corresponding to the translation to be used
      * @param key    The message key
      * @return The message, otherwise, a String containing the message key surrounded with "%"
+     * @since 1.0.0
      */
     String getMessage(final Locale locale, final String key);
 
@@ -24,6 +27,7 @@ public interface Internationalization {
      * @param key           The message key
      * @param argumentArray The message arguments
      * @return The message, otherwise, a String containing the message key surrounded with "%"
+     * @since 1.0.0
      */
     String getMessage(final Locale locale, final String key, final Object... argumentArray);
 
@@ -35,6 +39,7 @@ public interface Internationalization {
      * @param key           The message key
      * @param argumentArray The message arguments
      * @return The message, otherwise, a String containing the message key surrounded with "%"
+     * @since 1.0.0
      */
     String getMessage(final Locale locale, final long quantity, final String key, final Object... argumentArray);
 
@@ -43,6 +48,7 @@ public interface Internationalization {
      *
      * @param locale The locale
      * @return A {@code Map} containing all messages with linked key
+     * @since 1.5.0
      */
     Map<String, String> getAllMessages(final Locale locale);
 }

@@ -6,6 +6,8 @@ import java.util.UUID;
 
 /**
  * Convert a {@code String} into an {@code UUID}.
+ *
+ * @since 1.0.0
  */
 public class StringToUUIDConverter implements TypeConverter<String, UUID> {
 

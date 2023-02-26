@@ -8,6 +8,8 @@ import java.util.Locale;
  * Represents a simple key / value object. Key must be a simple
  * string and value could be a string representing anything (ie:
  * [1,2,3]).
+ *
+ * @since 1.2.0
  */
 public final class KeyValueCfgObject {
 
@@ -19,6 +21,7 @@ public final class KeyValueCfgObject {
      *
      * @param key   The configuration key
      * @param value The configuration value
+     * @since 1.2.0
      */
     public KeyValueCfgObject(final String key, final String value) {
 
@@ -59,6 +62,7 @@ public final class KeyValueCfgObject {
      * the application configuration.
      *
      * @param appConfig The application configuration content
+     * @since 1.2.0
      */
     public void apply(final StringBuilder appConfig) {
 
@@ -83,6 +87,7 @@ public final class KeyValueCfgObject {
      * Same as {@link #toString()} but with a potential mask applied to the value.
      *
      * @return A string representation of the object
+     * @since 1.2.0
      */
     public String toStringWithAdaptativeMask() {
 
@@ -98,6 +103,7 @@ public final class KeyValueCfgObject {
      * Checks if the current object hold a sensitive value.
      *
      * @return {@code true} if the current object hold a sensitive value, otherwise, {@code false}
+     * @since 1.2.0
      */
     private boolean isSensitiveValue() {
 

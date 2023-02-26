@@ -20,6 +20,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This service provides methods for validating an object (JSR 380).
+ *
+ * @since 1.0.0
  */
 @Service
 @Singleton
@@ -34,6 +36,8 @@ public final class Validation {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.0.0
      */
     public Validation() {
 
@@ -46,6 +50,7 @@ public final class Validation {
      * @param objectToValidate The object to validate
      * @param <T>              Type of the object to validate
      * @return The validated object
+     * @since 1.0.0
      */
     public <T> Validated<T> validate(final T objectToValidate) {
 
@@ -60,6 +65,7 @@ public final class Validation {
      * @param constraintGroupArray The constraint groups to apply (OPTIONAL)
      * @param <T>                  Type of the object to validate
      * @return The validated object
+     * @since 1.2.0
      */
     public <T> Validated<T> validate(final T objectToValidate,
                                      final Locale locale,
@@ -98,6 +104,7 @@ public final class Validation {
      *
      * @param constraintViolation The constraint violation
      * @return The message arguments array
+     * @since 1.0.0
      */
     private Object[] createMessageArgumentArray(final ConstraintViolation<?> constraintViolation) {
 
@@ -113,6 +120,7 @@ public final class Validation {
      *
      * @param locale The locale to use with the message interpolator
      * @return The newly created validator
+     * @since 1.0.0
      */
     private Validator createValidator(final Locale locale) {
 
@@ -129,6 +137,7 @@ public final class Validation {
      *
      * @param delegate The base message interpolator
      * @param locale   The locale
+     * @since 1.0.0
      */
     private record MessageInterpolatorWithLocale(MessageInterpolator delegate, Locale locale) implements MessageInterpolator {
 

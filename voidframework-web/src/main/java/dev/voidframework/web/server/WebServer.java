@@ -74,6 +74,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Web server.
+ *
+ * @since 1.0.0
  */
 @Bindable
 @Singleton
@@ -115,6 +117,7 @@ public class WebServer {
      *
      * @param configuration The application configuration
      * @param injector      The injector instance
+     * @since 1.0.0
      */
     @Inject
     public WebServer(final Config configuration, final Injector injector) {
@@ -127,6 +130,8 @@ public class WebServer {
 
     /**
      * Start the web server.
+     *
+     * @since 1.0.0
      */
     @LifeCycleStart(priority = 800)
     @SuppressWarnings("unused")
@@ -176,6 +181,7 @@ public class WebServer {
      * Stop the web server.
      *
      * @throws InterruptedException If web server can't be stopped gracefully
+     * @since 1.0.0
      */
     @LifeCycleStop(gracefulStopTimeoutConfigKey = CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT)
     @SuppressWarnings("unused")
@@ -202,6 +208,7 @@ public class WebServer {
      * Load programmatically defined custom routes.
      *
      * @return The router instance
+     * @since 1.3.0
      */
     private Router loadProgrammaticallyDefinedRoutes() {
 
@@ -226,6 +233,7 @@ public class WebServer {
      * Retrieves all global filters.
      *
      * @return All global filters
+     * @since 1.3.0
      */
     private List<Class<? extends Filter>> retrieveAllGlobalFilters() {
 
@@ -246,6 +254,7 @@ public class WebServer {
      * Instantiates the error handler
      *
      * @return Instantiated error handler
+     * @since 1.3.0
      */
     private ErrorHandler instantiateErrorHandler() {
 
@@ -271,6 +280,8 @@ public class WebServer {
 
     /**
      * Registers built-in converters.
+     *
+     * @since 1.3.0
      */
     private void registerBuiltInConverters() {
 
@@ -292,6 +303,7 @@ public class WebServer {
      * Creates Undertow web server.
      *
      * @return Newly created Undertow web server instance
+     * @since 1.3.0
      */
     private Undertow createUndertowWebServer(final Router router) {
 
@@ -383,6 +395,7 @@ public class WebServer {
      * @param undertowBuilder                      The Undertow web server builder
      * @param extraWebServerConfigurationClassName Class name of the {@link ExtraWebServerConfiguration} implementation to use
      * @see ExtraWebServerConfiguration
+     * @since 1.3.0
      */
     private void applyExtraWebServerConfiguration(final Undertow.Builder undertowBuilder, final String extraWebServerConfigurationClassName) {
 
@@ -410,6 +423,7 @@ public class WebServer {
      * Creates a new SSL context.
      *
      * @return Newly created SSL context
+     * @since 1.6.0
      */
     private SSLContext createSSLContext() {
 
@@ -465,6 +479,7 @@ public class WebServer {
      *
      * @return An input stream
      * @throws IOException If stream cannot be opened
+     * @since 1.6.0
      */
     private InputStream tryOpenKeyStore() throws IOException {
 

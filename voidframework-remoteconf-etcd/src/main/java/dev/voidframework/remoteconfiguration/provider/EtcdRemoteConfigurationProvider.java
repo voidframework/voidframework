@@ -23,6 +23,8 @@ import java.util.function.Consumer;
 
 /**
  * Retrieves configuration from etcd.
+ *
+ * @since 1.2.0
  */
 public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfigurationProvider {
 
@@ -128,6 +130,7 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
      * @param jsonNode            The Json node to explore
      * @param keyValueObjConsumer The Key/Value object consumer
      * @param fileObjConsumer     The File object consumer
+     * @since 1.2.0
      */
     private void exploreJsonNode(final String prefix,
                                  final JsonNode jsonNode,

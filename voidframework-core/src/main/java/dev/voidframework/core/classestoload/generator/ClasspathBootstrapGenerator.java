@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * Generates "classpath.bootstrap" file.
+ *
+ * @since 1.0.0
  */
 public final class ClasspathBootstrapGenerator {
 
@@ -19,6 +21,7 @@ public final class ClasspathBootstrapGenerator {
      * Main entry of the generator (called by Maven).
      *
      * @param args The arguments
+     * @since 1.0.0
      */
     public static void main(final String[] args) {
 
@@ -48,6 +51,7 @@ public final class ClasspathBootstrapGenerator {
      * @param configuration The application configuration
      * @param path          The configuration value path
      * @return A list of String
+     * @since 1.0.0
      */
     private static List<String> resolveConfigAsStringList(final Config configuration, final String path) {
 

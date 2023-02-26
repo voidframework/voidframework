@@ -4,6 +4,8 @@ import dev.voidframework.core.remoteconfiguration.RemoteConfigurationProvider;
 
 /**
  * All exceptions thrown by the remote configuration are subclasses of {@code RemoteConfigurationException}.
+ *
+ * @since 1.2.0
  */
 public class RemoteConfigurationException extends RuntimeException {
 
@@ -12,6 +14,7 @@ public class RemoteConfigurationException extends RuntimeException {
      *
      * @param providerClassName The provider class name
      * @param message           The detail message
+     * @since 1.2.0
      */
     protected RemoteConfigurationException(final String providerClassName, final String message) {
 
@@ -24,6 +27,7 @@ public class RemoteConfigurationException extends RuntimeException {
      * @param providerClassName The provider class name
      * @param message           The detail message
      * @param cause             The cause
+     * @since 1.2.0
      */
     protected RemoteConfigurationException(final String providerClassName, final String message, final Throwable cause) {
 
@@ -34,6 +38,7 @@ public class RemoteConfigurationException extends RuntimeException {
      * Build a new instance.
      *
      * @param message The detail message
+     * @since 1.2.0
      */
     protected RemoteConfigurationException(final String message) {
 
@@ -45,6 +50,7 @@ public class RemoteConfigurationException extends RuntimeException {
      *
      * @param message The detail message
      * @param cause   The cause
+     * @since 1.2.0
      */
     protected RemoteConfigurationException(final String message, final Throwable cause) {
 
@@ -53,6 +59,8 @@ public class RemoteConfigurationException extends RuntimeException {
 
     /**
      * This exception indicate that provider does not exist.
+     *
+     * @since 1.2.0
      */
     public static class ProviderDoesNotExist extends RemoteConfigurationException {
 
@@ -60,6 +68,7 @@ public class RemoteConfigurationException extends RuntimeException {
          * Build a new instance.
          *
          * @param providerClassPath The provider class path
+         * @since 1.2.0
          */
         public ProviderDoesNotExist(final String providerClassPath) {
 
@@ -69,6 +78,8 @@ public class RemoteConfigurationException extends RuntimeException {
 
     /**
      * This exception indicate that provider fail to fetch remote configuration.
+     *
+     * @since 1.2.0
      */
     public static class FetchError extends RemoteConfigurationException {
 
@@ -77,6 +88,7 @@ public class RemoteConfigurationException extends RuntimeException {
          *
          * @param providerClass The provider class
          * @param cause         The cause
+         * @since 1.2.0
          */
         public FetchError(final Class<? extends RemoteConfigurationProvider> providerClass, final String cause) {
 
@@ -88,6 +100,7 @@ public class RemoteConfigurationException extends RuntimeException {
          *
          * @param providerClass The provider class
          * @param cause         The cause
+         * @since 1.2.0
          */
         public FetchError(final Class<? extends RemoteConfigurationProvider> providerClass, final Throwable cause) {
 
@@ -97,6 +110,8 @@ public class RemoteConfigurationException extends RuntimeException {
 
     /**
      * This exception indicate that provider can't be instantiated / used.
+     *
+     * @since 1.2.0
      */
     public static class BadProvider extends RemoteConfigurationException {
 
@@ -105,6 +120,7 @@ public class RemoteConfigurationException extends RuntimeException {
          *
          * @param providerClassPath The provider class path
          * @param cause             The cause
+         * @since 1.2.0
          */
         public BadProvider(final String providerClassPath, final Throwable cause) {
 
@@ -114,6 +130,8 @@ public class RemoteConfigurationException extends RuntimeException {
 
     /**
      * This exception indicate that a value was not valid.
+     *
+     * @since 1.2.0
      */
     public static class BadValue extends RemoteConfigurationException {
 
@@ -123,8 +141,11 @@ public class RemoteConfigurationException extends RuntimeException {
          * @param path    The value path
          * @param message The error message
          * @param cause   The cause
+         * @since 1.2.0
          */
-        public BadValue(String path, String message, Throwable cause) {
+        public BadValue(final String path,
+                        final String message,
+                        final Throwable cause) {
 
             super("Invalid value at '" + path + "': " + message, cause);
         }
@@ -134,8 +155,9 @@ public class RemoteConfigurationException extends RuntimeException {
          *
          * @param path    The value path
          * @param message The error message
+         * @since 1.2.0
          */
-        public BadValue(String path, String message) {
+        public BadValue(final String path, final String message) {
 
             this(path, message, null);
         }
@@ -143,6 +165,8 @@ public class RemoteConfigurationException extends RuntimeException {
 
     /**
      * This exception indicate that file can't be saved.
+     *
+     * @since 1.2.0
      */
     public static class StorageException extends RemoteConfigurationException {
 
@@ -151,6 +175,7 @@ public class RemoteConfigurationException extends RuntimeException {
          *
          * @param path    The key path
          * @param message The detail message
+         * @since 1.2.0
          */
         public StorageException(final String path, final String message) {
 
@@ -163,8 +188,11 @@ public class RemoteConfigurationException extends RuntimeException {
          * @param path    The key path
          * @param message The detail message
          * @param cause   The cause
+         * @since 1.2.0
          */
-        public StorageException(final String path, final String message, final Exception cause) {
+        public StorageException(final String path,
+                                final String message,
+                                final Exception cause) {
 
             super("Can't save the file '" + path + "': " + message, cause);
         }

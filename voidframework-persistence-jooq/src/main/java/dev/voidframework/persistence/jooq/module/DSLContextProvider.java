@@ -16,6 +16,8 @@ import java.util.Deque;
  * the {@link DSLContext} to return when a user calls the method {@link #get()}. These
  * methods are used to handle transaction with the {@link jakarta.transaction.Transactional}
  * annotation interceptor.
+ *
+ * @since 1.4.0
  */
 @Singleton
 public class DSLContextProvider implements Provider<DSLContext> {
@@ -30,6 +32,7 @@ public class DSLContextProvider implements Provider<DSLContext> {
      *
      * @param dataSourceName The data source name
      * @param sqlDialect     The SQL dialect
+     * @since 1.4.0
      */
     public DSLContextProvider(final String dataSourceName, final SQLDialect sqlDialect) {
 
@@ -42,6 +45,7 @@ public class DSLContextProvider implements Provider<DSLContext> {
      * Sets the data source manager provider.
      *
      * @param dataSourceManagerProvider The data source manager provider
+     * @since 1.4.0
      */
     @Inject
     public void setDataSourceManagerProvider(final Provider<DataSourceManager> dataSourceManagerProvider) {
@@ -61,6 +65,8 @@ public class DSLContextProvider implements Provider<DSLContext> {
 
     /**
      * Destroys the latest DSL context initialized for the current Thread.
+     *
+     * @since 1.4.0
      */
     public void destroyLatestDSLContext() {
 
@@ -76,6 +82,8 @@ public class DSLContextProvider implements Provider<DSLContext> {
 
     /**
      * Initializes a new DSL context for the current Thread.
+     *
+     * @since 1.4.0
      */
     public void initializeNewDSLContext() {
 
@@ -89,6 +97,8 @@ public class DSLContextProvider implements Provider<DSLContext> {
 
     /**
      * Replaces the current DSL context with another one.
+     *
+     * @since 1.4.0
      */
     public void replaceExistingDSLContext(final DSLContext dslContext) {
 
@@ -106,6 +116,7 @@ public class DSLContextProvider implements Provider<DSLContext> {
      * Checks if, at least, one DSL context is initialized for the current Thread.
      *
      * @return {@code true} at least one DSL context is initialized, otherwise, {@code false}
+     * @since 1.4.0
      */
     public boolean isDSLContextMustBeInitialized() {
 
@@ -117,6 +128,7 @@ public class DSLContextProvider implements Provider<DSLContext> {
      * Creates a new DSL context.
      *
      * @return Newly created DSL context
+     * @since 1.4.0
      */
     private DSLContext createDSLContext() {
 

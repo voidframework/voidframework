@@ -7,6 +7,8 @@ import java.util.List;
 /**
  * Generates a "500 Internal Server Error" page when development mode is enabled. The
  * template engine is not used, as it is not guaranteed to be available or compatible.
+ *
+ * @since 1.0.0
  */
 public final class DevMode500InternalServerError {
 
@@ -97,6 +99,8 @@ public final class DevMode500InternalServerError {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private DevMode500InternalServerError() {
 
@@ -111,6 +115,7 @@ public final class DevMode500InternalServerError {
      * @param errorLineNumber Line number (from zero) where is located the error
      * @param fileLineList    Partial file line content
      * @return The rendered template
+     * @since 1.0.0
      */
     public static String render(final String errorMessage,
                                 final String errorLocation,

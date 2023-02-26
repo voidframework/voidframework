@@ -4,6 +4,8 @@ import dev.voidframework.scheduler.exception.SchedulerException;
 
 /**
  * CRON expression part representing a range (min, max).
+ *
+ * @since 1.0.0
  */
 class CronExpressionPartRange extends CronExpressionPartStepValue {
 
@@ -16,6 +18,7 @@ class CronExpressionPartRange extends CronExpressionPartStepValue {
      * @param stepValue The step value
      * @param min       The min range value
      * @param max       The max range value
+     * @since 1.0.0
      */
     public CronExpressionPartRange(final int stepValue, final int min, final int max) {
 

@@ -42,6 +42,8 @@ import java.util.Map;
 
 /**
  * Undertow HTTP handler.
+ *
+ * @since 1.0.0
  */
 public class UndertowHttpHandler implements HttpHandler {
 
@@ -59,6 +61,7 @@ public class UndertowHttpHandler implements HttpHandler {
      * @param configuration      The application configuration
      * @param httpRequestHandler The HTTP request handler
      * @param sessionSigner      The session signer
+     * @since 1.0.0
      */
     public UndertowHttpHandler(final Config configuration,
                                final HttpRequestHandler httpRequestHandler,
@@ -240,6 +243,7 @@ public class UndertowHttpHandler implements HttpHandler {
      *
      * @param httpServerExchange The exchange to use
      * @return The newly created HTTP request, otherwise, an exception
+     * @since 1.3.0
      */
     private Either<HttpRequest, HttpException.BadRequest> createHttpRequestWithOptionalBodyContent(final HttpServerExchange httpServerExchange) {
 
@@ -302,6 +306,7 @@ public class UndertowHttpHandler implements HttpHandler {
      *
      * @param httpServerExchange The exchange to use
      * @return The newly created HTTP request
+     * @since 1.0.0
      */
     private HttpRequest createHttpRequestWithoutBodyContent(final HttpServerExchange httpServerExchange) {
 
@@ -314,6 +319,7 @@ public class UndertowHttpHandler implements HttpHandler {
      * @param httpRequest           The current HTTP request
      * @param availableLanguageList Available languages
      * @return The {@code Locale} to use
+     * @since 1.3.0
      */
     private Locale determineI18NLocale(final HttpRequest httpRequest, final List<String> availableLanguageList) {
 
@@ -335,6 +341,7 @@ public class UndertowHttpHandler implements HttpHandler {
      * Force close of all upload files {@code InputStream}.
      *
      * @param httpRequest The current HTTP request
+     * @since 1.3.0
      */
     private void forceCloseUploadedFileInputStream(final HttpRequest httpRequest) {
 

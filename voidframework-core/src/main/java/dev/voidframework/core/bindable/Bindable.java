@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 /**
  * Indicates that an annotated class can be bind. Such classes are considered
  * as candidates for auto-detection during the classpath scanning.
+ *
+ * @since 1.0.0
  */
 @Documented
 @Target(ElementType.TYPE)

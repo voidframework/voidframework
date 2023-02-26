@@ -13,6 +13,8 @@ import java.util.Map;
 
 /**
  * Redis health checker.
+ *
+ * @since 1.1.0
  */
 @Bindable
 @Singleton
@@ -24,6 +26,7 @@ public class RedisHealthChecker implements HealthChecker {
      * Build a new instance.
      *
      * @param jedisProvider Jedis provider
+     * @since 1.1.0
      */
     @Inject
     public RedisHealthChecker(final Provider<Jedis> jedisProvider) {

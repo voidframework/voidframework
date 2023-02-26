@@ -4,6 +4,8 @@ import dev.voidframework.web.http.errorhandler.ErrorHandler;
 
 /**
  * All exceptions related to the error handler are subclasses of {@code ErrorHandlerException}.
+ *
+ * @since 1.0.0
  */
 public class ErrorHandlerException extends RuntimeException {
 
@@ -12,6 +14,7 @@ public class ErrorHandlerException extends RuntimeException {
      *
      * @param message The detail message
      * @param cause   The root cause
+     * @since 1.0.0
      */
     protected ErrorHandlerException(final String message, final Throwable cause) {
 
@@ -22,6 +25,7 @@ public class ErrorHandlerException extends RuntimeException {
      * Build a new instance.
      *
      * @param message The detail message
+     * @since 1.0.0
      */
     protected ErrorHandlerException(final String message) {
 
@@ -30,6 +34,8 @@ public class ErrorHandlerException extends RuntimeException {
 
     /**
      * Exception indicates that request class was not found.
+     *
+     * @since 1.0.0
      */
     public static class ClassNotFound extends ErrorHandlerException {
 
@@ -37,6 +43,7 @@ public class ErrorHandlerException extends RuntimeException {
          * Build a new instance.
          *
          * @param className The class name
+         * @since 1.0.0
          */
         public ClassNotFound(final String className) {
 
@@ -46,6 +53,8 @@ public class ErrorHandlerException extends RuntimeException {
 
     /**
      * Exception indicates that provided error handler is invalid.
+     *
+     * @since 1.0.0
      */
     public static class InvalidClass extends ErrorHandlerException {
 
@@ -53,6 +62,7 @@ public class ErrorHandlerException extends RuntimeException {
          * Build a new instance.
          *
          * @param className The class name
+         * @since 1.0.0
          */
         public InvalidClass(final String className) {
 
@@ -62,6 +72,8 @@ public class ErrorHandlerException extends RuntimeException {
 
     /**
      * Exception indicates that provided error handler can't be instantiated.
+     *
+     * @since 1.0.0
      */
     public static class CantInstantiate extends ErrorHandlerException {
 
@@ -69,6 +81,7 @@ public class ErrorHandlerException extends RuntimeException {
          * Build a new instance.
          *
          * @param className The class name
+         * @since 1.0.0
          */
         public CantInstantiate(final String className) {
 
@@ -80,6 +93,7 @@ public class ErrorHandlerException extends RuntimeException {
          *
          * @param className The class name
          * @param cause     The cause
+         * @since 1.0.0
          */
         public CantInstantiate(final String className, final Exception cause) {
 

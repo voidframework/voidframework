@@ -17,6 +17,7 @@ import java.util.function.Supplier;
  * CUID-based IdentifierGenerator.
  *
  * @see CuidGenerator
+ * @since 1.3.0
  */
 public final class CUIDIdentifierGenerator implements IdentifierGenerator {
 
@@ -28,6 +29,7 @@ public final class CUIDIdentifierGenerator implements IdentifierGenerator {
      * @param config          The generator configuration
      * @param annotatedMember The member annotated with {@code @CUIDGeneratedValue}
      * @param context         The context
+     * @since 1.3.0
      */
     public CUIDIdentifierGenerator(final CuidGenerator config,
                                    final Member annotatedMember,
@@ -55,6 +57,7 @@ public final class CUIDIdentifierGenerator implements IdentifierGenerator {
      * Generates a random CUID.
      *
      * @return Newly generated CUID
+     * @since 1.3.0
      */
     private static CUID generateAsCUID() {
 
@@ -65,6 +68,7 @@ public final class CUIDIdentifierGenerator implements IdentifierGenerator {
      * Generates a random CUID.
      *
      * @return Newly generated CUID as String
+     * @since 1.3.0
      */
     private static String generateAsString() {
 
@@ -75,6 +79,7 @@ public final class CUIDIdentifierGenerator implements IdentifierGenerator {
      * Generates a random CUID.
      *
      * @return Newly generated CUID as byte array
+     * @since 1.3.0
      */
     private static byte[] generateAsByteArray() {
 

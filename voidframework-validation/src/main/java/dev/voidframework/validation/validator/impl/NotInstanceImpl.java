@@ -6,6 +6,8 @@ import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * Implementation of the annotation {@link NotInstance}.
+ *
+ * @since 1.6.0
  */
 public class NotInstanceImpl implements ConstraintValidator<NotInstance, Object> {
 

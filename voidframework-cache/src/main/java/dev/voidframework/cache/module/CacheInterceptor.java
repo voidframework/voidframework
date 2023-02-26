@@ -10,16 +10,22 @@ import org.aopalliance.intercept.MethodInvocation;
 
 /**
  * Intercepts method calls to apply the desired cache behavior.
+ *
+ * @since 1.0.0
  */
 public abstract class CacheInterceptor implements MethodInterceptor {
 
     /**
      * Cache engine to use.
+     *
+     * @since 1.0.0
      */
     protected CacheEngine cacheEngine;
 
     /**
      * Build a new instance.
+     *
+     * @since 1.0.0
      */
     protected CacheInterceptor() {
 
@@ -30,6 +36,7 @@ public abstract class CacheInterceptor implements MethodInterceptor {
      * Sets the cache engine to use.
      *
      * @param cacheEngine The cache engine
+     * @since 1.0.0
      */
     @Inject
     public void setCacheEngine(final CacheEngine cacheEngine) {
@@ -45,6 +52,7 @@ public abstract class CacheInterceptor implements MethodInterceptor {
      * @param methodInvocation The current method invocation
      * @param keyPattern       The key pattern
      * @return The resolved cache key
+     * @since 1.0.0
      */
     protected String resolveCacheKey(final MethodInvocation methodInvocation, final String keyPattern) {
 

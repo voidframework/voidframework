@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
 
 /**
  * Indicates that an annotated class is a web controller.
+ *
+ * @since 1.0.0
  */
 @Controller
 @Documented
@@ -21,6 +23,7 @@ public @interface WebController {
      * Defines a prefix that will be applied to all routes defined in the annotated class.
      *
      * @return The prefix to apply
+     * @since 1.0.0
      */
     String prefixRoute() default "";
 }

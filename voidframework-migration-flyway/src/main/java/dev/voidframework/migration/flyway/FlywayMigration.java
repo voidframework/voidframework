@@ -16,6 +16,8 @@ import java.util.List;
 
 /**
  * Flyway migration.
+ *
+ * @since 1.0.0
  */
 @Bindable
 public final class FlywayMigration {
@@ -28,6 +30,7 @@ public final class FlywayMigration {
      *
      * @param configuration             The application configuration
      * @param dataSourceManagerProvider The data source manager provider
+     * @since 1.0.0
      */
     @Inject
     public FlywayMigration(final Config configuration,
@@ -39,6 +42,8 @@ public final class FlywayMigration {
 
     /**
      * Migrates database using Flyway.
+     *
+     * @since 1.0.0
      */
     @LifeCycleStart(priority = 50)
     public void migrate() {

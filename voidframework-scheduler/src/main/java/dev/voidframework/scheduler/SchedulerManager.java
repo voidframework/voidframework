@@ -25,6 +25,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Scheduler manager takes care of executing scheduled hooks defined by the
  * use of the {@link dev.voidframework.scheduler.Scheduled} annotations.
+ *
+ * @since 1.0.0
  */
 @Bindable
 @Singleton
@@ -40,6 +42,7 @@ public final class SchedulerManager {
      *
      * @param configuration The application configuration
      * @param injector      The injector instance
+     * @since 1.0.0
      */
     @Inject
     public SchedulerManager(final Config configuration, final Injector injector) {
@@ -52,6 +55,8 @@ public final class SchedulerManager {
 
     /**
      * Start the scheduler.
+     *
+     * @since 1.0.0
      */
     @LifeCycleStart(priority = 600)
     @SuppressWarnings("unused")
@@ -70,6 +75,8 @@ public final class SchedulerManager {
 
     /**
      * Stop the scheduler.
+     *
+     * @since 1.0.0
      */
     @LifeCycleStop(priority = 1)
     @SuppressWarnings("unused")
@@ -86,6 +93,7 @@ public final class SchedulerManager {
      * Register a scheduled method backed by CRON.
      *
      * @param scheduledHandler The scheduled method handler
+     * @since 1.0.0
      */
     private void registerCron(final ScheduledHandlers.ScheduledHandler scheduledHandler) {
 
@@ -127,6 +135,7 @@ public final class SchedulerManager {
      * Register a scheduled method backed by delay.
      *
      * @param scheduledHandler The scheduled method handler
+     * @since 1.0.0
      */
     private void registerDelay(final ScheduledHandlers.ScheduledHandler scheduledHandler) {
 
@@ -227,6 +236,8 @@ public final class SchedulerManager {
 
     /**
      * Scheduler thread factory inspired from the Java default thread factory.
+     *
+     * @since 1.0.0
      */
     private static final class SchedulerThreadFactory implements ThreadFactory {
 
@@ -236,6 +247,8 @@ public final class SchedulerManager {
 
         /**
          * Build a new instance.
+         *
+         * @since 1.0.0
          */
         public SchedulerThreadFactory() {
 

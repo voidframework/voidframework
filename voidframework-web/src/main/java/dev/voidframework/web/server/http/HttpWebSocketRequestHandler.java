@@ -17,6 +17,8 @@ import java.lang.reflect.Parameter;
 
 /**
  * WebSocket incoming connection handler.
+ *
+ * @since 1.3.0
  */
 public final class HttpWebSocketRequestHandler extends AbstractHttpRequestHandler {
 
@@ -29,6 +31,7 @@ public final class HttpWebSocketRequestHandler extends AbstractHttpRequestHandle
      * Build a new instance.
      *
      * @param injector The injector instance
+     * @since 1.3.0
      */
     public HttpWebSocketRequestHandler(final Injector injector) {
 
@@ -43,6 +46,7 @@ public final class HttpWebSocketRequestHandler extends AbstractHttpRequestHandle
      *
      * @param context The WebSocket context
      * @throws IOException if something goes wrong with the newly open connection
+     * @since 1.3.0
      */
     public void onIncomingConnection(final WebSocketContext context) throws IOException {
 
@@ -71,6 +75,7 @@ public final class HttpWebSocketRequestHandler extends AbstractHttpRequestHandle
      * @param context       The current context
      * @param resolvedRoute The resolved route
      * @return An array containing method arguments
+     * @since 1.3.0
      */
     private Object[] buildMethodArguments(final WebSocketContext context, final ResolvedRoute resolvedRoute) {
 

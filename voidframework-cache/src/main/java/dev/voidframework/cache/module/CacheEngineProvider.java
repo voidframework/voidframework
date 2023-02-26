@@ -11,6 +11,8 @@ import dev.voidframework.core.utils.ClassResolverUtils;
 
 /**
  * Cache engine provider.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public final class CacheEngineProvider implements Provider<CacheEngine> {
@@ -24,6 +26,7 @@ public final class CacheEngineProvider implements Provider<CacheEngine> {
      *
      * @param configuration The application configuration
      * @param injector      The injector instance
+     * @since 1.0.0
      */
     @Inject
     public CacheEngineProvider(final Config configuration, final Injector injector) {

@@ -8,6 +8,8 @@ import dev.voidframework.web.http.routing.impl.DefaultRouter;
 
 /**
  * The web module.
+ *
+ * @since 1.0.0
  */
 public class WebModule extends AbstractModule {
 
@@ -17,6 +19,7 @@ public class WebModule extends AbstractModule {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.4.0
      */
     public WebModule(final Config configuration) {
 

@@ -22,6 +22,8 @@ import java.util.Map;
 
 /**
  * FreeMarker implementation of {@link TemplateRenderer}.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public class FreeMarkerTemplateRenderer implements TemplateRenderer {
@@ -34,6 +36,7 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
      * Build a new instance.
      *
      * @param injector The injector instance
+     * @since 1.0.0
      */
     @Inject
     public FreeMarkerTemplateRenderer(final Injector injector) {

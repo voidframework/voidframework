@@ -6,6 +6,8 @@ import java.util.Objects;
 
 /**
  * Typed key-value map.
+ *
+ * @since 1.0.0
  */
 public final class TypedMap {
 
@@ -13,6 +15,8 @@ public final class TypedMap {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.0.0
      */
     public TypedMap() {
 
@@ -25,6 +29,7 @@ public final class TypedMap {
      * @param typedKey The typed key
      * @param <T>      The value type
      * @return The value associated to the specified key, otherwise, {@code null}
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public <T> T get(final Key<T> typedKey) {
@@ -39,6 +44,7 @@ public final class TypedMap {
      * @param value    The value to associate with the given key
      * @param <T>      The value type
      * @return The previous value associated with key, otherwise, {@code null}
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public <T> T put(final Key<T> typedKey, T value) {
@@ -52,6 +58,7 @@ public final class TypedMap {
      * @param typedKey The typed key
      * @param <T>      The value type
      * @return The value associated to the specified key, otherwise, {@code null}
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public <T> T remove(final Key<T> typedKey) {
@@ -84,6 +91,7 @@ public final class TypedMap {
      * TypedMap Key.
      *
      * @param <T> Type of value associated to the key
+     * @since 1.0.0
      */
     public static final class Key<T> {
 
@@ -95,6 +103,7 @@ public final class TypedMap {
          *
          * @param keyName        The key name
          * @param valueClassType The value class type
+         * @since 1.0.0
          */
         private Key(final String keyName, final Class<T> valueClassType) {
 
@@ -109,6 +118,7 @@ public final class TypedMap {
          * @param valueClassType The value class type
          * @param <V>            Type of value associated to the key
          * @return The created key
+         * @since 1.0.0
          */
         public static <V> Key<V> of(final String keyName, final Class<V> valueClassType) {
 

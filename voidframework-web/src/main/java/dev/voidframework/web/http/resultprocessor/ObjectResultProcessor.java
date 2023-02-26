@@ -10,6 +10,8 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Process a simple object.
+ *
+ * @since 1.0.0
  */
 public class ObjectResultProcessor implements ResultProcessor {
 
@@ -18,6 +20,8 @@ public class ObjectResultProcessor implements ResultProcessor {
     /**
      * Build an empty new instance.
      * This constructor is useful during deserialize process
+     *
+     * @since 1.1.0
      */
     @SuppressWarnings("unused")
     public ObjectResultProcessor() {
@@ -29,6 +33,7 @@ public class ObjectResultProcessor implements ResultProcessor {
      * Build a new instance.
      *
      * @param object Object to process
+     * @since 1.0.0
      */
     public ObjectResultProcessor(final Object object) {
 

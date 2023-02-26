@@ -2,6 +2,8 @@ package dev.voidframework.web.exception;
 
 /**
  * All exceptions related to the routing feature are subclasses of {@code RoutingException}.
+ *
+ * @since 1.0.0
  */
 public class RoutingException extends RuntimeException {
 
@@ -10,6 +12,7 @@ public class RoutingException extends RuntimeException {
      *
      * @param message The detail message
      * @param cause   The root cause
+     * @since 1.0.0
      */
     protected RoutingException(final String message, final Throwable cause) {
 
@@ -20,6 +23,7 @@ public class RoutingException extends RuntimeException {
      * Build a new instance.
      *
      * @param message The detail message
+     * @since 1.0.0
      */
     protected RoutingException(final String message) {
 
@@ -28,6 +32,8 @@ public class RoutingException extends RuntimeException {
 
     /**
      * Exception indicates that app defined route definition class can't be loaded.
+     *
+     * @since 1.0.0
      */
     public static class AppRouteDefinitionLoadFailure extends RoutingException {
 
@@ -35,6 +41,7 @@ public class RoutingException extends RuntimeException {
          * Build a new instance.
          *
          * @param appRoutesDefinitionClassName The app defined route definition class name
+         * @since 1.0.0
          */
         public AppRouteDefinitionLoadFailure(final String appRoutesDefinitionClassName) {
 
@@ -44,6 +51,8 @@ public class RoutingException extends RuntimeException {
 
     /**
      * Exception indicates that an argument during the route registration is invalid.
+     *
+     * @since 1.0.0
      */
     public static class BadRoutingArgument extends RoutingException {
 
@@ -52,6 +61,7 @@ public class RoutingException extends RuntimeException {
          *
          * @param argumentName The argument name
          * @param currentValue The current invalid value
+         * @since 1.0.0
          */
         public BadRoutingArgument(final String argumentName, final Object currentValue) {
 

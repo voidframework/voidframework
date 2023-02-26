@@ -13,6 +13,8 @@ import java.util.Locale;
 
 /**
  * FreeMarker method: internationalization (I18N).
+ *
+ * @since 1.0.0
  */
 public class InternationalizationTemplateMethodModel implements TemplateMethodModelEx {
 
@@ -24,6 +26,7 @@ public class InternationalizationTemplateMethodModel implements TemplateMethodMo
      *
      * @param locale               The locale to use
      * @param internationalization The internationalization instance
+     * @since 1.0.0
      */
     public InternationalizationTemplateMethodModel(final Locale locale,
                                                    final Internationalization internationalization) {

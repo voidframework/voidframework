@@ -42,6 +42,8 @@ import java.util.Map;
 /**
  * Application launcher are expected to instantiate and run all parts of an
  * application based on Void Framework, wiring everything together.
+ *
+ * @since 1.1.0
  */
 public class VoidApplication {
 
@@ -52,6 +54,8 @@ public class VoidApplication {
 
     /**
      * Build a new instance.
+     *
+     * @since 1.1.0
      */
     public VoidApplication() {
 
@@ -61,6 +65,8 @@ public class VoidApplication {
 
     /**
      * Launch Void Framework.
+     *
+     * @since 1.1.0
      */
     public void launch() {
 
@@ -201,6 +207,7 @@ public class VoidApplication {
      * @param classType The class type
      * @param <T>       Type of the class
      * @return The class instance
+     * @since 1.1.0
      */
     public <T> T getInstance(final Class<T> classType) {
 
@@ -213,6 +220,8 @@ public class VoidApplication {
 
     /**
      * Configures the shutdown hook.
+     *
+     * @since 1.1.0
      */
     private void configureShutdownHook() {
 
@@ -224,6 +233,8 @@ public class VoidApplication {
 
     /**
      * Stop VoidFramework.
+     *
+     * @since 1.1.0
      */
     private void stop() {
 
@@ -245,6 +256,7 @@ public class VoidApplication {
      * @throws InvocationTargetException If the underlying constructor throws an exception
      * @throws InstantiationException    If the class that declares the underlying constructor represents an abstract class
      * @throws IllegalAccessException    If this Constructor object is enforcing Java language access control and the underlying constructor is inaccessible
+     * @since 1.1.0
      */
     private Module instantiateModule(final Config configuration, final Class<?> moduleClassType)
         throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
@@ -261,6 +273,8 @@ public class VoidApplication {
 
     /**
      * Display the banner.
+     *
+     * @since 1.1.0
      */
     private void displayBanner() {
 
@@ -281,6 +295,7 @@ public class VoidApplication {
      *
      * @param fileName The file name to read
      * @return The file content
+     * @since 1.1.0
      */
     private String readFileContent(final String fileName) {
 

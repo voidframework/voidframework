@@ -7,6 +7,8 @@ import redis.clients.jedis.Jedis;
 
 /**
  * The Redis module.
+ *
+ * @since 1.1.0
  */
 public class RedisModule extends AbstractModule {
 

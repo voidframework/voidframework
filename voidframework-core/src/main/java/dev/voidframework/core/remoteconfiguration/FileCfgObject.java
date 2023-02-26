@@ -14,6 +14,8 @@ import java.util.Base64;
 
 /**
  * Represents a file.
+ *
+ * @since 1.2.0
  */
 public final class FileCfgObject implements Closeable {
 
@@ -29,6 +31,7 @@ public final class FileCfgObject implements Closeable {
      *
      * @param key        The configuration key
      * @param rawContent The file instructions
+     * @since 1.2.0
      */
     public FileCfgObject(final String key, final String rawContent) {
 
@@ -61,6 +64,7 @@ public final class FileCfgObject implements Closeable {
      *
      * @param content The file content
      * @param target  Where to save the file
+     * @since 1.2.0
      */
     public FileCfgObject(final byte[] content, final String target) {
 
@@ -72,6 +76,7 @@ public final class FileCfgObject implements Closeable {
      *
      * @param is     The file input stream
      * @param target Where to save the file
+     * @since 1.2.0
      */
     public FileCfgObject(final InputStream is, final String target) {
 
@@ -86,6 +91,8 @@ public final class FileCfgObject implements Closeable {
 
     /**
      * Tries to save file.
+     *
+     * @since 1.2.0
      */
     public void apply() {
 

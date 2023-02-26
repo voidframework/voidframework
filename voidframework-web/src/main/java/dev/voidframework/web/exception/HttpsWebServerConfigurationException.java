@@ -2,6 +2,8 @@ package dev.voidframework.web.exception;
 
 /**
  * All exceptions related to the https web server configuration are subclasses of {@code HttpsWebServerConfigurationException}.
+ *
+ * @since 1.6.0
  */
 public class HttpsWebServerConfigurationException extends RuntimeException {
 
@@ -10,6 +12,7 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
      *
      * @param message The detail message
      * @param cause   The root cause
+     * @since 1.6.0
      */
     protected HttpsWebServerConfigurationException(final String message, final Throwable cause) {
 
@@ -20,6 +23,7 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
      * Build a new instance.
      *
      * @param message The detail message
+     * @since 1.6.0
      */
     protected HttpsWebServerConfigurationException(final String message) {
 
@@ -28,6 +32,8 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
 
     /**
      * Exception indicates that key store cannot be loaded.
+     *
+     * @since 1.6.0
      */
     public static class CannotLoadKeyStore extends HttpsWebServerConfigurationException {
 
@@ -35,6 +41,7 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
          * Build a new instance.
          *
          * @param cause The cause
+         * @since 1.6.0
          */
         public CannotLoadKeyStore(final Throwable cause) {
 
@@ -44,6 +51,8 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
 
     /**
      * Exception indicates that key manager cannot be initialized.
+     *
+     * @since 1.6.0
      */
     public static class KeyManagerInitFailure extends HttpsWebServerConfigurationException {
 
@@ -51,6 +60,7 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
          * Build a new instance.
          *
          * @param cause The cause
+         * @since 1.6.0
          */
         public KeyManagerInitFailure(final Throwable cause) {
 
@@ -60,6 +70,8 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
 
     /**
      * Exception indicates that SSL context cannot be initialized.
+     *
+     * @since 1.6.0
      */
     public static class SSLContextInitFailure extends HttpsWebServerConfigurationException {
 
@@ -67,6 +79,7 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
          * Build a new instance.
          *
          * @param cause The cause
+         * @since 1.6.0
          */
         public SSLContextInitFailure(final Throwable cause) {
 
@@ -76,6 +89,8 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
 
     /**
      * Exception indicates that requested key was not found.
+     *
+     * @since 1.6.0
      */
     public static class KeyNotFound extends HttpsWebServerConfigurationException {
 
@@ -83,6 +98,7 @@ public class HttpsWebServerConfigurationException extends RuntimeException {
          * Build a new instance.
          *
          * @param keyAlias The key alias
+         * @since 1.6.0
          */
         public KeyNotFound(final String keyAlias) {
 

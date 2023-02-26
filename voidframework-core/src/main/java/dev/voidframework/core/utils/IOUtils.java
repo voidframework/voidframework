@@ -6,11 +6,15 @@ import java.io.InputStream;
 
 /**
  * IO utility methods.
+ *
+ * @since 1.2.0
  */
 public final class IOUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.2.0
      */
     private IOUtils() {
 
@@ -22,6 +26,7 @@ public final class IOUtils {
      *
      * @param inputStream The input stream
      * @return The number of bytes available to be read
+     * @since 1.3.0
      */
     public static long availableBytes(final InputStream inputStream) {
 
@@ -41,6 +46,7 @@ public final class IOUtils {
      * This is typically used in finally blocks.
      *
      * @param closeable The closeable to close
+     * @since 1.2.0
      */
     public static void closeWithoutException(final Closeable closeable) {
 
@@ -57,6 +63,7 @@ public final class IOUtils {
      * Reset a stream without any exceptions.
      *
      * @param inputStream The input stream to reset
+     * @since 1.3.0
      */
     public static void resetWithoutException(final InputStream inputStream) {
 

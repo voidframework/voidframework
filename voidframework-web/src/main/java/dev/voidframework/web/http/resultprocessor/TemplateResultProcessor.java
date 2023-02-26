@@ -13,6 +13,8 @@ import java.util.Map;
 
 /**
  * Process a template.
+ *
+ * @since 1.0.0
  */
 public class TemplateResultProcessor implements ResultProcessor {
 
@@ -24,6 +26,8 @@ public class TemplateResultProcessor implements ResultProcessor {
     /**
      * Build an empty new instance.
      * This constructor is useful during deserialize process
+     *
+     * @since 1.1.0
      */
     @SuppressWarnings("unused")
     public TemplateResultProcessor() {
@@ -38,6 +42,7 @@ public class TemplateResultProcessor implements ResultProcessor {
      *
      * @param templateName The name of the template to render
      * @param dataModel    The data model to use
+     * @since 1.0.0
      */
     public TemplateResultProcessor(final String templateName, final Map<String, Object> dataModel) {
 

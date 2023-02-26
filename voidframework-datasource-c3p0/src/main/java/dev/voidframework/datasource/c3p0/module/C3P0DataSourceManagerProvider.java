@@ -19,6 +19,8 @@ import java.util.function.BiConsumer;
 
 /**
  * C3P0 data source manager provider.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public class C3P0DataSourceManagerProvider extends AbstractDataSourceProvider {
@@ -32,6 +34,7 @@ public class C3P0DataSourceManagerProvider extends AbstractDataSourceProvider {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     @Inject
     private C3P0DataSourceManagerProvider(final Config configuration) {

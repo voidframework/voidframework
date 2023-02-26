@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 /**
  * Indicates that the method should be periodically called.
  * The annotated method must expect no arguments.
+ *
+ * @since 1.0.0
  */
 @Documented
 @Target(ElementType.METHOD)
@@ -19,6 +21,7 @@ public @interface Scheduled {
      * The time in milliseconds between the end of the last execution and the next execution.
      *
      * @return The time in milliseconds
+     * @since 1.0.0
      */
     int fixedDelay() default 0;
 
@@ -26,6 +29,7 @@ public @interface Scheduled {
      * The time in milliseconds between each execution.
      *
      * @return The time in milliseconds
+     * @since 1.0.0
      */
     int fixedRate() default 0;
 
@@ -34,6 +38,7 @@ public @interface Scheduled {
      * {@link #fixedRate()}. If not specified, the {@link #fixedRate()} value will be used.
      *
      * @return The initial delay
+     * @since 1.0.0
      */
     int initialDelay() default 0;
 
@@ -41,6 +46,7 @@ public @interface Scheduled {
      * A CRON-like expression containing the second, minute, hour, day of month, month, and day of week.
      *
      * @return The CRON expression
+     * @since 1.0.0
      */
     String cron() default "";
 
@@ -49,6 +55,7 @@ public @interface Scheduled {
      * zone will be used.
      *
      * @return A zone id accepted by {@code TimeZone.getTimeZone(String)}
+     * @since 1.0.0
      */
     String cronZone() default "UTC";
 }

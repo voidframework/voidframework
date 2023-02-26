@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * A collection of scheduled method handler.
+ *
+ * @since 1.0.0
  */
 public class ScheduledHandlers extends ArrayList<ScheduledHandlers.ScheduledHandler> {
 
@@ -16,6 +18,7 @@ public class ScheduledHandlers extends ArrayList<ScheduledHandlers.ScheduledHand
      * @param classType           The class type
      * @param method              The method from the class
      * @param scheduledAnnotation The scheduled annotation
+     * @since 1.0.0
      */
     public record ScheduledHandler(Class<?> classType,
                                    Method method,

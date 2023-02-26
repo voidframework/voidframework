@@ -8,6 +8,7 @@ import java.util.List;
  * @param moduleList               The module classes list
  * @param bindableList             The bindable classes list
  * @param converterInformationList The converter information list
+ * @since 1.0.0
  */
 public record ScannedClassesToLoad(List<Class<?>> moduleList,
                                    List<Class<?>> bindableList,
@@ -17,6 +18,7 @@ public record ScannedClassesToLoad(List<Class<?>> moduleList,
      * Returns the number of scanned classes detected as loadable.
      *
      * @return The number of scanned classes detected as loadable
+     * @since 1.0.0
      */
     public int count() {
 

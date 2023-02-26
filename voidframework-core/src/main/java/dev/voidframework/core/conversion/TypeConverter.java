@@ -7,6 +7,7 @@ package dev.voidframework.core.conversion;
  *
  * @param <S> The source generic type
  * @param <T> The target generic type
+ * @since 1.0.0
  */
 public interface TypeConverter<S, T> {
 
@@ -15,6 +16,7 @@ public interface TypeConverter<S, T> {
      *
      * @param source The source object to convert
      * @return The converted object
+     * @since 1.0.0
      */
     T convert(final S source);
 }

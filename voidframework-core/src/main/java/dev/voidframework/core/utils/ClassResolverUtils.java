@@ -4,11 +4,15 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * Utility methods to resolve classes.
+ *
+ * @since 1.0.0
  */
 public final class ClassResolverUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private ClassResolverUtils() {
 
@@ -21,6 +25,7 @@ public final class ClassResolverUtils {
      * @param className Name of the class
      * @param <T>       The type of the resolved class
      * @return Resolved {@code Class<?>}
+     * @since 1.0.0
      */
     @SuppressWarnings("unchecked")
     public static <T> Class<? extends T> forName(final String className) {
@@ -42,6 +47,7 @@ public final class ClassResolverUtils {
      * @param className   Name of the class
      * @param classLoader Loader to use
      * @return Resolved {@code Class<?>}
+     * @since 1.0.0
      */
     public static Class<?> forName(final String className, final ClassLoader classLoader) {
 

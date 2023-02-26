@@ -15,6 +15,8 @@ import java.util.Map;
 
 /**
  * An HTTP result.
+ *
+ * @since 1.0.0
  */
 public final class Result {
 
@@ -31,6 +33,8 @@ public final class Result {
     /**
      * Build an empty new instance.
      * This constructor is useful during deserialize process
+     *
+     * @since 1.1.0
      */
     @SuppressWarnings("unused")
     public Result() {
@@ -48,6 +52,7 @@ public final class Result {
      * @param httpCode        The result HTTP code
      * @param resultProcessor The result processor
      * @param contentType     The result content type
+     * @since 1.0.0
      */
     private Result(final int httpCode, final ResultProcessor resultProcessor, final String contentType) {
 
@@ -62,6 +67,7 @@ public final class Result {
      * Bad request (400).
      *
      * @return A result
+     * @since 1.2.0
      */
     public static Result badRequest() {
 
@@ -76,6 +82,7 @@ public final class Result {
      *
      * @param content The content
      * @return A result
+     * @since 1.0.0
      */
     public static Result badRequest(final String content) {
 
@@ -92,6 +99,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result badRequest(final String content, final String contentType, final Charset charset) {
 
@@ -107,6 +115,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.0.0
      */
     public static Result badRequest(final byte[] content, final String contentType) {
 
@@ -123,6 +132,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result badRequest(final byte[] content, final String contentType, final Charset charset) {
 
@@ -137,6 +147,7 @@ public final class Result {
      *
      * @param content The JSON content
      * @return A result
+     * @since 1.0.0
      */
     public static Result badRequest(final JsonNode content) {
 
@@ -151,6 +162,7 @@ public final class Result {
      *
      * @param templateResult The template to render
      * @return A result
+     * @since 1.0.0
      */
     public static Result badRequest(final TemplateResult templateResult) {
 
@@ -164,6 +176,7 @@ public final class Result {
      * Created (201).
      *
      * @return A result
+     * @since 1.2.0
      */
     public static Result created() {
 
@@ -178,6 +191,7 @@ public final class Result {
      *
      * @param content The content
      * @return A result
+     * @since 1.0.0
      */
     public static Result created(final String content) {
 
@@ -193,6 +207,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.5.0
      */
     public static Result created(final String content, final String contentType) {
 
@@ -209,6 +224,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result created(final String content, final String contentType, final Charset charset) {
 
@@ -224,6 +240,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.0.0
      */
     public static Result created(final byte[] content, final String contentType) {
 
@@ -240,6 +257,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result created(final byte[] content, final String contentType, final Charset charset) {
 
@@ -254,6 +272,7 @@ public final class Result {
      *
      * @param content The JSON content
      * @return A result
+     * @since 1.0.0
      */
     public static Result created(final JsonNode content) {
 
@@ -268,6 +287,7 @@ public final class Result {
      *
      * @param templateResult The template to render
      * @return A result
+     * @since 1.0.0
      */
     public static Result created(final TemplateResult templateResult) {
 
@@ -281,6 +301,7 @@ public final class Result {
      * Forbidden (403).
      *
      * @return A result
+     * @since 1.2.0
      */
     public static Result forbidden() {
 
@@ -295,6 +316,7 @@ public final class Result {
      *
      * @param content The content
      * @return A result
+     * @since 1.0.0
      */
     public static Result forbidden(final String content) {
 
@@ -310,6 +332,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.5.0
      */
     public static Result forbidden(final String content, final String contentType) {
 
@@ -326,6 +349,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result forbidden(final String content, final String contentType, final Charset charset) {
 
@@ -341,6 +365,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.0.0
      */
     public static Result forbidden(final byte[] content, final String contentType) {
 
@@ -357,6 +382,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result forbidden(final byte[] content, final String contentType, final Charset charset) {
 
@@ -371,6 +397,7 @@ public final class Result {
      *
      * @param content The JSON content
      * @return A result
+     * @since 1.0.0
      */
     public static Result forbidden(final JsonNode content) {
 
@@ -385,6 +412,7 @@ public final class Result {
      *
      * @param templateResult The template to render
      * @return A result
+     * @since 1.0.0
      */
     public static Result forbidden(final TemplateResult templateResult) {
 
@@ -398,6 +426,7 @@ public final class Result {
      * Internal Server Error (500).
      *
      * @return A result
+     * @since 1.2.0
      */
     public static Result internalServerError() {
 
@@ -412,6 +441,7 @@ public final class Result {
      *
      * @param content The content
      * @return A result
+     * @since 1.0.0
      */
     public static Result internalServerError(final String content) {
 
@@ -427,6 +457,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.5.0
      */
     public static Result internalServerError(final String content, final String contentType) {
 
@@ -443,6 +474,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result internalServerError(final String content, final String contentType, final Charset charset) {
 
@@ -458,6 +490,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.0.0
      */
     public static Result internalServerError(final byte[] content, final String contentType) {
 
@@ -474,6 +507,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result internalServerError(final byte[] content, final String contentType, final Charset charset) {
 
@@ -488,6 +522,7 @@ public final class Result {
      *
      * @param content The JSON content
      * @return A result
+     * @since 1.0.0
      */
     public static Result internalServerError(final JsonNode content) {
 
@@ -502,6 +537,7 @@ public final class Result {
      *
      * @param templateResult The template to render
      * @return A result
+     * @since 1.0.0
      */
     public static Result internalServerError(final TemplateResult templateResult) {
 
@@ -515,6 +551,7 @@ public final class Result {
      * No Content (204).
      *
      * @return A result
+     * @since 1.0.0
      */
     public static Result noContent() {
 
@@ -528,6 +565,7 @@ public final class Result {
      * Not Found (404).
      *
      * @return A result
+     * @since 1.2.0
      */
     public static Result notFound() {
 
@@ -542,6 +580,7 @@ public final class Result {
      *
      * @param content The content
      * @return A result
+     * @since 1.0.0
      */
     public static Result notFound(final String content) {
 
@@ -557,6 +596,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.5.0
      */
     public static Result notFound(final String content, final String contentType) {
 
@@ -573,6 +613,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result notFound(final String content, final String contentType, final Charset charset) {
 
@@ -588,6 +629,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.0.0
      */
     public static Result notFound(final byte[] content, final String contentType) {
 
@@ -604,6 +646,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result notFound(final byte[] content, final String contentType, final Charset charset) {
 
@@ -618,6 +661,7 @@ public final class Result {
      *
      * @param content The JSON content
      * @return A result
+     * @since 1.0.0
      */
     public static Result notFound(final JsonNode content) {
 
@@ -632,6 +676,7 @@ public final class Result {
      *
      * @param templateResult The template to render
      * @return A result
+     * @since 1.0.0
      */
     public static Result notFound(final TemplateResult templateResult) {
 
@@ -645,6 +690,7 @@ public final class Result {
      * Not Implemented (501).
      *
      * @return A result
+     * @since 1.2.0
      */
     public static Result notImplemented() {
 
@@ -659,6 +705,7 @@ public final class Result {
      *
      * @param content The content
      * @return A result
+     * @since 1.0.0
      */
     public static Result notImplemented(final String content) {
 
@@ -674,6 +721,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.5.0
      */
     public static Result notImplemented(final String content, final String contentType) {
 
@@ -690,6 +738,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result notImplemented(final String content, final String contentType, final Charset charset) {
 
@@ -705,6 +754,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.0.0
      */
     public static Result notImplemented(final byte[] content, final String contentType) {
 
@@ -721,6 +771,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result notImplemented(final byte[] content, final String contentType, final Charset charset) {
 
@@ -735,6 +786,7 @@ public final class Result {
      *
      * @param content The JSON content
      * @return A result
+     * @since 1.0.0
      */
     public static Result notImplemented(final JsonNode content) {
 
@@ -749,6 +801,7 @@ public final class Result {
      *
      * @param templateResult The template to render
      * @return A result
+     * @since 1.0.0
      */
     public static Result notImplemented(final TemplateResult templateResult) {
 
@@ -762,6 +815,7 @@ public final class Result {
      * Ok (200).
      *
      * @return A result
+     * @since 1.2.0
      */
     public static Result ok() {
 
@@ -776,6 +830,7 @@ public final class Result {
      *
      * @param content The content
      * @return A result
+     * @since 1.0.0
      */
     public static Result ok(final String content) {
 
@@ -791,6 +846,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.5.0
      */
     public static Result ok(final String content, final String contentType) {
 
@@ -807,6 +863,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result ok(final String content, final String contentType, final Charset charset) {
 
@@ -822,6 +879,7 @@ public final class Result {
      * @param content     The content
      * @param contentType The content type
      * @return A result
+     * @since 1.0.0
      */
     public static Result ok(final byte[] content, final String contentType) {
 
@@ -838,6 +896,7 @@ public final class Result {
      * @param contentType The content type
      * @param charset     The content charset
      * @return A result
+     * @since 1.5.0
      */
     public static Result ok(final byte[] content, final String contentType, final Charset charset) {
 
@@ -853,6 +912,7 @@ public final class Result {
      * @param content     The input stream content
      * @param contentType The content type
      * @return A result
+     * @since 1.0.0
      */
     public static Result ok(final InputStream content, final String contentType) {
 
@@ -867,6 +927,7 @@ public final class Result {
      *
      * @param content The JSON content
      * @return A result
+     * @since 1.0.0
      */
     public static Result ok(final JsonNode content) {
 
@@ -881,6 +942,7 @@ public final class Result {
      *
      * @param templateResult The template to render
      * @return A result
+     * @since 1.0.0
      */
     public static Result ok(final TemplateResult templateResult) {
 
@@ -896,6 +958,7 @@ public final class Result {
      *
      * @param uri The URL to redirect to
      * @return A result
+     * @since 1.3.0
      */
     public static Result redirectMovedPermanently(final String uri) {
 
@@ -912,6 +975,7 @@ public final class Result {
      *
      * @param uri The URL to redirect to
      * @return A result
+     * @since 1.3.0
      */
     public static Result redirectPermanentRedirect(final String uri) {
 
@@ -928,6 +992,7 @@ public final class Result {
      *
      * @param uri The URL to redirect to
      * @return A result
+     * @since 1.3.0
      */
     public static Result redirectFound(final String uri) {
 
@@ -944,6 +1009,7 @@ public final class Result {
      *
      * @param uri The URL to redirect to
      * @return A result
+     * @since 1.3.0
      */
     public static Result redirectSeeOther(final String uri) {
 
@@ -960,6 +1026,7 @@ public final class Result {
      *
      * @param uri The URL to redirect to
      * @return A result
+     * @since 1.3.0
      */
     public static Result redirectTemporaryRedirect(final String uri) {
 
@@ -975,6 +1042,7 @@ public final class Result {
      *
      * @param cookie The cookie to assign
      * @return The current result
+     * @since 1.0.0
      */
     public Result withCookie(final Cookie cookie) {
 
@@ -987,6 +1055,7 @@ public final class Result {
      *
      * @param cookie The cookie to remove
      * @return The current result
+     * @since 1.0.0
      */
     public Result withoutCookie(final Cookie cookie) {
 
@@ -998,6 +1067,7 @@ public final class Result {
      *
      * @param cookieName Name of the cookie to remove
      * @return The current result
+     * @since 1.0.0
      */
     public Result withoutCookie(final String cookieName) {
 
@@ -1011,6 +1081,7 @@ public final class Result {
      * @param headerName Name of the header
      * @param value      Value to assign
      * @return The current result
+     * @since 1.0.0
      */
     public Result withHeader(final String headerName, final String value) {
 
@@ -1023,6 +1094,7 @@ public final class Result {
      *
      * @param headerMap headers to assign
      * @return The current result
+     * @since 1.2.0
      */
     public Result withHeaders(final Map<String, String> headerMap) {
 
@@ -1035,6 +1107,7 @@ public final class Result {
      *
      * @param headerName Name of the header to remove
      * @return The current result
+     * @since 1.0.0
      */
     public Result withoutHeader(final String headerName) {
 
@@ -1046,6 +1119,7 @@ public final class Result {
      * Gets all cookies.
      *
      * @return All cookies
+     * @since 1.0.0
      */
     public Map<String, Cookie> getCookies() {
 
@@ -1056,6 +1130,7 @@ public final class Result {
      * Gets all headers.
      *
      * @return All headers
+     * @since 1.0.0
      */
     public Map<String, String> getHeaders() {
 
@@ -1066,16 +1141,18 @@ public final class Result {
      * Gets the HTTP return code.
      *
      * @return The HTTP return code
+     * @since 1.0.0
      */
     public int getHttpCode() {
 
-        return httpCode;
+        return this.httpCode;
     }
 
     /**
      * Gets the content type.
      *
      * @return The content type
+     * @since 1.0.0
      */
     public String getContentType() {
 
@@ -1083,9 +1160,10 @@ public final class Result {
     }
 
     /**
-     * Get tje result processor.
+     * Returns the result processor.
      *
      * @return The result processor
+     * @since 1.0.0
      */
     public ResultProcessor getResultProcessor() {
 

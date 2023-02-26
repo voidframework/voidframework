@@ -6,16 +6,22 @@ import java.util.Objects;
 
 /**
  * Extends a standard {@link HashMap} to add ability to detect changes.
+ *
+ * @since 1.2.0
  */
 abstract class AbstractModificationTrackingHashMap extends HashMap<String, String> {
 
     /**
      * Indicate if internal HashMap has been modified.
+     *
+     * @since 1.2.0
      */
     protected transient boolean isModified;
 
     /**
      * Build a new instance.
+     *
+     * @since 1.2.0
      */
     protected AbstractModificationTrackingHashMap() {
     }
@@ -24,6 +30,7 @@ abstract class AbstractModificationTrackingHashMap extends HashMap<String, Strin
      * Build a new instance.
      *
      * @param data Initial data
+     * @since 1.2.0
      */
     protected AbstractModificationTrackingHashMap(final Map<String, String> data) {
 
@@ -35,6 +42,7 @@ abstract class AbstractModificationTrackingHashMap extends HashMap<String, Strin
      *
      * @param key Key whose mapping value to remove
      * @return The previous value associated with key, otherwise, {@code null}
+     * @since 1.2.0
      */
     @Override
     public String remove(final Object key) {
@@ -45,6 +53,8 @@ abstract class AbstractModificationTrackingHashMap extends HashMap<String, Strin
 
     /**
      * Adds a single value.
+     *
+     * @since 1.2.0
      */
     @Override
     public String put(final String key, final String value) {
@@ -55,6 +65,8 @@ abstract class AbstractModificationTrackingHashMap extends HashMap<String, Strin
 
     /**
      * Adds multiple value.
+     *
+     * @since 1.2.0
      */
     @Override
     public void putAll(final Map<? extends String, ? extends String> values) {
@@ -65,6 +77,8 @@ abstract class AbstractModificationTrackingHashMap extends HashMap<String, Strin
 
     /**
      * Clears all values.
+     *
+     * @since 1.2.0
      */
     @Override
     public void clear() {
@@ -79,6 +93,7 @@ abstract class AbstractModificationTrackingHashMap extends HashMap<String, Strin
      * Checks if internal values has been modified.
      *
      * @return {@code true} if internal values has been modified, otherwise, {@code false}
+     * @since 1.2.0
      */
     public boolean isModified() {
 

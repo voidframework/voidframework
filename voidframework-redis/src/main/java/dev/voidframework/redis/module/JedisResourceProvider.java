@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Jedis resource provider.
+ *
+ * @since 1.1.0
  */
 @Singleton
 public class JedisResourceProvider implements Provider<Jedis> {
@@ -40,6 +42,7 @@ public class JedisResourceProvider implements Provider<Jedis> {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.1.0
      */
     @Inject
     public JedisResourceProvider(final Config configuration) {

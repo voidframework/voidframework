@@ -13,6 +13,8 @@ import java.util.Map;
 
 /**
  * In-memory cache implementation.
+ *
+ * @since 1.0.0
  */
 @Bindable
 public final class MemoryCacheEngine extends AbstractCacheEngine {
@@ -24,6 +26,7 @@ public final class MemoryCacheEngine extends AbstractCacheEngine {
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     @Inject
     public MemoryCacheEngine(final Config configuration) {
@@ -80,6 +83,7 @@ public final class MemoryCacheEngine extends AbstractCacheEngine {
      *
      * @param cachedElement  The cached element
      * @param expirationDate When the value will be considered as expired
+     * @since 1.0.0
      */
     private record ExpirationElement(CachedElement cachedElement,
                                      LocalDateTime expirationDate) {

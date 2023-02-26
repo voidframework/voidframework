@@ -2,6 +2,8 @@ package dev.voidframework.core.remoteconfiguration;
 
 /**
  * This abstraction provides useful internal methods.
+ *
+ * @since 1.2.0
  */
 public abstract class AbstractRemoteConfigurationProvider implements RemoteConfigurationProvider {
 
@@ -10,6 +12,7 @@ public abstract class AbstractRemoteConfigurationProvider implements RemoteConfi
      *
      * @param value The value to analyse
      * @return {@code true} if the value represents a file, otherwise, {@code false}
+     * @since 1.2.0
      */
     protected boolean isFile(final String value) {
 

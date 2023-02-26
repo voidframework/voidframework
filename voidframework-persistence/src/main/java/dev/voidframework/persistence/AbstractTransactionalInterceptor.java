@@ -5,6 +5,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 
 /**
  * Provides base methods for all transactional interceptors.
+ *
+ * @since 1.4.0
  */
 public abstract class AbstractTransactionalInterceptor implements MethodInterceptor {
 
@@ -14,6 +16,7 @@ public abstract class AbstractTransactionalInterceptor implements MethodIntercep
      * @param transactionalAnnotation The current transaction annotation
      * @param throwableClass          The caught throwable class
      * @return {@code true} if a rollback should be performed, otherwise {@code false}
+     * @since 1.4.0
      */
     protected boolean hasToRollback(final Transactional transactionalAnnotation, final Class<?> throwableClass) {
 

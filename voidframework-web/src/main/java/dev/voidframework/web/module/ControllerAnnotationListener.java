@@ -12,6 +12,8 @@ import java.lang.reflect.Method;
 
 /**
  * Listen to the different bind classes to detect which ones are web controllers.
+ *
+ * @since 1.0.0
  */
 public class ControllerAnnotationListener implements TypeListener {
 
@@ -23,6 +25,7 @@ public class ControllerAnnotationListener implements TypeListener {
      *
      * @param contextPath The context path
      * @param router      The current router
+     * @since 1.4.0
      */
     public ControllerAnnotationListener(final String contextPath, final Router router) {
 

@@ -4,6 +4,8 @@ import dev.voidframework.core.conversion.TypeConverter;
 
 /**
  * Convert a {@code String} into an {@code Short}.
+ *
+ * @since 1.0.0
  */
 public class StringToShortConverter implements TypeConverter<String, Short> {
 

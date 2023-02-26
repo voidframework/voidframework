@@ -6,6 +6,8 @@ import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * Implementation of the annotation {@link Instance}.
+ *
+ * @since 1.5.0
  */
 public class InstanceImpl implements ConstraintValidator<Instance, Object> {
 

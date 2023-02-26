@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 /**
  * Annotation which indicates that a method parameter should
  * be bound to the request body content.
+ *
+ * @since 1.0.0
  */
 @Documented
 @Retention(value = RetentionPolicy.RUNTIME)

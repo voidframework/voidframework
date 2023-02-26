@@ -16,6 +16,8 @@ import java.util.function.BiConsumer;
 
 /**
  * HikariCP data source manager provider.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public class HikariCpDataSourceManagerProvider extends AbstractDataSourceProvider {
@@ -48,6 +50,7 @@ public class HikariCpDataSourceManagerProvider extends AbstractDataSourceProvide
      * Build a new instance.
      *
      * @param configuration The application configuration
+     * @since 1.0.0
      */
     @Inject
     private HikariCpDataSourceManagerProvider(final Config configuration) {

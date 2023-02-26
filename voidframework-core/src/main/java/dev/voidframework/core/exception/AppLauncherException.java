@@ -2,6 +2,8 @@ package dev.voidframework.core.exception;
 
 /**
  * All exceptions thrown by the app launcher are subclasses of {@code AppLauncherException}.
+ *
+ * @since 1.0.0
  */
 public class AppLauncherException extends RuntimeException {
 
@@ -9,6 +11,7 @@ public class AppLauncherException extends RuntimeException {
      * Build a new instance.
      *
      * @param message The detail message
+     * @since 1.0.0
      */
     protected AppLauncherException(final String message) {
 
@@ -20,6 +23,7 @@ public class AppLauncherException extends RuntimeException {
      *
      * @param message The detail message
      * @param cause   The cause
+     * @since 1.0.0
      */
     protected AppLauncherException(final String message, final Throwable cause) {
 
@@ -28,11 +32,15 @@ public class AppLauncherException extends RuntimeException {
 
     /**
      * Exception indicates that application is already running.
+     *
+     * @since 1.0.0
      */
     public static class AlreadyRunning extends AppLauncherException {
 
         /**
          * Build a new instance.
+         *
+         * @since 1.0.0
          */
         public AlreadyRunning() {
 
@@ -42,6 +50,8 @@ public class AppLauncherException extends RuntimeException {
 
     /**
      * Exception indicates that module initialization just fail.
+     *
+     * @since 1.0.0
      */
     public static class ModuleInitFailure extends AppLauncherException {
 
@@ -50,6 +60,7 @@ public class AppLauncherException extends RuntimeException {
          *
          * @param moduleClass The module class
          * @param cause       The cause
+         * @since 1.0.0
          */
         public ModuleInitFailure(final Class<?> moduleClass, final Throwable cause) {
 

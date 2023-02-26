@@ -6,6 +6,8 @@ import java.util.Locale;
 
 /**
  * An http request context.
+ *
+ * @since 1.0.0
  */
 public final class Context {
 
@@ -23,6 +25,7 @@ public final class Context {
      * @param session       The current session
      * @param flashMessages The current flash message
      * @param locale        The current locale
+     * @since 1.0.0
      */
     public Context(final HttpRequest httpRequest,
                    final Session session,
@@ -40,6 +43,7 @@ public final class Context {
      * Retrieves context attributes.
      *
      * @return The attributes
+     * @since 1.0.0
      */
     public TypedMap getAttributes() {
 
@@ -50,6 +54,7 @@ public final class Context {
      * Retrieves the request.
      *
      * @return The current request
+     * @since 1.0.0
      */
     public HttpRequest getRequest() {
 
@@ -60,6 +65,7 @@ public final class Context {
      * Retrieves the session.
      *
      * @return The current session
+     * @since 1.0.0
      */
     public Session getSession() {
 
@@ -70,6 +76,7 @@ public final class Context {
      * Retrieves the flash messages.
      *
      * @return The flash messages
+     * @since 1.0.0
      */
     public FlashMessages getFlashMessages() {
 
@@ -80,16 +87,18 @@ public final class Context {
      * Retrieves the locale.
      *
      * @return The current locale
+     * @since 1.0.0
      */
     public Locale getLocale() {
 
-        return locale;
+        return this.locale;
     }
 
     /**
      * Sets the locale.
      *
      * @param locale The locale to use
+     * @since 1.0.0
      */
     public void setLocal(final Locale locale) {
 

@@ -17,6 +17,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * The annotated {@code InputStream} size must be between the specified boundaries (included).
+ *
+ * @since 1.0.0
  */
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
 @Retention(RUNTIME)
@@ -26,26 +28,31 @@ public @interface InputStreamSize {
 
     /**
      * @return The constraint error message
+     * @since 1.0.0
      */
     String message() default "{jakarta.validation.constraints.Size.message}";
 
     /**
      * @return The subset of constraints
+     * @since 1.0.0
      */
     Class<?>[] groups() default {};
 
     /**
      * @return The attached Payload type
+     * @since 1.0.0
      */
     Class<? extends Payload>[] payload() default {};
 
     /**
      * @return The number of available bytes must be higher or equal to
+     * @since 1.0.0
      */
     long min() default 0;
 
     /**
-     * @return The number of available bytes must be lower or equal to
+     * @return The number of available bytes must be lowed or equal to
+     * @since 1.0.0
      */
     long max() default Long.MAX_VALUE;
 
@@ -53,6 +60,7 @@ public @interface InputStreamSize {
      * Defines several <code>@InputStreamSize</code> annotations on the same element
      *
      * @see InputStreamSize
+     * @since 1.0.0
      */
     @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
     @Retention(RUNTIME)
@@ -60,7 +68,8 @@ public @interface InputStreamSize {
     @interface List {
 
         /**
-         * @return Defined annotations.
+         * @return Defined annotations
+         * @since 1.0.0
          */
         InputStreamSize[] value();
     }

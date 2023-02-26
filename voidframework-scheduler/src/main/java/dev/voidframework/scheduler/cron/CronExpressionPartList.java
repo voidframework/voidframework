@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * CRON expression part representing a list of integers.
+ *
+ * @since 1.0.0
  */
 class CronExpressionPartList extends CronExpressionPartStepValue {
 
@@ -18,6 +20,7 @@ class CronExpressionPartList extends CronExpressionPartStepValue {
      *
      * @param stepValue The step value
      * @param lst       A list of integers
+     * @since 1.0.0
      */
     public CronExpressionPartList(final int stepValue, final List<Integer> lst) {
 

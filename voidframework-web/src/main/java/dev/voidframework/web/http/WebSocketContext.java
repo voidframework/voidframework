@@ -4,6 +4,8 @@ import io.undertow.websockets.core.WebSocketChannel;
 
 /**
  * A WebSocket request context.
+ *
+ * @since 1.3.0
  */
 public final class WebSocketContext {
 
@@ -15,6 +17,7 @@ public final class WebSocketContext {
      *
      * @param webSocketRequest The WebSocket request
      * @param webSocketChannel The WebSocket channel
+     * @since 1.3.0
      */
     public WebSocketContext(final WebSocketRequest webSocketRequest,
                             final WebSocketChannel webSocketChannel) {
@@ -27,6 +30,7 @@ public final class WebSocketContext {
      * Retrieves the request.
      *
      * @return The current request
+     * @since 1.3.0
      */
     public WebSocketRequest getRequest() {
 
@@ -37,6 +41,7 @@ public final class WebSocketContext {
      * Retrieves the WebSocket channel.
      *
      * @return The WebSocket channel
+     * @since 1.3.0
      */
     public WebSocketChannel getChannel() {
 

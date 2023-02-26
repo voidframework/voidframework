@@ -14,6 +14,8 @@ import java.util.Map;
 
 /**
  * Health check controller.
+ *
+ * @since 1.0.0
  */
 @WebController
 public final class HealthCheckController {
@@ -24,6 +26,7 @@ public final class HealthCheckController {
      * Build a new instance.
      *
      * @param healthCheckManager The health check instance
+     * @since 1.0.0
      */
     @Inject
     public HealthCheckController(final HealthCheckManager healthCheckManager) {
@@ -35,6 +38,7 @@ public final class HealthCheckController {
      * Retrieves all health check status.
      *
      * @return A result
+     * @since 1.0.0
      */
     @NoCSRF
     @RequestRoute(method = HttpMethod.GET, route = "/healthcheck")

@@ -9,6 +9,7 @@ import java.util.Objects;
  * Collision-resistant ID optimized for horizontal scaling and performance.
  *
  * @see <a href="https://usecuid.org/">CUID official website</a>
+ * @since 1.3.0
  */
 public final class CUID implements java.io.Serializable, Comparable<CUID> {
 
@@ -34,6 +35,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      * Build a new instance.
      *
      * @param value A valid CUID value
+     * @since 1.3.0
      */
     private CUID(final String value) {
 
@@ -44,6 +46,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      * Generates a new random CUID.
      *
      * @return Newly generated CUID
+     * @since 1.3.0
      */
     public static CUID randomCUID() {
 
@@ -60,6 +63,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      * @param cuidAsString A string that specifies a {@code CUID}
      * @return A {@code CUID} with the specified value
      * @throws IllegalArgumentException If the string is not conform
+     * @since 1.3.0
      */
     public static CUID fromString(final String cuidAsString) {
 
@@ -74,6 +78,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      * Retrieves the counter next value.
      *
      * @return The counter next value
+     * @since 1.3.0
      */
     private static synchronized int nextCounterValue() {
 
@@ -85,6 +90,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      * Generates a random block of data.
      *
      * @return Newly generated block of data
+     * @since 1.3.0
      */
     private static String getRandomBlock() {
 
@@ -95,6 +101,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      * Retrieves next random integer value.
      *
      * @return A random integer
+     * @since 1.3.0
      */
     private static synchronized int nextIntValue() {
 
@@ -115,6 +122,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      * @param str  The string to pad
      * @param size The size to keep
      * @return The padded string
+     * @since 1.3.0
      */
     private static String padWithZero(final String str, final int size) {
 
@@ -127,6 +135,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
      *
      * @param cuidAsString A string that specifies a {@code CUID}
      * @return {@code true} If the string is not conform, otherwise, {@code false}
+     * @since 1.3.0
      */
     public static boolean isValid(final String cuidAsString) {
 
@@ -171,6 +180,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
 
     /*
      * Holder class to defer initialization until needed.
+     * @since 1.3.0
      */
     private static final class Holder {
 
@@ -183,6 +193,7 @@ public final class CUID implements java.io.Serializable, Comparable<CUID> {
          * retrieves the machine fingerprint.
          *
          * @return The machine fingerprint
+         * @since 1.3.0
          */
         private static String getMachineFingerprint() {
 

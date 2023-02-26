@@ -11,6 +11,8 @@ import java.lang.annotation.Target;
 /**
  * Annotation which indicates that the method should
  * be called if the incoming request matches.
+ *
+ * @since 1.0.0
  */
 @Documented
 @Retention(value = RetentionPolicy.RUNTIME)
@@ -21,6 +23,7 @@ public @interface RequestRoute {
      * Returns the HTTP method (ie: GET).
      *
      * @return The HTTP method
+     * @since 1.0.0
      */
     HttpMethod method() default HttpMethod.GET;
 
@@ -28,6 +31,7 @@ public @interface RequestRoute {
      * Returns the route URL (ie: /test/helloworld).
      *
      * @return The route URL
+     * @since 1.0.0
      */
     String route() default "/";
 
@@ -36,6 +40,7 @@ public @interface RequestRoute {
      * This name is used during the reverse URL process.
      *
      * @return The route name
+     * @since 1.0.0
      */
     String name() default "";
 }

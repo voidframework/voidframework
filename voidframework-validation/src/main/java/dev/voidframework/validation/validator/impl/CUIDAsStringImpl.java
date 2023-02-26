@@ -6,6 +6,8 @@ import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * Implementation of the annotation {@link CUID}.
+ *
+ * @since 1.5.0
  */
 public class CUIDAsStringImpl implements ConstraintValidator<CUID, String> {
 

@@ -13,6 +13,7 @@ import java.util.Map;
  * @param controllerClassType      The controller class type
  * @param method                   The method to call
  * @param extractedParameterValues The extracted parameters from the route
+ * @since 1.0.0
  */
 public record ResolvedRoute(List<Class<? extends Filter>> filterClassTypes,
                             Class<?> controllerClassType,

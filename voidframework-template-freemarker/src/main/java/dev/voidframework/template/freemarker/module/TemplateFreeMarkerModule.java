@@ -7,6 +7,8 @@ import freemarker.template.Configuration;
 
 /**
  * FreeMarker template module.
+ *
+ * @since 1.0.0
  */
 public class TemplateFreeMarkerModule extends AbstractModule {
 

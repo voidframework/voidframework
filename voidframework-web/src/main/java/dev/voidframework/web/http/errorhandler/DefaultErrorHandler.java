@@ -27,6 +27,8 @@ import java.util.stream.Stream;
 
 /**
  * Default implementation of {@link ErrorHandler}.
+ *
+ * @since 1.0.0
  */
 @Bindable
 public class DefaultErrorHandler implements ErrorHandler {
@@ -43,6 +45,7 @@ public class DefaultErrorHandler implements ErrorHandler {
      *
      * @param configuration The application configuration
      * @param router        The router
+     * @since 1.0.0
      */
     @Inject
     public DefaultErrorHandler(final Config configuration, final Router router) {
@@ -135,6 +138,7 @@ public class DefaultErrorHandler implements ErrorHandler {
      *
      * @param javaFileName The Java file to find
      * @return The possible Java file location
+     * @since 1.0.0
      */
     private Optional<Path> resolvePossibleJavaFileLocation(final String javaFileName) {
 
@@ -163,6 +167,7 @@ public class DefaultErrorHandler implements ErrorHandler {
      *
      * @param templateFileName The Template file to find
      * @return The possible Template file location
+     * @since 1.0.0
      */
     private Optional<Path> resolvePossibleTemplateFileLocation(final String templateFileName) {
 
@@ -191,6 +196,7 @@ public class DefaultErrorHandler implements ErrorHandler {
      *
      * @param javaFilePath        The Java file to read
      * @param requestedLineNumber The requested line number
+     * @since 1.0.0
      */
     private List<FileLine> retrievePartialFileContent(final Path javaFilePath,
                                                       final int requestedLineNumber) {
@@ -217,6 +223,7 @@ public class DefaultErrorHandler implements ErrorHandler {
      *
      * @param number  The line number
      * @param content The line content
+     * @since 1.0.0
      */
     public record FileLine(int number, String content) {
     }

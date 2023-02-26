@@ -4,6 +4,8 @@ import dev.voidframework.core.conditionalfeature.condition.Condition;
 
 /**
  * All exceptions thrown by conditional feature are subclasses of {@code ConditionalFeatureException}.
+ *
+ * @since 1.5.0
  */
 public class ConditionalFeatureException extends RuntimeException {
 
@@ -12,6 +14,7 @@ public class ConditionalFeatureException extends RuntimeException {
      *
      * @param message The detail message
      * @param cause   The cause
+     * @since 1.5.0
      */
     protected ConditionalFeatureException(final String message, final Throwable cause) {
 
@@ -20,6 +23,8 @@ public class ConditionalFeatureException extends RuntimeException {
 
     /**
      * This exception indicate that condition cannot be instantiated.
+     *
+     * @since 1.5.0
      */
     public static class ConditionInitFailure extends RemoteConfigurationException {
 
@@ -28,6 +33,7 @@ public class ConditionalFeatureException extends RuntimeException {
          *
          * @param condition The condition class type
          * @param cause     The cause
+         * @since 1.5.0
          */
         public ConditionInitFailure(final Class<? extends Condition> condition, final Throwable cause) {
 

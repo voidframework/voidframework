@@ -17,6 +17,8 @@ import java.util.Set;
 
 /**
  * This LifeCycle allows to force the initialization of the EntityManagerFactory.
+ *
+ * @since 1.2.0
  */
 @Bindable
 public final class PersistenceLifeCycle {
@@ -29,6 +31,7 @@ public final class PersistenceLifeCycle {
      *
      * @param configuration The application configuration
      * @param injector      The injector instance
+     * @since 1.2.0
      */
     @Inject
     public PersistenceLifeCycle(final Config configuration,
@@ -40,6 +43,8 @@ public final class PersistenceLifeCycle {
 
     /**
      * Force {@link EntityManagerFactory} initialization for each configured data sources.
+     *
+     * @since 1.2.0
      */
     @LifeCycleStart(priority = 51)
     public void forceEntityManagerFactoryInitialisation() {

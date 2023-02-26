@@ -5,6 +5,8 @@ import dev.voidframework.datasource.DataSourceManager;
 
 /**
  * C3P0 data source module.
+ *
+ * @since 1.0.0
  */
 public class C3P0DataSourceModule extends AbstractModule {
 

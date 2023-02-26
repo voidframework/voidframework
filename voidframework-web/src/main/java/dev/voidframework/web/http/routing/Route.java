@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
  * @param filterClassTypes    The filter class types to apply
  * @param controllerClassType The controller class type
  * @param method              The method
+ * @since 1.0.0
  */
 public record Route(HttpMethod httpMethod,
                     Pattern routePattern,

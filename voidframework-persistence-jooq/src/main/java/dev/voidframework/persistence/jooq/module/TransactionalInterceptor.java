@@ -15,6 +15,8 @@ import java.util.Optional;
 
 /**
  * Intercepts method call when annotation {@link Transactional} is used.
+ *
+ * @since 1.4.0
  */
 public class TransactionalInterceptor extends AbstractTransactionalInterceptor {
 
@@ -24,6 +26,7 @@ public class TransactionalInterceptor extends AbstractTransactionalInterceptor {
      * Sets the entity manager provider.
      *
      * @param dslContextProvider The DSL context provider
+     * @since 1.4.0
      */
     @Inject
     public void setDataSourceManagerProvider(final DSLContextProvider dslContextProvider) {
@@ -112,6 +115,7 @@ public class TransactionalInterceptor extends AbstractTransactionalInterceptor {
      *
      * @param dslContext The DSL Context
      * @return {@code true} if the transaction is active, otherwise, {@code false}
+     * @since 1.4.0
      */
     private boolean isTransactionActive(final DSLContext dslContext) {
 

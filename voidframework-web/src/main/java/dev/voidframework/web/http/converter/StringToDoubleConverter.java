@@ -4,6 +4,8 @@ import dev.voidframework.core.conversion.TypeConverter;
 
 /**
  * Convert a {@code String} into an {@code Double}.
+ *
+ * @since 1.0.0
  */
 public class StringToDoubleConverter implements TypeConverter<String, Double> {
 

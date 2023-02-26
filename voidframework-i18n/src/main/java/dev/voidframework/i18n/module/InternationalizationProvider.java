@@ -11,6 +11,8 @@ import dev.voidframework.i18n.ResourceBundleInternationalization;
 
 /**
  * Internationalization provider.
+ *
+ * @since 1.0.0
  */
 @Singleton
 public final class InternationalizationProvider implements Provider<Internationalization> {
@@ -24,6 +26,7 @@ public final class InternationalizationProvider implements Provider<Internationa
      *
      * @param configuration The application configuration
      * @param injector      The injector instance
+     * @since 1.0.0
      */
     @Inject
     public InternationalizationProvider(final Config configuration, final Injector injector) {

@@ -6,6 +6,8 @@ import dev.voidframework.healthcheck.HealthCheckManager;
 
 /**
  * Health check module.
+ *
+ * @since 1.0.0
  */
 public class HealthCheckModule extends AbstractModule {
 

@@ -12,6 +12,8 @@ import java.util.List;
 
 /**
  * FreeMarker method: reverse route (Web/Router).
+ *
+ * @since 1.0.0
  */
 public class ReverseRouteTemplateMethodModel implements TemplateMethodModelEx {
 
@@ -21,6 +23,7 @@ public class ReverseRouteTemplateMethodModel implements TemplateMethodModelEx {
      * Build a new instance.
      *
      * @param router The router
+     * @since 1.0.0
      */
     public ReverseRouteTemplateMethodModel(final Router router) {
 

@@ -21,6 +21,8 @@ import java.io.InputStream;
 
 /**
  * Utility to handle YAML document.
+ *
+ * @since 1.0.0
  */
 public final class YamlUtils {
 
@@ -37,6 +39,8 @@ public final class YamlUtils {
 
     /**
      * Default constructor.
+     *
+     * @since 1.0.0
      */
     private YamlUtils() {
 
@@ -48,6 +52,7 @@ public final class YamlUtils {
      *
      * @param yaml The YAML to convert.
      * @return The string representation.
+     * @since 1.0.0
      */
     public static String toString(final JsonNode yaml) {
 
@@ -64,6 +69,7 @@ public final class YamlUtils {
      *
      * @param obj Object to convert in YAML
      * @return The string representation
+     * @since 1.0.0
      */
     public static String toString(final Object obj) {
 
@@ -79,6 +85,7 @@ public final class YamlUtils {
      *
      * @param data data to convert in YAML
      * @return The YAML node
+     * @since 1.0.0
      */
     public static JsonNode toYaml(final byte[] data) {
 
@@ -94,6 +101,7 @@ public final class YamlUtils {
      *
      * @param inputStreamYaml {@code InputStream} containing data to convert in YAML
      * @return The JSON node
+     * @since 1.3.0
      */
     public static JsonNode toYaml(final InputStream inputStreamYaml) {
 
@@ -115,6 +123,7 @@ public final class YamlUtils {
      * @param yaml            YAML document to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.0.0
      */
     public static <T> T fromYaml(final JsonNode yaml, final Class<T> outputClassType) {
 
@@ -132,6 +141,7 @@ public final class YamlUtils {
      * @param yaml           YAML document to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromYaml(final JsonNode yaml, final JavaType outputJavaType) {
 
@@ -149,6 +159,7 @@ public final class YamlUtils {
      * @param yamlByteArray   YAML document as bytes array to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.0.1
      */
     public static <T> T fromYaml(final byte[] yamlByteArray, final Class<T> outputClassType) {
 
@@ -170,6 +181,7 @@ public final class YamlUtils {
      * @param inputStreamYaml {@code InputStream} containing a YAML document to convert
      * @param outputClassType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromYaml(final InputStream inputStreamYaml, final Class<T> outputClassType) {
 
@@ -191,6 +203,7 @@ public final class YamlUtils {
      * @param yamlByteArray  YAML document as bytes array to convert
      * @param outputJavaType Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromYaml(final byte[] yamlByteArray, final JavaType outputJavaType) {
 
@@ -212,6 +225,7 @@ public final class YamlUtils {
      * @param inputStreamYaml {@code InputStream} containing a YAML document to convert
      * @param outputJavaType  Expected Java object type
      * @return The Java object
+     * @since 1.3.0
      */
     public static <T> T fromYaml(final InputStream inputStreamYaml, final JavaType outputJavaType) {
 

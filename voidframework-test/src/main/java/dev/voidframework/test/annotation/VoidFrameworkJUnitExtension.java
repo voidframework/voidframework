@@ -34,6 +34,8 @@ import java.util.Set;
 
 /**
  * JUnit's extension to provide Void Framework context and Mockito annotations support.
+ *
+ * @since 1.2.0
  */
 public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, AfterEachCallback {
 
@@ -71,6 +73,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * Retrieves or creates a new Mocked classes Injector.
      *
      * @return The Mocked classes injector
+     * @since 1.2.0
      */
     private Injector getOrCreateMockInjector() {
 
@@ -100,6 +103,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * @throws InstantiationException    If the Guice module that declares the constructor represents an abstract class
      * @throws InvocationTargetException If the Guice module constructor throws an exception
      * @throws NoSuchMethodException     If the Guice module don't have valid constructor
+     * @since 1.2.0
      */
     private Injector getOrCreateApplicationInjector(final ExtensionContext context,
                                                     final Object testInstance)
@@ -156,6 +160,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * @param testInstance The instance to post-process
      * @throws IllegalAccessException If a Field object has no read or write access
      * @see org.mockito.Mock
+     * @since 1.3.0
      */
     private void mockMemberAnnotatedWithMock(final Object testInstance) throws IllegalAccessException {
 
@@ -234,6 +239,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * @param mockInjector The mocked classes injector instance
      * @param testInstance The instance to post-process
      * @throws IllegalAccessException If a Field object has no read or write access
+     * @since 1.3.0
      */
     private void injectMembers(final Injector appInjector,
                                final Injector mockInjector,
@@ -256,6 +262,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * @param testInstance The instance to post-process
      * @throws IllegalAccessException If a Field object has no read or write access
      * @see org.mockito.InjectMocks
+     * @since 1.3.0
      */
     private void injectMembersAnnotatedWithInjectMocks(final Injector mockInjector,
                                                        final Object testInstance) throws IllegalAccessException {
@@ -290,6 +297,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * @param testInstance The instance to post-process
      * @throws IllegalAccessException If a Field object has no read or write access
      * @see org.mockito.Spy
+     * @since 1.3.0
      */
     private void injectMembersAnnotatedWithSpyOnly(final Object testInstance) throws IllegalAccessException {
 
@@ -337,6 +345,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * @param instance The instance where are located the field
      * @param field    The field
      * @throws IllegalAccessException If Field object has no read access
+     * @since 1.3.0
      */
     private Object getValueFromField(final Object instance, final Field field) throws IllegalAccessException {
 
@@ -364,6 +373,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * @param field    The field
      * @param value    The value to assign
      * @throws IllegalAccessException If Field object has no write access
+     * @since 1.3.0
      */
     private void setValueToField(final Object instance, final Field field, final Object value) throws IllegalAccessException {
 
@@ -388,6 +398,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
      * @param classType The mocked instance type
      * @param instance  The mocked instance itself
      * @param <T>       The type of the mocked instance
+     * @since 1.3.0
      */
     private record TrackedInstanceHandler<T>(Class<T> classType,
                                              T instance) {
@@ -398,6 +409,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
          * @param classType The class type
          * @param instance  The class instance
          * @return Newly created instance
+         * @since 1.3.0
          */
         @SuppressWarnings("unchecked")
         public static TrackedInstanceHandler<Object> of(final Class<?> classType,
