@@ -97,6 +97,22 @@ public final class Result {
      *
      * @param content     The content
      * @param contentType The content type
+     * @return A result
+     * @since 1.7.0
+     */
+    public static Result badRequest(final String content, final String contentType) {
+
+        return badRequest(
+            content,
+            contentType,
+            StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Bad request (400).
+     *
+     * @param content     The content
+     * @param contentType The content type
      * @param charset     The content charset
      * @return A result
      * @since 1.5.0
