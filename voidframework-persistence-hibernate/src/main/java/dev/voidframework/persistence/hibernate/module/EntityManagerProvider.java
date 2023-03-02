@@ -110,13 +110,17 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      */
     public void destroyLatestEntityManager() {
 
-        final EntityManager entityManager = this.currentEntityManager.get().removeFirst();
+        final Deque<EntityManager> currentEntityManagerDeque = this.currentEntityManager.get();
+        if (currentEntityManagerDeque == null) {
+            return;
+        }
 
+        final EntityManager entityManager = currentEntityManagerDeque.removeFirst();
         if (entityManager != null) {
             entityManager.close();
         }
 
-        if (this.currentEntityManager.get().isEmpty()) {
+        if (currentEntityManagerDeque.isEmpty()) {
             this.currentEntityManager.remove();
         }
     }
