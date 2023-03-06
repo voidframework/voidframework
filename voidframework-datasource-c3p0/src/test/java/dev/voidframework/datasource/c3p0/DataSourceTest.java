@@ -29,12 +29,12 @@ final class DataSourceTest {
 
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
-            voidframework.datasource.default.driver = "org.h2.Driver"
-            voidframework.datasource.default.url = "jdbc:h2:mem:unit_tests;MODE=PostgreSQL;DATABASE_TO_UPPER=TRUE;"
+            voidframework.datasource.default.driver = "org.hsqldb.jdbc.JDBCDriver"
+            voidframework.datasource.default.url = "jdbc:hsqldb:mem:unit_tests_1;sql.syntax_ora=true"
             voidframework.datasource.default.username = "sa"
             voidframework.datasource.default.password = "sa"
-            voidframework.datasource.second.driver = "org.h2.Driver"
-            voidframework.datasource.second.url = "jdbc:h2:mem:unit_tests;MODE=PostgreSQL;DATABASE_TO_UPPER=TRUE;"
+            voidframework.datasource.second.driver = "org.hsqldb.jdbc.JDBCDriver"
+            voidframework.datasource.second.url = "jdbc:hsqldb:mem:unit_tests_2;sql.syntax_ora=true"
             voidframework.datasource.second.username = "sa"
             voidframework.datasource.second.password = "sa"
             """);

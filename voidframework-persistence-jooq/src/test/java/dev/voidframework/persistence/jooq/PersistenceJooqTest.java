@@ -21,6 +21,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -33,16 +36,16 @@ final class PersistenceJooqTest {
 
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
-            voidframework.datasource.default.driver = "org.h2.Driver"
-            voidframework.datasource.default.url = "jdbc:h2:mem:unit_tests;MODE=PostgreSQL;DATABASE_TO_UPPER=TRUE;"
+            voidframework.datasource.default.driver = "org.hsqldb.jdbc.JDBCDriver"
+            voidframework.datasource.default.url = "jdbc:hsqldb:mem:unit_tests;sql.syntax_ora=true"
             voidframework.datasource.default.username = "sa"
             voidframework.datasource.default.password = "sa"
             voidframework.datasource.default.cachePrepStmts = true
             voidframework.datasource.default.prepStmtCacheSize = 250
             voidframework.datasource.default.prepStmtCacheSqlLimit = 2048
             voidframework.datasource.default.autoCommit = false
-            voidframework.datasource.default.connectionInitSql = "SELECT 1 FROM DUAL"
-            voidframework.datasource.default.connectionTestQuery = "SELECT 1 FROM DUAL"
+            voidframework.datasource.default.connectionInitSql = "CALL NOW()"
+            voidframework.datasource.default.connectionTestQuery = "CALL NOW()"
             voidframework.datasource.default.connectionTimeout = 10000
             voidframework.datasource.default.idleTimeout = 30000
             voidframework.datasource.default.keepaliveTime = 0
@@ -69,13 +72,13 @@ final class PersistenceJooqTest {
         final DSLContext dslContext = dslContextProvider.get();
 
         // Act
-        final Result<Record> result = dslContext.resultQuery("SELECT 2 FROM DUAL").fetch();
+        final Result<Record> result = dslContext.resultQuery("CALL NOW()").fetch();
 
         // Assert
         Assertions.assertEquals(1, result.size());
 
-        final Integer resultValue = (Integer) result.get(0).getValue(0);
-        Assertions.assertEquals(2, resultValue);
+        final Timestamp resultValue = (Timestamp) result.get(0).getValue(0);
+        Assertions.assertEquals(LocalDate.now(ZoneOffset.UTC), resultValue.toLocalDateTime().toLocalDate());
     }
 
     @Test
@@ -86,15 +89,17 @@ final class PersistenceJooqTest {
         final DSLContext dslContext = dslContextProvider.get();
 
         // Act
-        dslContext.transaction((context) -> context.dsl().query("""
+        dslContext.transaction((context) -> {
+            context.dsl().query("""
                 CREATE TABLE UNIT_TEST_OLD (
                     ID  VARCHAR(36)   NOT NULL,
                     PRIMARY KEY (id)
                 );
-
-                INSERT INTO UNIT_TEST_OLD (ID) VALUES ('93911798-2b0a-46c1-9c91-731c4e6b056a');
                 """)
-            .execute());
+                .execute();
+
+            context.dsl().query("INSERT INTO UNIT_TEST_OLD (ID) VALUES ('93911798-2b0a-46c1-9c91-731c4e6b056a');").execute();
+        });
 
         final Result<Record> result = dslContext.resultQuery("SELECT ID FROM UNIT_TEST_OLD WHERE ROWNUM <= 1").fetch();
 

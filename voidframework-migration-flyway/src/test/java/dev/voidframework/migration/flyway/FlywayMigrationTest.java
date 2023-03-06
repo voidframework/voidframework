@@ -32,16 +32,16 @@ final class FlywayMigrationTest {
 
         final Config configuration = ConfigFactory.parseString("""
             voidframework.core.runInDevMode = true
-            voidframework.datasource.default.driver = "org.h2.Driver"
-            voidframework.datasource.default.url = "jdbc:h2:mem:unit_tests;MODE=PostgreSQL;DATABASE_TO_UPPER=TRUE;"
+            voidframework.datasource.default.driver = "org.hsqldb.jdbc.JDBCDriver"
+            voidframework.datasource.default.url = "jdbc:hsqldb:mem:unit_tests;sql.syntax_ora=true"
             voidframework.datasource.default.username = "sa"
             voidframework.datasource.default.password = "sa"
             voidframework.datasource.default.cachePrepStmts = true
             voidframework.datasource.default.prepStmtCacheSize = 250
             voidframework.datasource.default.prepStmtCacheSqlLimit = 2048
             voidframework.datasource.default.autoCommit = false
-            voidframework.datasource.default.connectionInitSql = "SELECT 1 FROM DUAL"
-            voidframework.datasource.default.connectionTestQuery = "SELECT 1 FROM DUAL"
+            voidframework.datasource.default.connectionInitSql = "CALL NOW()"
+            voidframework.datasource.default.connectionTestQuery = "CALL NOW()"
             voidframework.datasource.default.connectionTimeout = 10000
             voidframework.datasource.default.idleTimeout = 30000
             voidframework.datasource.default.keepaliveTime = 0
@@ -94,7 +94,7 @@ final class FlywayMigrationTest {
 
         Assertions.assertEquals("SA", map.get("installed_by"));
         Assertions.assertEquals(true, map.get("success"));
-        Assertions.assertEquals(958041986, map.get("checksum"));
+        Assertions.assertEquals(1374965799, map.get("checksum"));
         Assertions.assertEquals("initial-structure", map.get("description"));
         Assertions.assertEquals("SQL", map.get("type"));
         Assertions.assertEquals("1.0.0.0", map.get("version"));
