@@ -84,7 +84,7 @@
         <dependency.version.undertow>2.3.3.Final</dependency.version.undertow>
 
         <!-- Unit Tests -->
-        <dependency.version.h2>2.1.214</dependency.version.h2>
+        <dependency.version.hsqldb>2.7.1</dependency.version.hsqldb>
         <dependency.version.junit>5.9.2</dependency.version.junit>
         <dependency.version.mockito>5.1.1</dependency.version.mockito>
     </properties>
@@ -453,9 +453,9 @@
 
             <!-- Unit Tests -->
             <dependency>
-                <groupId>com.h2database</groupId>
-                <artifactId>h2</artifactId>
-                <version>${dependency.version.h2}</version>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>${dependency.version.hsqldb}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
