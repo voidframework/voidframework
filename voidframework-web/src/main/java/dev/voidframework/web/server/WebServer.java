@@ -133,7 +133,7 @@ public class WebServer {
      *
      * @since 1.0.0
      */
-    @LifeCycleStart(priority = 800)
+    @LifeCycleStart(priority = 700)
     @SuppressWarnings("unused")
     public void startWebServer() {
 
@@ -183,7 +183,7 @@ public class WebServer {
      * @throws InterruptedException If web server can't be stopped gracefully
      * @since 1.0.0
      */
-    @LifeCycleStop(gracefulStopTimeoutConfigKey = CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT)
+    @LifeCycleStop(priority = 700, gracefulStopTimeoutConfigKey = CONFIGURATION_KEY_GRACEFUL_STOP_TIMEOUT)
     @SuppressWarnings("unused")
     public void stopWebServer() throws InterruptedException {
 
