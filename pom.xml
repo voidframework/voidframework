@@ -107,6 +107,7 @@
         <module>voidframework-remoteconf-etcd</module>
         <module>voidframework-remoteconf-http</module>
         <module>voidframework-scheduler</module>
+        <module>voidframework-sendmail</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>
         <module>voidframework-test</module>
@@ -262,6 +263,11 @@
             <dependency>
                 <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-sendmail</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
