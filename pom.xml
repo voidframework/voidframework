@@ -63,6 +63,7 @@
         <!-- Dependencies -->
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
         <dependency.version.classgraph>4.8.154</dependency.version.classgraph>
+        <dependency.version.commons-email>1.5</dependency.version.commons-email>
         <dependency.version.commons-lang3>3.12.0</dependency.version.commons-lang3>
         <dependency.version.flyway>9.14.1</dependency.version.flyway>
         <dependency.version.freemarker>2.3.32</dependency.version.freemarker>
@@ -108,6 +109,7 @@
         <module>voidframework-remoteconf-http</module>
         <module>voidframework-scheduler</module>
         <module>voidframework-sendmail</module>
+        <module>voidframework-sendmail-commonsemail</module>
         <module>voidframework-template</module>
         <module>voidframework-template-freemarker</module>
         <module>voidframework-test</module>
@@ -291,6 +293,17 @@
                 <groupId>com.google.inject.extensions</groupId>
                 <artifactId>guice-assistedinject</artifactId>
                 <version>${dependency.version.guice}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>${dependency.version.commons-email}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>slf4j-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
