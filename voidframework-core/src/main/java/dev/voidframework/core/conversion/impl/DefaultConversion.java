@@ -218,7 +218,6 @@ public class DefaultConversion implements Conversion {
      * @param <T>                    The target generic type
      * @since 1.0.0
      */
-
     private <S, T> void convertIntoCollection(final Iterable<S> objectSourceIterable,
                                               final Collection<T> objectTargetCollection,
                                               final Class<S> sourceTypeClass,
