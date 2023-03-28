@@ -82,7 +82,7 @@
         <dependency.version.logback>1.4.5</dependency.version.logback>
         <dependency.version.tika>2.7.0</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
-        <dependency.version.undertow>2.3.3.Final</dependency.version.undertow>
+        <dependency.version.undertow>2.3.5.Final</dependency.version.undertow>
 
         <!-- Unit Tests -->
         <dependency.version.hsqldb>2.7.1</dependency.version.hsqldb>
