@@ -10,17 +10,21 @@ import dev.voidframework.core.remoteconfiguration.FileCfgObject;
 import dev.voidframework.core.remoteconfiguration.KeyValueCfgObject;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
 import java.net.UnknownHostException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
+import java.security.ProviderException;
+import java.time.Duration;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 /**
@@ -90,10 +94,13 @@ public class HttpRemoteConfigurationProvider extends AbstractRemoteConfiguration
                     )
                 );
             }
-        } catch (final MalformedURLException | UnknownHostException ex) {
+        } catch (final ConnectException | MalformedURLException | UnknownHostException ex) {
             throw new ConfigException.BadValue(CONFIGURATION_KEY_ENDPOINT, ex.getMessage());
         } catch (final IOException ex) {
             throw new ConfigException.IO(configuration.origin(), ex.getMessage());
+        } catch (final InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new ProviderException("Remote configuration provider has been interrupted", ex);
         }
     }
 
@@ -102,51 +109,55 @@ public class HttpRemoteConfigurationProvider extends AbstractRemoteConfiguration
      *
      * @param configuration The provider configuration
      * @return The remote configuration content as String
+     * @throws InterruptedException                    if execution is interrupted
      * @throws IOException                             if something goes wrong
      * @throws RemoteConfigurationException.FetchError if the remote endpoint return an error
      * @since 1.2.0
      */
-    private String fetchRemoteConfiguration(final Config configuration) throws IOException {
+    private String fetchRemoteConfiguration(final Config configuration) throws InterruptedException, IOException {
 
-        final URL url = new URL(configuration.getString(CONFIGURATION_KEY_ENDPOINT));
-        final HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+        // Creates HTTP client
+        final HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .followRedirects(HttpClient.Redirect.NORMAL)
+            .connectTimeout(Duration.ofMillis(CONNECTION_TIMEOUT))
+            .executor(Executors.newSingleThreadExecutor())
+            .build();
+
+        // Creates HTTP request
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+            .uri(URI.create(configuration.getString(CONFIGURATION_KEY_ENDPOINT)))
+            .timeout(Duration.ofMillis(READ_TIMEOUT))
+            .setHeader("User-Agent", USER_AGENT);
+
+        final String httpMethod = configuration.getString(CONFIGURATION_KEY_METHOD).trim().toUpperCase(Locale.ENGLISH);
+        if (httpMethod.equals("POST")) {
+            requestBuilder.POST(HttpRequest.BodyPublishers.noBody());
+        } else {
+            requestBuilder.GET();
+        }
 
         if (configuration.hasPath(CONFIGURATION_KEY_USERNAME)) {
             final String auth = configuration.getString(CONFIGURATION_KEY_USERNAME)
                 + StringConstants.COLON
                 + configuration.getString(CONFIGURATION_KEY_PASSWORD);
             final byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
-            httpConnection.setRequestProperty("Authorization", "Basic " + new String(encodedAuth));
+            requestBuilder.setHeader("Authorization", "Basic " + new String(encodedAuth));
         }
 
-        final String httpMethod = configuration.getString(CONFIGURATION_KEY_METHOD).trim().toUpperCase(Locale.ENGLISH);
-        httpConnection.setRequestMethod(httpMethod);
-        if (httpMethod.equals("POST")) {
-            httpConnection.setDoOutput(false);
+        // Executes HTTP request
+        final HttpResponse<String> httpResponse = httpClient.send(
+            requestBuilder.build(),
+            HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+
+        // Uses response as configuration content
+        if (httpResponse.statusCode() / 100 == 2) {
+            return httpResponse.body();
         }
 
-        httpConnection.setRequestProperty("User-Agent", USER_AGENT);
-        httpConnection.setConnectTimeout(CONNECTION_TIMEOUT);
-        httpConnection.setReadTimeout(READ_TIMEOUT);
-        httpConnection.connect();
-
-        if (httpConnection.getResponseCode() / 100 == 2) {
-            try (final BufferedReader br = new BufferedReader(
-                new InputStreamReader(httpConnection.getInputStream(), StandardCharsets.UTF_8))) {
-
-                final StringBuilder response = new StringBuilder();
-
-                String responseLine;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine).append(StringConstants.LINE_FEED);
-                }
-
-                return response.toString();
-            }
-        }
-
+        // Throws exception because endpoint return a non 2xx response
         throw new RemoteConfigurationException.FetchError(
             this.getClass(),
-            "Endpoint returns httpStatusCode " + httpConnection.getResponseCode());
+            "Endpoint returns httpStatusCode " + httpResponse.statusCode());
     }
 }

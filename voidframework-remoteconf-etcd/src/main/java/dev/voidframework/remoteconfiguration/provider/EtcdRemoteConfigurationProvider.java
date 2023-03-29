@@ -14,11 +14,18 @@ import org.apache.commons.lang3.RegExUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
+import java.net.ConnectException;
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URI;
+import java.net.UnknownHostException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.security.ProviderException;
+import java.time.Duration;
 import java.util.Base64;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
 /**
@@ -27,6 +34,10 @@ import java.util.function.Consumer;
  * @since 1.2.0
  */
 public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfigurationProvider {
+
+    private static final int CONNECTION_TIMEOUT = 5000;
+    private static final int READ_TIMEOUT = 5000;
+    private static final String USER_AGENT = "VoidFramework-RemoteConf-Provider";
 
     private static final String CONFIGURATION_KEY_ENDPOINT = "endpoint";
     private static final String CONFIGURATION_KEY_PREFIX = "prefix";
@@ -82,45 +93,82 @@ public class EtcdRemoteConfigurationProvider extends AbstractRemoteConfiguration
         // Get data from etcd
         InputStream is = null;
         try {
-            final URL consulUrl = new URL("%sv2/keys/%s/?recursive=true".formatted(etcdEndpoint, etcdPrefix));
-            final HttpURLConnection conn = (HttpURLConnection) consulUrl.openConnection();
 
-            conn.setConnectTimeout(5000);
-            conn.setReadTimeout(5000);
+            final URI remoteConfURI = URI.create("%sv2/keys/%s/?recursive=true".formatted(etcdEndpoint, etcdPrefix));
+            is = fetchRemoteConfiguration(remoteConfURI, configuration);
 
-            if (configuration.hasPath(CONFIGURATION_KEY_USERNAME)
-                && configuration.hasPath(CONFIGURATION_KEY_PASSWORD)) {
-                final String username = configuration.getString(CONFIGURATION_KEY_USERNAME);
-                final String password = configuration.getString(CONFIGURATION_KEY_PASSWORD);
-                if (!username.isEmpty()) {
-                    final String basicAuth = "Basic " + Base64.getEncoder().encodeToString(
-                        (username + StringConstants.COLON + password).getBytes());
-                    conn.setRequestProperty("Authorization", basicAuth);
-                }
-            }
+            final ObjectMapper mapper = new ObjectMapper();
+            JsonNode jsonNode = mapper.readTree(is).get(JSON_FIELD_NODE);
+            if (jsonNode.get(JSON_FIELD_IS_DIRECTORY).asBoolean()) {
+                jsonNode = jsonNode.get(JSON_FIELD_NODES);
 
-            if (conn.getResponseCode() / 100 == 2) {
-                is = conn.getInputStream();
-                final ObjectMapper mapper = new ObjectMapper();
-                JsonNode jsonNode = mapper.readTree(is).get(JSON_FIELD_NODE);
-                if (jsonNode.get(JSON_FIELD_IS_DIRECTORY).asBoolean()) {
-                    jsonNode = jsonNode.get(JSON_FIELD_NODES);
-
-                    // Explore Json
-                    this.exploreJsonNode(etcdPrefix, jsonNode, keyValueObjConsumer, fileObjConsumer);
-                } else {
-                    throw new ConfigException.BadValue(CONFIGURATION_KEY_PREFIX, "Must reference a directory");
-                }
+                // Explore Json
+                this.exploreJsonNode(etcdPrefix, jsonNode, keyValueObjConsumer, fileObjConsumer);
             } else {
-                throw new ProviderException("Return non 200 status: " + conn.getResponseCode());
+                throw new ConfigException.BadValue(CONFIGURATION_KEY_PREFIX, "Must reference a directory");
             }
-        } catch (final MalformedURLException ex) {
+
+        } catch (final ConnectException | MalformedURLException | UnknownHostException ex) {
             throw new ConfigException.BadValue(CONFIGURATION_KEY_ENDPOINT, ex.getMessage());
         } catch (final IOException ex) {
             throw new ProviderException("Can't connect to the provider", ex);
+        } catch (final InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new ProviderException("Remote configuration provider has been interrupted", ex);
         } finally {
             IOUtils.closeWithoutException(is);
         }
+    }
+
+    /**
+     * Retrieves the remote configuration.
+     *
+     * @param uri           The remote URI to fetch
+     * @param configuration The application configuration
+     * @throws InterruptedException                    if execution is interrupted
+     * @throws IOException                             if something goes wrong
+     * @throws RemoteConfigurationException.FetchError if the remote endpoint return an error
+     * @since 1.7.0
+     */
+    private InputStream fetchRemoteConfiguration(final URI uri, final Config configuration) throws IOException, InterruptedException {
+
+        // Creates HTTP client
+        final HttpClient httpClient = HttpClient.newBuilder()
+            .version(HttpClient.Version.HTTP_2)
+            .followRedirects(HttpClient.Redirect.NORMAL)
+            .connectTimeout(Duration.ofMillis(CONNECTION_TIMEOUT))
+            .executor(Executors.newSingleThreadExecutor())
+            .build();
+
+        // Creates HTTP request
+        HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
+            .uri(uri)
+            .timeout(Duration.ofMillis(READ_TIMEOUT))
+            .setHeader("User-Agent", USER_AGENT)
+            .GET();
+
+        if (configuration.hasPath(CONFIGURATION_KEY_USERNAME)) {
+            final String auth = configuration.getString(CONFIGURATION_KEY_USERNAME)
+                + StringConstants.COLON
+                + configuration.getString(CONFIGURATION_KEY_PASSWORD);
+            final byte[] encodedAuth = Base64.getEncoder().encode(auth.getBytes(StandardCharsets.UTF_8));
+            requestBuilder.setHeader("Authorization", "Basic " + new String(encodedAuth));
+        }
+
+        // Executes HTTP request
+        final HttpResponse<InputStream> httpResponse = httpClient.send(
+            requestBuilder.build(),
+            HttpResponse.BodyHandlers.ofInputStream());
+
+        // Uses response as configuration content
+        if (httpResponse.statusCode() / 100 == 2) {
+            return httpResponse.body();
+        }
+
+        // Throws exception because endpoint return a non 2xx response
+        throw new RemoteConfigurationException.FetchError(
+            this.getClass(),
+            "Endpoint returns httpStatusCode " + httpResponse.statusCode());
     }
 
     /**
