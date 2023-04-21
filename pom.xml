@@ -82,6 +82,7 @@
         <dependency.version.jwt>4.4.0</dependency.version.jwt>
         <dependency.version.kryo>5.5.0</dependency.version.kryo>
         <dependency.version.logback>1.4.7</dependency.version.logback>
+        <dependency.version.retrofit>2.9.0</dependency.version.retrofit>
         <dependency.version.tika>2.7.0</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
         <dependency.version.undertow>2.3.5.Final</dependency.version.undertow>
@@ -110,6 +111,7 @@
         <module>voidframework-redis-healthcheck</module>
         <module>voidframework-remoteconf-etcd</module>
         <module>voidframework-remoteconf-http</module>
+        <module>voidframework-restclient</module>
         <module>voidframework-scheduler</module>
         <module>voidframework-sendmail</module>
         <module>voidframework-sendmail-commonsemail</module>
@@ -481,6 +483,21 @@
                 <groupId>com.h2database</groupId>
                 <artifactId>h2</artifactId>
                 <version>${dependency.version.h2}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>retrofit</artifactId>
+                <version>${dependency.version.retrofit}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>converter-jackson</artifactId>
+                <version>${dependency.version.retrofit}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.retrofit2</groupId>
+                <artifactId>converter-scalars</artifactId>
+                <version>${dependency.version.retrofit}</version>
             </dependency>
 
             <!-- Unit Tests -->
