@@ -8,6 +8,7 @@ import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.conversion.TypeConverter;
 import dev.voidframework.core.exception.ConversionException;
+import dev.voidframework.core.proxyable.Proxyable;
 import dev.voidframework.core.utils.ClassResolverUtils;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
@@ -56,7 +57,11 @@ public final class ClassesToLoadScanner {
                                                          final String[] rejectedScanPaths,
                                                          final List<String> extraInterfaces) {
 
-        final ScannedClassesToLoad scannedClassesToLoad = new ScannedClassesToLoad(new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
+        final ScannedClassesToLoad scannedClassesToLoad = new ScannedClassesToLoad(
+            new ArrayList<>(),
+            new ArrayList<>(),
+            new ArrayList<>(),
+            new ArrayList<>());
 
         try (final ScanResult scanResult = new ClassGraph()
             .acceptPackages(acceptedScanPaths)
@@ -105,6 +110,8 @@ public final class ClassesToLoadScanner {
 
                     scannedClassesToLoad.converterInformationList().add(
                         new ConverterInformation(sourceClassType, targetClassType, constructorInfo.loadClassAndGetConstructor().getDeclaringClass()));
+                } else if (isProxyable(classInfo)) {
+                    scannedClassesToLoad.proxyableList().add(classInfo.loadClass(false));
                 }
             }
         }
@@ -192,5 +199,17 @@ public final class ClassesToLoadScanner {
         }
 
         return false;
+    }
+
+    /**
+     * Checks if current interface can be proxy-ed.
+     *
+     * @param classInfo The current interface information
+     * @return {@code true} if can be proxy-ed, otherwise {@code false}
+     * @since 1.7.0
+     */
+    private static boolean isProxyable(final ClassInfo classInfo) {
+
+        return classInfo.getAnnotationInfo(Proxyable.class) != null && classInfo.isInterface();
     }
 }

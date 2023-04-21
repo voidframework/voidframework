@@ -7,11 +7,13 @@ import java.util.List;
  *
  * @param moduleList               The module classes list
  * @param bindableList             The bindable classes list
+ * @param proxyableList            The proxyable interfaces list
  * @param converterInformationList The converter information list
  * @since 1.0.0
  */
 public record ScannedClassesToLoad(List<Class<?>> moduleList,
                                    List<Class<?>> bindableList,
+                                   List<Class<?>> proxyableList,
                                    List<ConverterInformation> converterInformationList) {
 
     /**
@@ -22,6 +24,6 @@ public record ScannedClassesToLoad(List<Class<?>> moduleList,
      */
     public int count() {
 
-        return moduleList.size() + bindableList.size() + converterInformationList.size();
+        return moduleList.size() + bindableList.size() + proxyableList.size() + converterInformationList.size();
     }
 }
