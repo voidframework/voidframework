@@ -31,49 +31,39 @@ public class RestClientException extends RuntimeException {
     }
 
     /**
-     * Exception indicates that provided request is invalid.
+     * Exception indicates that service identifier provided via
+     * {@link dev.voidframework.restclient.annotation.RestClient} annotation is invalid.
      *
      * @since 1.9.0
      */
-    public static class IncompatibleReturnType extends RestClientException {
+    public static class InvalidServiceIdentifier extends RestClientException {
 
         /**
          * Build a new instance.
          *
          * @since 1.9.0
          */
-        public IncompatibleReturnType(final Class<?> returnTypeClass) {
+        public InvalidServiceIdentifier(final String serviceId) {
 
-            super("Return type '" + returnTypeClass.getSimpleName() + "' is not compatible");
+            super("'" + serviceId + "' is an invalid service identifier");
         }
     }
 
     /**
-     * Exception indicates that provided request is invalid.
+     * Exception indicates that something goes wrong during the call adapter process.
      *
      * @since 1.9.0
      */
-    public static class RequiredAnnotationMissing extends RestClientException {
+    public static class CallAdapterProcessingException extends RestClientException {
 
         /**
          * Build a new instance.
          *
          * @since 1.9.0
          */
-        public RequiredAnnotationMissing() {
+        public CallAdapterProcessingException(final Exception cause) {
 
-            this("At least one required annotation is missing");
-        }
-
-        /**
-         * Build a new instance.
-         *
-         * @param message The provided message
-         * @since 1.9.0
-         */
-        public RequiredAnnotationMissing(final String message) {
-
-            super(message);
+            super("Can't complete call adapter process", cause);
         }
     }
 }

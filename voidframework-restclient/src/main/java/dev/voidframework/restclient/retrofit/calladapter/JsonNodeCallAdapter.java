@@ -1,7 +1,7 @@
 package dev.voidframework.restclient.retrofit.calladapter;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import dev.voidframework.core.utils.JsonUtils;
+import dev.voidframework.restclient.exception.RestClientException;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
 import retrofit2.Response;
@@ -10,11 +10,11 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**
- * Adapts a Call with response of type String into a String.
+ * Adapts a Call with response of type JsonNode into a JsonNode.
  *
  * @since 1.9.0
  */
-public final class JsonCallAdapter implements CallAdapter<JsonNode, JsonNode> {
+public final class JsonNodeCallAdapter implements CallAdapter<JsonNode, JsonNode> {
 
     @Override
     public Type responseType() {
@@ -26,10 +26,10 @@ public final class JsonCallAdapter implements CallAdapter<JsonNode, JsonNode> {
     public JsonNode adapt(final Call<JsonNode> call) {
 
         try {
-            final Response<JsonNode> obj = call.execute();
-            return obj.body();
+            final Response<JsonNode> response = call.execute();
+            return response.body();
         } catch (final IOException exception) {
-            throw new RuntimeException(exception);
+            throw new RestClientException.CallAdapterProcessingException(exception);
         }
     }
 }

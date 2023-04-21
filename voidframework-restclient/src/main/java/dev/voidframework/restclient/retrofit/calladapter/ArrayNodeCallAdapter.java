@@ -1,5 +1,6 @@
 package dev.voidframework.restclient.retrofit.calladapter;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import dev.voidframework.restclient.exception.RestClientException;
 import retrofit2.Call;
 import retrofit2.CallAdapter;
@@ -9,23 +10,23 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 /**
- * Adapts a Call with response of type String into a String.
+ * Adapts a Call with response of type ArrayNode into a ArrayNode.
  *
  * @since 1.9.0
  */
-public final class StringCallAdapter implements CallAdapter<String, String> {
+public final class ArrayNodeCallAdapter implements CallAdapter<ArrayNode, ArrayNode> {
 
     @Override
     public Type responseType() {
 
-        return String.class;
+        return ArrayNode.class;
     }
 
     @Override
-    public String adapt(final Call<String> call) {
+    public ArrayNode adapt(final Call<ArrayNode> call) {
 
         try {
-            final Response<String> response = call.execute();
+            final Response<ArrayNode> response = call.execute();
             return response.body();
         } catch (final IOException exception) {
             throw new RestClientException.CallAdapterProcessingException(exception);

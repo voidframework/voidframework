@@ -9,6 +9,7 @@ import dev.voidframework.core.utils.JsonUtils;
 import dev.voidframework.core.utils.XmlUtils;
 import dev.voidframework.core.utils.YamlUtils;
 import dev.voidframework.restclient.annotation.RestClient;
+import dev.voidframework.restclient.exception.RestClientException;
 import dev.voidframework.restclient.retrofit.CallAdapterFactory;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
@@ -54,6 +55,7 @@ public final class RestClientModule extends AbstractModule {
         for (final Class<?> proxyable : this.scannedClassesToLoad.proxyableList()) {
             final RestClient restClient = proxyable.getAnnotation(RestClient.class);
             if (restClient != null) {
+
                 // Retrieves configuration key prefix
                 final String restClientConfigurationKeyPrefix = this.retrieveConfigurationKeyPrefix(restClient);
 
@@ -113,7 +115,7 @@ public final class RestClientModule extends AbstractModule {
     private String retrieveConfigurationKeyPrefix(final RestClient restClient) {
 
         if (StringUtils.isBlank(restClient.value())) {
-            throw new RuntimeException("OOOOOOOPPPPPSSSSS"); // TODO: use dedicated exception
+            throw new RestClientException.InvalidServiceIdentifier(restClient.value());
         }
 
         final String serviceConfigurationkey = restClient.value()
