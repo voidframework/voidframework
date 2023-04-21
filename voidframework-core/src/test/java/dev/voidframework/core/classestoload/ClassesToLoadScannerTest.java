@@ -3,6 +3,7 @@ package dev.voidframework.core.classestoload;
 import dev.voidframework.core.classestoload.classes.AccountService;
 import dev.voidframework.core.classestoload.classes.GuiceModule;
 import dev.voidframework.core.classestoload.classes.Person;
+import dev.voidframework.core.classestoload.classes.ProxInterface;
 import dev.voidframework.core.classestoload.classes.ShippingService;
 import dev.voidframework.core.classestoload.classes.StringToIntegerConverter;
 import org.junit.jupiter.api.Assertions;
@@ -36,7 +37,7 @@ final class ClassesToLoadScannerTest {
 
         // Assert
         Assertions.assertNotNull(scannedClassesToLoad);
-        Assertions.assertEquals(5, scannedClassesToLoad.count());
+        Assertions.assertEquals(6, scannedClassesToLoad.count());
 
         final List<ConverterInformation> converterInformationList = scannedClassesToLoad.converterInformationList();
         converterInformationList.sort(Comparator.comparing(convInfo -> convInfo.getClass().getName()));
@@ -54,6 +55,11 @@ final class ClassesToLoadScannerTest {
         moduleList.sort(Comparator.comparing(Class::getName));
         Assertions.assertEquals(1, moduleList.size());
         Assertions.assertEquals(GuiceModule.class, moduleList.get(0));
+
+        final List<Class<?>> proxyableList = scannedClassesToLoad.proxyableList();
+        proxyableList.sort(Comparator.comparing(Class::getName));
+        Assertions.assertEquals(1, proxyableList.size());
+        Assertions.assertEquals(ProxInterface.class, proxyableList.get(0));
     }
 
     @Test
@@ -82,7 +88,7 @@ final class ClassesToLoadScannerTest {
         Assertions.assertNotNull(scannedClassesToLoadRestored);
 
         Assertions.assertNotNull(scannedClassesToLoadRestored);
-        Assertions.assertEquals(5, scannedClassesToLoadRestored.count());
+        Assertions.assertEquals(6, scannedClassesToLoadRestored.count());
 
         final List<ConverterInformation> converterInformationList = scannedClassesToLoadRestored.converterInformationList();
         converterInformationList.sort(Comparator.comparing(convInfo -> convInfo.getClass().getName()));
@@ -100,5 +106,10 @@ final class ClassesToLoadScannerTest {
         moduleList.sort(Comparator.comparing(Class::getName));
         Assertions.assertEquals(1, moduleList.size());
         Assertions.assertEquals(GuiceModule.class, moduleList.get(0));
+
+        final List<Class<?>> proxyableList = scannedClassesToLoadRestored.proxyableList();
+        proxyableList.sort(Comparator.comparing(Class::getName));
+        Assertions.assertEquals(1, proxyableList.size());
+        Assertions.assertEquals(ProxInterface.class, proxyableList.get(0));
     }
 }

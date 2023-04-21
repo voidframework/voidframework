@@ -31,9 +31,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -156,17 +158,17 @@ public class VoidApplication {
         // Configure app components
         final List<Module> appModuleList = new ArrayList<>();
         final List<String> disabledModuleList = configuration.getStringList("voidframework.core.disabledModules");
-        for (final Class<?> moduleClass : scannedClassesToLoad.moduleList()) {
-            if (disabledModuleList.contains(moduleClass.getName()) || conditionalFeatureVerifier.isFeatureDisabled(moduleClass)) {
+        for (final Class<?> moduleClassType : scannedClassesToLoad.moduleList()) {
+            if (disabledModuleList.contains(moduleClassType.getName()) || conditionalFeatureVerifier.isFeatureDisabled(moduleClassType)) {
                 // Don't load this module
                 continue;
             }
 
             try {
-                final Module module = this.instantiateModule(configuration, moduleClass);
+                final Module module = this.instantiateModule(configuration, moduleClassType, scannedClassesToLoad);
                 appModuleList.add(module);
-            } catch (final InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ex) {
-                throw new AppLauncherException.ModuleInitFailure(moduleClass, ex);
+            } catch (final InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+                throw new AppLauncherException.ModuleInitFailure(moduleClassType, ex);
             }
         }
 
@@ -249,8 +251,9 @@ public class VoidApplication {
     /**
      * Instantiates a specific Guice module.
      *
-     * @param configuration   The application configuration
-     * @param moduleClassType The Guice module class type
+     * @param configuration        The application configuration
+     * @param moduleClassType      The Guice module class type
+     * @param scannedClassesToLoad The scanned classes
      * @return The instantiated Guice module
      * @throws NoSuchMethodException     If a matching method is not found
      * @throws InvocationTargetException If the underlying constructor throws an exception
@@ -258,17 +261,40 @@ public class VoidApplication {
      * @throws IllegalAccessException    If this Constructor object is enforcing Java language access control and the underlying constructor is inaccessible
      * @since 1.1.0
      */
-    private Module instantiateModule(final Config configuration, final Class<?> moduleClassType)
-        throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private Module instantiateModule(final Config configuration, final Class<?> moduleClassType, final ScannedClassesToLoad scannedClassesToLoad)
+        throws InvocationTargetException, InstantiationException, IllegalAccessException {
 
-        Module module;
         try {
-            module = (Module) moduleClassType.getDeclaredConstructor().newInstance();
-        } catch (final IllegalArgumentException | NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException ignore) {
-            module = (Module) moduleClassType.getDeclaredConstructor(Config.class).newInstance(configuration);
-        }
+            // Retrieves the constructor with the most arguments
+            final Constructor<?> constructor = Arrays.stream(moduleClassType.getDeclaredConstructors()).max((c1, c2) -> {
+                    if (c1.getParameterCount() == c2.getParameterCount()) {
+                        return 0;
+                    }
 
-        return module;
+                    return c1.getParameterCount() >= c2.getParameterCount() ? 1 : -1;
+                })
+                .orElseThrow(() -> new RuntimeException("OOPS"));
+
+            // Build arguments array
+            int idx = 0;
+            final Object[] argumentArray = new Object[constructor.getParameterCount()];
+            for (final Class<?> argumentClassType : constructor.getParameterTypes()) {
+                if (argumentClassType == Config.class) {
+                    argumentArray[idx] = configuration;
+                } else if (argumentClassType == ScannedClassesToLoad.class) {
+                    argumentArray[idx] = scannedClassesToLoad;
+                } else {
+                    argumentArray[idx] = null;
+                }
+
+                idx += 1;
+            }
+
+            // Creates module instance
+            return (Module) constructor.newInstance(argumentArray);
+        } catch (final IllegalArgumentException | InstantiationException | IllegalAccessException | InvocationTargetException ex) {
+            throw new AppLauncherException.ModuleInitFailure(moduleClassType, ex);
+        }
     }
 
     /**
