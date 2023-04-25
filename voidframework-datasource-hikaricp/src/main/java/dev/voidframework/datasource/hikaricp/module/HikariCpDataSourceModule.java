@@ -8,7 +8,7 @@ import dev.voidframework.datasource.DataSourceManager;
  *
  * @since 1.0.0
  */
-public class HikariCpDataSourceModule extends AbstractModule {
+public final class HikariCpDataSourceModule extends AbstractModule {
 
     @Override
     protected void configure() {

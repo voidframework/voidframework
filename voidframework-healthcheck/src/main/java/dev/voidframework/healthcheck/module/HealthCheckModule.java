@@ -9,7 +9,7 @@ import dev.voidframework.healthcheck.HealthCheckManager;
  *
  * @since 1.0.0
  */
-public class HealthCheckModule extends AbstractModule {
+public final class HealthCheckModule extends AbstractModule {
 
     @Override
     protected void configure() {

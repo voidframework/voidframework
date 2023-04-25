@@ -8,7 +8,7 @@ import com.google.inject.matcher.Matchers;
  *
  * @since 1.0.0
  */
-public class SchedulerModule extends AbstractModule {
+public final class SchedulerModule extends AbstractModule {
 
     @Override
     protected void configure() {

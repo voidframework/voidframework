@@ -10,7 +10,7 @@ import freemarker.template.Configuration;
  *
  * @since 1.0.0
  */
-public class TemplateFreeMarkerModule extends AbstractModule {
+public final class TemplateFreeMarkerModule extends AbstractModule {
 
     @Override
     protected void configure() {

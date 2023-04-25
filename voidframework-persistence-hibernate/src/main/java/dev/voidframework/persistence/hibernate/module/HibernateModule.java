@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @since 1.0.0
  */
-public class HibernateModule extends AbstractModule {
+public final class HibernateModule extends AbstractModule {
 
     private final Config configuration;
 

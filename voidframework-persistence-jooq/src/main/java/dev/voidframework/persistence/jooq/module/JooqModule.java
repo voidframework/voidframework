@@ -19,7 +19,7 @@ import java.util.Set;
  *
  * @since 1.4.0
  */
-public class JooqModule extends AbstractModule {
+public final class JooqModule extends AbstractModule {
 
     private final Config configuration;
 

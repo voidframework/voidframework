@@ -10,7 +10,7 @@ import redis.clients.jedis.Jedis;
  *
  * @since 1.1.0
  */
-public class RedisModule extends AbstractModule {
+public final class RedisModule extends AbstractModule {
 
     @Override
     protected void configure() {
