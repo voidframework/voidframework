@@ -1,5 +1,6 @@
 package dev.voidframework.sendmail.module;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -41,7 +42,15 @@ public final class MailerEngineProvider implements Provider<MailerEngine> {
             final String sendmailEngineClassName = configuration.getString("voidframework.sendmail.engine");
             final Class<?> clazz = ClassResolverUtils.forName(sendmailEngineClassName);
             if (clazz != null) {
-                this.mailerEngine = (MailerEngine) this.injector.getInstance(clazz);
+                final Injector childInjector = this.injector.createChildInjector(new AbstractModule() {
+
+                    @Override
+                    protected void configure() {
+
+                        bind(clazz);
+                    }
+                });
+                this.mailerEngine = (MailerEngine) childInjector.getInstance(clazz);
             }
         }
 

@@ -5,6 +5,7 @@ import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.google.inject.AbstractModule;
 import dev.voidframework.core.bindable.Bindable;
+import dev.voidframework.core.bindable.Repository;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.conversion.TypeConverter;
 import dev.voidframework.core.exception.ConversionException;
@@ -25,7 +26,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Classpath scanner to fin classes to load.
@@ -61,7 +65,8 @@ public final class ClassesToLoadScanner {
             new ArrayList<>(),
             new ArrayList<>(),
             new ArrayList<>(),
-            new ArrayList<>());
+            new ArrayList<>(),
+            new HashMap<>());
 
         try (final ScanResult scanResult = new ClassGraph()
             .acceptPackages(acceptedScanPaths)
@@ -74,6 +79,11 @@ public final class ClassesToLoadScanner {
 
                 if (isBindable(classInfo, extraInterfaces)) {
                     scannedClassesToLoad.bindableList().add(classInfo.loadClass(false));
+                    for (final ClassInfo interfaceClassInfo : classInfo.getInterfaces()) {
+                        scannedClassesToLoad
+                            .interfaceImplementationCountMap()
+                            .compute(interfaceClassInfo.loadClass(false), (key, value) -> Objects.requireNonNullElse(value, 0) + 1);
+                    }
                 } else if (classInfo.extendsSuperclass(AbstractModule.class)) {
                     scannedClassesToLoad.moduleList().add(classInfo.loadClass(false));
                 } else if (classInfo.implementsInterface(TypeConverter.class)) {

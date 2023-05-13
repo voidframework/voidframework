@@ -40,6 +40,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Application launcher are expected to instantiate and run all parts of an
@@ -144,6 +145,11 @@ public class VoidApplication {
                         this.multibinderMap.computeIfAbsent(interfaceClassType,
                             key -> Multibinder.newSetBinder(binder(), interfaceClassType)
                         ).addBinding().to((Class) classType);
+
+
+                        if (Objects.equals(scannedClassesToLoad.interfaceImplementationCountMap().get(interfaceClassType), 1)) {
+                            bind(interfaceClassType).to((Class) classType);
+                        }
                     }
                 }
 

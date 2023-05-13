@@ -3,7 +3,6 @@ package dev.voidframework.sendmail.engine;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.typesafe.config.Config;
-import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.sendmail.engine.constant.MailMimePropertyKeys;
 import dev.voidframework.sendmail.engine.constant.MailSmtpPropertyKeys;
 import dev.voidframework.sendmail.entity.Mail;
@@ -22,7 +21,6 @@ import java.util.Properties;
  *
  * @since 1.7.0
  */
-@Bindable
 @Singleton
 public class ApacheCommonsEmailMailerEngine implements MailerEngine {
 

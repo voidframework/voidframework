@@ -1,6 +1,5 @@
 package dev.voidframework.sendmail.engine;
 
-import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.sendmail.entity.Mail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +9,6 @@ import org.slf4j.LoggerFactory;
  *
  * @since 1.7.0
  */
-@Bindable
 public final class DummyMailerEngine implements MailerEngine {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DummyMailerEngine.class);

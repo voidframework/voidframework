@@ -1,13 +1,10 @@
 package dev.voidframework.cache.engine;
 
-import dev.voidframework.core.bindable.Bindable;
-
 /**
  * Black Hole (do nothing) cache implementation.
  *
  * @since 1.0.0
  */
-@Bindable
 public final class BlackHoleCacheEngine implements CacheEngine {
 
     @Override

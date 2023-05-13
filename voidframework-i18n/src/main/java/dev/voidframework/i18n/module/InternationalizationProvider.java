@@ -1,5 +1,6 @@
 package dev.voidframework.i18n.module;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -42,13 +43,22 @@ public final class InternationalizationProvider implements Provider<Internationa
             if (configuration.hasPath("voidframework.i18n.engine")) {
                 final String internationalizationImplClassName = configuration.getString("voidframework.i18n.engine");
                 final Class<?> clazz = ClassResolverUtils.forName(internationalizationImplClassName);
+
                 if (clazz != null) {
-                    this.internationalization = (Internationalization) this.injector.getInstance(clazz);
+                    final Injector childInjector = this.injector.createChildInjector(new AbstractModule() {
+
+                        @Override
+                        protected void configure() {
+
+                            bind(clazz);
+                        }
+                    });
+                    this.internationalization = (Internationalization) childInjector.getInstance(clazz);
                 }
             }
 
             if (this.internationalization == null) {
-                this.internationalization = this.injector.getInstance(ResourceBundleInternationalization.class);
+                this.internationalization = new ResourceBundleInternationalization();
             }
         }
 

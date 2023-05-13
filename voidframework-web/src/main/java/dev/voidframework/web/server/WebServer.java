@@ -1,5 +1,6 @@
 package dev.voidframework.web.server;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -267,7 +268,15 @@ public class WebServer {
         }
 
         try {
-            final ErrorHandler errorHandler = (ErrorHandler) this.injector.getInstance(errorHandlerClass);
+            final Injector childInjector = this.injector.createChildInjector(new AbstractModule() {
+
+                @Override
+                protected void configure() {
+
+                    bind(errorHandlerClass);
+                }
+            });
+            final ErrorHandler errorHandler = (ErrorHandler) childInjector.getInstance(errorHandlerClass);
             if (errorHandler == null) {
                 throw new ErrorHandlerException.CantInstantiate(errorHandlerClassName);
             }
