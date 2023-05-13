@@ -1,5 +1,6 @@
 package dev.voidframework.cache.module;
 
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -43,12 +44,20 @@ public final class CacheEngineProvider implements Provider<CacheEngine> {
                 final String cacheEngineClassName = configuration.getString("voidframework.cache.engine");
                 final Class<?> clazz = ClassResolverUtils.forName(cacheEngineClassName);
                 if (clazz != null) {
-                    this.cacheEngine = (CacheEngine) this.injector.getInstance(clazz);
+                    final Injector childInjector = this.injector.createChildInjector(new AbstractModule() {
+
+                        @Override
+                        protected void configure() {
+
+                            bind(clazz);
+                        }
+                    });
+                    this.cacheEngine = (CacheEngine) childInjector.getInstance(clazz);
                 }
             }
 
             if (this.cacheEngine == null) {
-                this.cacheEngine = this.injector.getInstance(BlackHoleCacheEngine.class);
+                this.cacheEngine = new BlackHoleCacheEngine();
             }
         }
 

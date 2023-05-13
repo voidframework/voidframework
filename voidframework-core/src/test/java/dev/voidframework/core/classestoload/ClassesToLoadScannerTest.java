@@ -2,6 +2,7 @@ package dev.voidframework.core.classestoload;
 
 import dev.voidframework.core.classestoload.classes.AccountService;
 import dev.voidframework.core.classestoload.classes.GuiceModule;
+import dev.voidframework.core.classestoload.classes.Named;
 import dev.voidframework.core.classestoload.classes.Person;
 import dev.voidframework.core.classestoload.classes.ProxInterface;
 import dev.voidframework.core.classestoload.classes.ShippingService;
@@ -17,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class ClassesToLoadScannerTest {
@@ -60,6 +62,10 @@ final class ClassesToLoadScannerTest {
         proxyableList.sort(Comparator.comparing(Class::getName));
         Assertions.assertEquals(1, proxyableList.size());
         Assertions.assertEquals(ProxInterface.class, proxyableList.get(0));
+
+        final Map<Class<?>, Integer> interfaceImplementationCountMap = scannedClassesToLoad.interfaceImplementationCountMap();
+        Assertions.assertEquals(1, interfaceImplementationCountMap.size());
+        Assertions.assertEquals(1, interfaceImplementationCountMap.get(Named.class));
     }
 
     @Test
