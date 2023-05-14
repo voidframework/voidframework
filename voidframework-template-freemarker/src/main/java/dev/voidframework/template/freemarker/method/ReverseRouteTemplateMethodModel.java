@@ -31,6 +31,7 @@ public class ReverseRouteTemplateMethodModel implements TemplateMethodModelEx {
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public Object exec(final List argumentList) throws TemplateModelException {
 
         if (argumentList.isEmpty()) {

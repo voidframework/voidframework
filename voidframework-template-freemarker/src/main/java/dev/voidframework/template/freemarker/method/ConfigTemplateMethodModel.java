@@ -33,6 +33,7 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public TemplateModel exec(final List argumentList) throws TemplateModelException {
 
         if (argumentList.size() != 1) {

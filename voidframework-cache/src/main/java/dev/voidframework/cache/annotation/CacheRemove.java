@@ -29,7 +29,7 @@ public @interface CacheRemove {
      * @return Class[] of Exceptions
      * @since 1.0.1
      */
-    Class[] evictOn() default {};
+    Class<?>[] evictOn() default {};
 
     /**
      * Defines exception Classes indicating the exception types that must not cause a cache eviction.
@@ -37,5 +37,5 @@ public @interface CacheRemove {
      * @return Class[] of Exceptions
      * @since 1.0.1
      */
-    Class[] noEvictOn() default {};
+    Class<?>[] noEvictOn() default {};
 }

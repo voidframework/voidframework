@@ -36,6 +36,7 @@ public class InternationalizationTemplateMethodModel implements TemplateMethodMo
     }
 
     @Override
+    @SuppressWarnings("rawtypes")
     public TemplateModel exec(final List argumentList) throws TemplateModelException {
 
         if (argumentList.isEmpty()) {

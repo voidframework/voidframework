@@ -154,6 +154,7 @@ final class RouterTest {
     /**
      * A simple controller.
      */
+    @SuppressWarnings("unused")
     private static final class SampleController {
 
         public Result displayHelloWorld() {

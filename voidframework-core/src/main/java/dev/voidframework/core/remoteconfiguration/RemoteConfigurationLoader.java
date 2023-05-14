@@ -1,6 +1,7 @@
 package dev.voidframework.core.remoteconfiguration;
 
 import com.typesafe.config.Config;
+import com.typesafe.config.ConfigException;
 import com.typesafe.config.ConfigFactory;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.exception.RemoteConfigurationException;
@@ -69,6 +70,10 @@ public final class RemoteConfigurationLoader {
                         }
                     }
                 }
+                default -> throw new ConfigException.BadValue(
+                    localConfiguration.origin(),
+                    CONFIGURATION_KEY_REGISTERED_PROVIDERS,
+                    "Must be a single String or a StringList");
             }
         }
 
