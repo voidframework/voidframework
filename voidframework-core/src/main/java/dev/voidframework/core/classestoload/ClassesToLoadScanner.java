@@ -3,7 +3,7 @@ package dev.voidframework.core.classestoload;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
-import com.google.inject.AbstractModule;
+import com.google.inject.Module;
 import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.core.conversion.TypeConverter;
@@ -82,7 +82,7 @@ public final class ClassesToLoadScanner {
                             .interfaceImplementationCountMap()
                             .compute(interfaceClassInfo.loadClass(false), (key, value) -> Objects.requireNonNullElse(value, 0) + 1);
                     }
-                } else if (classInfo.extendsSuperclass(AbstractModule.class)) {
+                } else if (classInfo.implementsInterface(Module.class)) {
                     scannedClassesToLoad.moduleList().add(classInfo.loadClass(false));
                 } else if (classInfo.implementsInterface(TypeConverter.class)) {
                     // Determine source class and target class
