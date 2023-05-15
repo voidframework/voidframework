@@ -61,6 +61,7 @@ public final class FlywayMigration {
             // Configure Flyway
             final DataSource dataSource = dataSourceManagerProvider.get().getDataSource();
             final Flyway flyway = Flyway.configure()
+                .loggers("slf4j")
                 .callbacks(callbackList.toArray(new String[0]))
                 .dataSource(dataSource)
                 .encoding(StandardCharsets.UTF_8)
