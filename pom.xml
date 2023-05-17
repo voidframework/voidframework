@@ -68,6 +68,7 @@
         <dependency.version.flyway>9.17.0</dependency.version.flyway>
         <dependency.version.freemarker>2.3.32</dependency.version.freemarker>
         <dependency.version.guice>7.0.0</dependency.version.guice>
+        <dependency.version.h2>2.1.214</dependency.version.h2>
         <dependency.version.hibernate-core>6.2.2.Final</dependency.version.hibernate-core>
         <dependency.version.hibernate-validator>8.0.0.Final</dependency.version.hibernate-validator>
         <dependency.version.hikaricp>5.0.1</dependency.version.hikaricp>
@@ -97,6 +98,7 @@
         <module>voidframework-datasource</module>
         <module>voidframework-datasource-c3p0</module>
         <module>voidframework-datasource-hikaricp</module>
+        <module>voidframework-h2</module>
         <module>voidframework-healthcheck</module>
         <module>voidframework-i18n</module>
         <module>voidframework-migration-flyway</module>
@@ -468,6 +470,11 @@
                 <groupId>org.jooq</groupId>
                 <artifactId>jooq-meta</artifactId>
                 <version>${dependency.version.jooq}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.h2database</groupId>
+                <artifactId>h2</artifactId>
+                <version>${dependency.version.h2}</version>
             </dependency>
 
             <!-- Unit Tests -->
