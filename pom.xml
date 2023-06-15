@@ -61,6 +61,7 @@
         <plugin.version.nexus-staging-maven-plugin>1.6.13</plugin.version.nexus-staging-maven-plugin>
 
         <!-- Dependencies -->
+        <dependency.version.aspectj>1.9.19</dependency.version.aspectj>
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
         <dependency.version.classgraph>4.8.158</dependency.version.classgraph>
         <dependency.version.commons-email>1.5</dependency.version.commons-email>
@@ -295,6 +296,11 @@
                 <groupId>com.google.inject.extensions</groupId>
                 <artifactId>guice-assistedinject</artifactId>
                 <version>${dependency.version.guice}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${dependency.version.aspectj}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>

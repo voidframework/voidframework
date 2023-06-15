@@ -26,6 +26,7 @@ import dev.voidframework.core.module.OrderedModule;
 import dev.voidframework.core.remoteconfiguration.RemoteConfigurationLoader;
 import dev.voidframework.core.utils.VoidFrameworkVersion;
 import org.apache.commons.lang3.StringUtils;
+import org.aspectj.lang.Aspects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -151,6 +152,14 @@ public class VoidApplication {
                             bind(interfaceClassType).to((Class) classType);
                         }
                     }
+                }
+
+                for (final Class<?> classType : scannedClassesToLoad.aspectList()) {
+                    if (conditionalFeatureVerifier.isFeatureDisabled(classType)) {
+                        continue;
+                    }
+
+                    requestInjection(Aspects.aspectOf(classType));
                 }
 
                 if (configuration.getBoolean("voidframework.core.requireExplicitBindings")) {

@@ -9,6 +9,7 @@ import java.util.Map;
  * @param moduleList                      The module classes list
  * @param bindableList                    The bindable classes list
  * @param proxyableList                   The proxyable interfaces list
+ * @param aspectList                      The aspectJ annotated classes list
  * @param converterInformationList        The converter information list
  * @param interfaceImplementationCountMap The interface implementation count map
  * @since 1.0.0
@@ -16,6 +17,7 @@ import java.util.Map;
 public record ScannedClassesToLoad(List<Class<?>> moduleList,
                                    List<Class<?>> bindableList,
                                    List<Class<?>> proxyableList,
+                                   List<Class<?>> aspectList,
                                    List<ConverterInformation> converterInformationList,
                                    Map<Class<?>, Integer> interfaceImplementationCountMap) {
 
@@ -27,6 +29,6 @@ public record ScannedClassesToLoad(List<Class<?>> moduleList,
      */
     public int count() {
 
-        return moduleList.size() + bindableList.size() + proxyableList.size() + converterInformationList.size();
+        return moduleList.size() + bindableList.size() + proxyableList.size() + aspectList.size() + converterInformationList.size();
     }
 }
