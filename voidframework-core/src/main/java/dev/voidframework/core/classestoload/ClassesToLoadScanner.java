@@ -16,6 +16,7 @@ import io.github.classgraph.MethodInfo;
 import io.github.classgraph.MethodInfoList;
 import io.github.classgraph.ScanResult;
 import io.github.classgraph.TypeArgument;
+import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +61,7 @@ public final class ClassesToLoadScanner {
                                                          final List<String> extraInterfaces) {
 
         final ScannedClassesToLoad scannedClassesToLoad = new ScannedClassesToLoad(
+            new ArrayList<>(),
             new ArrayList<>(),
             new ArrayList<>(),
             new ArrayList<>(),
@@ -120,6 +122,8 @@ public final class ClassesToLoadScanner {
                         new ConverterInformation(sourceClassType, targetClassType, constructorInfo.loadClassAndGetConstructor().getDeclaringClass()));
                 } else if (isProxyable(classInfo)) {
                     scannedClassesToLoad.proxyableList().add(classInfo.loadClass(false));
+                } else if (classInfo.hasAnnotation(Aspect.class)) {
+                    scannedClassesToLoad.aspectList().add(classInfo.loadClass(false));
                 }
             }
         }
