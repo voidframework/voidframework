@@ -261,7 +261,6 @@ public class VoidApplication {
      * @param moduleClassType      The Guice module class type
      * @param scannedClassesToLoad The scanned classes
      * @return The instantiated Guice module
-     * @throws NoSuchMethodException     If a matching method is not found
      * @throws InvocationTargetException If the underlying constructor throws an exception
      * @throws InstantiationException    If the class that declares the underlying constructor represents an abstract class
      * @throws IllegalAccessException    If this Constructor object is enforcing Java language access control and the underlying constructor is inaccessible
@@ -279,7 +278,7 @@ public class VoidApplication {
 
                     return c1.getParameterCount() >= c2.getParameterCount() ? 1 : -1;
                 })
-                .orElseThrow(() -> new RuntimeException("OOPS"));
+                .orElseThrow(() -> new AppLauncherException.ModuleConstructorNotFound(moduleClassType));
 
             // Build arguments array
             int idx = 0;
