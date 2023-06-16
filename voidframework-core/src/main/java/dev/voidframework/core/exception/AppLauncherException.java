@@ -67,4 +67,23 @@ public class AppLauncherException extends RuntimeException {
             super("Can't initialize Module '" + moduleClass + "'", cause);
         }
     }
+
+    /**
+     * Exception indicates that module initialization just fail.
+     *
+     * @since 1.8.1
+     */
+    public static class ModuleConstructorNotFound extends AppLauncherException {
+
+        /**
+         * Build a new instance.
+         *
+         * @param moduleClass The module class
+         * @since 1.8.1
+         */
+        public ModuleConstructorNotFound(final Class<?> moduleClass) {
+
+            super("Constructor not found for the module '" + moduleClass + "'");
+        }
+    }
 }
