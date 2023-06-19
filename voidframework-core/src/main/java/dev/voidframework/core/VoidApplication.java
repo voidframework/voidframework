@@ -5,8 +5,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Stage;
-import com.google.inject.matcher.Matchers;
-import com.google.inject.multibindings.Multibinder;
 import com.google.inject.util.Modules;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
@@ -14,19 +12,14 @@ import dev.voidframework.core.classestoload.ClassesToLoadScanner;
 import dev.voidframework.core.classestoload.ConverterInformation;
 import dev.voidframework.core.classestoload.ScannedClassesToLoad;
 import dev.voidframework.core.conditionalfeature.ConditionalFeatureVerifier;
-import dev.voidframework.core.conversion.Conversion;
 import dev.voidframework.core.conversion.ConverterManager;
 import dev.voidframework.core.conversion.TypeConverter;
-import dev.voidframework.core.conversion.impl.DefaultConversion;
-import dev.voidframework.core.conversion.impl.DefaultConverterManager;
 import dev.voidframework.core.exception.AppLauncherException;
-import dev.voidframework.core.lifecycle.LifeCycleAnnotationListener;
 import dev.voidframework.core.lifecycle.LifeCycleManager;
 import dev.voidframework.core.module.OrderedModule;
 import dev.voidframework.core.remoteconfiguration.RemoteConfigurationLoader;
 import dev.voidframework.core.utils.VoidFrameworkVersion;
 import org.apache.commons.lang3.StringUtils;
-import org.aspectj.lang.Aspects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,10 +31,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Application launcher are expected to instantiate and run all parts of an
@@ -106,71 +96,14 @@ public class VoidApplication {
         }
         LOGGER.info("Found {} useful classes", scannedClassesToLoad.count());
 
-        // Configure core components
+        // Configure components
         final ConditionalFeatureVerifier conditionalFeatureVerifier = new ConditionalFeatureVerifier(configuration);
         this.lifeCycleManager = new LifeCycleManager(configuration);
 
-        final AbstractModule coreModule = new AbstractModule() {
+        final AbstractModule coreModule = new CoreModule(configuration, this.lifeCycleManager);
+        final AbstractModule scanClassBindModule = new ScanClassBindModule(configuration, conditionalFeatureVerifier, scannedClassesToLoad);
 
-            @Override
-            protected void configure() {
-                bind(Config.class).toInstance(configuration);
-                bind(ConverterManager.class).to(DefaultConverterManager.class).asEagerSingleton();
-                bind(Conversion.class).to(DefaultConversion.class).asEagerSingleton();
-
-                bindListener(Matchers.any(), new LifeCycleAnnotationListener(lifeCycleManager));
-
-                requestInjection(lifeCycleManager);
-            }
-        };
-
-        final AbstractModule scanClassBindModule = new AbstractModule() {
-
-            private final Map<Class<?>, Multibinder<?>> multibinderMap = new HashMap<>();
-
-            @Override
-            @SuppressWarnings({"unchecked", "rawtypes"})
-            protected void configure() {
-                if (configuration.getBoolean("voidframework.core.requireExplicitBindings")) {
-                    binder().requireExplicitBindings();
-                }
-
-                for (final Class<?> classType : scannedClassesToLoad.bindableList()) {
-                    if (conditionalFeatureVerifier.isFeatureDisabled(classType)) {
-                        continue;
-                    }
-
-                    bind(classType);
-
-                    for (final Class<?> interfaceClassType : classType.getInterfaces()) {
-                        this.multibinderMap.computeIfAbsent(interfaceClassType,
-                            key -> Multibinder.newSetBinder(binder(), interfaceClassType)
-                        ).addBinding().to((Class) classType);
-
-
-                        if (Objects.equals(scannedClassesToLoad.interfaceImplementationCountMap().get(interfaceClassType), 1)) {
-                            bind(interfaceClassType).to((Class) classType);
-                        }
-                    }
-                }
-
-                for (final Class<?> classType : scannedClassesToLoad.aspectList()) {
-                    if (conditionalFeatureVerifier.isFeatureDisabled(classType)) {
-                        continue;
-                    }
-
-                    requestInjection(Aspects.aspectOf(classType));
-                }
-
-                if (configuration.getBoolean("voidframework.core.requireExplicitBindings")) {
-                    for (final ConverterInformation converterInformation : scannedClassesToLoad.converterInformationList()) {
-                        bind(converterInformation.converterTypeClass());
-                    }
-                }
-            }
-        };
-
-        // Configure app components
+        // Configure app modules
         final List<Module> appModuleList = new ArrayList<>();
         final List<String> disabledModuleList = configuration.getStringList("voidframework.core.disabledModules");
         for (final Class<?> moduleClassType : scannedClassesToLoad.moduleList()) {
@@ -275,19 +208,17 @@ public class VoidApplication {
      * @throws IllegalAccessException    If this Constructor object is enforcing Java language access control and the underlying constructor is inaccessible
      * @since 1.1.0
      */
-    private Module instantiateModule(final Config configuration, final Class<?> moduleClassType, final ScannedClassesToLoad scannedClassesToLoad)
-        throws InvocationTargetException, InstantiationException, IllegalAccessException {
+    private Module instantiateModule(final Config configuration, final Class<?> moduleClassType, final ScannedClassesToLoad scannedClassesToLoad) throws InvocationTargetException, InstantiationException, IllegalAccessException {
 
         try {
             // Retrieves the constructor with the most arguments
             final Constructor<?> constructor = Arrays.stream(moduleClassType.getDeclaredConstructors()).max((c1, c2) -> {
-                    if (c1.getParameterCount() == c2.getParameterCount()) {
-                        return 0;
-                    }
+                if (c1.getParameterCount() == c2.getParameterCount()) {
+                    return 0;
+                }
 
-                    return c1.getParameterCount() >= c2.getParameterCount() ? 1 : -1;
-                })
-                .orElseThrow(() -> new AppLauncherException.ModuleConstructorNotFound(moduleClassType));
+                return c1.getParameterCount() >= c2.getParameterCount() ? 1 : -1;
+            }).orElseThrow(() -> new AppLauncherException.ModuleConstructorNotFound(moduleClassType));
 
             // Build arguments array
             int idx = 0;
