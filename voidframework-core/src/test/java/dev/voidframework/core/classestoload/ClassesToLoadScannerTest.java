@@ -27,15 +27,15 @@ final class ClassesToLoadScannerTest {
     void findClassesToLoad() {
 
         // Arrange
-        final String[] acceptedScanPaths = new String[]{"dev.voidframework.core.classestoload.classes"};
-        final String[] rejectedScanPaths = new String[]{"dev.voidframework.core.classestoload.classes.excluded"};
-        final List<String> extraInterfaces = List.of("dev.voidframework.core.classestoload.classes.Named");
+        final List<String> acceptedScanPathList = List.of("dev.voidframework.core.classestoload.classes");
+        final List<String> rejectedScanPathList = List.of("dev.voidframework.core.classestoload.classes.excluded");
+        final List<String> extraInterfaceList = List.of("dev.voidframework.core.classestoload.classes.Named");
 
         // Act
         final ScannedClassesToLoad scannedClassesToLoad = ClassesToLoadScanner.findClassesToLoad(
-            acceptedScanPaths,
-            rejectedScanPaths,
-            extraInterfaces);
+            acceptedScanPathList,
+            rejectedScanPathList,
+            extraInterfaceList);
 
         // Assert
         Assertions.assertNotNull(scannedClassesToLoad);
@@ -73,14 +73,14 @@ final class ClassesToLoadScannerTest {
 
         // Arrange
         final Path outputPath = Path.of(System.getProperty("java.io.tmpdir"));
-        final String[] acceptedScanPaths = new String[]{"dev.voidframework.core.classestoload.classes"};
-        final String[] rejectedScanPaths = new String[]{"dev.voidframework.core.classestoload.classes.excluded"};
-        final List<String> extraInterfaces = List.of("dev.voidframework.core.classestoload.classes.Named");
+        final List<String> acceptedScanPathList = List.of("dev.voidframework.core.classestoload.classes");
+        final List<String> rejectedScanPathList = List.of("dev.voidframework.core.classestoload.classes.excluded");
+        final List<String> extraInterfaceList = List.of("dev.voidframework.core.classestoload.classes.Named");
 
         final ScannedClassesToLoad scannedClassesToLoadPersist = ClassesToLoadScanner.findClassesToLoad(
-            acceptedScanPaths,
-            rejectedScanPaths,
-            extraInterfaces);
+            acceptedScanPathList,
+            rejectedScanPathList,
+            extraInterfaceList);
 
         // Act
         ClassesToLoadScanner.persistClassesToLoad(scannedClassesToLoadPersist, outputPath);

@@ -37,8 +37,8 @@ public final class ClasspathBootstrapGenerator {
 
         // Scan classpath
         final ScannedClassesToLoad scannedClassesToLoad = ClassesToLoadScanner.findClassesToLoad(
-            resolveConfigAsStringList(configuration, "voidframework.core.acceptedScanPaths").toArray(new String[0]),
-            resolveConfigAsStringList(configuration, "voidframework.core.rejectedScanPaths").toArray(new String[0]),
+            resolveConfigAsStringList(configuration, "voidframework.core.acceptedScanPaths"),
+            resolveConfigAsStringList(configuration, "voidframework.core.rejectedScanPaths"),
             resolveConfigAsStringList(configuration, "voidframework.core.bindExtraInterfaces"));
 
         // Create "classpath.bootstrap" file

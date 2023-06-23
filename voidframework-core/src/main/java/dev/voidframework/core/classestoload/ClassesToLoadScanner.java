@@ -16,6 +16,7 @@ import io.github.classgraph.MethodInfo;
 import io.github.classgraph.MethodInfoList;
 import io.github.classgraph.ScanResult;
 import io.github.classgraph.TypeArgument;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,15 +51,15 @@ public final class ClassesToLoadScanner {
     /**
      * Scan given paths to find classes to bind.
      *
-     * @param acceptedScanPaths The locations to scan for classes to bind
-     * @param rejectedScanPaths The locations to exclude from the scan
-     * @param extraInterfaces   The extra interface for which consider implementations as useful classes to load
+     * @param acceptedScanPathList The locations to scan for classes to bind
+     * @param rejectedScanPathList The locations to exclude from the scan
+     * @param extraInterfaceList   The extra interface for which consider implementations as useful classes to load
      * @return Scan result
      * @since 1.0.0
      */
-    public static ScannedClassesToLoad findClassesToLoad(final String[] acceptedScanPaths,
-                                                         final String[] rejectedScanPaths,
-                                                         final List<String> extraInterfaces) {
+    public static ScannedClassesToLoad findClassesToLoad(final List<String> acceptedScanPathList,
+                                                         final List<String> rejectedScanPathList,
+                                                         final List<String> extraInterfaceList) {
 
         final ScannedClassesToLoad scannedClassesToLoad = new ScannedClassesToLoad(
             new ArrayList<>(),
@@ -69,15 +70,15 @@ public final class ClassesToLoadScanner {
             new HashMap<>());
 
         try (final ScanResult scanResult = new ClassGraph()
-            .acceptPackages(acceptedScanPaths)
-            .rejectPackages(rejectedScanPaths)
+            .acceptPackages(acceptedScanPathList.stream().filter(StringUtils::isNotBlank).toArray(String[]::new))
+            .rejectPackages(rejectedScanPathList.stream().filter(StringUtils::isNotBlank).toArray(String[]::new))
             .enableAnnotationInfo()
             .enableMethodInfo()
             .scan()) {
 
             for (final ClassInfo classInfo : scanResult.getAllClasses()) {
 
-                if (isBindable(classInfo, extraInterfaces)) {
+                if (isBindable(classInfo, extraInterfaceList)) {
                     scannedClassesToLoad.bindableList().add(classInfo.loadClass(false));
                     for (final ClassInfo interfaceClassInfo : classInfo.getInterfaces()) {
                         scannedClassesToLoad

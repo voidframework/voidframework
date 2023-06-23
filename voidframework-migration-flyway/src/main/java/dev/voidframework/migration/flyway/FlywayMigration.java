@@ -62,10 +62,10 @@ public final class FlywayMigration {
             final DataSource dataSource = dataSourceManagerProvider.get().getDataSource();
             final Flyway flyway = Flyway.configure()
                 .loggers("slf4j")
-                .callbacks(callbackList.toArray(new String[0]))
+                .callbacks(callbackList.toArray(String[]::new))
                 .dataSource(dataSource)
                 .encoding(StandardCharsets.UTF_8)
-                .locations(scriptLocationList.toArray(new String[0]))
+                .locations(scriptLocationList.toArray(String[]::new))
                 .outOfOrder(this.configuration.getBoolean("voidframework.migration.flyway.outOfOrder"))
                 .placeholderReplacement(this.configuration.getBoolean("voidframework.migration.flyway.placeholderReplacement"))
                 .table(this.configuration.getString("voidframework.migration.flyway.historySchemaTable"))
