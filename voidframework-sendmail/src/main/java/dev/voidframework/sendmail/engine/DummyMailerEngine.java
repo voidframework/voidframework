@@ -45,35 +45,37 @@ public final class DummyMailerEngine implements MailerEngine {
             fromAddress = mail.getFromAddress() + (mail.getFromName() == null ? "" : "<" + mail.getFromName() + ">");
         }
 
-        LOGGER.info("""
-            New mail request!
-            ------------------------------------------------------------------------------
-            Charset ........... %s
-            Subject ........... %s
-            From .............. %s
-            Reply-To .......... %s
-            To ................ %s
-            CC ................ %s
-            BCC ............... %s
-            Attachment ........ %d
-            ------------------------------------------------------------------------------
-            %s
-            ------------------------------------------------------------------------------
-            %s
-            ------------------------------------------------------------------------------
-            """
-            .stripIndent()
-            .stripTrailing()
-            .formatted(
-                mail.getCharset() == null ? FALLBACK_FIELD_CONTENT : mail.getCharset(),
-                mail.getSubject() == null ? FALLBACK_FIELD_CONTENT : mail.getSubject(),
-                fromAddress,
-                mail.getReplyTo() == null ? FALLBACK_FIELD_CONTENT : mail.getReplyTo(),
-                mail.getRecipients().isEmpty() ? FALLBACK_FIELD_CONTENT : String.join(", ", mail.getRecipients()),
-                mail.getCarbonCopyRecipients().isEmpty() ? FALLBACK_FIELD_CONTENT : String.join(", ", mail.getCarbonCopyRecipients()),
-                mail.getBlindCarbonCopyRecipients().isEmpty() ? FALLBACK_FIELD_CONTENT : String.join(", ", mail.getBlindCarbonCopyRecipients()),
-                mail.getAttachmentList().size(),
-                mail.getBodyContentText() == null ? FALLBACK_TEXT_BODY : mail.getBodyContentText(),
-                mail.getBodyContentHtml() == null ? FALLBACK_HTML_BODY : mail.getBodyContentHtml()));
+        if (LOGGER.isInfoEnabled()) {
+            LOGGER.info("""
+                New mail request!
+                ------------------------------------------------------------------------------
+                Charset ........... %s
+                Subject ........... %s
+                From .............. %s
+                Reply-To .......... %s
+                To ................ %s
+                CC ................ %s
+                BCC ............... %s
+                Attachment ........ %d
+                ------------------------------------------------------------------------------
+                %s
+                ------------------------------------------------------------------------------
+                %s
+                ------------------------------------------------------------------------------
+                """
+                .stripIndent()
+                .stripTrailing()
+                .formatted(
+                    mail.getCharset() == null ? FALLBACK_FIELD_CONTENT : mail.getCharset(),
+                    mail.getSubject() == null ? FALLBACK_FIELD_CONTENT : mail.getSubject(),
+                    fromAddress,
+                    mail.getReplyTo() == null ? FALLBACK_FIELD_CONTENT : mail.getReplyTo(),
+                    mail.getRecipients().isEmpty() ? FALLBACK_FIELD_CONTENT : String.join(", ", mail.getRecipients()),
+                    mail.getCarbonCopyRecipients().isEmpty() ? FALLBACK_FIELD_CONTENT : String.join(", ", mail.getCarbonCopyRecipients()),
+                    mail.getBlindCarbonCopyRecipients().isEmpty() ? FALLBACK_FIELD_CONTENT : String.join(", ", mail.getBlindCarbonCopyRecipients()),
+                    mail.getAttachmentList().size(),
+                    mail.getBodyContentText() == null ? FALLBACK_TEXT_BODY : mail.getBodyContentText(),
+                    mail.getBodyContentHtml() == null ? FALLBACK_HTML_BODY : mail.getBodyContentHtml()));
+        }
     }
 }

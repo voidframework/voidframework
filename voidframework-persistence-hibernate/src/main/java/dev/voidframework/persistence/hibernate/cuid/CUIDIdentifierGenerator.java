@@ -21,7 +21,7 @@ import java.util.function.Supplier;
  */
 public final class CUIDIdentifierGenerator implements IdentifierGenerator {
 
-    private final Supplier<Object> cuidSupplier;
+    private final transient Supplier<Object> cuidSupplier;
 
     /**
      * Build a new instance
