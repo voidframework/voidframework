@@ -153,6 +153,11 @@ public final class StringConstants {
     public static final String SQUARE_BRACKET_OPEN = "[";
 
     /**
+     * @since 1.9.0
+     */
+    public static final String TAB = "\t";
+
+    /**
      * @since 1.2.0
      */
     public static final String TILDE = "~";
