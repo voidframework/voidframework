@@ -138,6 +138,11 @@ public final class CharConstants {
     public static final char SQUARE_BRACKET_OPEN = '[';
 
     /**
+     * @since 1.9.0
+     */
+    public static final char TAB = '\t';
+
+    /**
      * @since 1.2.0
      */
     public static final char TILDE = '~';
