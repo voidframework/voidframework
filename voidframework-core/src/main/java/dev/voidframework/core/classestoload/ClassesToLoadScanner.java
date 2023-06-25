@@ -46,6 +46,8 @@ public final class ClassesToLoadScanner {
      * @since 1.0.0
      */
     private ClassesToLoadScanner() {
+
+        throw new UnsupportedOperationException("This class cannot be instantiated");
     }
 
     /**
