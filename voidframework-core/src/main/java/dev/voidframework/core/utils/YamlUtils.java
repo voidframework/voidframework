@@ -239,4 +239,15 @@ public final class YamlUtils {
             throw new YamlException.FromYamlConversionFailure(ex);
         }
     }
+
+    /**
+     * Gets the object mapper.
+     *
+     * @return YAML object mapper
+     * @since 1.9.0
+     */
+    public static ObjectMapper objectMapper() {
+
+        return OBJECT_MAPPER;
+    }
 }

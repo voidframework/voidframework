@@ -3,6 +3,7 @@ package dev.voidframework.core.utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
@@ -268,5 +269,16 @@ public final class XmlUtils {
         } catch (final ParserConfigurationException | SAXException | IOException ex) {
             throw new XmlException.ToXmlConversionFailure(ex);
         }
+    }
+
+    /**
+     * Gets the object mapper.
+     *
+     * @return XML object mapper
+     * @since 1.9.0
+     */
+    public static ObjectMapper objectMapper() {
+
+        return OBJECT_MAPPER;
     }
 }
