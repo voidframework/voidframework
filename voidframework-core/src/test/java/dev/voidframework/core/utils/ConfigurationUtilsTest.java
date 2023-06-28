@@ -15,6 +15,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
@@ -77,6 +78,20 @@ final class ConfigurationUtilsTest {
             Arguments.of(Named.of("With non existing value", "duration.valueFallback = 5 minutes"), Duration.ofMinutes(5)));
     }
 
+    private static Stream<Arguments> getEnumOrDefaultNamedKeyValueArguments() {
+        return Stream.of(
+            Arguments.of(Named.of("With existing value", "enum.value = ON"), State.OFF, State.ON),
+            Arguments.of(Named.of("With existing null value", "enum.value = null"), State.OFF, State.OFF),
+            Arguments.of(Named.of("With non existing value", ""), State.OFF, State.OFF));
+    }
+
+    private static Stream<Arguments> getEnumOrFallbackNamedKeyValueArguments() {
+        return Stream.of(
+            Arguments.of(Named.of("With existing value", "enum.value = ON\nenum.valueFallback = OFF"), State.ON),
+            Arguments.of(Named.of("With existing null value", "enum.value = null\nenum.valueFallback = OFF"), State.OFF),
+            Arguments.of(Named.of("With non existing value", "enum.valueFallback = OFF"), State.OFF));
+    }
+
     private static Stream<Arguments> getIntOrDefaultNamedKeyValueArguments() {
         return Stream.of(
             Arguments.of(Named.of("With existing value", "int.value = 2"), 1, 2),
@@ -131,6 +146,32 @@ final class ConfigurationUtilsTest {
             Arguments.of(Named.of("With existing value", "temporal.value = 2 minutes\ntemporal.valueFallback = 5 minutes"), Duration.ofMinutes(2)),
             Arguments.of(Named.of("With existing null value", "temporal.value = null\ntemporal.valueFallback = 5 minutes"), Duration.ofMinutes(5)),
             Arguments.of(Named.of("With non existing value", "temporal.valueFallback = 5 minutes"), Duration.ofMinutes(5)));
+    }
+
+    @Test
+    void getAllRootLevelPaths() {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("""
+            basepath.value1.key = "Hello"
+            basepath {
+                value2 {
+                    key = "World"
+                }
+
+                value3.key = "!"
+            }
+            """);
+
+        // Act
+        final Set<String> pathSet = ConfigurationUtils.getAllRootLevelPaths(configuration, "basepath");
+
+        // Assert
+        Assertions.assertNotNull(pathSet);
+        Assertions.assertEquals(3, pathSet.size());
+        Assertions.assertTrue(pathSet.contains("value1"));
+        Assertions.assertTrue(pathSet.contains("value2"));
+        Assertions.assertTrue(pathSet.contains("value3"));
     }
 
     @Test
@@ -260,6 +301,34 @@ final class ConfigurationUtilsTest {
     }
 
     @ParameterizedTest
+    @MethodSource("getEnumOrDefaultNamedKeyValueArguments")
+    void getEnumOrDefault(final String configurationAsString, final State defaultValue, final State expectedValue) {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString(configurationAsString);
+
+        // Act
+        final State value = ConfigurationUtils.getEnumOrDefault(configuration, "enum.value", State.class, defaultValue);
+
+        // Assert
+        Assertions.assertEquals(expectedValue, value);
+    }
+
+    @ParameterizedTest
+    @MethodSource("getEnumOrFallbackNamedKeyValueArguments")
+    void getEnumOrFallback(final String configurationAsString, final State expectedValue) {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString(configurationAsString);
+
+        // Act
+        final State value = ConfigurationUtils.getEnumOrFallback(configuration, "enum.value", State.class, "enum.valueFallback");
+
+        // Assert
+        Assertions.assertEquals(expectedValue, value);
+    }
+
+    @ParameterizedTest
     @MethodSource("getIntOrDefaultNamedKeyValueArguments")
     void getIntOrDefault(final String configurationAsString, final int defaultValue, final int expectedValue) {
 
@@ -369,5 +438,11 @@ final class ConfigurationUtilsTest {
 
         // Assert
         Assertions.assertEquals(expectedValue, value);
+    }
+
+    public enum State {
+
+        ON,
+        OFF
     }
 }

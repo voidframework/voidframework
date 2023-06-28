@@ -4,8 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.typesafe.config.Config;
+import dev.voidframework.core.utils.ConfigurationUtils;
 import dev.voidframework.datasource.exception.DataSourceException;
-import dev.voidframework.datasource.utils.DataSourceUtils;
 import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.jooq.DSLContext;
@@ -40,7 +40,7 @@ public final class JooqModule extends AbstractModule {
         System.setProperty("org.jooq.no-logo", "true");
         System.setProperty("org.jooq.no-tips", "true");
 
-        final Set<String> dataSourceNameSet = DataSourceUtils.getAllDataSourceNames(this.configuration);
+        final Set<String> dataSourceNameSet = ConfigurationUtils.getAllRootLevelPaths(this.configuration, "voidframework.datasource");
         if (dataSourceNameSet.isEmpty()) {
             throw new DataSourceException.NotConfigured();
         }

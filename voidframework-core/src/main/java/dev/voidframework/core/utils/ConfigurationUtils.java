@@ -1,10 +1,15 @@
 package dev.voidframework.core.utils;
 
 import com.typesafe.config.Config;
+import dev.voidframework.core.constant.StringConstants;
 
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * Utility methods to use with application configuration.
@@ -21,6 +26,33 @@ public final class ConfigurationUtils {
     private ConfigurationUtils() {
 
         throw new UnsupportedOperationException("This is a utility class and cannot be instantiated");
+    }
+
+    /**
+     * Gets all root paths for the given path expression.
+     *
+     * @param configuration The application configuration
+     * @param path          Path expression
+     * @return All base paths
+     * @since 1.9.0
+     */
+    public static Set<String> getAllRootLevelPaths(final Config configuration, final String path) {
+
+        if (!configuration.hasPathOrNull(path)) {
+            new HashSet<>();
+        }
+
+        return configuration.getConfig(path).entrySet()
+            .stream()
+            .map(Map.Entry::getKey)
+            .map(key -> {
+                if (key.contains(StringConstants.DOT)) {
+                    return key.substring(0, key.indexOf(StringConstants.DOT));
+                } else {
+                    return key;
+                }
+            })
+            .collect(Collectors.toSet());
     }
 
     /**
@@ -138,7 +170,7 @@ public final class ConfigurationUtils {
      * @param path          Path expression
      * @param unit          Convert the return value to this time unit
      * @param defaultValue  The default value returned if path does not exist or value is null
-     * @return The duration value at the requested path
+     * @return The Duration value at the requested path
      * @since 1.9.0
      */
     public static long getDurationOrDefault(final Config configuration, final String path, final TimeUnit unit, final long defaultValue) {
@@ -157,7 +189,7 @@ public final class ConfigurationUtils {
      * @param path          Path expression
      * @param unit          Convert the return value to this time unit
      * @param fallbackPath  Path expression to use as fallback
-     * @return The duration value at the requested path
+     * @return The Duration value at the requested path
      * @since 1.9.0
      */
     public static long getDurationOrFallback(final Config configuration, final String path, final TimeUnit unit, final String fallbackPath) {
@@ -167,6 +199,47 @@ public final class ConfigurationUtils {
         }
 
         return configuration.getDuration(fallbackPath, unit);
+    }
+
+    /**
+     * Gets a value as an Enum.
+     *
+     * @param configuration The application configuration
+     * @param path          Path expression
+     * @param enumClassType An enum class
+     * @param defaultValue  The default value returned if path does not exist or value is null
+     * @return The Enum value at the requested path
+     * @since 1.9.0
+     */
+    public static <T extends Enum<T>> T getEnumOrDefault(final Config configuration, final String path, final Class<T> enumClassType, final T defaultValue) {
+
+        if (configuration.hasPath(path)) {
+            return configuration.getEnum(enumClassType, path);
+        }
+
+        return defaultValue;
+    }
+
+    /**
+     * Gets a value as a Enum.
+     *
+     * @param configuration The application configuration
+     * @param path          Path expression
+     * @param enumClassType An enum class
+     * @param fallbackPath  Path expression to use as fallback
+     * @return The Enum value at the requested path
+     * @since 1.9.0
+     */
+    public static <T extends Enum<T>> T getEnumOrFallback(final Config configuration,
+                                                          final String path,
+                                                          final Class<T> enumClassType,
+                                                          final String fallbackPath) {
+
+        if (configuration.hasPath(path)) {
+            return configuration.getEnum(enumClassType, path);
+        }
+
+        return configuration.getEnum(enumClassType, fallbackPath);
     }
 
     /**

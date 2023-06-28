@@ -4,8 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.matcher.Matchers;
 import com.google.inject.name.Names;
 import com.typesafe.config.Config;
+import dev.voidframework.core.utils.ConfigurationUtils;
 import dev.voidframework.datasource.exception.DataSourceException;
-import dev.voidframework.datasource.utils.DataSourceUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -35,11 +35,7 @@ public final class HibernateModule extends AbstractModule {
     @Override
     protected void configure() {
 
-        if (!this.configuration.hasPathOrNull("voidframework.datasource")) {
-            throw new DataSourceException.NotConfigured();
-        }
-
-        final Set<String> dataSourceNameSet = DataSourceUtils.getAllDataSourceNames(this.configuration);
+        final Set<String> dataSourceNameSet = ConfigurationUtils.getAllRootLevelPaths(this.configuration, "voidframework.datasource");
         if (dataSourceNameSet.isEmpty()) {
             throw new DataSourceException.NotConfigured();
         }

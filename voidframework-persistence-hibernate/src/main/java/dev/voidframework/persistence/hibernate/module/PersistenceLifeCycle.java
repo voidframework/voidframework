@@ -8,8 +8,8 @@ import com.google.inject.name.Names;
 import com.typesafe.config.Config;
 import dev.voidframework.core.bindable.Bindable;
 import dev.voidframework.core.lifecycle.LifeCycleStart;
+import dev.voidframework.core.utils.ConfigurationUtils;
 import dev.voidframework.datasource.exception.DataSourceException;
-import dev.voidframework.datasource.utils.DataSourceUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 
@@ -49,11 +49,10 @@ public final class PersistenceLifeCycle {
     @LifeCycleStart(priority = 51)
     public void forceEntityManagerFactoryInitialisation() {
 
-        if (!this.configuration.hasPathOrNull("voidframework.datasource")) {
+        final Set<String> dataSourceNameSet = ConfigurationUtils.getAllRootLevelPaths(this.configuration, "voidframework.datasource");
+        if (dataSourceNameSet.isEmpty()) {
             throw new DataSourceException.NotConfigured();
         }
-
-        final Set<String> dataSourceNameSet = DataSourceUtils.getAllDataSourceNames(this.configuration);
 
         for (final String dataSourceName : dataSourceNameSet) {
             final Key<EntityManager> key = Key.get(EntityManager.class, Names.named(dataSourceName));
