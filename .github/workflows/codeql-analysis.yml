@@ -28,6 +28,8 @@ jobs:
                 uses: actions/setup-java@v1
                 with:
                     java-version: 17
+                    distribution: 'adopt'
+                    cache: 'maven'
 
             -   name: Checkout repository
                 uses: actions/checkout@v3
