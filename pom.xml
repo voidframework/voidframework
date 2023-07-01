@@ -62,6 +62,7 @@
 
         <!-- Dependencies -->
         <dependency.version.aspectj>1.9.19</dependency.version.aspectj>
+        <dependency.version.bucket4j>8.3.0</dependency.version.bucket4j>
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
         <dependency.version.classgraph>4.8.158</dependency.version.classgraph>
         <dependency.version.commons-email>1.5</dependency.version.commons-email>
@@ -94,6 +95,7 @@
     </properties>
 
     <modules>
+        <module>voidframework-bucket4j</module>
         <module>voidframework-core</module>
         <module>voidframework-cache</module>
         <module>voidframework-cache-redis</module>
@@ -290,6 +292,16 @@
 
             <!-- Dependencies -->
             <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjrt</artifactId>
+                <version>${dependency.version.aspectj}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.bucket4j</groupId>
+                <artifactId>bucket4j-core</artifactId>
+                <version>${dependency.version.bucket4j}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.google.inject</groupId>
                 <artifactId>guice</artifactId>
                 <version>${dependency.version.guice}</version>
@@ -298,11 +310,6 @@
                 <groupId>com.google.inject.extensions</groupId>
                 <artifactId>guice-assistedinject</artifactId>
                 <version>${dependency.version.guice}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.aspectj</groupId>
-                <artifactId>aspectjrt</artifactId>
-                <version>${dependency.version.aspectj}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
