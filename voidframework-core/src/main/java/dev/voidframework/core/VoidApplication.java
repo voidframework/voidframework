@@ -194,6 +194,8 @@ public class VoidApplication {
         if (this.lifeCycleManager != null) {
             this.lifeCycleManager.stopAll();
         }
+
+        LOGGER.info("Application was gracefully terminated");
     }
 
     /**
