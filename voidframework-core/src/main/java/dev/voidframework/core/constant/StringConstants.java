@@ -88,6 +88,11 @@ public final class StringConstants {
     public static final String EQUAL = "=";
 
     /**
+     * @since 1.10.0
+     */
+    public static final String EXCLAMATION_MARK = "!";
+
+    /**
      * @since 1.2.0
      */
     public static final String HASHTAG = "#";
@@ -116,6 +121,11 @@ public final class StringConstants {
      * @since 1.2.0
      */
     public static final String PARENTHESIS_OPEN = ")";
+
+    /**
+     * @since 1.10.0
+     */
+    public static final String PIPE = "|";
 
     /**
      * @since 1.2.0

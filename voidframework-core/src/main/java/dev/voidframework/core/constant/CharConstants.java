@@ -78,6 +78,11 @@ public final class CharConstants {
     public static final char EQUAL = '=';
 
     /**
+     * @since 1.10.0
+     */
+    public static final char EXCLAMATION_MARK = '!';
+
+    /**
      * @since 1.2.0
      */
     public static final char HASHTAG = '#';
@@ -101,6 +106,11 @@ public final class CharConstants {
      * @since 1.2.0
      */
     public static final char PARENTHESIS_OPEN = ')';
+
+    /**
+     * @since 1.10.0
+     */
+    public static final char PIPE = '|';
 
     /**
      * @since 1.2.0
