@@ -11,7 +11,11 @@ import dev.voidframework.core.utils.YamlUtils;
 import dev.voidframework.restclient.annotation.RestClient;
 import dev.voidframework.restclient.exception.RestClientException;
 import dev.voidframework.restclient.retrofit.CallAdapterFactory;
+import dev.voidframework.restclient.retrofit.interceptor.ApiKeyAuthenticationInterceptor;
+import dev.voidframework.restclient.retrofit.interceptor.BasicAuthenticationInterceptor;
+import dev.voidframework.restclient.retrofit.interceptor.BearerAuthenticationInterceptor;
 import okhttp3.ConnectionPool;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -72,7 +76,7 @@ public final class RestClientModule extends AbstractModule {
                         "voidframework.restclient.maxIdleConnections"),
                     keepAliveDurationAsMilliseconds,
                     TimeUnit.MILLISECONDS);
-                final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                final OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder()
                     .readTimeout(
                         ConfigurationUtils.getDurationOrFallback(
                             this.configuration,
@@ -83,12 +87,32 @@ public final class RestClientModule extends AbstractModule {
                             this.configuration,
                             restClientConfigurationKeyPrefix + ".connectionTimeout",
                             "voidframework.restclient.connectionTimeout"))
-                    .connectionPool(connectionPool)
-                    .build();
+                    .connectionPool(connectionPool);
+
+                // Authentication interceptor
+                final boolean needAuthentication = ConfigurationUtils.hasAnyPath(
+                    this.configuration,
+                    restClientConfigurationKeyPrefix + ".authentication.type",
+                    "voidframework.restclient.authentication.type");
+                if (needAuthentication) {
+                    final AuthenticationType authType = ConfigurationUtils.getEnumOrFallback(
+                        this.configuration,
+                        restClientConfigurationKeyPrefix + ".authentication.type",
+                        AuthenticationType.class,
+                        "voidframework.restclient.authentication.type");
+
+                    final Interceptor authInterceptor = switch (authType) {
+                        case API_KEY -> createApiKeyAuthenticationInterceptor(restClientConfigurationKeyPrefix);
+                        case BASIC -> createBasicAuthenticationInterceptor(restClientConfigurationKeyPrefix);
+                        case BEARER -> createBearerAuthenticationInterceptor(restClientConfigurationKeyPrefix);
+                    };
+
+                    okHttpClientBuilder.addInterceptor(authInterceptor);
+                }
 
                 // Creates proxy instance
                 final Retrofit retrofit = new Retrofit.Builder()
-                    .client(okHttpClient)
+                    .client(okHttpClientBuilder.build())
                     .addCallAdapterFactory(new CallAdapterFactory())
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(JacksonConverterFactory.create(JsonUtils.objectMapper()))
@@ -103,6 +127,81 @@ public final class RestClientModule extends AbstractModule {
                 LOGGER.info("REST Client proxy created for '{}'", proxyable.getName());
             }
         }
+    }
+
+    /**
+     * Create a new {@code ApiKeyAuthenticationInterceptor} instance.
+     *
+     * @param restClientConfigurationKeyPrefix The configuration key prefix
+     * @return Newly created {@code ApiKeyAuthenticationInterceptor} instance
+     * @see ApiKeyAuthenticationInterceptor
+     * @since 1.10.0
+     */
+    private Interceptor createApiKeyAuthenticationInterceptor(final String restClientConfigurationKeyPrefix) {
+
+        final String apiKeyName = ConfigurationUtils.getStringOrFallback(
+            this.configuration,
+            restClientConfigurationKeyPrefix + ".authentication.apiKeyName",
+            "voidframework.restclient.authentication.apiKeyName");
+        final String apiKeyValue = ConfigurationUtils.getStringOrFallback(
+            this.configuration,
+            restClientConfigurationKeyPrefix + ".authentication.apiKeyValue",
+            "voidframework.restclient.authentication.apiKeyValue");
+        final ApiKeyAuthenticationInterceptor.AddTo addTo = ConfigurationUtils.getEnumOrFallback(
+            this.configuration,
+            restClientConfigurationKeyPrefix + ".authentication.apiKeyAddTo",
+            ApiKeyAuthenticationInterceptor.AddTo.class,
+            "voidframework.restclient.authentication.apiKeyAddTo");
+
+        return new ApiKeyAuthenticationInterceptor(apiKeyName, apiKeyValue, addTo);
+    }
+
+    /**
+     * Create a new {@code BasicAuthenticationInterceptor} instance.
+     *
+     * @param restClientConfigurationKeyPrefix The configuration key prefix
+     * @return Newly created {@code BasicAuthenticationInterceptor} instance
+     * @see BasicAuthenticationInterceptor
+     * @since 1.10.0
+     */
+    private Interceptor createBasicAuthenticationInterceptor(final String restClientConfigurationKeyPrefix) {
+
+        final String basicUsername = ConfigurationUtils.getStringOrFallback(
+            this.configuration,
+            restClientConfigurationKeyPrefix + ".authentication.basicUsername",
+            "voidframework.restclient.authentication.basicUsername");
+        final String basicPassword = ConfigurationUtils.getStringOrFallback(
+            this.configuration,
+            restClientConfigurationKeyPrefix + ".authentication.basicPassword",
+            "voidframework.restclient.authentication.basicPassword");
+        final boolean useIso88591Encoding = ConfigurationUtils.getBooleanOrFallback(
+            this.configuration,
+            restClientConfigurationKeyPrefix + ".authentication.basicUseISO88591Encoding",
+            "voidframework.restclient.authentication.basicUseISO88591Encoding");
+
+        return new BasicAuthenticationInterceptor(basicUsername, basicPassword, useIso88591Encoding);
+    }
+
+    /**
+     * Create a new {@code BearerAuthenticationInterceptor} instance.
+     *
+     * @param restClientConfigurationKeyPrefix The configuration key prefix
+     * @return Newly created {@code BearerAuthenticationInterceptor} instance
+     * @see BearerAuthenticationInterceptor
+     * @since 1.10.0
+     */
+    private Interceptor createBearerAuthenticationInterceptor(final String restClientConfigurationKeyPrefix) {
+
+        final String bearerPrefix = ConfigurationUtils.getStringOrFallback(
+            this.configuration,
+            restClientConfigurationKeyPrefix + ".authentication.bearerPrefix",
+            "voidframework.restclient.authentication.bearerPrefix");
+        final String bearerToken = ConfigurationUtils.getStringOrFallback(
+            this.configuration,
+            restClientConfigurationKeyPrefix + ".authentication.bearerToken",
+            "voidframework.restclient.authentication.bearerToken");
+
+        return new BearerAuthenticationInterceptor(bearerPrefix, bearerToken);
     }
 
     /**

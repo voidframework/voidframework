@@ -5,6 +5,7 @@ import dev.voidframework.core.constant.StringConstants;
 
 import java.time.Duration;
 import java.time.temporal.TemporalAmount;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -384,5 +385,16 @@ public final class ConfigurationUtils {
         }
 
         return configuration.getTemporal(fallbackPath);
+    }
+
+    /**
+     * Checks whether a value is present and non-null for at least one of the given paths.
+     *
+     * @return {@code true} if value is present and non-null for at least one of the given paths, otherwise {@code false}
+     * @since 1.10.0
+     */
+    public static boolean hasAnyPath(final Config configuration, final String... pathArray) {
+
+        return Arrays.stream(pathArray).anyMatch(configuration::hasPath);
     }
 }
