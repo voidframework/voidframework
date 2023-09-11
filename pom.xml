@@ -61,7 +61,7 @@
         <plugin.version.nexus-staging-maven-plugin>1.6.13</plugin.version.nexus-staging-maven-plugin>
 
         <!-- Dependencies -->
-        <dependency.version.aspectj>1.9.19</dependency.version.aspectj>
+        <dependency.version.aspectj>1.9.20.1</dependency.version.aspectj>
         <dependency.version.bucket4j>8.3.0</dependency.version.bucket4j>
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
         <dependency.version.classgraph>4.8.162</dependency.version.classgraph>
