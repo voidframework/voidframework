@@ -59,7 +59,7 @@ public abstract class AbstractCacheEngine implements CacheEngine {
      * @param content   The value serialized
      * @since 1.1.0
      */
-    protected record CachedElement(Class<?> classType, byte[] content) {
+    public record CachedElement(Class<?> classType, byte[] content) {
 
         @Override
         public boolean equals(final Object o) {
