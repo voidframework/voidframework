@@ -1,16 +1,9 @@
 package dev.voidframework.cache.engine;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.ByteBufferOutputStream;
-import com.esotericsoftware.kryo.io.Input;
-import com.esotericsoftware.kryo.io.Output;
+import dev.voidframework.core.utils.KryoUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * This abstract implementation provides the necessary tools for the
@@ -20,22 +13,12 @@ import java.util.Optional;
  */
 public abstract class AbstractCacheEngine implements CacheEngine {
 
-    private final Kryo kryo;
-
     /**
      * Build a new instance.
      *
      * @since 1.1.0
      */
     protected AbstractCacheEngine() {
-
-        this.kryo = new Kryo();
-        kryo.setRegistrationRequired(false);
-        kryo.register(ArrayList.class);
-        kryo.register(Class.class);
-        kryo.register(HashMap.class);
-        kryo.register(HashSet.class);
-        kryo.register(Optional.class);
     }
 
     /**
@@ -47,11 +30,10 @@ public abstract class AbstractCacheEngine implements CacheEngine {
      */
     public CachedElement wrap(final Object obj) {
 
-        final Output output = new Output(new ByteBufferOutputStream());
         final Class<?> classType = obj != null ? obj.getClass() : Object.class;
+        final byte[] serializedContent = KryoUtils.serializeWithoutException(obj);
 
-        this.kryo.writeObjectOrNull(output, obj, classType);
-        return new CachedElement(classType, output.toBytes());
+        return new CachedElement(classType, serializedContent);
     }
 
     /**
@@ -67,8 +49,7 @@ public abstract class AbstractCacheEngine implements CacheEngine {
             return null;
         }
 
-        final Input input = new Input(cachedElement.content);
-        return this.kryo.readObjectOrNull(input, cachedElement.classType);
+        return KryoUtils.deserializeWithoutException(cachedElement.content, cachedElement.classType);
     }
 
     /**
