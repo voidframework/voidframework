@@ -92,4 +92,48 @@ final class ClassResolverUtilsTest {
         // Assert
         Assertions.assertNull(classType);
     }
+
+    @Test
+    void isClassAvailable() {
+
+        // Act
+        final boolean isAvailable = ClassResolverUtils.isClassAvailable("java.util.Optional");
+
+        // Assert
+        Assertions.assertTrue(isAvailable);
+    }
+
+    @Test
+    void isClassAvailableNullValue() {
+
+        // Act
+        final boolean isAvailable = ClassResolverUtils.isClassAvailable(null);
+
+        // Assert
+        Assertions.assertFalse(isAvailable);
+    }
+
+    @Test
+    void isClassAvailableCustomLoader() {
+
+        // Act
+        final boolean isAvailable = ClassResolverUtils.isClassAvailable(
+            "java.util.Optional",
+            Thread.currentThread().getContextClassLoader());
+
+        // Assert
+        Assertions.assertTrue(isAvailable);
+    }
+
+    @Test
+    void isClassAvailableCustomLoaderNullValue() {
+
+        // Act
+        final boolean isAvailable = ClassResolverUtils.isClassAvailable(
+            null,
+            Thread.currentThread().getContextClassLoader());
+
+        // Assert
+        Assertions.assertFalse(isAvailable);
+    }
 }
