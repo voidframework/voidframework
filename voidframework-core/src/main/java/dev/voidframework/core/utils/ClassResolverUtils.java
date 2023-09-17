@@ -61,4 +61,47 @@ public final class ClassResolverUtils {
             return null;
         }
     }
+
+    /**
+     * Checks if a class is available.
+     *
+     * @param className Name of the class
+     * @return {@code true} if given class is available, otherwise {@code false}
+     * @since 1.11.0
+     */
+    public static boolean isClassAvailable(final String className) {
+
+        if (StringUtils.isBlank(className)) {
+            return false;
+        }
+
+        try {
+            Class.forName(className);
+            return true;
+        } catch (final ClassNotFoundException ignore) {
+            return false;
+        }
+    }
+
+    /**
+     * Checks if a class is available.
+     *
+     * @param className   Name of the class
+     * @param classLoader Loader to use
+     * @return {@code true} if given class is available, otherwise {@code false}
+     * @since 1.11.0
+     */
+    public static boolean isClassAvailable(final String className, final ClassLoader classLoader) {
+
+        if (StringUtils.isBlank(className)) {
+            return false;
+        }
+
+        try {
+            Class.forName(className, false, classLoader);
+            return true;
+        } catch (final ClassNotFoundException ignore) {
+            return false;
+        }
+    }
 }
