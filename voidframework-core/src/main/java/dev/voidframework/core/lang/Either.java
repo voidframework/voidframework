@@ -1,5 +1,6 @@
 package dev.voidframework.core.lang;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -140,5 +141,23 @@ public class Either<L, R> {
         }
 
         throw new IllegalArgumentException((this.left != null ? "Left" : "Right") + " function is required, but was null");
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        final Either<?, ?> either = (Either<?, ?>) o;
+        if (!Objects.equals(left, either.left)) return false;
+        return Objects.equals(right, either.right);
+    }
+
+    @Override
+    public int hashCode() {
+
+        int result = left != null ? left.hashCode() : 0;
+        result = 31 * result + (right != null ? right.hashCode() : 0);
+        return result;
     }
 }
