@@ -5,6 +5,8 @@ import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import java.time.LocalDateTime;
+
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class TypedMapTest {
 
@@ -64,6 +66,83 @@ final class TypedMapTest {
 
         // Assert
         Assertions.assertEquals("{STRING_KEY=Hello World!}", typedMap.toString());
+    }
+
+    @Test
+    void of1() {
+
+        // Arrange
+        final TypedMap.Key<String> key1 = TypedMap.Key.of("KEY_1", String.class);
+
+        // Act
+        final TypedMap typedMap = TypedMap.of(key1, "Hello World");
+
+        // Assert
+        Assertions.assertNotNull(typedMap);
+        Assertions.assertEquals("Hello World", typedMap.get(key1));
+    }
+
+    @Test
+    void of2() {
+
+        // Arrange
+        final TypedMap.Key<String> key1 = TypedMap.Key.of("KEY_1", String.class);
+        final TypedMap.Key<LocalDateTime> key2 = TypedMap.Key.of("KEY_2", LocalDateTime.class);
+
+        // Act
+        final TypedMap typedMap = TypedMap.of(
+            key1, "Hello World",
+            key2, LocalDateTime.of(2022, 1, 3, 23, 32, 10));
+
+        // Assert
+        Assertions.assertNotNull(typedMap);
+        Assertions.assertEquals("Hello World", typedMap.get(key1));
+        Assertions.assertEquals(LocalDateTime.of(2022, 1, 3, 23, 32, 10), typedMap.get(key2));
+    }
+
+    @Test
+    void of3() {
+
+        // Arrange
+        final TypedMap.Key<String> key1 = TypedMap.Key.of("KEY_1", String.class);
+        final TypedMap.Key<LocalDateTime> key2 = TypedMap.Key.of("KEY_2", LocalDateTime.class);
+        final TypedMap.Key<Integer> key3 = TypedMap.Key.of("KEY_3", Integer.class);
+
+        // Act
+        final TypedMap typedMap = TypedMap.of(
+            key1, "Hello World",
+            key2, LocalDateTime.of(2022, 1, 3, 23, 32, 10),
+            key3, 1337);
+
+        // Assert
+        Assertions.assertNotNull(typedMap);
+        Assertions.assertEquals("Hello World", typedMap.get(key1));
+        Assertions.assertEquals(LocalDateTime.of(2022, 1, 3, 23, 32, 10), typedMap.get(key2));
+        Assertions.assertEquals(1337, typedMap.get(key3));
+    }
+
+    @Test
+    void of4() {
+
+        // Arrange
+        final TypedMap.Key<String> key1 = TypedMap.Key.of("KEY_1", String.class);
+        final TypedMap.Key<LocalDateTime> key2 = TypedMap.Key.of("KEY_2", LocalDateTime.class);
+        final TypedMap.Key<Integer> key3 = TypedMap.Key.of("KEY_3", Integer.class);
+        final TypedMap.Key<Boolean> key4 = TypedMap.Key.of("KEY_4", Boolean.class);
+
+        // Act
+        final TypedMap typedMap = TypedMap.of(
+            key1, "Hello World",
+            key2, LocalDateTime.of(2022, 1, 3, 23, 32, 10),
+            key3, 1337,
+            key4, true);
+
+        // Assert
+        Assertions.assertNotNull(typedMap);
+        Assertions.assertEquals("Hello World", typedMap.get(key1));
+        Assertions.assertEquals(LocalDateTime.of(2022, 1, 3, 23, 32, 10), typedMap.get(key2));
+        Assertions.assertEquals(1337, typedMap.get(key3));
+        Assertions.assertTrue(typedMap.get(key4));
     }
 
     @Test

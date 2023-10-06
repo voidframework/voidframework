@@ -24,6 +24,122 @@ public final class TypedMap {
     }
 
     /**
+     * Returns a typed map.
+     *
+     * @param key   The mapping key
+     * @param value The mapping value
+     * @param <K>   The type of the Key object
+     * @param <V>   The type of the Value object
+     * @return A typed map containing the specified mapping
+     */
+    public static <K, V extends K> TypedMap of(final Key<K> key, final V value) {
+
+        final TypedMap typedMap = new TypedMap();
+        typedMap.put(key, value);
+
+        return typedMap;
+    }
+
+    /**
+     * Returns a typed map.
+     *
+     * @param key1   The first mapping key
+     * @param value1 The first mapping value
+     * @param key2   The second mapping key
+     * @param value2 The second mapping value
+     * @param <K1>   The type of the first Key object
+     * @param <V1>   The type of the first Value object
+     * @param <K2>   The type of the second Key object
+     * @param <V2>   The type of the second Value object
+     * @return A typed map containing the specified mapping
+     */
+    public static <K1, V1 extends K1, K2, V2 extends K2>
+    TypedMap of(final Key<K1> key1,
+                final V1 value1,
+                final Key<K2> key2,
+                final V2 value2) {
+
+        final TypedMap typedMap = new TypedMap();
+        typedMap.put(key1, value1);
+        typedMap.put(key2, value2);
+
+        return typedMap;
+    }
+
+    /**
+     * Returns a typed map.
+     *
+     * @param key1   The first mapping key
+     * @param value1 The first mapping value
+     * @param key2   The second mapping key
+     * @param value2 The second mapping value
+     * @param key3   The third mapping key
+     * @param value3 The third mapping value
+     * @param <K1>   The type of the first Key object
+     * @param <V1>   The type of the first Value object
+     * @param <K2>   The type of the second Key object
+     * @param <V2>   The type of the second Value object
+     * @param <K3>   The type of the third Key object
+     * @param <V3>   The type of the third Value object
+     * @return A typed map containing the specified mapping
+     */
+    public static <K1, V1 extends K1, K2, V2 extends K2, K3, V3 extends K3>
+    TypedMap of(final Key<K1> key1,
+                final V1 value1,
+                final Key<K2> key2,
+                final V2 value2,
+                final Key<K3> key3,
+                final V3 value3) {
+
+        final TypedMap typedMap = new TypedMap();
+        typedMap.put(key1, value1);
+        typedMap.put(key2, value2);
+        typedMap.put(key3, value3);
+
+        return typedMap;
+    }
+
+    /**
+     * Returns a typed map.
+     *
+     * @param key1   The first mapping key
+     * @param value1 The first mapping value
+     * @param key2   The second mapping key
+     * @param value2 The second mapping value
+     * @param key3   The third mapping key
+     * @param value3 The third mapping value
+     * @param key4   The fourth mapping key
+     * @param value4 The fourth mapping value
+     * @param <K1>   The type of the first Key object
+     * @param <V1>   The type of the first Value object
+     * @param <K2>   The type of the second Key object
+     * @param <V2>   The type of the second Value object
+     * @param <K3>   The type of the third Key object
+     * @param <V3>   The type of the third Value object
+     * @param <K4>   The type of the fourth Key object
+     * @param <V4>   The type of the fourth Value object
+     * @return A typed map containing the specified mapping
+     */
+    public static <K1, V1 extends K1, K2, V2 extends K2, K3, V3 extends K3, K4, V4 extends K4>
+    TypedMap of(final Key<K1> key1,
+                final V1 value1,
+                final Key<K2> key2,
+                final V2 value2,
+                final Key<K3> key3,
+                final V3 value3,
+                final Key<K4> key4,
+                final V4 value4) {
+
+        final TypedMap typedMap = new TypedMap();
+        typedMap.put(key1, value1);
+        typedMap.put(key2, value2);
+        typedMap.put(key3, value3);
+        typedMap.put(key4, value4);
+
+        return typedMap;
+    }
+
+    /**
      * Retrieves the value associated to the specified key.
      *
      * @param typedKey The typed key
