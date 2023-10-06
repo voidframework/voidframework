@@ -15,10 +15,10 @@ import java.util.List;
 public final class ListSerializer extends ImmutableSerializer<List<Object>> {
 
     @Override
-    public void write(final Kryo kryo, final Output output, final List<Object> object) {
+    public void write(final Kryo kryo, final Output output, final List<Object> objectList) {
 
-        output.writeInt(object.size(), true);
-        for (final Object obj : object) {
+        output.writeInt(objectList.size(), true);
+        for (final Object obj : objectList) {
             kryo.writeClassAndObject(output, obj);
         }
     }

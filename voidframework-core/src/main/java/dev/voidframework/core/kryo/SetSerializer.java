@@ -15,10 +15,10 @@ import java.util.Set;
 public final class SetSerializer extends ImmutableSerializer<Set<Object>> {
 
     @Override
-    public void write(final Kryo kryo, final Output output, final Set<Object> object) {
+    public void write(final Kryo kryo, final Output output, final Set<Object> objectSet) {
 
-        output.writeInt(object.size(), true);
-        for (final Object obj : object) {
+        output.writeInt(objectSet.size(), true);
+        for (final Object obj : objectSet) {
             kryo.writeClassAndObject(output, obj);
         }
     }

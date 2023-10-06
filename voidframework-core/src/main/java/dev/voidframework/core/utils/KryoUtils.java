@@ -4,8 +4,15 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.ByteBufferOutputStream;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import dev.voidframework.core.kryo.CUIDSerializer;
+import dev.voidframework.core.kryo.EitherSerializer;
 import dev.voidframework.core.kryo.ListSerializer;
 import dev.voidframework.core.kryo.SetSerializer;
+import dev.voidframework.core.kryo.TypedMapKeySerializer;
+import dev.voidframework.core.kryo.TypedMapSerializer;
+import dev.voidframework.core.lang.CUID;
+import dev.voidframework.core.lang.Either;
+import dev.voidframework.core.lang.TypedMap;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -62,8 +69,12 @@ public final class KryoUtils {
         KRYO.register(String.class);
 
         // Adds new serializers (for types with no-args constructor)
+        KRYO.addDefaultSerializer(CUID.class, CUIDSerializer.class);
+        KRYO.addDefaultSerializer(Either.class, EitherSerializer.class);
         KRYO.addDefaultSerializer(List.class, ListSerializer.class);
         KRYO.addDefaultSerializer(Set.class, SetSerializer.class);
+        KRYO.addDefaultSerializer(TypedMap.Key.class, TypedMapKeySerializer.class);
+        KRYO.addDefaultSerializer(TypedMap.class, TypedMapSerializer.class);
     }
 
     /**
