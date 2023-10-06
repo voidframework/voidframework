@@ -121,7 +121,7 @@ public final class TypedMap {
      * @return A typed map containing the specified mapping
      */
     public static <K1, V1 extends K1, K2, V2 extends K2, K3, V3 extends K3, K4, V4 extends K4>
-    TypedMap of(final Key<K1> key1,
+    TypedMap of(final Key<K1> key1, // NOSONAR "Method has 8 parameters, which is greater than n"
                 final V1 value1,
                 final Key<K2> key2,
                 final V2 value2,
