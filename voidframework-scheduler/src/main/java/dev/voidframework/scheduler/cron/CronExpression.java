@@ -16,7 +16,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
  * A CRON expression.
@@ -228,7 +227,7 @@ public class CronExpression {
 
                 cronExpressionPart = new CronExpressionPartList(
                     stepValue,
-                    Arrays.stream(listValue.split(StringConstants.COMMA)).map(Integer::parseInt).collect(Collectors.toList()));
+                    Arrays.stream(listValue.split(StringConstants.COMMA)).map(Integer::parseInt).toList());
             }
         } else {
             final Matcher matcher = REGEXP_PATTERN_SINGLE.matcher(str);

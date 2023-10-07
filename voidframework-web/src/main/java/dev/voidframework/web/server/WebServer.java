@@ -167,12 +167,14 @@ public class WebServer {
         this.undertowServer.start();
 
         // Display listener(s) information
-        for (final Undertow.ListenerInfo listenerInfo : this.undertowServer.getListenerInfo()) {
-            LOGGER.info(
-                "Server now listening on {}:/{}{}",
-                listenerInfo.getProtcol(),
-                listenerInfo.getAddress(),
-                this.configuration.getString("voidframework.web.contextPath"));
+        if (LOGGER.isInfoEnabled()) {
+            for (final Undertow.ListenerInfo listenerInfo : this.undertowServer.getListenerInfo()) {
+                LOGGER.info(
+                    "Server now listening on {}:/{}{}",
+                    listenerInfo.getProtcol(),
+                    listenerInfo.getAddress(),
+                    this.configuration.getString("voidframework.web.contextPath"));
+            }
         }
 
         this.isRunning = true;

@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -132,7 +131,7 @@ public class FreeMarkerConfigurationProvider implements Provider<Configuration> 
                 .map(Path::getFileName)
                 .map(path -> path.resolve(resolvePath))
                 .filter(Files::exists)
-                .collect(Collectors.toList());
+                .toList();
         } catch (final IOException ignore) {
             return Collections.emptyList();
         }
