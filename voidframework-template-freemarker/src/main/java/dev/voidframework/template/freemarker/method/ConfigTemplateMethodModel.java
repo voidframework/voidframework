@@ -46,10 +46,10 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
         }
 
         final Object value = this.configuration.getAnyRef(configPath);
-        if (value instanceof String) {
-            return new SimpleScalar((String) value);
-        } else if (value instanceof Number) {
-            return new SimpleNumber((Number) value);
+        if (value instanceof String valueAsString) {
+            return new SimpleScalar(valueAsString);
+        } else if (value instanceof Number valueAsNumber) {
+            return new SimpleNumber(valueAsNumber);
         } else if (value instanceof Boolean) {
             return value == Boolean.TRUE ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
         } else if (value instanceof Collection<?>) {
@@ -62,10 +62,10 @@ public class ConfigTemplateMethodModel implements TemplateMethodModelEx {
 
                     final Object obj = valueList.get(index);
 
-                    if (obj instanceof String) {
-                        return new SimpleScalar((String) obj);
-                    } else if (obj instanceof Number) {
-                        return new SimpleNumber((Number) obj);
+                    if (obj instanceof String objAsString) {
+                        return new SimpleScalar(objAsString);
+                    } else if (obj instanceof Number objAsNumber) {
+                        return new SimpleNumber(objAsNumber);
                     } else if (obj instanceof Boolean) {
                         return obj == Boolean.TRUE ? TemplateBooleanModel.TRUE : TemplateBooleanModel.FALSE;
                     } else {

@@ -51,10 +51,10 @@ public class ObjectResultProcessor implements ResultProcessor {
 
         if (object == null) {
             return InputStream.nullInputStream();
-        } else if (object instanceof byte[]) {
-            return new ByteArrayInputStream((byte[]) object);
-        } else if (object instanceof InputStream) {
-            return (InputStream) object;
+        } else if (object instanceof byte[] objectAsByteArray) {
+            return new ByteArrayInputStream(objectAsByteArray);
+        } else if (object instanceof InputStream objectInputStream) {
+            return objectInputStream;
         }
 
         return new ByteArrayInputStream(object.toString().getBytes(StandardCharsets.UTF_8));

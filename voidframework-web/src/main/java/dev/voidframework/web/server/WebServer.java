@@ -156,8 +156,8 @@ public class WebServer {
         final Router router = this.loadProgrammaticallyDefinedRoutes();
 
         // Post router initialization callback
-        if (router instanceof RouterPostInitialization) {
-            ((RouterPostInitialization) router).onPostInitialization();
+        if (router instanceof RouterPostInitialization routerAsRouterPostInit) {
+            routerAsRouterPostInit.onPostInitialization();
         }
 
         // Build Undertow server

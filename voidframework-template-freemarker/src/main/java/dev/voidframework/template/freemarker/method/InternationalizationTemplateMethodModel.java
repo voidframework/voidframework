@@ -45,10 +45,10 @@ public class InternationalizationTemplateMethodModel implements TemplateMethodMo
 
         final List<Object> parsedArgumentList = new ArrayList<>();
         for (final Object argument : argumentList) {
-            if (argument instanceof SimpleScalar) {
-                parsedArgumentList.add(((SimpleScalar) argument).getAsString());
-            } else if (argument instanceof SimpleNumber) {
-                parsedArgumentList.add(((SimpleNumber) argument).getAsNumber());
+            if (argument instanceof SimpleScalar argumentAsSimpleScalar) {
+                parsedArgumentList.add(argumentAsSimpleScalar.getAsString());
+            } else if (argument instanceof SimpleNumber argumentAsSimpleNumber) {
+                parsedArgumentList.add(argumentAsSimpleNumber.getAsNumber());
             } else {
                 parsedArgumentList.add(argument);
             }

@@ -36,8 +36,8 @@ public final class CUIDIdentifierGenerator implements IdentifierGenerator {
                                    final CustomIdGeneratorCreationContext context) {
 
         final Class<?> memberClassType;
-        if (annotatedMember instanceof Method) {
-            memberClassType = ((Method) annotatedMember).getReturnType();
+        if (annotatedMember instanceof Method annotatedMemberAsMethod) {
+            memberClassType = annotatedMemberAsMethod.getReturnType();
         } else {
             memberClassType = ((Field) annotatedMember).getType();
         }

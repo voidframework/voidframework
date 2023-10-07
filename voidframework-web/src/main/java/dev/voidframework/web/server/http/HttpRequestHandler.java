@@ -148,10 +148,10 @@ public final class HttpRequestHandler extends AbstractHttpRequestHandler {
                     final Throwable cause = exception.getCause() == null ? exception : exception.getCause();
 
                     final Result result;
-                    if (cause instanceof HttpException.NotFound) {
-                        result = errorHandler.onNotFound(ctx, (HttpException.NotFound) cause);
-                    } else if (cause instanceof HttpException.BadRequest) {
-                        result = errorHandler.onBadRequest(ctx, (HttpException.BadRequest) cause);
+                    if (cause instanceof HttpException.NotFound causeAsNotFound) {
+                        result = errorHandler.onNotFound(ctx, causeAsNotFound);
+                    } else if (cause instanceof HttpException.BadRequest causeAsBadRequest) {
+                        result = errorHandler.onBadRequest(ctx, causeAsBadRequest);
                     } else {
                         result = errorHandler.onServerError(ctx, exception);
                     }

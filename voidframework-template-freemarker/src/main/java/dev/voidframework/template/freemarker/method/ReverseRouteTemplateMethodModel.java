@@ -40,12 +40,12 @@ public class ReverseRouteTemplateMethodModel implements TemplateMethodModelEx {
 
         final List<Object> parsedArgumentList = new ArrayList<>();
         for (final Object argument : argumentList) {
-            if (argument instanceof SimpleScalar) {
-                parsedArgumentList.add(((SimpleScalar) argument).getAsString());
-            } else if (argument instanceof SimpleNumber) {
-                parsedArgumentList.add(((SimpleNumber) argument).getAsNumber());
-            } else if (argument instanceof SimpleDate) {
-                parsedArgumentList.add(((SimpleDate) argument).getAsDate());
+            if (argument instanceof SimpleScalar argumentAsSimpleScalar) {
+                parsedArgumentList.add(argumentAsSimpleScalar.getAsString());
+            } else if (argument instanceof SimpleNumber argumentAsSimpleNumber) {
+                parsedArgumentList.add(argumentAsSimpleNumber.getAsNumber());
+            } else if (argument instanceof SimpleDate argumentAsSimpleDate) {
+                parsedArgumentList.add(argumentAsSimpleDate.getAsDate());
             }
         }
 
