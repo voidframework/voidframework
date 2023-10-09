@@ -102,10 +102,15 @@ public final class LifeCycleManager {
         if (!this.isRunning) {
             this.isRunning = true;
 
-            this.startHandlerList
-                .stream()
-                .sorted(Comparator.comparingInt(StartHandler::priority))
-                .forEach(this::invokeMethodStart);
+            try {
+                this.startHandlerList
+                    .stream()
+                    .sorted(Comparator.comparingInt(StartHandler::priority))
+                    .forEach(this::invokeMethodStart);
+            } catch (final LifeCycleException.InvocationFailure ex) {
+                LOGGER.error("Registered \"START\" method throw an exception, application will shutdown right now", ex);
+                System.exit(-1);
+            }
         }
     }
 
