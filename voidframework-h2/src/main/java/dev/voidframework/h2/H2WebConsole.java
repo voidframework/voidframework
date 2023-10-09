@@ -5,6 +5,7 @@ import dev.voidframework.core.lifecycle.LifeCycleStart;
 import dev.voidframework.core.lifecycle.LifeCycleStop;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
+import org.h2.server.web.WebServer;
 import org.h2.tools.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +51,8 @@ public final class H2WebConsole {
 
         if (this.configuration.hasPath("voidframework.h2.webAdminPassword")) {
             argumentList.add("-webAdminPassword");
-            argumentList.add(this.configuration.getString("voidframework.h2.webAdminPassword"));
+            argumentList.add(
+                WebServer.encodeAdminPassword(this.configuration.getString("voidframework.h2.webAdminPassword")));
         }
 
         if (this.configuration.getBoolean("voidframework.h2.webAllowOthers")) {
