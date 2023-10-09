@@ -32,6 +32,7 @@ public class JedisResourceProvider implements Provider<Jedis> {
     private static final String CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_WAIT = "voidframework.redis.connPool.maximumWait";
     private static final String CONFIGURATION_KEY_HOST = "voidframework.redis.host";
     private static final String CONFIGURATION_KEY_PORT = "voidframework.redis.port";
+    private static final String CONFIGURATION_KEY_USERNAME = "voidframework.redis.username";
     private static final String CONFIGURATION_KEY_PASSWORD = "voidframework.redis.password";
 
     private final Config configuration;
@@ -62,6 +63,7 @@ public class JedisResourceProvider implements Provider<Jedis> {
             final Duration maximumWait = this.configuration.getDuration(CONFIGURATION_KEY_CONNECTION_POOL_MAXIMUM_WAIT);
             final String host = this.configuration.getString(CONFIGURATION_KEY_HOST);
             final int port = this.configuration.getInt(CONFIGURATION_KEY_PORT);
+            final String username = this.configuration.getString(CONFIGURATION_KEY_USERNAME);
             final String password = this.configuration.getString(CONFIGURATION_KEY_PASSWORD);
 
             // Checks configuration
@@ -91,7 +93,11 @@ public class JedisResourceProvider implements Provider<Jedis> {
             jedisPoolConfig.setMaxWait(maximumWait);
 
             if (StringUtils.isNotBlank(password)) {
-                this.jedisPool = new JedisPool(jedisPoolConfig, host, port, (int) connectionTimeout, password);
+                if (StringUtils.isBlank(username)) {
+                    this.jedisPool = new JedisPool(jedisPoolConfig, host, port, (int) connectionTimeout, password);
+                } else {
+                    this.jedisPool = new JedisPool(jedisPoolConfig, host, port, (int) connectionTimeout, username, password);
+                }
             } else {
                 this.jedisPool = new JedisPool(jedisPoolConfig, host, port, (int) connectionTimeout);
             }

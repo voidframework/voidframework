@@ -630,6 +630,7 @@ final class RedisTest {
             voidframework.core.runInDevMode = true
             voidframework.redis.host = "%s"
             voidframework.redis.port = %d
+            voidframework.redis.username = ""
             voidframework.redis.password = ""
             voidframework.redis.defaultDatabase = 0
             voidframework.redis.connPool.connectionTimeout = "2000 ms"
