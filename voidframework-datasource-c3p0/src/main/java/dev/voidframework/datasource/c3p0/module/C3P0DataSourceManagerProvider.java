@@ -51,6 +51,46 @@ public class C3P0DataSourceManagerProvider extends AbstractDataSourceProvider {
         }
 
         // Defines the parameters of the data source which are optional
+        final Map<String, BiConsumer<ComboPooledDataSource, Config>> optionalHikariConfigToApplyMap = createOptionalHikariConfigToApplyMap();
+
+        // Configuration of the different data sources
+        final Map<String, DataSource> c3p0DataSourcePerNameMap = new HashMap<>();
+        for (final String dbConfigurationName : this.retrieveDataSourceConfigurationNames(this.configuration)) {
+
+            final Config dbConfiguration = this.configuration.getConfig(PREFIX_CONFIGURATION_KEY_DATASOURCE + dbConfigurationName);
+
+            final ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
+            comboPooledDataSource.setDataSourceName(dbConfigurationName);
+            comboPooledDataSource.setJdbcUrl(dbConfiguration.getString("url"));
+            comboPooledDataSource.setUser(dbConfiguration.getString("username"));
+            comboPooledDataSource.setPassword(dbConfiguration.getString("password"));
+            try {
+                comboPooledDataSource.setDriverClass(dbConfiguration.getString("driver"));
+            } catch (final PropertyVetoException exception) {
+                throw new DataSourceException.DriverLoadFailure(dbConfiguration.getString("driver"), exception);
+            }
+
+            for (final Map.Entry<String, BiConsumer<ComboPooledDataSource, Config>> entrySet : optionalHikariConfigToApplyMap.entrySet()) {
+                if (dbConfiguration.hasPath(entrySet.getKey())) {
+                    entrySet.getValue().accept(comboPooledDataSource, dbConfiguration);
+                }
+            }
+
+            c3p0DataSourcePerNameMap.put(dbConfigurationName, comboPooledDataSource);
+        }
+
+        // Create data source manager
+        this.dataSourceManager = new DataSourceManager(c3p0DataSourcePerNameMap);
+        return this.dataSourceManager;
+    }
+
+    /**
+     * Defines the parameters of the data source which are optional.
+     *
+     * @return Parameters of the data source which are optional
+     */
+    private Map<String, BiConsumer<ComboPooledDataSource, Config>> createOptionalHikariConfigToApplyMap() {
+
         final Map<String, BiConsumer<ComboPooledDataSource, Config>> optionalHikariConfigToApplyMap = new HashMap<>();
         optionalHikariConfigToApplyMap.put("connectionTimeout", (c3p0Cfg, appCfg) -> {
             try {
@@ -87,34 +127,6 @@ public class C3P0DataSourceManagerProvider extends AbstractDataSourceProvider {
             "acquireIncrement",
             (c3p0Cfg, appCfg) -> c3p0Cfg.setAcquireIncrement(appCfg.getInt("acquireIncrement")));
 
-        // Configuration of the different data sources
-        final Map<String, DataSource> c3p0DataSourcePerNameMap = new HashMap<>();
-        for (final String dbConfigurationName : this.retrieveDataSourceConfigurationNames(this.configuration)) {
-
-            final Config dbConfiguration = this.configuration.getConfig(PREFIX_CONFIGURATION_KEY_DATASOURCE + dbConfigurationName);
-
-            final ComboPooledDataSource comboPooledDataSource = new ComboPooledDataSource();
-            comboPooledDataSource.setDataSourceName(dbConfigurationName);
-            comboPooledDataSource.setJdbcUrl(dbConfiguration.getString("url"));
-            comboPooledDataSource.setUser(dbConfiguration.getString("username"));
-            comboPooledDataSource.setPassword(dbConfiguration.getString("password"));
-            try {
-                comboPooledDataSource.setDriverClass(dbConfiguration.getString("driver"));
-            } catch (final PropertyVetoException exception) {
-                throw new DataSourceException.DriverLoadFailure(dbConfiguration.getString("driver"), exception);
-            }
-
-            for (final Map.Entry<String, BiConsumer<ComboPooledDataSource, Config>> entrySet : optionalHikariConfigToApplyMap.entrySet()) {
-                if (dbConfiguration.hasPath(entrySet.getKey())) {
-                    entrySet.getValue().accept(comboPooledDataSource, dbConfiguration);
-                }
-            }
-
-            c3p0DataSourcePerNameMap.put(dbConfigurationName, comboPooledDataSource);
-        }
-
-        // Create data source manager
-        this.dataSourceManager = new DataSourceManager(c3p0DataSourcePerNameMap);
-        return this.dataSourceManager;
+        return optionalHikariConfigToApplyMap;
     }
 }
