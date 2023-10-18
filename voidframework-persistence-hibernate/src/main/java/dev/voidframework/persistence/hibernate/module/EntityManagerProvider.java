@@ -12,7 +12,8 @@ import jakarta.persistence.ValidationMode;
 import jakarta.persistence.spi.ClassTransformer;
 import jakarta.persistence.spi.PersistenceUnitInfo;
 import jakarta.persistence.spi.PersistenceUnitTransactionType;
-import org.hibernate.cfg.AvailableSettings;
+import org.hibernate.cfg.JdbcSettings;
+import org.hibernate.cfg.SchemaToolingSettings;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -152,8 +153,8 @@ public class EntityManagerProvider implements Provider<EntityManager> {
             this.entityManagerFactory = new HibernatePersistenceProvider().createContainerEntityManagerFactory(
                 new PersistenceUnitInfoIml(dataSourceName, javaFileUrlList),
                 Map.of(
-                    AvailableSettings.DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName),
-                    AvailableSettings.HBM2DDL_AUTO, "none"));
+                    JdbcSettings.DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName),
+                    SchemaToolingSettings.HBM2DDL_AUTO, "none"));
         }
     }
 
