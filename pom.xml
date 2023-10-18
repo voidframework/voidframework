@@ -55,43 +55,43 @@
         <!-- Plugins -->
         <plugin.version.maven-compiler-plugin>3.11.0</plugin.version.maven-compiler-plugin>
         <plugin.version.maven-gpg-plugin>3.1.0</plugin.version.maven-gpg-plugin>
-        <plugin.version.maven-javadoc-plugin>3.5.0</plugin.version.maven-javadoc-plugin>
+        <plugin.version.maven-javadoc-plugin>3.6.0</plugin.version.maven-javadoc-plugin>
         <plugin.version.maven-source-plugin>3.3.0</plugin.version.maven-source-plugin>
         <plugin.version.maven-surefire-plugin>3.1.2</plugin.version.maven-surefire-plugin>
         <plugin.version.nexus-staging-maven-plugin>1.6.13</plugin.version.nexus-staging-maven-plugin>
 
         <!-- Dependencies -->
         <dependency.version.aspectj>1.9.20.1</dependency.version.aspectj>
-        <dependency.version.bucket4j>8.3.0</dependency.version.bucket4j>
+        <dependency.version.bucket4j>8.5.0</dependency.version.bucket4j>
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
-        <dependency.version.classgraph>4.8.162</dependency.version.classgraph>
+        <dependency.version.classgraph>4.8.163</dependency.version.classgraph>
         <dependency.version.commons-email>1.5</dependency.version.commons-email>
         <dependency.version.commons-lang3>3.13.0</dependency.version.commons-lang3>
-        <dependency.version.flyway>9.21.2</dependency.version.flyway>
+        <dependency.version.flyway>9.22.3</dependency.version.flyway>
         <dependency.version.freemarker>2.3.32</dependency.version.freemarker>
         <dependency.version.guice>7.0.0</dependency.version.guice>
-        <dependency.version.h2>2.2.220</dependency.version.h2>
-        <dependency.version.hibernate-core>6.2.7.Final</dependency.version.hibernate-core>
+        <dependency.version.h2>2.2.224</dependency.version.h2>
+        <dependency.version.hibernate-core>6.3.1.Final</dependency.version.hibernate-core>
         <dependency.version.hibernate-validator>8.0.1.Final</dependency.version.hibernate-validator>
         <dependency.version.hikaricp>5.0.1</dependency.version.hikaricp>
-        <dependency.version.jackson>2.15.2</dependency.version.jackson>
+        <dependency.version.jackson>2.15.3</dependency.version.jackson>
         <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
         <dependency.version.jakarta.persistence-api>3.1.0</dependency.version.jakarta.persistence-api>
         <dependency.version.jakarta.transaction-api>2.0.1</dependency.version.jakarta.transaction-api>
-        <dependency.version.jedis>4.4.3</dependency.version.jedis>
-        <dependency.version.jooq>3.18.6</dependency.version.jooq>
+        <dependency.version.jedis>5.0.1</dependency.version.jedis>
+        <dependency.version.jooq>3.18.7</dependency.version.jooq>
         <dependency.version.jwt>4.4.0</dependency.version.jwt>
         <dependency.version.kryo>5.5.0</dependency.version.kryo>
         <dependency.version.logback>1.4.11</dependency.version.logback>
         <dependency.version.retrofit>2.9.0</dependency.version.retrofit>
         <dependency.version.tika>2.9.0</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
-        <dependency.version.undertow>2.3.8.Final</dependency.version.undertow>
+        <dependency.version.undertow>2.3.9.Final</dependency.version.undertow>
 
         <!-- Unit Tests -->
         <dependency.version.hsqldb>2.7.2</dependency.version.hsqldb>
         <dependency.version.junit>5.10.0</dependency.version.junit>
-        <dependency.version.mockito>5.5.0</dependency.version.mockito>
+        <dependency.version.mockito>5.6.0</dependency.version.mockito>
     </properties>
 
     <modules>
