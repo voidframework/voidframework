@@ -153,7 +153,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
             this.entityManagerFactory = new HibernatePersistenceProvider().createContainerEntityManagerFactory(
                 new PersistenceUnitInfoIml(dataSourceName, javaFileUrlList),
                 Map.of(
-                    JdbcSettings.DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName),
+                    JdbcSettings.JAKARTA_JTA_DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName),
                     SchemaToolingSettings.HBM2DDL_AUTO, "none"));
         }
     }
