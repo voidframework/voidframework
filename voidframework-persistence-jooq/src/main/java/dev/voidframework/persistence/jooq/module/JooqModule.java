@@ -74,7 +74,7 @@ public final class JooqModule extends AbstractModule {
      */
     private SQLDialect identifySQLDialect(final String dataSourceName) {
 
-        final String dataSourceUrl = this.configuration.getString("voidframework.datasource." + dataSourceName + ".driver");
+        final String dataSourceUrl = this.configuration.getString("voidframework.datasource." + dataSourceName + ".url");
         return JDBCUtils.dialect(dataSourceUrl);
     }
 }
