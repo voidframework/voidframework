@@ -12,6 +12,7 @@ import jakarta.persistence.ValidationMode;
 import jakarta.persistence.spi.ClassTransformer;
 import jakarta.persistence.spi.PersistenceUnitInfo;
 import jakarta.persistence.spi.PersistenceUnitTransactionType;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.cfg.JdbcSettings;
 import org.hibernate.cfg.SchemaToolingSettings;
 import org.hibernate.jpa.HibernatePersistenceProvider;
@@ -26,6 +27,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -45,6 +47,7 @@ public class EntityManagerProvider implements Provider<EntityManager> {
     private static final Logger LOGGER = LoggerFactory.getLogger(EntityManagerProvider.class);
 
     private final String dataSourceName;
+    private final String dialect;
     private final String modelsJarUrlPattern;
     private final ThreadLocal<Deque<EntityManager>> currentEntityManager;
     private Provider<DataSourceManager> dataSourceManagerProvider;
@@ -59,7 +62,23 @@ public class EntityManagerProvider implements Provider<EntityManager> {
      */
     public EntityManagerProvider(final String dataSourceName, final String modelsJarUrlPattern) {
 
+        this(dataSourceName, null, modelsJarUrlPattern);
+    }
+
+    /**
+     * Build a new instance.
+     *
+     * @param dataSourceName      The data source name
+     * @param dialect             The dialect
+     * @param modelsJarUrlPattern The pattern to identify JAR containing models
+     * @since 1.11.1
+     */
+    public EntityManagerProvider(final String dataSourceName,
+                                 final String dialect,
+                                 final String modelsJarUrlPattern) {
+
         this.dataSourceName = dataSourceName;
+        this.dialect = dialect;
         this.modelsJarUrlPattern = modelsJarUrlPattern;
         this.currentEntityManager = new ThreadLocal<>();
     }
@@ -150,11 +169,16 @@ public class EntityManagerProvider implements Provider<EntityManager> {
             final List<URL> javaFileUrlList = createModelsJarFileUrls();
 
             // Creates entity manager
+            final Map<String, Object> properties = new HashMap<>();
+            properties.put(JdbcSettings.JAKARTA_JTA_DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName));
+            properties.put(SchemaToolingSettings.HBM2DDL_AUTO, "none");
+            if (StringUtils.isNotBlank(dialect)) {
+                properties.put(JdbcSettings.DIALECT, dialect);
+            }
+
             this.entityManagerFactory = new HibernatePersistenceProvider().createContainerEntityManagerFactory(
                 new PersistenceUnitInfoIml(dataSourceName, javaFileUrlList),
-                Map.of(
-                    JdbcSettings.JAKARTA_JTA_DATASOURCE, this.dataSourceManagerProvider.get().getDataSource(dataSourceName),
-                    SchemaToolingSettings.HBM2DDL_AUTO, "none"));
+                properties);
         }
     }
 

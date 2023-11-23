@@ -46,7 +46,14 @@ public final class HibernateModule extends AbstractModule {
         }
 
         for (final String dataSourceName : dataSourceNameSet) {
-            final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dataSourceName, modelsJarUrlPattern);
+            // Create entity manager
+            final String dialect = ConfigurationUtils.getStringOrDefault(
+                this.configuration,
+                "voidframework.datasource." + dataSourceName + ".dialect",
+                null);
+            final EntityManagerProvider entityManagerProvider = new EntityManagerProvider(dataSourceName, dialect, modelsJarUrlPattern);
+
+            // Guice
             requestInjection(entityManagerProvider);
             bind(EntityManager.class).annotatedWith(Names.named(dataSourceName)).toProvider(entityManagerProvider);
 
