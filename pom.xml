@@ -82,7 +82,7 @@
         <dependency.version.jooq>3.18.7</dependency.version.jooq>
         <dependency.version.jwt>4.4.0</dependency.version.jwt>
         <dependency.version.kryo>5.5.0</dependency.version.kryo>
-        <dependency.version.logback>1.4.11</dependency.version.logback>
+        <dependency.version.logback>1.4.14</dependency.version.logback>
         <dependency.version.retrofit>2.9.0</dependency.version.retrofit>
         <dependency.version.tika>2.9.0</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.2</dependency.version.typesafeconfig>
