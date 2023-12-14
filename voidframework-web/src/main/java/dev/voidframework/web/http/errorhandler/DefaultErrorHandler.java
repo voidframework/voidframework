@@ -94,7 +94,7 @@ public class DefaultErrorHandler implements ErrorHandler {
 
             final String subHeaderError;
             final int lineNumberFromZero;
-            final List<FileLine> fileLineList;
+            final PartialFileContent partialFileContent;
             if (throwable.getClass() == TemplateException.RenderingFailure.class) {
                 // Template rendering error
                 final TemplateException.RenderingFailure renderingFailure = (TemplateException.RenderingFailure) throwable;
@@ -104,7 +104,11 @@ public class DefaultErrorHandler implements ErrorHandler {
                 subHeaderError = javaFilepathOptional.map(Path::toString).orElse(renderingFailure.getTemplateName())
                     + StringConstants.COLON
                     + lineNumberFromZero;
-                fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero)).orElseGet(ArrayList::new);
+
+                final List<FileLine> fileLineList = javaFilepathOptional
+                    .map(path -> retrievePartialFileContent(path, lineNumberFromZero))
+                    .orElseGet(ArrayList::new);
+                partialFileContent = new PartialFileContent(renderingFailure.getTemplateName(), fileLineList);
 
                 if (cause.getCause() != null) {
                     cause = cause.getCause();
@@ -115,9 +119,7 @@ public class DefaultErrorHandler implements ErrorHandler {
                 subHeaderError = stackTraceElement.toString();
                 lineNumberFromZero = stackTraceElement.getLineNumber() - 1;
 
-                final String javaFileName = stackTraceElement.getClassName().replace(StringConstants.DOT, File.separator).split("\\$", 2)[0] + ".java";
-                final Optional<Path> javaFilepathOptional = resolvePossibleJavaFileLocation(javaFileName);
-                fileLineList = javaFilepathOptional.map(path -> retrievePartialFileContent(path, lineNumberFromZero)).orElseGet(ArrayList::new);
+                partialFileContent = extractPartialContentFromFirstAccessibleJavaFile(cause);
             }
 
             return Result.internalServerError(
@@ -125,10 +127,36 @@ public class DefaultErrorHandler implements ErrorHandler {
                     cause.getMessage() != null ? cause.getMessage() : "Oops, something goes wrong",
                     subHeaderError,
                     lineNumberFromZero,
-                    fileLineList));
+                    partialFileContent));
         }
 
         return Result.internalServerError("500 Internal Server Error");
+    }
+
+    /**
+     * Extract partial content from the first accessible Java file retrieved from the throwable.
+     *
+     * @param throwable The throwable to use
+     * @return Extracted partial file content
+     * @since 1.12.0
+     */
+    private PartialFileContent extractPartialContentFromFirstAccessibleJavaFile(final Throwable throwable) {
+
+        for (final StackTraceElement stackTraceElement : throwable.getStackTrace()) {
+            final String javaFileName = stackTraceElement.getClassName()
+                .replace(StringConstants.DOT, File.separator)
+                .split("\\$", 2)[0] + ".java";
+
+            final Optional<Path> pathOptional = resolvePossibleJavaFileLocation(javaFileName);
+            if (pathOptional.isPresent()) {
+                final List<FileLine> fileLineList = retrievePartialFileContent(
+                    pathOptional.get(),
+                    stackTraceElement.getLineNumber() - 1);
+                return new PartialFileContent(javaFileName, fileLineList);
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -214,6 +242,16 @@ public class DefaultErrorHandler implements ErrorHandler {
         }
 
         return fileLineList;
+    }
+
+    /**
+     * Represents a partial file content.
+     *
+     * @param filename     The filename
+     * @param fileLineList The lines
+     * @since 1.12.0
+     */
+    public record PartialFileContent(String filename, List<FileLine> fileLineList) {
     }
 
     /**
