@@ -1,8 +1,7 @@
 package dev.voidframework.web.http.errorhandler.errorpage;
 
+import dev.voidframework.core.constant.StringConstants;
 import dev.voidframework.web.http.errorhandler.DefaultErrorHandler;
-
-import java.util.List;
 
 /**
  * Generates a "500 Internal Server Error" page when development mode is enabled. The
@@ -79,7 +78,7 @@ public final class DevMode500InternalServerError {
             <code>At %s</code>
         </div>
         <div class="description">
-            <h2></h2>
+            <h2>%s</h2>
             <table>
                 %s
             </table>
@@ -110,26 +109,31 @@ public final class DevMode500InternalServerError {
     /**
      * Render template.
      *
-     * @param errorMessage    The error message
-     * @param errorLocation   Where the error occur
-     * @param errorLineNumber Line number (from zero) where is located the error
-     * @param fileLineList    Partial file line content
+     * @param errorMessage       The error message
+     * @param errorLocation      Where the error occur
+     * @param errorLineNumber    Line number (from zero) where is located the error
+     * @param partialFileContent Partial file content
      * @return The rendered template
-     * @since 1.0.0
+     * @since 1.12.0
      */
     public static String render(final String errorMessage,
                                 final String errorLocation,
                                 final int errorLineNumber,
-                                final List<DefaultErrorHandler.FileLine> fileLineList) {
+                                final DefaultErrorHandler.PartialFileContent partialFileContent) {
+
+        String partialContentFileName = StringConstants.EMPTY;
 
         final StringBuilder fileSnippedBuilder = new StringBuilder();
-        for (final DefaultErrorHandler.FileLine fileLine : fileLineList) {
-            fileSnippedBuilder.append(FILE_PATTERN_ENTRY.formatted(
-                errorLineNumber == fileLine.number() ? CLASS_ERROR : "",
-                fileLine.number(),
-                fileLine.content().replace("<", "&lt;")));
+        if (partialFileContent != null && partialFileContent.fileLineList() != null) {
+            partialContentFileName = partialFileContent.filename();
+            for (final DefaultErrorHandler.FileLine fileLine : partialFileContent.fileLineList()) {
+                fileSnippedBuilder.append(FILE_PATTERN_ENTRY.formatted(
+                    errorLineNumber == fileLine.number() ? CLASS_ERROR : "",
+                    fileLine.number(),
+                    fileLine.content().replace("<", "&lt;")));
+            }
         }
 
-        return CONTENT.formatted(errorMessage, errorLocation, fileSnippedBuilder.toString());
+        return CONTENT.formatted(errorMessage, errorLocation, partialContentFileName, fileSnippedBuilder.toString());
     }
 }
