@@ -66,7 +66,7 @@ final class ClassResolverUtilsTest {
 
         // Assert
         Assertions.assertNotNull(classType);
-        Assertions.assertEquals(classType, ClassResolverUtils.class);
+        Assertions.assertEquals(ClassResolverUtils.class, classType);
     }
 
     @Test
