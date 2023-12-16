@@ -100,12 +100,12 @@ public final class CharConstants {
     /**
      * @since 1.2.0
      */
-    public static final char PARENTHESIS_CLOSE = '(';
+    public static final char PARENTHESIS_CLOSE = ')';
 
     /**
      * @since 1.2.0
      */
-    public static final char PARENTHESIS_OPEN = ')';
+    public static final char PARENTHESIS_OPEN = '(';
 
     /**
      * @since 1.10.0

@@ -115,12 +115,12 @@ public final class StringConstants {
     /**
      * @since 1.2.0
      */
-    public static final String PARENTHESIS_CLOSE = "(";
+    public static final String PARENTHESIS_CLOSE = ")";
 
     /**
      * @since 1.2.0
      */
-    public static final String PARENTHESIS_OPEN = ")";
+    public static final String PARENTHESIS_OPEN = "(";
 
     /**
      * @since 1.10.0
