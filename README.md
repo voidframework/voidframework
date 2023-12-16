@@ -9,6 +9,11 @@
 [![CodeQL](https://img.shields.io/github/actions/workflow/status/voidframework/voidframework/codeql-analysis.yml?label=codeql&logo=github&color=%231da868&branch=master)](https://github.com/voidframework/voidframework/actions/workflows/codeql-analysis.yml)
 [![Sonar Quality Gate](https://img.shields.io/sonar/quality_gate/voidframework_voidframework?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io&color=%231da868)](https://sonarcloud.io/project/overview?id=voidframework_voidframework)
 
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=voidframework_voidframework&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=voidframework_voidframework)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=voidframework_voidframework&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=voidframework_voidframework)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=voidframework_voidframework&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=voidframework_voidframework)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=voidframework_voidframework&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=voidframework_voidframework)
+
 Light and modular Framework for Java
 *****
 
