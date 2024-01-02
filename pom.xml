@@ -66,21 +66,21 @@
         <dependency.version.bucket4j>8.7.0</dependency.version.bucket4j>
         <dependency.version.c3p0>0.9.5.5</dependency.version.c3p0>
         <dependency.version.classgraph>4.8.165</dependency.version.classgraph>
-        <dependency.version.commons-email>1.5</dependency.version.commons-email>
+        <dependency.version.commons-email>1.6.0</dependency.version.commons-email>
         <dependency.version.commons-lang3>3.14.0</dependency.version.commons-lang3>
-        <dependency.version.flyway>10.1.0</dependency.version.flyway>
+        <dependency.version.flyway>10.4.1</dependency.version.flyway>
         <dependency.version.freemarker>2.3.32</dependency.version.freemarker>
         <dependency.version.guice>7.0.0</dependency.version.guice>
         <dependency.version.h2>2.2.224</dependency.version.h2>
-        <dependency.version.hibernate-core>6.4.0.Final</dependency.version.hibernate-core>
+        <dependency.version.hibernate-core>6.4.1.Final</dependency.version.hibernate-core>
         <dependency.version.hibernate-validator>8.0.1.Final</dependency.version.hibernate-validator>
         <dependency.version.hikaricp>5.1.0</dependency.version.hikaricp>
-        <dependency.version.jackson>2.16.0</dependency.version.jackson>
+        <dependency.version.jackson>2.16.1</dependency.version.jackson>
         <dependency.version.jakarta.el>4.0.2</dependency.version.jakarta.el>
         <dependency.version.jakarta.persistence-api>3.1.0</dependency.version.jakarta.persistence-api>
         <dependency.version.jakarta.transaction-api>2.0.1</dependency.version.jakarta.transaction-api>
         <dependency.version.jedis>5.1.0</dependency.version.jedis>
-        <dependency.version.jooq>3.18.7</dependency.version.jooq>
+        <dependency.version.jooq>3.19.1</dependency.version.jooq>
         <dependency.version.jwt>4.4.0</dependency.version.jwt>
         <dependency.version.kryo>5.5.0</dependency.version.kryo>
         <dependency.version.logback>1.4.14</dependency.version.logback>
