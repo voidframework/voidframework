@@ -7,7 +7,7 @@
     <parent>
         <groupId>dev.voidframework</groupId>
         <artifactId>voidframework</artifactId>
-        <version>1.11.3-SNAPSHOT</version>
+        <version>1.12.0</version>
     </parent>
 
     <artifactId>voidframework-test</artifactId>
