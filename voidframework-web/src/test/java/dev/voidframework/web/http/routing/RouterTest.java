@@ -88,6 +88,27 @@ final class RouterTest {
     }
 
     @Test
+    void resolveRouteWithSimplifiedVariable() {
+
+        // Arrange
+        final Router router = new DefaultRouter();
+        final Method methodAccount = ReflectionUtils.resolveMethod("displayAccount", SampleController.class);
+        router.addRoute(HttpMethod.GET, RouteURL.of("/register/{accountId}"), SampleController.class, methodAccount);
+
+        // Act
+        final ResolvedRoute resolvedRoute = router.resolveRoute(HttpMethod.GET, "/register/toto");
+
+        // Assert
+        Assertions.assertNotNull(resolvedRoute);
+        Assertions.assertEquals(SampleController.class, resolvedRoute.controllerClassType());
+        Assertions.assertEquals("displayAccount", resolvedRoute.method().getName());
+        Assertions.assertNotNull(resolvedRoute.extractedParameterValues());
+        Assertions.assertEquals(1, resolvedRoute.extractedParameterValues().size());
+        Assertions.assertTrue(resolvedRoute.extractedParameterValues().containsKey("accountId"));
+        Assertions.assertEquals("toto", resolvedRoute.extractedParameterValues().get("accountId"));
+    }
+
+    @Test
     void reverseUrlWithName() {
 
         // Arrange

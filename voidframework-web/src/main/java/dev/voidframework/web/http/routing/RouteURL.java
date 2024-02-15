@@ -3,6 +3,9 @@ package dev.voidframework.web.http.routing;
 import dev.voidframework.core.constant.CharConstants;
 import dev.voidframework.core.constant.StringConstants;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A single route URL.
  *
@@ -10,6 +13,19 @@ import dev.voidframework.core.constant.StringConstants;
  * @since 1.4.0
  */
 public record RouteURL(String url) {
+
+    private static final Pattern PATTERN_EXTRACT_SIMPLIFIED_PATH_VARIABLES = Pattern.compile("\\{([a-zA-Z][a-zA-Z0-9]+)}");
+
+    /**
+     * Build a new instance.
+     *
+     * @param url The route URL
+     * @since 1.13.0
+     */
+    public RouteURL {
+
+        url = replaceSimplifiedVariable(url);
+    }
 
     /**
      * Creates a new Route URL.
@@ -102,6 +118,23 @@ public record RouteURL(String url) {
         }
 
         return cleanedRoutePath;
+    }
+
+    /**
+     * Replace all simplified variable "{varname}" with a regular expression.
+     *
+     * @param url URL to transform
+     * @return URL with all simplified variables replaced
+     * @since 1.13.0
+     */
+    private String replaceSimplifiedVariable(final String url) {
+
+        final Matcher simplifiedPathVarMatcher = PATTERN_EXTRACT_SIMPLIFIED_PATH_VARIABLES.matcher(url);
+        if (simplifiedPathVarMatcher.find()) {
+            return simplifiedPathVarMatcher.replaceAll("(?<$1>(.*))"); // "number example input 6"
+        }
+
+        return url;
     }
 
     @Override
