@@ -8,6 +8,7 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.MessageInterpolator;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -125,7 +126,7 @@ public final class Validation {
     private Validator createValidator(final Locale locale) {
 
         Configuration<?> configuration = jakarta.validation.Validation.byDefaultProvider().configure();
-        configuration = configuration.messageInterpolator(new MessageInterpolatorWithLocale(configuration.getDefaultMessageInterpolator(), locale));
+        configuration = configuration.messageInterpolator(new MessageInterpolatorWithLocale(new ParameterMessageInterpolator(), locale));
 
         try (final ValidatorFactory validatorFactory = configuration.buildValidatorFactory()) {
             return validatorFactory.getValidator();
