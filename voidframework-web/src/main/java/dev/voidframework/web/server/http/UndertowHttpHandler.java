@@ -16,6 +16,7 @@ import dev.voidframework.web.http.HttpRequest;
 import dev.voidframework.web.http.HttpRequestBodyContent;
 import dev.voidframework.web.http.Result;
 import dev.voidframework.web.http.Session;
+import io.undertow.server.BlockingHttpExchange;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.CookieImpl;
@@ -100,7 +101,7 @@ public class UndertowHttpHandler implements HttpHandler {
             return;
         }
 
-        httpServerExchange.startBlocking();
+        final BlockingHttpExchange blockingHttpExchange = httpServerExchange.startBlocking();
 
         // Create HTTP request
         final Either<HttpRequest, HttpException.BadRequest> httpRequestOrException = createHttpRequestWithOptionalBodyContent(httpServerExchange);
@@ -236,6 +237,7 @@ public class UndertowHttpHandler implements HttpHandler {
         }
 
         forceCloseUploadedFileInputStream(httpRequest);
+        IOUtils.closeWithoutException(blockingHttpExchange);
     }
 
     /**
