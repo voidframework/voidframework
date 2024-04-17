@@ -170,7 +170,7 @@ public final class ClassesToLoadScanner {
             kryo.writeObject(output, scannedClassesToLoad);
             output.close();
         } catch (final IOException ex) {
-            LOGGER.error("Can't save '" + outputDirectoryPath + StringConstants.SIMPLE_QUOTE, ex);
+            LOGGER.error("Can't save '{}'", outputDirectoryPath, ex);
         }
     }
 

@@ -36,11 +36,7 @@ public final class ResourceBundleInternationalization implements Internationaliz
             return UNKNOWN_KEY_SURROUNDING + key + UNKNOWN_KEY_SURROUNDING;
         }
 
-        ResourceBundle resourceBundle = this.bundlePerLocaleCacheMap.get(locale);
-        if (resourceBundle == null) {
-            resourceBundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale, this.getClass().getClassLoader());
-            this.bundlePerLocaleCacheMap.put(locale, resourceBundle);
-        }
+        final ResourceBundle resourceBundle = this.bundlePerLocaleCacheMap.computeIfAbsent(locale, this::createResourceBundle);
 
         try {
             return resourceBundle.getString(key);
@@ -73,11 +69,7 @@ public final class ResourceBundleInternationalization implements Internationaliz
     @Override
     public Map<String, String> getAllMessages(final Locale locale) {
 
-        ResourceBundle resourceBundle = this.bundlePerLocaleCacheMap.get(locale);
-        if (resourceBundle == null) {
-            resourceBundle = ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale, this.getClass().getClassLoader());
-            this.bundlePerLocaleCacheMap.put(locale, resourceBundle);
-        }
+        final ResourceBundle resourceBundle = this.bundlePerLocaleCacheMap.computeIfAbsent(locale, this::createResourceBundle);
 
         final Map<String, String> messagePerKeyMap = new HashMap<>();
         for (final String key : resourceBundle.keySet()) {
@@ -87,5 +79,17 @@ public final class ResourceBundleInternationalization implements Internationaliz
         }
 
         return messagePerKeyMap;
+    }
+
+    /**
+     * Creates a new resource bundle.
+     *
+     * @param locale The locale for which create a resource bundle.
+     * @return Newly created resource bundle
+     * @since 1.14.0
+     */
+    private ResourceBundle createResourceBundle(final Locale locale) {
+
+        return ResourceBundle.getBundle(BUNDLE_BASE_NAME, locale, this.getClass().getClassLoader());
     }
 }

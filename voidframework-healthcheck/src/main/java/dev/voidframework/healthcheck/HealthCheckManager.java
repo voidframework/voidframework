@@ -76,7 +76,7 @@ public final class HealthCheckManager {
             Health health;
             try {
                 health = healthChecker.checkHealth();
-            } catch (final Throwable throwable) {
+            } catch (final Exception ignore) {
                 health = new Health(Health.Status.DOWN, Collections.emptyMap());
             }
 

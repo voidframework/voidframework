@@ -328,7 +328,7 @@ public class DefaultRedis implements Redis {
         } catch (final JedisConnectionException | ProvisionException ex) {
             LOGGER.error("Can't connect to Redis: {}", ex.getCause().getMessage());
         } catch (final JedisDataException ex) {
-            LOGGER.error("Can't connect to Redis: {}", ex.getMessage());
+            LOGGER.error("Can't set data to Redis: {}", ex.getMessage());
         }
 
         return ret == 1;
