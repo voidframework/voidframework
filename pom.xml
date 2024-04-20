@@ -70,6 +70,7 @@
         <dependency.version.commons-lang3>3.14.0</dependency.version.commons-lang3>
         <dependency.version.flyway>10.9.0</dependency.version.flyway>
         <dependency.version.freemarker>2.3.32</dependency.version.freemarker>
+        <dependency.version.guava>32.0.1-jre</dependency.version.guava> <!-- Because guice use too old guava lib -->
         <dependency.version.guice>7.0.0</dependency.version.guice>
         <dependency.version.h2>2.2.224</dependency.version.h2>
         <dependency.version.hibernate-core>6.4.4.Final</dependency.version.hibernate-core>
@@ -305,6 +306,11 @@
                 <groupId>com.bucket4j</groupId>
                 <artifactId>bucket4j-core</artifactId>
                 <version>${dependency.version.bucket4j}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${dependency.version.guava}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.inject</groupId>
