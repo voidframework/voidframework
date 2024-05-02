@@ -14,6 +14,8 @@
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=voidframework_voidframework&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=voidframework_voidframework)
 [![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=voidframework_voidframework&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=voidframework_voidframework)
 
+[![Java CI](https://www.ej-technologies.com/images/product_banners/jprofiler_small.png)](https://www.ej-technologies.com/products/jprofiler/overview.html)
+
 Light and modular Framework for Java
 *****
 
