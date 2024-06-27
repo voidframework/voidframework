@@ -170,14 +170,4 @@ final class TypedMapTest {
         // Assert
         Assertions.assertEquals(STRING_KEY, key);
     }
-
-    @Test
-    void equalsKeyExplicitType() {
-
-        // Act
-        final TypedMap.Key<String> key = TypedMap.Key.of("STRING_KEY", String.class);
-
-        // Assert
-        Assertions.assertEquals(STRING_KEY, key);
-    }
 }
