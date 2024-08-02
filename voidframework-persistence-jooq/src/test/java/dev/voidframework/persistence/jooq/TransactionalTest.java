@@ -64,7 +64,7 @@ final class TransactionalTest {
 
         final Provider<DSLContext> dslContextProvider = this.injector.getProvider(DSLContext.class);
         try {
-            dslContextProvider.get().transaction((context) -> context.dsl().query("""
+            dslContextProvider.get().transaction(context -> context.dsl().query("""
                     CREATE TABLE UNIT_TEST_MANAGED_ENTITY (
                         ID  VARCHAR(36)   NOT NULL,
                         PRIMARY KEY (id)
@@ -72,7 +72,7 @@ final class TransactionalTest {
                     """)
                 .execute());
         } catch (final DataAccessException ignore) {
-            dslContextProvider.get().transaction((context) -> context.dsl().query("TRUNCATE TABLE UNIT_TEST_MANAGED_ENTITY;").execute());
+            dslContextProvider.get().transaction(context -> context.dsl().query("TRUNCATE TABLE UNIT_TEST_MANAGED_ENTITY;").execute());
         }
     }
 
@@ -182,6 +182,8 @@ final class TransactionalTest {
 
         @Transactional(Transactional.TxType.NEVER)
         public void doSomethingWithTxNever() {
+
+            // Nothing to do
         }
 
         @Transactional(Transactional.TxType.REQUIRES_NEW)

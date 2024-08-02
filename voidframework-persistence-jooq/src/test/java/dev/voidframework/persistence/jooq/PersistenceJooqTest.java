@@ -89,7 +89,7 @@ final class PersistenceJooqTest {
         final DSLContext dslContext = dslContextProvider.get();
 
         // Act
-        dslContext.transaction((context) -> {
+        dslContext.transaction(context -> {
             context.dsl().query("""
                 CREATE TABLE UNIT_TEST_OLD (
                     ID  VARCHAR(36)   NOT NULL,
@@ -118,7 +118,7 @@ final class PersistenceJooqTest {
         final DSLContext dslContext = dslContextProvider.get();
 
         // Act
-        final int insertedCount = dslContext.transactionResult((context) -> {
+        final int insertedCount = dslContext.transactionResult(context -> {
             try {
                 context.dsl().query("""
                         CREATE TABLE UNIT_TEST_MANAGED_ENTITY (

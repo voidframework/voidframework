@@ -146,12 +146,12 @@ final class KryoUtilsTest {
     void serializeAndDeserializeTypedMap() {
 
         // Arrange
-        final TypedMap.Key<String> TOKEN = TypedMap.Key.of("TOKEN", String.class);
-        final TypedMap.Key<Integer> BIRTH_YEAR = TypedMap.Key.of("B_YEAR", Integer.class);
+        final TypedMap.Key<String> token = TypedMap.Key.of("TOKEN", String.class);
+        final TypedMap.Key<Integer> birthYear = TypedMap.Key.of("B_YEAR", Integer.class);
 
         final TypedMap typedMap = new TypedMap();
-        typedMap.put(TOKEN, "d0944b7c-b01f-4be7-9ace-155927589a8b");
-        typedMap.put(BIRTH_YEAR, 1742);
+        typedMap.put(token, "d0944b7c-b01f-4be7-9ace-155927589a8b");
+        typedMap.put(birthYear, 1742);
 
         // Act
         final byte[] serializedContent = KryoUtils.serialize(typedMap);

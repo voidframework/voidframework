@@ -14,7 +14,7 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.MethodName.class)
 final class CUIDDeserializerTest {
 
-    private final JavaType LIST_CUID_JAVA_TYPE = JsonUtils.objectMapper().constructType(new TypeReference<List<CUID>>() {
+    private static final JavaType LIST_CUID_JAVA_TYPE = JsonUtils.objectMapper().constructType(new TypeReference<List<CUID>>() {
     });
 
     @Test

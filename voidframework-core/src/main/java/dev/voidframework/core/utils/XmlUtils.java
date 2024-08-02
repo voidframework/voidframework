@@ -67,9 +67,12 @@ public final class XmlUtils {
 
         final Writer writer = new StringWriter();
         try {
-            TransformerFactory.newInstance()
-                .newTransformer()
+            final TransformerFactory factory = TransformerFactory.newInstance(); // NOSONAR "Disable access to external entities in XML parsing"
+            factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+
+            factory.newTransformer()
                 .transform(new DOMSource(xml), new StreamResult(writer));
+
             writer.flush();
         } catch (final TransformerException | IOException ex) {
             throw new XmlException.ToStringConversionFailure(ex);

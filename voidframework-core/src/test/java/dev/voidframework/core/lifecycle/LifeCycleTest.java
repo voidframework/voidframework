@@ -140,6 +140,7 @@ final class LifeCycleTest {
             try {
                 Thread.sleep(15000);
             } catch (final InterruptedException ignore) {
+                // Nothing to do
             }
         }
     }

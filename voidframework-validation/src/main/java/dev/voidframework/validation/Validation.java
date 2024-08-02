@@ -87,7 +87,7 @@ public final class Validation {
             final String fieldKey = constraintViolation.getPropertyPath().toString();
             final List<ValidationError> validationErrorList = validationErrorPerKeyMap.computeIfAbsent(
                 fieldKey,
-                (key) -> new ArrayList<>());
+                key -> new ArrayList<>());
 
             validationErrorList.add(
                 new ValidationError(

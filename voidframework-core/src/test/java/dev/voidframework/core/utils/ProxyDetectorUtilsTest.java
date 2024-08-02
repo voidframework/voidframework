@@ -44,6 +44,19 @@ final class ProxyDetectorUtilsTest {
     }
 
     @Test
+    void isProxyClassNull() {
+
+        // Arrange
+        final Class<?> classType = null;
+
+        // Act
+        final boolean isProxy = ProxyDetectorUtils.isProxy(classType);
+
+        // Assert
+        Assertions.assertFalse(isProxy);
+    }
+
+    @Test
     void isProxyClassNonProxyClass() {
 
         // Arrange
@@ -67,6 +80,19 @@ final class ProxyDetectorUtilsTest {
 
         // Assert
         Assertions.assertTrue(isProxy);
+    }
+
+    @Test
+    void isProxyObjectNull() {
+
+        // Arrange
+        final Example proxyInstance = null;
+
+        // Act
+        final boolean isProxy = ProxyDetectorUtils.isProxy(proxyInstance);
+
+        // Assert
+        Assertions.assertFalse(isProxy);
     }
 
     @Test

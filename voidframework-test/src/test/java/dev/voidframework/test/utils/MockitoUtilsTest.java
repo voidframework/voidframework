@@ -94,7 +94,7 @@ final class MockitoUtilsTest {
     void spyPredicate() {
 
         // Arrange
-        final Predicate<String> stringPredicate = (s) -> true;
+        final Predicate<String> stringPredicate = s -> true;
 
         // Act
         final Predicate<String> stringPredicateSpy = MockitoUtils.spyPredicate(stringPredicate);

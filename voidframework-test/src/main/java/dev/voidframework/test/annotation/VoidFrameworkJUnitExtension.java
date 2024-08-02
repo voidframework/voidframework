@@ -352,7 +352,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
         // If field is not accessible, must set it accessible
         final boolean canAccess = field.canAccess(instance);
         if (!canAccess) {
-            field.setAccessible(true);
+            field.setAccessible(true); // NOSONAR "Accessibility update is necessary"
         }
 
         // Gets the value
@@ -360,7 +360,7 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
 
         // Rollback accessibility (if needed)
         if (!canAccess) {
-            field.setAccessible(false);
+            field.setAccessible(false); // NOSONAR "Accessibility update is necessary"
         }
 
         return value;
@@ -380,15 +380,15 @@ public class VoidFrameworkJUnitExtension implements TestInstancePostProcessor, A
         // If field is not accessible, must set it accessible
         final boolean canAccess = field.canAccess(instance);
         if (!canAccess) {
-            field.setAccessible(true);
+            field.setAccessible(true); // NOSONAR "Accessibility update is necessary"
         }
 
         // Sets the value
-        field.set(instance, value);
+        field.set(instance, value); // NOSONAR "Accessibility update is necessary"
 
         // Rollback accessibility (if needed)
         if (!canAccess) {
-            field.setAccessible(false);
+            field.setAccessible(false); // NOSONAR "Accessibility update is necessary"
         }
     }
 

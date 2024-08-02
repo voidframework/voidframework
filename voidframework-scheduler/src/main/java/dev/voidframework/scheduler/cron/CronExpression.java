@@ -37,12 +37,12 @@ public class CronExpression {
         "0-6");  // Day of Week
 
     private static final List<Consumer<CronExpressionPart>> CRON_EXPRESSION_PART_VALIDATOR = List.of(
-        (c) -> c.assertViolation(1, 60, 0, 59),  // Second
-        (c) -> c.assertViolation(1, 60, 0, 59),  // Minute
-        (c) -> c.assertViolation(1, 24, 0, 23),  // Hour
-        (c) -> c.assertViolation(1, 32, 1, 31),  // Day of Month
-        (c) -> c.assertViolation(1, 13, 1, 12),  // Month
-        (c) -> c.assertViolation(1, 7, 0, 6));   // Day of Week
+        c -> c.assertViolation(1, 60, 0, 59),  // Second
+        c -> c.assertViolation(1, 60, 0, 59),  // Minute
+        c -> c.assertViolation(1, 24, 0, 23),  // Hour
+        c -> c.assertViolation(1, 32, 1, 31),  // Day of Month
+        c -> c.assertViolation(1, 13, 1, 12),  // Month
+        c -> c.assertViolation(1, 7, 0, 6));   // Day of Week
 
     private static final int IDX_SECOND = 0;
     private static final int IDX_MINUTE = 1;

@@ -89,7 +89,7 @@ public final class ReflectionUtils {
 
         try {
             final Field field = classInstance.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
+            field.setAccessible(true); // NOSONAR "Accessibility update is necessary"
 
             return valueTypeClass.cast(field.get(classInstance));
         } catch (final Exception ex) {
@@ -114,7 +114,7 @@ public final class ReflectionUtils {
 
         try {
             final Field field = classInstance.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
+            field.setAccessible(true); // NOSONAR "Accessibility update is necessary"
 
             return wrappedClass.getWrappedClass().cast(field.get(classInstance));
         } catch (final Exception ex) {
@@ -137,9 +137,9 @@ public final class ReflectionUtils {
 
         try {
             final Field field = classInstance.getClass().getDeclaredField(fieldName);
-            field.setAccessible(true);
-            field.set(classInstance, value);
-            field.setAccessible(false);
+            field.setAccessible(true); // NOSONAR "Accessibility update is necessary"
+            field.set(classInstance, value); // NOSONAR "Accessibility update is necessary"
+            field.setAccessible(false); // NOSONAR "Accessibility update is necessary"
         } catch (final Exception ex) {
             LOGGER.error("Can't set field value", ex);
         }
@@ -184,10 +184,10 @@ public final class ReflectionUtils {
 
         try {
             final Method method = classInstance.getClass().getDeclaredMethod(methodeName, argumentTypeArray);
-            method.setAccessible(true);
+            method.setAccessible(true); // NOSONAR "Accessibility update is necessary"
 
             final T ret = returnTypeClass.cast(method.invoke(classInstance, argumentArray));
-            method.setAccessible(false);
+            method.setAccessible(false); // NOSONAR "Accessibility update is necessary"
 
             return ret;
         } catch (final Exception ex) {
@@ -212,9 +212,9 @@ public final class ReflectionUtils {
 
         try {
             final Method method = classInstance.getClass().getDeclaredMethod(methodeName, argumentTypeArray);
-            method.setAccessible(true);
+            method.setAccessible(true); // NOSONAR "Accessibility update is necessary"
             method.invoke(classInstance, argumentArray);
-            method.setAccessible(false);
+            method.setAccessible(false); // NOSONAR "Accessibility update is necessary"
         } catch (final Exception ex) {
             LOGGER.error("Can't call method", ex);
         }

@@ -131,7 +131,7 @@ public class TransactionalInterceptor extends AbstractTransactionalInterceptor {
 
         // Creates a new transaction and then executes the method. If something goes
         // wrong, and depending on the configuration, a rollback will be performed
-        final Either<Object, Throwable> result = dslContext.transactionResult((configuration) -> {
+        final Either<Object, Throwable> result = dslContext.transactionResult(configuration -> {
             try {
                 this.dslContextProvider.replaceExistingDSLContext(configuration.dsl());
                 return Either.ofLeft(methodInvocation.proceed());

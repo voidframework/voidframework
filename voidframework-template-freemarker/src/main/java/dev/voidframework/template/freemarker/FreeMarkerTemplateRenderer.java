@@ -80,7 +80,7 @@ public class FreeMarkerTemplateRenderer implements TemplateRenderer {
             return writer.toString();
         } catch (final freemarker.template.TemplateException exception) {
             throw new TemplateException.RenderingFailure(templateName, exception.getEndLineNumber() - 1, exception);
-        } catch (final ParseException exception) {
+        } catch (final ParseException exception) { // NOSONAR "Not possible to combine this catch because TemplateException != ParseException"
             throw new TemplateException.RenderingFailure(templateName, exception.getEndLineNumber() - 1, exception);
         } catch (final Exception exception) {
             throw new TemplateException.RenderingFailure(templateName, -1, exception);

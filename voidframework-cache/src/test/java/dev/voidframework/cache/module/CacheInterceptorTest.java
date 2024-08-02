@@ -184,6 +184,8 @@ final class CacheInterceptorTest {
 
         @CacheRemove(key = "{class}.key.{0}")
         void removeCache(final String id) {
+
+            // Nothing to do
         }
     }
 }

@@ -185,6 +185,7 @@ final class TransactionalTest {
             final DummyService dummyService = this.injector.getInstance(DummyService.class);
             dummyService.transactionalRequiredUncheckedException();
         } catch (final NullPointerException ignore) {
+            // Nothing to do
         }
 
         final List<?> list = entityManagerProvider.get().createNativeQuery("SELECT * FROM UNIT_TEST_UNCHECKED_EX").getResultList();
@@ -213,6 +214,7 @@ final class TransactionalTest {
             final DummyService dummyService = this.injector.getInstance(DummyService.class);
             dummyService.transactionalRequiredCheckedException();
         } catch (final FileNotFoundException ignore) {
+            // Nothing to do
         }
 
         final List<?> list = entityManagerProvider.get().createNativeQuery("SELECT * FROM UNIT_TEST_CHECKED_EX").getResultList();

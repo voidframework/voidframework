@@ -194,6 +194,8 @@ final class RouterTest {
         }
 
         void returnNothing() {
+
+            // Nothing to do
         }
     }
 }

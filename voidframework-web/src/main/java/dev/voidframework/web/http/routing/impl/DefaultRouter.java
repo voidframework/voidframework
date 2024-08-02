@@ -113,12 +113,12 @@ public class DefaultRouter implements Router, RouterPostInitialization {
         }
 
         final Route route = new Route(httpMethod, Pattern.compile(routeURL.url()), filterClassList, controllerClass, method);
-        this.routeListPerHttpMethodMap.computeIfAbsent(httpMethod, (key) -> new ArrayList<>()).add(route);
+        this.routeListPerHttpMethodMap.computeIfAbsent(httpMethod, key -> new ArrayList<>()).add(route);
 
         final String nameKey = StringUtils.isBlank(name)
             ? (controllerClass.getName() + StringConstants.DOT + method.getName()).replace("$", StringConstants.DOT)
             : name;
-        this.routeListPerNameMap.computeIfAbsent(nameKey, (key) -> new ArrayList<>()).add(route);
+        this.routeListPerNameMap.computeIfAbsent(nameKey, key -> new ArrayList<>()).add(route);
     }
 
     @Override
@@ -177,7 +177,7 @@ public class DefaultRouter implements Router, RouterPostInitialization {
             final Iterator<Object> iterator = parameterList.iterator();
             String url = StringUtils.EMPTY;
             while (matcher.find()) {
-                url = matcher.replaceAll((matchResult) ->
+                url = matcher.replaceAll(matchResult ->
                     iterator.hasNext() ? Objects.toString(iterator.next()) : StringUtils.EMPTY);
             }
 

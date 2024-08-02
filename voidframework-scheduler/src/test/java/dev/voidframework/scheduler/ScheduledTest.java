@@ -43,6 +43,7 @@ final class ScheduledTest {
             schedulerManager.startScheduler();
             Thread.sleep(2100);
         } catch (final Exception ignore) {
+            // Nothing to do
         } finally {
             schedulerManager.stopScheduler();
         }
@@ -68,6 +69,7 @@ final class ScheduledTest {
             try {
                 Thread.sleep(10000);
             } catch (final Exception ignore) {
+                // Nothing to do
             }
         }
 
@@ -78,6 +80,7 @@ final class ScheduledTest {
             try {
                 Thread.sleep(10000);
             } catch (final Exception ignore) {
+                // Nothing to do
             }
         }
     }
