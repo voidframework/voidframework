@@ -52,7 +52,15 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
 
+        <!-- SonarQube -->
+        <sonar.organization>voidframework</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.coverage.jacoco.xmlReportPaths>
+            ${project.basedir}/jacoco/target/site/jacoco-aggregate/jacoco.xml
+        </sonar.coverage.jacoco.xmlReportPaths>
+
         <!-- Plugins -->
+        <plugin.version.jacoco-maven-plugin>0.8.12</plugin.version.jacoco-maven-plugin>
         <plugin.version.maven-compiler-plugin>3.13.0</plugin.version.maven-compiler-plugin>
         <plugin.version.maven-gpg-plugin>3.2.4</plugin.version.maven-gpg-plugin>
         <plugin.version.maven-javadoc-plugin>3.7.0</plugin.version.maven-javadoc-plugin>
@@ -96,6 +104,7 @@
     </properties>
 
     <modules>
+        <module>jacoco</module>
         <module>voidframework-bucket4j</module>
         <module>voidframework-core</module>
         <module>voidframework-cache</module>
@@ -223,6 +232,30 @@
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${plugin.version.jacoco-maven-plugin}</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <formats>
+                                <format>XML</format>
+                            </formats>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 
@@ -247,6 +280,11 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-cache-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -257,7 +295,17 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-datasource-c3p0</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-datasource-hikaricp</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-h2</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -272,7 +320,22 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-migration-flyway</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-persistence</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-persistence-hibernate</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-persistence-jooq</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -282,7 +345,37 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-redis-healthcheck</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-remoteconf-etcd</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-remoteconf-http</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-restclient</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-scheduler</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-sendmail</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-sendmail-commonsemail</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -292,7 +385,32 @@
             </dependency>
             <dependency>
                 <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-template-freemarker</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-test</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-validation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-vfs</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
                 <artifactId>voidframework-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>dev.voidframework</groupId>
+                <artifactId>voidframework-web-healthcheck</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

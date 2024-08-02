@@ -21,6 +21,13 @@ jobs:
                     distribution: 'adopt'
                     cache: 'maven'
 
+            -   name: Cache SonarCloud packages
+                uses: actions/cache@v3
+                with:
+                    path: ~/.sonar/cache
+                    key: ${{ runner.os }}-sonar
+                    restore-keys: ${{ runner.os }}-sonar
+
             -   name: Set up Etcd
                 run: |
                     sudo apt -y install etcd
@@ -36,5 +43,8 @@ jobs:
                 run: |
                     sudo apt -y install redis-server
 
-            -   name: Build with Maven
-                run: mvn --batch-mode --update-snapshots -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn test
+            -   name: Build and Analyse with Maven
+                env:
+                    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                run: mvn --batch-mode --update-snapshots -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=voidframework_voidframework
