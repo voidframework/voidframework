@@ -4,8 +4,8 @@ import com.typesafe.config.Config;
 import dev.voidframework.bucket4j.exception.BucketTokenException;
 import dev.voidframework.core.utils.ConfigurationUtils;
 import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.BandwidthBuilder;
 import io.github.bucket4j.Bucket;
-import io.github.bucket4j.Refill;
 import io.github.bucket4j.local.LocalBucketBuilder;
 import io.github.bucket4j.local.SynchronizationStrategy;
 
@@ -155,31 +155,49 @@ public final class BucketTokenRegistry {
      */
     private Bandwidth createBandwidth(final Config bandwidthConfiguration) {
 
-        // Create refill object
-        final long tokens = bandwidthConfiguration.getLong("refill.tokens");
-        final Duration period = bandwidthConfiguration.getDuration("refill.period");
+        final String id = bandwidthConfiguration.getString("id");
         final String refillStrategy = bandwidthConfiguration.getString("refill.strategy").toUpperCase(Locale.ENGLISH);
+        final Duration period = bandwidthConfiguration.getDuration("refill.period");
+        final long capacity = bandwidthConfiguration.getInt("capacity");
+        final long refillTokens = bandwidthConfiguration.getLong("refill.tokens");
+        final long refillInitialTokens = ConfigurationUtils.getLongOrDefault(bandwidthConfiguration, "refill.initialTokens", capacity);
 
-        final Refill refill = switch (refillStrategy) {
-            case "GREEDY" -> Refill.greedy(tokens, period);
-            case "INTERVALLY" -> Refill.intervally(tokens, period);
-            case "INTERVALLY_ALIGNED" -> Refill.intervallyAligned(
-                tokens,
-                period,
-                Instant.now().plusMillis(bandwidthConfiguration.getDuration("refill.timeOfFirstRefill", TimeUnit.MILLISECONDS)),
-                bandwidthConfiguration.getBoolean("refill.useAdaptiveInitialTokens"));
+        return switch (refillStrategy) {
+            case "GREEDY" -> BandwidthBuilder.builder()
+                .capacity(capacity)
+                .refillGreedy(refillTokens, period)
+                .initialTokens(refillInitialTokens)
+                .id(id)
+                .build();
+            case "INTERVALLY" -> BandwidthBuilder.builder()
+                .capacity(capacity)
+                .refillIntervally(refillTokens, period)
+                .initialTokens(refillInitialTokens)
+                .id(id)
+                .build();
+            case "INTERVALLY_ALIGNED" -> {
+                if (bandwidthConfiguration.getBoolean("refill.useAdaptiveInitialTokens")) {
+                    yield BandwidthBuilder.builder()
+                        .capacity(capacity)
+                        .refillIntervallyAlignedWithAdaptiveInitialTokens(
+                            refillTokens,
+                            period,
+                            Instant.now().plusMillis(bandwidthConfiguration.getDuration("refill.timeOfFirstRefill", TimeUnit.MILLISECONDS)))
+                        .id(id)
+                        .build();
+                } else {
+                    yield BandwidthBuilder.builder()
+                        .capacity(capacity)
+                        .refillIntervallyAligned(
+                            refillTokens,
+                            period,
+                            Instant.now().plusMillis(bandwidthConfiguration.getDuration("refill.timeOfFirstRefill", TimeUnit.MILLISECONDS)))
+                        .initialTokens(refillInitialTokens)
+                        .id(id)
+                        .build();
+                }
+            }
             default -> throw new BucketTokenException.UnknownRefillStrategy(refillStrategy);
         };
-
-        // Create bandwidth
-        final Bandwidth bandwidth = Bandwidth.classic(bandwidthConfiguration.getInt("capacity"), refill);
-        if (bandwidth.isIntervallyAligned() && bandwidth.isUseAdaptiveInitialTokens()) {
-            return bandwidth
-                .withId(bandwidthConfiguration.getString("id"));
-        } else {
-            return bandwidth
-                .withInitialTokens(ConfigurationUtils.getLongOrDefault(bandwidthConfiguration, "refill.initialTokens", bandwidth.getCapacity()))
-                .withId(bandwidthConfiguration.getString("id"));
-        }
     }
 }

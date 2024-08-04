@@ -23,9 +23,9 @@ final class BucketTokenRegistryTest {
         // Arrange
         final Map<String, Bucket> bucketPerNameMap = Map.of(
             "bucketAPI1",
-            Bucket.builder().addLimit(Bandwidth.simple(12, Duration.ofHours(1)).withId("one")).build(),
+            Bucket.builder().addLimit(Bandwidth.builder().capacity(12).refillGreedy(12, Duration.ofHours(1)).id("one").build()).build(),
             "bucketAPI2",
-            Bucket.builder().addLimit(Bandwidth.simple(100, Duration.ofDays(1)).withId("two")).build());
+            Bucket.builder().addLimit(Bandwidth.builder().capacity(100).refillGreedy(100, Duration.ofDays(1)).id("two").build()).build());
         final BucketTokenRegistry bucketTokenRegistry = new BucketTokenRegistry(null, bucketPerNameMap);
 
         // Act
@@ -87,7 +87,7 @@ final class BucketTokenRegistryTest {
     }
 
     @Test
-    void bucketOrDie() {
+    void bucketOrDie_die() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("");
@@ -104,14 +104,48 @@ final class BucketTokenRegistryTest {
     }
 
     @Test
+    void bucketOrDie_success() {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("""
+            voidframework.bucket4j.bucketAPI1.synchronizationStrategy = "LOCK_FREE"
+
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.id = "one"
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.capacity = 60
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.strategy = "GREEDY"
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.tokens = 60
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.period = "1 minutes"
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.initialTokens = 24
+            """);
+        final BucketTokenRegistry bucketTokenRegistry = new BucketTokenRegistry(configuration);
+
+        // Create the bucket
+        bucketTokenRegistry.bucket("bucketAPI1");
+
+        // Act
+        final Bucket bucket = bucketTokenRegistry.bucketOrDie("bucketAPI1");
+
+        // Assert
+        final LocalBucket localBucket1 = (LocalBucket) bucket;
+        Assertions.assertNotNull(localBucket1);
+        Assertions.assertEquals(1, localBucket1.getConfiguration().getBandwidths().length);
+        Assertions.assertEquals("one", localBucket1.getConfiguration().getBandwidths()[0].getId());
+        Assertions.assertEquals(60, localBucket1.getConfiguration().getBandwidths()[0].getCapacity());
+        Assertions.assertEquals(24, localBucket1.getConfiguration().getBandwidths()[0].getInitialTokens());
+        Assertions.assertEquals(60, localBucket1.getConfiguration().getBandwidths()[0].getRefillTokens());
+        Assertions.assertEquals(60000000000L, localBucket1.getConfiguration().getBandwidths()[0].getRefillPeriodNanos());
+        Assertions.assertFalse(localBucket1.getConfiguration().getBandwidths()[0].isRefillIntervally());
+    }
+
+    @Test
     void getAllBuckets() {
 
         // Arrange
         final Map<String, Bucket> bucketPerNameMap = Map.of(
             "bucketAPI1",
-            Bucket.builder().addLimit(Bandwidth.simple(12, Duration.ofHours(1)).withId("one")).build(),
+            Bucket.builder().addLimit(Bandwidth.builder().capacity(12).refillGreedy(12, Duration.ofHours(1)).id("one").build()).build(),
             "bucketAPI2",
-            Bucket.builder().addLimit(Bandwidth.simple(100, Duration.ofDays(1)).withId("two")).build());
+            Bucket.builder().addLimit(Bandwidth.builder().capacity(100).refillGreedy(100, Duration.ofDays(1)).id("two").build()).build());
         final BucketTokenRegistry bucketTokenRegistry = new BucketTokenRegistry(null, bucketPerNameMap);
 
         // Act
