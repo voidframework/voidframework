@@ -113,7 +113,7 @@ final class BucketToken4JModuleTest {
     }
 
     @Test
-    void bucket4JModuleWithIntervallyAlignedBucket() {
+    void bucket4JModuleWithIntervallyAlignedBucket_withAdaptiveInitialTokens() {
 
         // Arrange
         final Config configuration = ConfigFactory.parseString("""
@@ -151,6 +151,48 @@ final class BucketToken4JModuleTest {
         Assertions.assertEquals(3600000000000L, localBucket.getConfiguration().getBandwidths()[0].getRefillPeriodNanos());
         Assertions.assertTrue(localBucket.getConfiguration().getBandwidths()[0].isRefillIntervally());
         Assertions.assertTrue(localBucket.getConfiguration().getBandwidths()[0].isUseAdaptiveInitialTokens());
+        Assertions.assertTrue(localBucket.getConfiguration().getBandwidths()[0].isIntervallyAligned());
+    }
+
+    @Test
+    void bucket4JModuleWithIntervallyAlignedBucket_withoutAdaptiveInitialTokens() {
+
+        // Arrange
+        final Config configuration = ConfigFactory.parseString("""
+            voidframework.bucket4j.bucketAPI1.synchronizationStrategy = "LOCK_FREE"
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.id = "limit-bucket-1"
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.capacity = 120
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.strategy = "INTERVALLY_ALIGNED"
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.tokens = 1
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.period = "1 hours"
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.timeOfFirstRefill = "5 minutes"
+            voidframework.bucket4j.bucketAPI1.bandwidthLimits.0.refill.useAdaptiveInitialTokens = false
+            """);
+
+        // Act
+        final Injector injector = Guice.createInjector(Stage.PRODUCTION, new AbstractModule() {
+
+            @Override
+            protected void configure() {
+                bind(Config.class).toInstance(configuration);
+                install(new Bucket4JModule(configuration));
+            }
+        });
+
+        final BucketTokenRegistry bucketTokenRegistry = injector.getInstance(BucketTokenRegistry.class);
+
+        // Assert
+        final LocalBucket localBucket = (LocalBucket) bucketTokenRegistry.bucket("bucketAPI1");
+        Assertions.assertNotNull(localBucket);
+        Assertions.assertEquals(1, localBucket.getConfiguration().getBandwidths().length);
+
+        Assertions.assertEquals("limit-bucket-1", localBucket.getConfiguration().getBandwidths()[0].getId());
+        Assertions.assertEquals(120, localBucket.getConfiguration().getBandwidths()[0].getCapacity());
+        Assertions.assertEquals(120, localBucket.getConfiguration().getBandwidths()[0].getInitialTokens());
+        Assertions.assertEquals(1, localBucket.getConfiguration().getBandwidths()[0].getRefillTokens());
+        Assertions.assertEquals(3600000000000L, localBucket.getConfiguration().getBandwidths()[0].getRefillPeriodNanos());
+        Assertions.assertTrue(localBucket.getConfiguration().getBandwidths()[0].isRefillIntervally());
+        Assertions.assertFalse(localBucket.getConfiguration().getBandwidths()[0].isUseAdaptiveInitialTokens());
         Assertions.assertTrue(localBucket.getConfiguration().getBandwidths()[0].isIntervallyAligned());
     }
 
