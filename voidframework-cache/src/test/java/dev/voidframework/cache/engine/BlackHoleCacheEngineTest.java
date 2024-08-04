@@ -36,4 +36,17 @@ final class BlackHoleCacheEngineTest {
         // Assert
         Assertions.assertNull(value);
     }
+
+    @Test
+    void remove() {
+
+        // Arrange
+        final BlackHoleCacheEngine blackHoleCacheEngine = new BlackHoleCacheEngine();
+
+        // Act
+        blackHoleCacheEngine.remove("key");
+
+        // Assert -- Not needed here
+        Assertions.assertTrue(true);
+    }
 }

@@ -11,7 +11,8 @@ import java.util.Objects;
  *
  * @since 1.1.0
  */
-public abstract class AbstractCacheEngine implements CacheEngine {
+@SuppressWarnings("java:S1610")
+public abstract class AbstractCacheEngine implements CacheEngine { // NOSONAR "Dont add these methods into CacheEngine interface"
 
     /**
      * Build a new instance.
