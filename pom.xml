@@ -62,36 +62,36 @@
         <!-- Plugins -->
         <plugin.version.jacoco-maven-plugin>0.8.12</plugin.version.jacoco-maven-plugin>
         <plugin.version.maven-compiler-plugin>3.13.0</plugin.version.maven-compiler-plugin>
-        <plugin.version.maven-gpg-plugin>3.2.4</plugin.version.maven-gpg-plugin>
-        <plugin.version.maven-javadoc-plugin>3.7.0</plugin.version.maven-javadoc-plugin>
+        <plugin.version.maven-gpg-plugin>3.2.6</plugin.version.maven-gpg-plugin>
+        <plugin.version.maven-javadoc-plugin>3.10.0</plugin.version.maven-javadoc-plugin>
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-source-plugin>3.3.1</plugin.version.maven-source-plugin>
-        <plugin.version.maven-surefire-plugin>3.3.0</plugin.version.maven-surefire-plugin>
+        <plugin.version.maven-surefire-plugin>3.5.0</plugin.version.maven-surefire-plugin>
         <plugin.version.nexus-staging-maven-plugin>1.7.0</plugin.version.nexus-staging-maven-plugin>
 
         <!-- Dependencies -->
-        <dependency.version.aspectj>1.9.22</dependency.version.aspectj>
+        <dependency.version.aspectj>1.9.22.1</dependency.version.aspectj>
         <dependency.version.bucket4j>8.10.1</dependency.version.bucket4j>
         <dependency.version.c3p0>0.10.1</dependency.version.c3p0>
-        <dependency.version.classgraph>4.8.174</dependency.version.classgraph>
+        <dependency.version.classgraph>4.8.175</dependency.version.classgraph>
         <dependency.version.commons-email>1.6.0</dependency.version.commons-email>
-        <dependency.version.commons-lang3>3.14.0</dependency.version.commons-lang3>
-        <dependency.version.flyway>10.15.0</dependency.version.flyway>
+        <dependency.version.commons-lang3>3.17.0</dependency.version.commons-lang3>
+        <dependency.version.flyway>10.18.0</dependency.version.flyway>
         <dependency.version.freemarker>2.3.33</dependency.version.freemarker>
         <dependency.version.guava>32.0.1-jre</dependency.version.guava> <!-- Because guice use too old guava lib -->
         <dependency.version.guice>7.0.0</dependency.version.guice>
-        <dependency.version.h2>2.2.224</dependency.version.h2>
-        <dependency.version.hibernate-core>6.5.2.Final</dependency.version.hibernate-core>
+        <dependency.version.h2>2.3.232</dependency.version.h2>
+        <dependency.version.hibernate-core>6.6.0.Final</dependency.version.hibernate-core>
         <dependency.version.hibernate-validator>8.0.1.Final</dependency.version.hibernate-validator>
         <dependency.version.hikaricp>5.1.0</dependency.version.hikaricp>
-        <dependency.version.jackson>2.17.1</dependency.version.jackson>
+        <dependency.version.jackson>2.17.2</dependency.version.jackson>
         <dependency.version.jakarta.persistence-api>3.1.0</dependency.version.jakarta.persistence-api>
         <dependency.version.jakarta.transaction-api>2.0.1</dependency.version.jakarta.transaction-api>
-        <dependency.version.jedis>5.1.3</dependency.version.jedis>
-        <dependency.version.jooq>3.19.10</dependency.version.jooq>
+        <dependency.version.jedis>5.1.5</dependency.version.jedis>
+        <dependency.version.jooq>3.19.11</dependency.version.jooq>
         <dependency.version.jwt>4.4.0</dependency.version.jwt>
         <dependency.version.kryo>5.6.0</dependency.version.kryo>
-        <dependency.version.logback>1.5.6</dependency.version.logback>
+        <dependency.version.logback>1.5.8</dependency.version.logback>
         <dependency.version.retrofit>2.11.0</dependency.version.retrofit>
         <dependency.version.tika>2.9.2</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.3</dependency.version.typesafeconfig>
@@ -99,8 +99,8 @@
 
         <!-- Unit Tests -->
         <dependency.version.hsqldb>2.7.3</dependency.version.hsqldb>
-        <dependency.version.junit>5.10.2</dependency.version.junit>
-        <dependency.version.mockito>5.12.0</dependency.version.mockito>
+        <dependency.version.junit>5.11.0</dependency.version.junit>
+        <dependency.version.mockito>5.13.0</dependency.version.mockito>
     </properties>
 
     <modules>
