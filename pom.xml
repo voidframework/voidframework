@@ -95,7 +95,7 @@
         <dependency.version.retrofit>2.11.0</dependency.version.retrofit>
         <dependency.version.tika>2.9.2</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.3</dependency.version.typesafeconfig>
-        <dependency.version.undertow>2.3.14.Final</dependency.version.undertow>
+        <dependency.version.undertow>2.3.17.Final</dependency.version.undertow>
 
         <!-- Unit Tests -->
         <dependency.version.hsqldb>2.7.3</dependency.version.hsqldb>
