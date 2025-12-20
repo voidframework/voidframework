@@ -77,7 +77,7 @@
         <dependency.version.c3p0>0.10.1</dependency.version.c3p0>
         <dependency.version.classgraph>4.8.175</dependency.version.classgraph>
         <dependency.version.commons-email>1.6.0</dependency.version.commons-email>
-        <dependency.version.commons-lang3>3.17.0</dependency.version.commons-lang3>
+        <dependency.version.commons-lang3>3.18.0</dependency.version.commons-lang3>
         <dependency.version.flyway>10.18.0</dependency.version.flyway>
         <dependency.version.freemarker>2.3.33</dependency.version.freemarker>
         <dependency.version.guava>32.0.1-jre</dependency.version.guava> <!-- Because guice use too old guava lib -->
