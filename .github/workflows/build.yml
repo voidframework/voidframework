@@ -30,14 +30,17 @@ jobs:
 
             -   name: Set up Etcd
                 run: |
-                    sudo apt -y install etcd
-                    etcdctl set "cfg/string" "Hello World"
-                    etcdctl set "cfg/integer" "1"
-                    etcdctl set "cfg/intlist" "[1,2,3,4,5]"
-                    etcdctl set "cfg/boolean" "true"
-                    etcdctl set "cfg/file.test" "<FILE>./test;SGVsbG8gV29ybGQh"
-                    echo -e "insecurepassword" | etcdctl user add root
-                    etcdctl auth enable
+                    curl -L https://github.com/etcd-io/etcd/releases/download/v3.6.7/etcd-v3.6.7-linux-amd64.tar.gz -o out.tar.gz
+                    tar xvf out.tar.gz
+                    rm -f out.tar.gz
+                    ./etcd-v3.6.7-linux-amd64/etcd > /dev/null 2>&1 &
+                    ./etcd-v3.6.7-linux-amd64/etcdctl put "cfg/string" "Hello World"
+                    ./etcd-v3.6.7-linux-amd64/etcdctl put "cfg/integer" "1"
+                    ./etcd-v3.6.7-linux-amd64/etcdctl put "cfg/intlist" "[1,2,3,4,5]"
+                    ./etcd-v3.6.7-linux-amd64/etcdctl put "cfg/boolean" "true"
+                    ./etcd-v3.6.7-linux-amd64/etcdctl put "cfg/file.test" "<FILE>./test;SGVsbG8gV29ybGQh"
+                    echo -e "insecurepassword\ninsecurepassword" | ./etcd-v3.6.7-linux-amd64/etcdctl user add root
+                    ./etcd-v3.6.7-linux-amd64/etcdctl auth enable
 
             -   name: Set up Redis
                 run: |
