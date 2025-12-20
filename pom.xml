@@ -95,7 +95,7 @@
         <dependency.version.kryo>5.6.0</dependency.version.kryo>
         <dependency.version.logback>1.5.8</dependency.version.logback>
         <dependency.version.retrofit>2.11.0</dependency.version.retrofit>
-        <dependency.version.tika>2.9.2</dependency.version.tika>
+        <dependency.version.tika>3.2.3</dependency.version.tika>
         <dependency.version.typesafeconfig>1.4.3</dependency.version.typesafeconfig>
         <dependency.version.undertow>2.3.17.Final</dependency.version.undertow>
 
