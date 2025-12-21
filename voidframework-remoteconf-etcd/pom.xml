@@ -26,6 +26,12 @@
             <artifactId>voidframework-core</artifactId>
         </dependency>
 
+        <!-- Dependencies -->
+        <dependency>
+            <groupId>io.etcd</groupId>
+            <artifactId>jetcd-core</artifactId>
+        </dependency>
+
         <!-- Unit Tests -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

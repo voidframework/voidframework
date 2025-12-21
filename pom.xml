@@ -90,6 +90,7 @@
         <dependency.version.jakarta.persistence-api>3.1.0</dependency.version.jakarta.persistence-api>
         <dependency.version.jakarta.transaction-api>2.0.1</dependency.version.jakarta.transaction-api>
         <dependency.version.jedis>5.1.5</dependency.version.jedis>
+        <dependency.version.jetcd>0.8.6</dependency.version.jetcd>
         <dependency.version.jooq>3.19.11</dependency.version.jooq>
         <dependency.version.jwt>4.4.0</dependency.version.jwt>
         <dependency.version.kryo>5.6.0</dependency.version.kryo>
@@ -566,6 +567,11 @@
                         <artifactId>jakarta.transaction-api</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>io.etcd</groupId>
+                <artifactId>jetcd-core</artifactId>
+                <version>${dependency.version.jetcd}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.persistence</groupId>

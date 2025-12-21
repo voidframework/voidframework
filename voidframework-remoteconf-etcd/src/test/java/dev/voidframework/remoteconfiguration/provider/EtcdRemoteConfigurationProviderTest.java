@@ -52,6 +52,7 @@ final class EtcdRemoteConfigurationProviderTest {
         final RemoteConfigurationProvider provider = new EtcdRemoteConfigurationProvider();
         final Config localConfiguration = ConfigFactory.parseString("""
             endpoint = "http://127.0.0.1:2379"
+            username = "root"
             password = "insecurepassword"
             prefix = "cfg"
             """);
