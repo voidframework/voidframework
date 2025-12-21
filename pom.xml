@@ -69,7 +69,7 @@
         <plugin.version.maven-resources-plugin>3.3.1</plugin.version.maven-resources-plugin>
         <plugin.version.maven-source-plugin>3.3.1</plugin.version.maven-source-plugin>
         <plugin.version.maven-surefire-plugin>3.5.0</plugin.version.maven-surefire-plugin>
-        <plugin.version.nexus-staging-maven-plugin>1.7.0</plugin.version.nexus-staging-maven-plugin>
+        <plugin.version.sonatype-central-plugin>0.9.0</plugin.version.sonatype-central-plugin>
 
         <!-- Dependencies -->
         <dependency.version.aspectj>1.9.22.1</dependency.version.aspectj>
@@ -226,14 +226,13 @@
                 <version>${plugin.version.maven-surefire-plugin}</version>
             </plugin>
             <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>${plugin.version.nexus-staging-maven-plugin}</version>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>${plugin.version.sonatype-central-plugin}</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <serverId>ossrh</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>true</autoPublish>
                 </configuration>
             </plugin>
             <plugin>
@@ -262,17 +261,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-        <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
